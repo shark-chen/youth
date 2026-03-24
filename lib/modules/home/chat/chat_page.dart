@@ -49,20 +49,20 @@ class ChatPage extends BasePage<ChatController> {
                   sent: true,
                 ),
 
-
                 ChatBaseWidget(
                   text:
-                      'bubble normal with tailbubble normal with tailbubble normal with tailbubble normal with tailbubble normal with tail',
-                  isSender: false,
+                      'bubble normalailnormalailnormalailnormalail',
+                  isSender: true,
                   color: Color(0xFF1B97F3),
                   tail: true,
+                  sent: true,
                   textStyle: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                   ),
                 ),
                 BubbleNormal(
-                  text: 'bubble normal with tail',
+                  text: 'bubble normal with tailnormalailnormalailnormalailnormalailnormalailnormalail',
                   isSender: true,
                   color: Color(0xFFE8E8EE),
                   tail: true,

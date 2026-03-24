@@ -24,15 +24,14 @@ class ChatBaseWidget extends BubbleNormal {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ImageLookWidget(imgUrl: 'imgUrl'),
-          super.build(context),
-        ],
-      ),
+    final bubble = super.build(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment:
+          isSender == true ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: isSender == true
+          ? [Expanded(child: bubble), ImageLookWidget(imgUrl: 'imgUrl')]
+          : [ImageLookWidget(imgUrl: 'imgUrl'), Expanded(child: bubble)],
     );
   }
 }
