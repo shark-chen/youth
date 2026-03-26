@@ -182,7 +182,6 @@ class ThemeColor {
   static const Color waveBlueBgColor = Color(0xFFF3F4F6);
   static const Color contentRedColor = Color(0xFFDB5341);
   static const Color biLuColor = Color(0xFF86909C);
-  static const Color poolBlueColor = Color(0xFFEFFBF8);
   static const Color babyBlueColor = Color(0xFFEEF0FF);
   static const Color soBlackColor = Color(0xFF1D2129);
   static const Color borderBlueColor = Color(0xFF6046E5);
@@ -196,7 +195,14 @@ class ThemeColor {
   static const Color yellowFontColor = Color(0xFFB84C00);
   static const Color twoTextColor = Color(0xFF4E5969);
 
-  static const Color themeColor = Colors.black87;
+  static const Color themeColor = Color(0xFF171717);
+  static const Color inputBgColor = Color(0xFF232323);
+  static const Color themeGreenColor = Color(0xFF10FF93);
+  static const Color themeBlackColor = Color(0xFF030303);
+  static const Color themeA2Color = Color(0xFFA2A2A2);
+  static const Color poolBlueColor = Color(0xFFE1F7FF);
+  static const Color textBlackColor = Color(0xFF050503);
+
 
 
 

@@ -1,14 +1,11 @@
 import 'dart:ui';
-import 'package:youth/tripartite_library/uuid/udid_util.dart';
+import 'package:youth/base/base_bindings.dart';
+
 import '../../../base/base_page.dart';
-import 'view/account_check_box_view.dart';
 import 'view/input_phone_mail_view.dart';
 import '../view/login_button.dart';
 import 'login_controller.dart';
-import 'view/accounts_view.dart';
-import 'view/input_password_view.dart';
 import 'view/input_verify_code_view.dart';
-import 'view/login_bottom_view.dart';
 import 'view/privacy_protocol_view.dart';
 
 /// FileName login_page
@@ -30,62 +27,53 @@ class LoginPage extends BasePage<LoginController> {
       },
       child: Scaffold(
         backgroundColor: ThemeColor.themeColor,
-        appBar: PreferredSize(
-          preferredSize:
-              Size.fromHeight(MediaQueryData.fromWindow(window).padding.top),
-          child: const SafeArea(top: true, child: Offstage()),
-        ),
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
           child: Container(
             alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.only(left: 24.0, right: 24, top: 82),
+            padding: EdgeInsets.only(left: 24.0, right: 24, top: 104 + topPadding),
             child: Obx(
               () => Stack(
                 children: [
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '手机号登录',
+                        '登录',
                         style: TextStyles(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 32,
+                          fontWeight: FontWeight.w600,
                           color: ThemeColor.whiteColor,
                         ),
                       ),
-
-                      SizedBox(height: 24),
-
+                      SizedBox(height: 8),
                       Text(
                         '未注册的手机号登录成功后将自动注册',
                         style: TextStyles(
-                          color: ThemeColor.personalBackColor,
+                          color: ThemeColor.whiteColor.withOpacity(0.6),
                         ),
                       ),
-
-                      SizedBox(height: 24),
+                      SizedBox(height: 32),
 
                       /// 手机号输入框
-                      Obx(
-                        () => InputPhoneMailWidget(
-                          title: '',
-                          hint: '请输入手机号'.tr,
-                          showArea: controller.vm.value.showArea,
-                          controller: controller.vm.value.accountController,
-                          error: controller.vm.value.loginModel.accountError,
-                          focusNode: controller.vm.value.accountFocusNode,
-                          inputTap: () {
-                            controller.vm.value.showUsers.value = true;
-                            controller.vm.value.showUsers.refresh();
-                          },
-                          onFieldSubmittedTap: (value) {
-                            FocusScope.of(context).requestFocus(
-                                controller.vm.value.passwordFocusNode);
-                            controller.vm.value.showUsers.value = false;
-                            controller.vm.refresh();
-                          },
-                        ),
+                      InputPhoneMailWidget(
+                        hint: '请输入手机号'.tr,
+                        controller: controller.vm.value.accountController,
+                        error: controller.vm.value.loginModel.accountError,
+                        focusNode: controller.vm.value.accountFocusNode,
+                        inputTap: () {
+                          controller.vm.value.showUsers.value = true;
+                          controller.vm.value.showUsers.refresh();
+                        },
+                        onFieldSubmittedTap: (value) {
+                          FocusScope.of(context).requestFocus(
+                              controller.vm.value.passwordFocusNode);
+                          controller.vm.value.showUsers.value = false;
+                          controller.vm.refresh();
+                        },
                       ),
+                      SizedBox(height: 12),
 
                       /// 输入+验证码
                       InputVerifyCodeWidget(
@@ -96,10 +84,10 @@ class LoginPage extends BasePage<LoginController> {
                         error: controller.vm.value.loginModel.verifyCodeError,
                         onTap: controller.requestVerifyCode,
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 40),
 
                       LoginButton(
-                        title: '登录并验证'.tr,
+                        title: '登录'.tr,
                         onTap: controller.requestLogin,
                       ),
                       const SizedBox(height: 16),

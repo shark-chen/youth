@@ -107,5 +107,20 @@ class AppPages {
       transition: Transition.rightToLeft,
     ),
 
+    /// 性别选择-页面-page
+    GetPage(
+      name: Routes.sexSelectPage,
+      page: () => SexSelectPage(),
+      binding: SexSelectBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 生日选择-页面-page
+    GetPage(
+      name: Routes.birthdaySelectPage,
+      page: () => BirthdaySelectPage(),
+      binding: BirthdaySelectBinding(),
+      transition: Transition.rightToLeft,
+    ),
   ];
 }

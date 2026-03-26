@@ -21,7 +21,7 @@ extension LoginRouteController on LoginController {
       leftTitle: LocaleKeys.disagree.tr,
       rightTitle: LocaleKeys.agreement.tr,
       leftTap: Get.back,
-      rightTap: ()  {
+      rightTap: () {
         vm.value.loginModel.agreeProtocol = true;
         Get.back();
         vm.refresh();
@@ -33,13 +33,15 @@ extension LoginRouteController on LoginController {
             text: LocaleKeys.ReadAndAgree.tr,
             style: TextStyle(
                 fontSize: 16,
-                color: ThemeColor.defaultBlack,
+                color: ThemeColor.themeA2Color,
                 fontWeight: FontWeight.w600),
             children: <TextSpan>[
               TextSpan(
                 text: " ${'《用户协议》、《隐私政策》、《未成年人个人信息保护规则》'.tr}",
-                style: const TextStyle(fontSize: 16, color: ThemeColor.blueColor),
-                recognizer: TapGestureRecognizer()..onTap = pushPrivacyAgreement,
+                style:
+                    const TextStyle(fontSize: 16, color: ThemeColor.blueColor),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = pushPrivacyAgreement,
               ),
             ],
           ),
@@ -57,13 +59,9 @@ extension LoginRouteController on LoginController {
     });
   }
 
-  /// push-个人信息补充模块页面
-  Future pushInfoSupplementPage() async {
-    await Get.toNamed(Routes.sexInfoPage, arguments: {
-      'account': vm.value.loginModel.account,
-      'verifyImage': vm.value.loginModel.verifyImage,
-      'accessCode': vm.value.loginModel.accessCode,
-    });
+  /// push-性别选择-页面-page
+  Future pushSexSelectPage() async {
+    await Get.toNamed(Routes.sexSelectPage);
   }
 
   /// push-网络服务地址页面
@@ -71,5 +69,4 @@ extension LoginRouteController on LoginController {
     if (environment == Environment.prod) return;
     await Get.toNamed(Routes.serviceAlterPage);
   }
-
 }

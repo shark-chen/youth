@@ -41,7 +41,7 @@ class LoginController extends BaseController {
     }
 
     /// push-个人信息补充模块页面
-    await pushInfoSupplementPage();
+    await pushSexSelectPage();
   }
 
   /// request- 请求验证码

@@ -1,5 +1,8 @@
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:youth/utils/extension/strings/strings.dart';
+import 'package:youth/utils/extension/text_styles.dart';
 import '../../../../generated/locales.g.dart';
 import '../../../../utils/utils/theme_color.dart';
 import '../../../../widget/button/icon_button/icon_button.dart';
@@ -51,12 +54,12 @@ class InputVerifyCodeWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+          height: 48,
           decoration: BoxDecoration(
-            border: Border.all(color: ThemeColor.lineColor, width: 1),
-            color: ThemeColor.graynessBgColor,
-            borderRadius: BorderRadius.circular(6.0),
+            color: ThemeColor.inputBgColor,
+            borderRadius: BorderRadius.circular(24.0),
           ),
-          padding: EdgeInsets.only(left: 12),
+          padding: EdgeInsets.only(left: 18),
           child: Row(
             children: [
               /// 验证码输入框
@@ -66,11 +69,11 @@ class InputVerifyCodeWidget extends StatelessWidget {
                   onFieldSubmitted: onFieldSubmittedTap,
                   autocorrect: false,
                   style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      color: ThemeColor.mainTextColor,
+                      fontWeight: FontWeight.w600,
+                      color: ThemeColor.whiteColor,
                       fontSize: 16),
                   controller: controller,
-                  keyboardType: TextInputType.visiblePassword,
+                  keyboardType: TextInputType.number,
                   maxLength: 30,
                   decoration: InputDecoration(
                     counterText: '',
@@ -79,33 +82,35 @@ class InputVerifyCodeWidget extends StatelessWidget {
                     hintStyle: TextStyle(
                         height: 1.0,
                         fontWeight: FontWeight.w500,
-                        color: ThemeColor.secondaryTextColor,
+                        color: ThemeColor.whiteColor.withOpacity(0.4),
                         fontSize: 16),
                   ),
                 ),
               ),
 
-              Visibility(
-                visible: verifyCode == null,
-                child: Container(width: 1, color: Colors.black12, height: 20),
-              ),
-
-              /// 验证码
+              /// 发送验证码
               GestureDetector(
                 onTap: onTap,
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color: ThemeColor.blueColor.withOpacity(0.4),
+                  color: Colors.transparent,
+                  height: 48,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.only(left: 12, right: 20),
+                  child: Text(
+                    '发送验证码',
+                    style: TextStyles(
+                      color: ThemeColor.themeGreenColor,
+                    ),
                   ),
-                  padding: EdgeInsets.all(12),
-                  child: Text('发送'),
                 ),
               ),
             ],
           ),
         ),
-        VerifyErrorWidget(title: error),
+        Visibility(
+          visible: Strings.isNotEmpty(error),
+          child: VerifyErrorWidget(title: error),
+        ),
       ],
     );
   }

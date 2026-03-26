@@ -148,6 +148,7 @@ abstract class Routes {
   static const accountSwitchPage = '/accountSwitchPage';
   static const wavePickSetPage = '/wavePickSetPage';
   static const accountSelectPage = '/accountSelectPage';
+
   static const sexInfoPage = '/sexInfoPage';
   static const brithInfoPage = '/brithInfoPage';
   static const regionInfoPage = '/regionInfoPage';
@@ -156,6 +157,7 @@ abstract class Routes {
   static const userInfoPage = '/userInfoPage';
   static const beatRecordPage = '/beatRecordPage';
   static const chatPage = '/chatPage';
-
+  static const sexSelectPage = '/sexSelectPage';
+  static const birthdaySelectPage = '/birthdaySelectPage';
 
 }

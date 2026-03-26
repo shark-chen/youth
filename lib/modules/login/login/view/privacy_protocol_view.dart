@@ -35,9 +35,9 @@ class PrivacyProtocolWidget extends StatelessWidget {
         children: [
           Container(
             child: Checkbox(
-              side: const BorderSide(color: ThemeColor.checkBoxBorderColor),
+              side: const BorderSide(color: ThemeColor.themeA2Color),
               shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(2)),
+                borderRadius: BorderRadius.all(Radius.circular(14)),
               ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               visualDensity: const VisualDensity(
@@ -51,14 +51,16 @@ class PrivacyProtocolWidget extends StatelessWidget {
           Expanded(
             child: RichText(
               text: TextSpan(
-                text: LocaleKeys.ReadAndAgree.tr,
+                text: '我已阅读并同意',
                 style: const TextStyle(
-                    fontSize: 13, color: ThemeColor.otherTextColor),
+                    fontSize: 12, color: ThemeColor.themeA2Color),
                 children: <TextSpan>[
                   TextSpan(
                     text: " ${'《用户协议》、《隐私政策》、《未成年人个人信息保护规则》'.tr}",
                     style: const TextStyle(
-                        fontSize: 13, color: ThemeColor.blueColor),
+                      fontSize: 13,
+                      color: ThemeColor.themeGreenColor,
+                    ),
                     recognizer: TapGestureRecognizer()..onTap = onTap,
                   ),
                 ],

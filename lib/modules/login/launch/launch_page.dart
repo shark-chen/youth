@@ -14,6 +14,7 @@ class LaunchPage extends BasePage<LaunchController> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: ThemeColor.themeColor,
       body: Container(
         color: Colors.white,
         child: Padding(

@@ -24,20 +24,23 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 44,
+      height: 48,
       child: TextButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith(
-              (states) => ThemeColor.blueColor),
+              (states) => ThemeColor.themeGreenColor),
           shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
           ),
         ),
         onPressed: onTap,
         child: Text(
           title ?? '',
           style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16),
+            color: ThemeColor.themeBlackColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
         ),
       ),
     );

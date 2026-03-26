@@ -48,7 +48,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
               '完善性别、生日、地区信息后，即可开始使用',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.white.withValues(alpha: 0.6),
+                color: Colors.white.withOpacity(0.6),
               ),
             ),
             const SizedBox(height: 28),
@@ -63,7 +63,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                         height: 56,
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.06),
+                          color: Colors.white.withOpacity(0.06),
                           borderRadius: BorderRadius.circular(14),
                         ),
                       ),
@@ -149,7 +149,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                       height: 48,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white.withValues(alpha: 0.12),
+                          backgroundColor: Colors.white.withOpacity(0.12),
                           foregroundColor: Colors.white,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
