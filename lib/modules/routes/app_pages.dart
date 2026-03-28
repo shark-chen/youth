@@ -122,5 +122,23 @@ class AppPages {
       binding: BirthdaySelectBinding(),
       transition: Transition.rightToLeft,
     ),
+
+    /// 城市选择-页面-page
+    GetPage(
+      name: Routes.citySelectPage,
+      page: () => CitySelectPage(),
+      binding: CitySelectBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 城市设置-页面-page
+    GetPage(
+      name: Routes.citySetPage,
+      page: () => CitySetPage(),
+      binding: CitySetBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+
   ];
 }

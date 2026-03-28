@@ -16,10 +16,6 @@ class CitySelectPage extends BasePage<CitySelectController> {
        return Scaffold(
          resizeToAvoidBottomInset: false,
          backgroundColor: ThemeColor.themeColor,
-         appBar: AppBarKit.appBar(
-           controller.title ?? '选择地区',
-           elevation: 0.2,
-         ),
          body: SafeArea(
            child: Column(
              children: [

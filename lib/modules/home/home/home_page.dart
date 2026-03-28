@@ -34,10 +34,10 @@ class HomePage extends BasePage<HomeController> {
           ),
           child: Obx(
             () => BottomNavigationBar(
-              backgroundColor: Colors.white,
+              backgroundColor: ThemeColor.themeColor,
               type: BottomNavigationBarType.fixed,
-              selectedItemColor: ThemeColor.darkBlueColor,
-              unselectedItemColor: ThemeColor.otherTextColor,
+              selectedItemColor: ThemeColor.themeGreenColor,
+              unselectedItemColor: ThemeColor.theme5FColor,
               selectedFontSize: 10.0,
               unselectedFontSize: 10.0,
               items: controller.vm.value.buildBarItems,

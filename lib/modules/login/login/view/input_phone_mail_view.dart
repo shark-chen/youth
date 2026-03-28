@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:youth/tripartite_library/tripartite_library.dart';
-import '../../../../utils/utils/theme_color.dart';
+import 'package:youth/base/base_stateless_widget.dart';
 import '../../view/verify_error_view.dart';
 
 /// FileName input_phone_view
@@ -11,7 +8,7 @@ import '../../view/verify_error_view.dart';
 /// @Date 2024/7/9 11:30
 ///
 /// @Description 手机号输入验证
-class InputPhoneMailWidget extends StatelessWidget {
+class InputPhoneMailWidget extends BaseStatelessWidget {
   const InputPhoneMailWidget({
     Key? key,
     this.error,

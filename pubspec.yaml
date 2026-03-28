@@ -177,6 +177,7 @@ dependencies:
   # 3D-库
 #  gd_sphere: 1.0.0
 #  win32: ^5.5.1  # 或更高版本
+  font_awesome_flutter: 10.4.0
 dev_dependencies:
 #  flutter_test:
 #    sdk: flutter
@@ -186,18 +187,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/image/
-    - assets/image/icons/
-    - assets/image/login/
-    - assets/image/hall/
-    - assets/image/hall/wave/
-    - assets/image/home/
-    - assets/image/order/
     - assets/image/common/
-    - assets/image/refresh/
-    - assets/image/launch/
-    - assets/image/platform/
-    - assets/image/platform_logo/
-    - assets/image/data/
     - assets/
 flutter_intl:
   enabled: false

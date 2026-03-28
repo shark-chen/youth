@@ -5,6 +5,7 @@ import 'package:youth/widget/input/sure_input/sure_input.dart';
 import '../../../base/base_page.dart';
 import 'hall_controller.dart';
 import 'view/hall_cell.dart';
+import 'view/input_ai_view.dart';
 import 'view/message_view.dart';
 import 'view_model/hall_vm.dart';
 
@@ -32,7 +33,7 @@ class HallPage extends BasePage<HallController> {
           ),
         ),
         '找人',
-        elevation: 0.2,
+        elevation: 0.0,
         actions: [
           Icon(
             Icons.chat,
@@ -71,13 +72,11 @@ class HallPage extends BasePage<HallController> {
             ),
           ),
 
-
           Expanded(child: Container()),
 
           /// 底部输入框
-          InputSure(hintText: '描述你想找的人…',),
-
-          SizedBox(height: 30,)
+          InputAiWidget(hint: '输入你正在做的事…'),
+          SizedBox(height: 12)
         ],
       ),
     );

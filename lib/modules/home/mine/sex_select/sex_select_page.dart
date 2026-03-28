@@ -16,99 +16,110 @@ class SexSelectPage extends BasePage<SexSelectController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeColor.themeColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 70 + topPadding),
-          Text(
-            '选择性别',
-            style: TextStyles(
-              fontSize: 26,
-              fontWeight: FontWeight.w600,
-              color: ThemeColor.whiteColor,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 70),
+            Text(
+              '选择性别',
+              style: TextStyles(
+                fontSize: 26,
+                fontWeight: FontWeight.w600,
+                color: ThemeColor.whiteColor,
+              ),
             ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            '完善性别、生日、地区信息后，即可开始使用',
-            style: TextStyles(
-              color: ThemeColor.whiteColor.withOpacity(0.6),
+            SizedBox(height: 8),
+            Text(
+              '完善性别、生日、地区信息后，即可开始使用',
+              style: TextStyles(
+                color: ThemeColor.whiteColor.withOpacity(0.6),
+              ),
             ),
-          ),
-          SizedBox(height: 60),
-
-          /// 男
-          Container(
-            height: 120,
-            margin: EdgeInsets.only(left: 45, right: 45),
-            decoration: BoxDecoration(
-              color: ThemeColor.poolBlueColor,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  '男',
-                  style: TextStyles(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: ThemeColor.textBlackColor,
-                  ),
-                ),
-                Icon(Icons.nat),
-              ],
-            ),
-          ),
-          SizedBox(height: 16),
-
-          /// 女
-          Container(
-            height: 120,
-            margin: EdgeInsets.only(left: 45, right: 45),
-            decoration: BoxDecoration(
-              color: ThemeColor.inputBgColor,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Icon(Icons.nat),
-                Text(
-                  '女',
-                  style: TextStyles(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: ThemeColor.whiteColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(child: Container()),
-          GestureDetector(
-            onTap: controller.pushBirthdaySelectPage,
-            child: Container(
-              height: 48,
-              alignment: Alignment.center,
+            SizedBox(height: 60),
+        
+            /// 男
+            Container(
+              height: 120,
               margin: EdgeInsets.only(left: 45, right: 45),
               decoration: BoxDecoration(
-                color: ThemeColor.themeGreenColor,
-                borderRadius: BorderRadius.circular(24),
+                color: ThemeColor.poolBlueColor,
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: Text(
-                '继续',
-                style: TextStyles(
-                  color: ThemeColor.themeBlackColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    '男',
+                    style: TextStyles(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w600,
+                      color: ThemeColor.textBlackColor,
+                    ),
+                  ),
+
+                  Image.asset(
+                    "assets/image/common/select_box@3x.png",
+                    width: screenWidth,
+                    height: 141,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
+        
+            /// 女
+            Container(
+              height: 120,
+              margin: EdgeInsets.only(left: 45, right: 45),
+              decoration: BoxDecoration(
+                color: ThemeColor.inputBgColor,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.asset(
+                    "assets/image/common/select_girl@3x.png",
+                    width: screenWidth,
+                    height: 141,
+                  ),
+                  Text(
+                    '女',
+                    style: TextStyles(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w600,
+                      color: ThemeColor.whiteColor,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: Container()),
+            GestureDetector(
+              onTap: controller.pushBirthdaySelectPage,
+              child: Container(
+                height: 48,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(left: 45, right: 45),
+                decoration: BoxDecoration(
+                  color: ThemeColor.themeGreenColor,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Text(
+                  '继续',
+                  style: TextStyles(
+                    color: ThemeColor.themeBlackColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 79),
-        ],
+            SizedBox(height: 50),
+          ],
+        ),
       ),
     );
   }

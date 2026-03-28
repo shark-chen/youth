@@ -6,6 +6,7 @@ export '../../utils/utils.dart';
 export '../../../../../widget/image_look/image_look.dart';
 export '../../../../../utils/extension/text_styles.dart';
 export 'package:youth/widget/widgets.dart';
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// FileName base_stateless_widget
 ///

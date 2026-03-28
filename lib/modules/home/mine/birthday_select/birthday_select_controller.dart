@@ -108,4 +108,9 @@ class BirthdaySelectController extends BaseController {
        }
      }
    }
+
+  /// push-城市选择-页面-page
+  Future pushCitySetPage() async {
+    await Get.toNamed(Routes.citySetPage);
+  }
 }

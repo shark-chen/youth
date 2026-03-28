@@ -65,7 +65,7 @@ List<HomePageModel> buildHomePages() {
       introduceContent: LocaleKeys.easilyHandleBusiness.tr,
     ),
     HomePageModel(
-      page: AdvancedRandomBubbleWall(),
+      page: DoingPage(),
       activeLogo: "assets/image/home/blog_sel@3x.png",
       logo: "assets/image/home/blog_nor@3x.png",
       name: '正在'.tr,

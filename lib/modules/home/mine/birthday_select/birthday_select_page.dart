@@ -19,7 +19,8 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w600,
-          color: selected ? ThemeColor.themeGreenColor : ThemeColor.themeA2Color,
+          color:
+              selected ? ThemeColor.themeGreenColor : ThemeColor.themeA2Color,
         ),
       ),
     );
@@ -30,7 +31,6 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
-      appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
       body: SafeArea(
         child: Column(
           children: [
@@ -145,6 +145,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
               child: Row(
                 children: [
                   Expanded(
+                    flex: 2,
                     child: SizedBox(
                       height: 48,
                       child: ElevatedButton(
@@ -169,6 +170,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                   ),
                   const SizedBox(width: 14),
                   Expanded(
+                    flex: 3,
                     child: SizedBox(
                       height: 48,
                       child: ElevatedButton(
@@ -180,9 +182,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                             borderRadius: BorderRadius.circular(24),
                           ),
                         ),
-                        onPressed: () {
-                          Get.back(result: controller.selectedDateText);
-                        },
+                        onPressed: controller.pushCitySetPage,
                         child: const Text(
                           '下一个',
                           style: TextStyle(

@@ -19,5 +19,6 @@ export 'sex_select/sex_select.dart';
 /// 生日选择-这个一般用在注册时候用户选择
 export 'birthday_select/birthday_select.dart';
 
-
-
+/// 城市选择-这个一般用在注册时候用户选择
+export 'city_select/city_select.dart';
+export 'city_set/city_set.dart';

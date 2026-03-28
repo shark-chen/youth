@@ -202,6 +202,10 @@ class ThemeColor {
   static const Color themeA2Color = Color(0xFFA2A2A2);
   static const Color poolBlueColor = Color(0xFFE1F7FF);
   static const Color textBlackColor = Color(0xFF050503);
+  static const Color iconBlackColor = Color(0xFF727272);
+  static const Color theme5FColor = Color(0xFF5F5F5F);
+
+
 
 
 

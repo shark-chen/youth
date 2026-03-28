@@ -159,5 +159,9 @@ abstract class Routes {
   static const chatPage = '/chatPage';
   static const sexSelectPage = '/sexSelectPage';
   static const birthdaySelectPage = '/birthdaySelectPage';
+  static const citySelectPage = '/citySelectPage';
+  static const citySetPage = '/citySetPage';
+
+
 
 }
