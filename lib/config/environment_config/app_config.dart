@@ -85,6 +85,11 @@ class AppConfig {
     return config.getUrl(url);
   }
 
+  /// 登录
+  static String get getAuthLoginUrl {
+    return '/api/auth/login';
+  }
+
   /// 后端健康
   static String get getaActuatorHealthUrl {
     return "/actuator/health";

@@ -99,7 +99,7 @@ class LoginPage extends BasePage<LoginController> {
 
                             LoginButton(
                               title: '登录'.tr,
-                              onTap: controller.requestLogin,
+                              onTap: controller.clickLogin,
                             ),
                             const SizedBox(height: 16),
 

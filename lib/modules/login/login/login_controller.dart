@@ -25,15 +25,21 @@ class LoginController extends BaseController {
     vm.value.refresh = vm.refresh;
   }
 
-  /// MARK - request
-  /// request - 请求登录
-  Future requestLogin() async {
+  /// mark - method
+  ///
+  /// 点击登录
+  Future clickLogin() async {
     hideKeyboard();
     vm.refresh();
     if (vm.value.loginModel.agreeProtocol == false) {
       /// push-打开意思协议弹框
       if (await pushPrivacyPop() == false) return;
     }
+
+    /// 请求登录
+    final response = await requestLogin(phone: 1888888, code: 12);
+
+
 
     /// push-个人信息补充模块页面
     await pushSexSelectPage();
@@ -49,12 +55,20 @@ class LoginController extends BaseController {
     //   vm.refresh();
     // } else {
     //   EasyLoading.showToast(response.msg ?? '');
-    // }
+    // }/api/auth/login
   }
 
-  /// request- 后端健康
-  Future requestActuatorHealth() async {
-    var response = await Net.value<User>().requestActuatorHealth();
+  /// mark - request
+  ///
+  /// request - 请求登录
+  Future requestLogin({
+    required int phone,
+    required int code,
+  }) async {
+    var response = await Net.value<User>().requestAuthLogin(
+      phone: phone,
+      code: code,
+    );
     if (response.success) {
       return response.data?.data ?? 0;
     }
@@ -64,7 +78,6 @@ class LoginController extends BaseController {
   /// 选中隐私协议
   void checkReadProtocol(bool? value) async {
     getData();
-    requestActuatorHealth();
     if (value != null) {
       vm.value.loginModel.agreeProtocol = value;
       vm.refresh();

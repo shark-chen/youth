@@ -18,6 +18,21 @@ class User extends NetMixin<User> {
 
   factory User.init() => User();
 
+  /// 登录
+  Future<NetResult<T>> requestAuthLogin<T>({
+    required int phone,
+    required int code,
+  }) async {
+    var params = {
+      'phone': phone,
+      'code': code,
+    };
+    return await post<T>(
+      AppConfig.getAuthLoginUrl,
+      data: params,
+      isFormData: true,
+    );
+  }
 
   /// 后端健康
   Future<NetResult<T>> requestActuatorHealth<T>() async {
