@@ -26,15 +26,4 @@ extension Config on User {
     return await get<T>(AppConfig.getUpdateUserChooseConfigUrl, params: params);
   }
 
-  /// 获取用户系统设置
-  Future<NetResult<T>> requestAppUserSetting<T>(String module) async {
-    var params = {'appMethod': module};
-    return await post<T>(AppConfig.getAppUserSettingUrl, params: params);
-  }
-
-  /// 用户配置信息
-  Future<NetResult<T>> getAppUserSetting<T>(String module) async {
-    var params = {'appMethod': module};
-    return await post<T>(AppConfig.getAppUserSettingUrl, data: params);
-  }
 }

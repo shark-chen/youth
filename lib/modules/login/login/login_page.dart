@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:youth/base/base_bindings.dart';
 import 'package:youth/base/base_controller.dart';
-
 import '../../../base/base_page.dart';
 import 'view/input_phone_mail_view.dart';
 import '../view/login_button.dart';
@@ -28,12 +27,12 @@ class LoginPage extends BasePage<LoginController> {
       },
       child: Scaffold(
         backgroundColor: ThemeColor.themeColor,
-        resizeToAvoidBottomInset: true,
-        body: Obx(
-          () => SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Obx(
+                () => SingleChildScrollView(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,
@@ -112,7 +111,8 @@ class LoginPage extends BasePage<LoginController> {
                                   controller.vm.value.loginModel.agreeProtocol,
                             ),
 
-                            Spacer(),
+                            // Spacer(),
+                            Expanded(child: Container()),
 
                             /// 背景图
                             Image.asset(
@@ -125,9 +125,9 @@ class LoginPage extends BasePage<LoginController> {
                       ),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),

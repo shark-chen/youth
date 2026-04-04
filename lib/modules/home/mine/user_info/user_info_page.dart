@@ -25,6 +25,7 @@ class UserInfoPage extends BasePage<UserInfoController> {
         children: [
           Expanded(
             child: SingleChildScrollView(
+              padding: EdgeInsets.only(left: 16, right: 16),
               child: Column(
                 children: [
                   /// 头像，姓名，性别，年龄，地址信息
@@ -54,7 +55,7 @@ class UserInfoPage extends BasePage<UserInfoController> {
                     content:
                         '个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域',
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 28),
 
                   /// 个人标签
                   UserIntroduceWidget(
@@ -62,18 +63,18 @@ class UserInfoPage extends BasePage<UserInfoController> {
                     content:
                         '个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域',
                   ),
+                  SizedBox(height: 16),
 
                   /// 图片墙- view
                   PictureWallWidget(
                     title: '照片墙',
                     pictures: ['', '', '', '', ''],
                   ),
-                  SizedBox(height: 300),
+                  SizedBox(height: 60),
                 ],
               ),
             ),
           ),
-
           BottomButton(
             rightTitle: '聊一聊',
             leftTitle: '一起做',

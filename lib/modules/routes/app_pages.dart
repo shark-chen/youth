@@ -47,23 +47,24 @@ class AppPages {
         binding: BaseWebViewBinding(),
         transition: Transition.rightToLeft),
     GetPage(
-        name: Routes.backWebView,
-        page: () => BaseWebViewPage(
-              url: AppConfig.getUrl(Get.parameters["url"]!),
-              showTitle: "true" == Get.parameters["showTitle"],
-              title: Get.parameters["title"],
-              closeScript: Get.parameters["closeScript"],
-              webViewName: Get.parameters["webviewName"] ?? "window",
-              openScript: Get.parameters["openScript"],
-            ),
-        binding: BaseWebViewBinding(),
-        transition: Transition.rightToLeft),
+      name: Routes.backWebView,
+      page: () => BaseWebViewPage(
+        url: AppConfig.getUrl(Get.parameters["url"]!),
+        showTitle: "true" == Get.parameters["showTitle"],
+        title: Get.parameters["title"],
+        closeScript: Get.parameters["closeScript"],
+        webViewName: Get.parameters["webviewName"] ?? "window",
+        openScript: Get.parameters["openScript"],
+      ),
+      binding: BaseWebViewBinding(),
+      transition: Transition.rightToLeft,
+    ),
 
-    /// ping网络状态页面
+    /// 查看网络数据页面
     GetPage(
-      name: Routes.pingPage,
-      page: () => PingPage(),
-      binding: PingBinding(),
+      name: Routes.networkLookPage,
+      page: () => NetworkLookPage(),
+      binding: NetworkLookBinding(),
       transition: Transition.rightToLeft,
     ),
 
@@ -80,14 +81,6 @@ class AppPages {
       name: Routes.inviteRecordPage,
       page: () => InviteRecordPage(),
       binding: InviteRecordBinding(),
-      transition: Transition.rightToLeft,
-    ),
-
-    /// 用户信息模块-页面
-    GetPage(
-      name: Routes.userInfoPage,
-      page: () => UserInfoPage(),
-      binding: UserInfoBinding(),
       transition: Transition.rightToLeft,
     ),
 
@@ -138,7 +131,5 @@ class AppPages {
       binding: CitySetBinding(),
       transition: Transition.rightToLeft,
     ),
-
-
   ];
 }

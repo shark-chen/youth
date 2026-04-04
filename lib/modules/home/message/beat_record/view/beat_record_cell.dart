@@ -36,47 +36,64 @@ class BeatRecordCell extends BaseStatelessWidget {
     return GestureDetector(
       onTap: userInfoTap,
       child: Container(
-        padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: ThemeColor.whiteColor, width: 1)),
+        padding: EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
+        color: ThemeColor.inputBgColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ImageLookWidget(imgUrl: headPortraitUrl ?? ''),
+            ImageLookWidget(
+              imgUrl: headPortraitUrl ?? '',
+              width: 42,
+              height: 42,
+              imgBorderRadius: BorderRadius.circular(24),
+            ),
             SizedBox(width: 6),
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  name ?? '',
-                  style: TextStyles(
-                    color: ThemeColor.whiteColor,
+                /// 名称+时间
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: (name ?? '') + ' ',
+                        style: TextStyles(
+                          color: ThemeColor.whiteColor,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      TextSpan(
+                        text: time,
+                        style: TextStyles(
+                          fontSize: 12,
+                          color: ThemeColor.whiteColor.withOpacity(0.6),
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+
                 Text(
-                  '他敲了我',
+                  '我敲了下她',
                   style: TextStyles(
-                    color: ThemeColor.whiteColor,
+                    fontSize: 12,
+                    color: ThemeColor.whiteColor.withOpacity(0.6),
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ],
             ),
             Expanded(child: Container()),
-            Text(
-              time ?? '',
-              style: TextStyles(
-                color: ThemeColor.whiteColor,
-              ),
+            Icon(
+              Icons.chat,
+              color: ThemeColor.themeGreenColor,
             ),
-            SizedBox(width: 5),
-            Icon(Icons.chat)
           ],
         ),
       ),
     );
-
   }
 }

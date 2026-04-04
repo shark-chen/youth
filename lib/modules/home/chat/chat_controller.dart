@@ -10,5 +10,6 @@ class ChatController extends BaseController {
   @override
   void onInit() async {
     super.onInit();
+    title = '小雨';
   }
 }

@@ -18,24 +18,32 @@ class UserLabelInfoWidget extends BaseStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.centerLeft,
+        alignment: Alignment.centerLeft,
         child: Wrap(
-      children: labels.map((e) {
-        return Container(
-          margin: EdgeInsets.only(right: 12, bottom: 6),
-          padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: ThemeColor.blueColor, width: 1),
-          ),
-          child: Text(
-            e ?? '',
-            style: TextStyles(
-              color: ThemeColor.whiteColor,
-            ),
-          ),
-        );
-      }).toList(),
-    ));
+          children: labels.map((e) {
+            return Container(
+              margin: EdgeInsets.only(right: 8, bottom: 8),
+              padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: ThemeColor.inputBgColor,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.add),
+                  SizedBox(width: 3),
+                  Text(
+                    e,
+                    style: TextStyles(
+                      color: ThemeColor.whiteColor,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ));
   }
 }

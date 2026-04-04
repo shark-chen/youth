@@ -36,49 +36,56 @@ class ChatListCell extends BaseStatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 66,
         margin: EdgeInsets.only(left: 12, right: 12),
         padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
-        decoration: BoxDecoration(
-          border: Border.all(color: ThemeColor.blueColor, width: 1),
-        ),
+        color: ThemeColor.inputBgColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             /// 头像
             ImageLookWidget(
-              height: 40,
-              width: 40,
+              height: 42,
+              width: 42,
               imgUrl: headPortraitUrl ?? '',
-              imgBorderRadius: BorderRadius.circular(33),
+              imgBorderRadius: BorderRadius.circular(21),
             ),
-            SizedBox(width: 8),
+            SizedBox(width: 12),
 
             /// 名称 + 时间 + 消息
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// 名称 + 时间
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       name ?? '',
-                      style:
-                          TextStyles(color: ThemeColor.whiteColor, fontSize: 18),
+                      style: TextStyles(
+                        color: ThemeColor.whiteColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
                     ),
                     Text(
                       time ?? '',
-                      style: TextStyles(color: ThemeColor.whiteColor),
+                      style: TextStyles(
+                        color: ThemeColor.iconBlackColor,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
-
+                SizedBox(height: 2),
                 /// 消息
                 Text(
                   msg ?? '',
-                  style: TextStyles(color: ThemeColor.whiteColor),
+                  style: TextStyles(
+                    color: ThemeColor.iconBlackColor,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),

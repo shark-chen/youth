@@ -94,9 +94,10 @@ class InputAiWidget extends BaseStatelessWidget {
               borderRadius: BorderRadius.circular(36),
               color: ThemeColor.themeGreenColor,
             ),
-            child: FaIcon(
-              FontAwesomeIcons.locationArrow,
-              size: 18,
+            child: Image.asset(
+              "assets/image/common/send@3x.png",
+              width: 36,
+              height: 36,
             ),
           ),
           SizedBox(width: 16),

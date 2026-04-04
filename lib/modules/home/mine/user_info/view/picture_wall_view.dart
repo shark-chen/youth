@@ -35,14 +35,18 @@ class PictureWallWidget extends BaseStatelessWidget {
           ),
           SizedBox(height: 6),
           Wrap(
-            runSpacing: 16,
+            runSpacing: 12,
+            spacing: 12,
             children: List.generate(
               pictures?.length ?? 0,
               (index) {
                 return SizedBox(
-                  width: (screenWidth - 24) / 2,
+                  width: (screenWidth - 32 - 12) / 2,
+                  height: (220.0 / 165.5) * ((screenWidth - 32 - 12) / 2),
                   child: ImageLookWidget(
                     imgUrl: pictures?[index] ?? '',
+                    imgBorderRadius: BorderRadius.circular(12),
+                    borderColor: ThemeColor.whiteColor.withOpacity(0.1),
                   ),
                 );
               },

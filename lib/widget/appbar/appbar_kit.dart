@@ -5,9 +5,9 @@ import '../../utils/utils/theme_color.dart';
 class AppBarKit {
   static AppBar appBar(
     String title, {
-    Color backgroundColor = Colors.white,
+    Color backgroundColor = ThemeColor.themeColor,
     Color? surfaceTintColor = Colors.white,
-    Color textColor = Colors.black,
+    Color textColor = Colors.white,
     double elevation = 1.0,
     double toolbarHeight = 44,
     double? leadingWidth,
@@ -28,13 +28,16 @@ class AppBarKit {
       actions: actions,
       bottom: bottom ??
           PreferredSize(
-              child: Container(color: ThemeColor.lineColor, height: 1.0),
+              child: Container(color: Colors.transparent, height: 1.0),
               preferredSize: Size.fromHeight(1.0)),
       leading: leading ??
           IconButton(
             onPressed: backTap == null ? Get.back : backTap,
-            icon: Image.asset("assets/image/common/common_back_arrow@3x.png",
-                width: 24, height: 24, color: leadingColor),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: ThemeColor.whiteColor,
+              size: 24,
+            ),
           ),
       leadingWidth: leadingWidth,
       titleSpacing: titleSpacing,

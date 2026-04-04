@@ -1,8 +1,10 @@
 import 'package:youth/base/base_page.dart';
 import 'package:youth/widget/bottom_alert/bottom_alert.dart';
+import 'package:youth/widget/bottom_dialog/bottom_dialog.dart';
 import 'package:youth/widget/input/sure_input/input_sure.dart';
 import 'message_controller.dart';
 import 'view/chat_list_cell.dart';
+import 'view/input_search_view.dart';
 import 'view/invite_record_view.dart';
 import 'view/msg_clout_view.dart';
 import 'view/msg_doing_view.dart';
@@ -22,31 +24,47 @@ class MessagePage extends BasePage<MessageController> {
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(
-        controller.title ?? '',
-        elevation: 0.2,
+        backgroundColor: ThemeColor.themeColor,
+        textColor: ThemeColor.whiteColor,
         leading: Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: ThemeColor.whiteColor,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Text(
-            '头像',
-            style: TextStyles(),
+          color: Colors.transparent,
+          child: Row(
+            children: [
+              SizedBox(width: 14),
+              Container(
+                height: 32,
+                width: 32,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: ThemeColor.whiteColor,
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                child: Text(
+                  '头像',
+                  style: TextStyles(),
+                ),
+              ),
+            ],
           ),
         ),
-        backgroundColor: ThemeColor.themeColor,
+        '消息',
+        elevation: 0.0,
+        bottom: PreferredSize(
+          child: Container(color: Colors.transparent, height: 1.0),
+          preferredSize: Size.fromHeight(1.0),
+        ),
       ),
       body: Column(
         children: [
           SizedBox(height: 8),
 
           /// 底部输入框
-          InputSure(
-            hintText: '描述你想找的人…',
+          Padding(
+            padding: EdgeInsets.only(left: 24, right: 24),
+            child: InputSearchWidget(),
           ),
 
-          SizedBox(height: 8),
+          SizedBox(height: 16),
 
           /// 列表
           Expanded(
@@ -64,6 +82,7 @@ class MessagePage extends BasePage<MessageController> {
                   return InviteRecordWidget(
                     tap: controller.pushInviteRecordPage,
                     time: '123小时',
+                    headPortraits: ['dsad', 'dsd', 'dsad', 'dasd'],
                   );
                 } else if (index == 2) {
                   return MsgCloutWidget(
@@ -74,11 +93,13 @@ class MessagePage extends BasePage<MessageController> {
                   );
                 } else if (index == 3) {
                   return Padding(
-                    padding: EdgeInsets.only(top: 12, bottom: 6, left: 12),
+                    padding: EdgeInsets.only(top: 16, bottom: 12, left: 12),
                     child: Text(
                       '聊天',
                       style: TextStyles(
+                        fontSize: 18,
                         color: ThemeColor.whiteColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   );

@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:youth/base/base_stateless_widget.dart';
+import 'package:youth/utils/extension/input_formatter/zero_input_formatter.dart';
 import '../../view/verify_error_view.dart';
 
 /// FileName input_phone_view
@@ -66,9 +67,14 @@ class InputPhoneMailWidget extends BaseStatelessWidget {
                 fontSize: 16),
             controller: controller,
             focusNode: focusNode,
-            keyboardType: TextInputType.visiblePassword,
+            keyboardType: TextInputType.number,
             maxLength: 50,
             onTap: inputTap,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+              LengthLimitingTextInputFormatter(11),
+              ZeroInputFormatter(),
+            ],
             decoration: InputDecoration(
               isDense: true,
               counterText: '',

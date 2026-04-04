@@ -2,23 +2,10 @@ import 'package:youth/base/base_controller.dart';
 import 'package:youth/utils/marco/debug_print.dart';
 import '../../../network/net/request/dio/dio_net.dart';
 import '../../../network/reporter/report_util.dart';
-export '../model/paid_goods_entity.dart';
 export 'user_info/user_info_center.dart';
-import 'authority/authority.dart';
-
 import 'user_mixin/user_mixin.dart';
 export 'user_options/user_options.dart';
-import 'user_permissions/user_rights.dart';
-
 export 'user_info/model/user_info_entity.dart';
-export 'user_permissions/model/permissions_enum.dart';
-
-// PackageInfo? cachePackageInfo;
-//
-// Future<PackageInfo> get packageInfo async {
-//   cachePackageInfo ??= await PackageInfo.fromPlatform();
-//   return cachePackageInfo!;
-// }
 
 /// FileName user_center
 ///
@@ -38,7 +25,7 @@ class UserCenter extends BaseUser {
 
   /// 是否成功
   bool? get succeed {
-    return UserInfoCenter().succeed == true && UserRights().succeed == true;
+    return UserInfoCenter().succeed == true;
   }
 
   /// APP启动就会调用
@@ -63,18 +50,6 @@ class UserCenter extends BaseUser {
       ReportUtil().record('Stores.init()$e');
     }
 
-    try {
-      /// 不等待UserRights接口请求，&& 必须是主账号才可以
-      if (UserCenter().masterAccount == true && awaitUserRights == false) {
-        UserRights().succeed = true;
-        UserRights().init();
-      } else {
-        await UserRights().init();
-      }
-    } catch (e) {
-      ReportUtil().record('UserRights.init()$e');
-    }
-
 
 
 
@@ -87,18 +62,11 @@ class UserCenter extends BaseUser {
     }
 
 
-    /// 店铺数量，数量等权限
-    try {
-      Authority().init();
-    } catch (e) {
-      ReportUtil().record('Authority.init()$e');
-    }
-
     /// request-获取用户信息接口
     requestUserInfo(update: true);
 
     if (kDebugMode) {
-      DebugPrint('puid: ${UserCenter().user?.puid}');
+      DebugPrint('puid: ${UserCenter().user?.userId}');
     }
   }
 
@@ -113,7 +81,6 @@ class UserCenter extends BaseUser {
   @override
   Future clear({bool? loginOut = true}) async {
     super.clear();
-    UserRights().clear();
     UserInfoCenter().clear();
 
     DioNet().clear();
@@ -174,41 +141,10 @@ class UserCenter extends BaseUser {
     return UserInfoCenter().userInfoEntity;
   }
 
-  /// 是否是主账号
-  bool get masterAccount {
-    return user?.masterAccount ?? false;
-  }
-
   /// request-获取用户信息接口
   Future<UserInfoEntity?> requestUserInfo({bool? update}) async {
     return UserInfoCenter().requestUserInfo(update: update);
   }
 
-  /// MARK:  用户权限相关 UserRights
-
-  /// 用户拥有的权限列表
-  Future<List<String>> get userRights async {
-    return await UserRights().userRights;
-  }
-
-  /// request-请求用户权限
-  Future<List<String>> requestUserRights() async {
-    return await UserRights().requestUserRights();
-  }
-
-  /// 是否存在某个权限
-  /// refresh: 是否需要刷新接口，获取最新数据，默认不需要
-  Future<bool> hasUserRights(
-    UserRightsEnum? userRight, {
-    bool? refresh = false,
-    ValueChanged<bool>? complete,
-  }) async {
-    var result = await UserRights().hasUserRight(
-      userRight,
-      refresh: refresh,
-      complete: complete,
-    );
-    return result;
-  }
 
 }

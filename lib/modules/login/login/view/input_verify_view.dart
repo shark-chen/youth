@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../utils/utils/theme_color.dart';
 import '../../../../widget/input/text_input.dart';
-import '../../../user/user_center/user_info/model/user_info_entity.dart';
 import '../../view/verify_error_view.dart';
 
 /// FileName input_verify_view
@@ -16,7 +15,6 @@ class InputVerifyWidget extends StatelessWidget {
     this.hint,
     this.controller,
     this.error,
-    this.accounts,
     this.onTap,
   }) : super(key: key);
 
@@ -28,9 +26,6 @@ class InputVerifyWidget extends StatelessWidget {
 
   /// 错误
   final String? error;
-
-  /// 历史登录账号
-  final List<UserInfoUser>? accounts;
 
   /// 点击输入框
   final VoidCallback? onTap;

@@ -21,10 +21,10 @@ final isDev = AppConfig.env != Environment.prod;
 final getEnableLog = isDev && true;
 
 /// 是否打印网络接口数据
-final netEnableLog = isDev && false;
+final netEnableLog = isDev && true;
 
 /// 是否打印网络接口请求头数据
-final netHeaderEnableLog = isDev && false;
+final netHeaderEnableLog = isDev && true;
 
 /// 是否发送异常数据到企业微信群
-final wechatSendCodeException = isDev && false;
+final wechatSendCodeException = isDev && true;

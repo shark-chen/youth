@@ -32,7 +32,6 @@ extension Strings on String {
   static String formatNumber(
     num number, {
     String? format = '#,###.##',
-    String? currency,
     int? places = 2,
   }) {
     double roundedValue = Doubles.roundDouble(
@@ -40,14 +39,6 @@ extension Strings on String {
     NumberFormat formatter;
     formatter = NumberFormat(format);
     var result = formatter.format(roundedValue);
-    if (currency == null) {
-      currency = UserCenter().user?.currency;
-    }
-    if ("IDR" == currency?.toUpperCase()) {
-      result = result.replaceAll('.', '?');
-      result = result.replaceAll(',', '.');
-      result = result.replaceAll('?', ',');
-    }
     return result;
   }
 

@@ -35,7 +35,7 @@ class PrivacyProtocolWidget extends StatelessWidget {
         children: [
           Container(
             child: Checkbox(
-              side: const BorderSide(color: ThemeColor.themeA2Color),
+              checkColor: ThemeColor.themeGreenColor,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(14)),
               ),

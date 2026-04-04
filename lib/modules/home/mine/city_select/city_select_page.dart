@@ -10,7 +10,6 @@ import 'city_select_controller.dart';
 /// @Description
 class CitySelectPage extends BasePage<CitySelectController> {
     const CitySelectPage({Key? key}) : super(key: key);
-
     @override
      Widget build(BuildContext context) {
        return Scaffold(

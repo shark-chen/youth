@@ -1,6 +1,6 @@
+import 'package:youth/modules/login/login/view/input_verify_view.dart';
 import '../../../base/base_page.dart';
 import '../../login/login/view/accounts_view.dart';
-import '../../login/login/view/input_verify_view.dart';
 import '../../login/view/login_button.dart';
 import 'service_alter_controller.dart';
 
@@ -49,25 +49,6 @@ class ServiceAlterPage extends BasePage<ServiceAlterController> {
                       controller: controller.vm.value.serverController,
                       onTap: () {
                         controller.vm.value.showServers = true;
-                        controller.vm.refresh();
-                      },
-                    ),
-
-                    Text(
-                      'Html服务地址',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black),
-                    ),
-                    const SizedBox(height: 6),
-
-                    /// 获取短信验证码
-                    InputVerifyWidget(
-                      hint: '请输入Html服务地址',
-                      controller: controller.vm.value.htmlController,
-                      onTap: () {
-                        controller.vm.value.showHtml = true;
                         controller.vm.refresh();
                       },
                     ),

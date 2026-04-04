@@ -1,3 +1,5 @@
+import 'package:youth/network/net/entry/user/user.dart';
+
 import '../../../network/network_monitor/network_monitor.dart';
 import '../../../base/base_controller.dart';
 import '../../functions/pda/pda.dart';
@@ -14,6 +16,9 @@ class LaunchController extends GetxController {
   void onInit() async {
     super.onInit();
     Pda.init();
+
+    /// request- 后端健康
+    requestActuatorHealth();
 
     /// 开启网络监听
     NetworkMonitor().startMonitor();
@@ -33,5 +38,23 @@ class LaunchController extends GetxController {
       // }
       await Get.offAllNamed(Routes.homePage);
     }
+  }
+
+  /// request- 后端健康
+  Future requestActuatorHealth() async {
+    var response = await Net.value<User>().requestActuatorHealth();
+    if (response.success) {
+      return response.data?.data ?? 0;
+    }
+
+    // EasyLoading.show();
+    // var response = await NetWork.getVerifyImage();
+    // EasyLoading.dismiss();
+    // if (response.code == 0 && response.data != null) {
+    //   vm.value.configVerifyCodeData(response.data);
+    //   vm.refresh();
+    // } else {
+    //   EasyLoading.showToast(response.msg ?? '');
+    // }
   }
 }

@@ -9,13 +9,9 @@ import 'package:youth/base/base_stateless_widget.dart';
 class MsgDoingWidget extends BaseStatelessWidget {
   const MsgDoingWidget({
     Key? key,
-    this.doingIcon,
     this.doing,
     this.whoName,
   }) : super(key: key);
-
-  /// 图表
-  final String? doingIcon;
 
   /// 正在做的事情
   final String? doing;
@@ -27,11 +23,18 @@ class MsgDoingWidget extends BaseStatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: ThemeColor.blueColor, width: 1),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF635CFD).withOpacity(0.1),
+            Color(0xFF8B63EB).withOpacity(0.1),
+          ],
+        ),
       ),
-      margin: EdgeInsets.only(left: 12, right: 12, bottom: 12),
-      padding: EdgeInsets.only(left: 6, right: 6, bottom: 6, top: 3),
+      margin: EdgeInsets.only(left: 16, right: 16),
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,39 +42,26 @@ class MsgDoingWidget extends BaseStatelessWidget {
           /// 连接 + 一起做
           Row(
             children: [
-              Icon(
-                Icons.link,
-                color: ThemeColor.blueColor,
-              ),
               Text(
                 '一起做',
                 style: TextStyles(
-                  color: ThemeColor.blueColor,
+                  fontSize: 18,
+                  color: ThemeColor.whiteColor.withOpacity(0.1),
                 ),
               )
             ],
           ),
 
-
+          SizedBox(height: 7),
 
           /// 与谁 一起做的啥
-          Row(
-            children: [
-              Icon(Icons.movie),
-              SizedBox(width: 12),
-
-              Text(
-                (doing ?? '') + '\n与' + (whoName ?? ''),
-                style: TextStyles(
-                  color: ThemeColor.whiteColor,
-                ),
-              ),
-
-              Expanded(child: Container()),
-              Icon(Icons.close),
-            ],
+          Text(
+            '与' + (whoName ?? '') + (doing ?? ''),
+            style: TextStyles(
+              fontSize: 18,
+              color: ThemeColor.whiteColor.withOpacity(0.1),
+            ),
           ),
-
         ],
       ),
     );

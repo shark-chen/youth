@@ -45,10 +45,10 @@ class Stores {
   /// 用户维度存储类
   Future<HiveStore?> get userLatHive async {
     try {
-      if (UserCenter().user?.uid == null) return null;
+      if (UserCenter().user?.userId == null) return null;
       return _userLatHive ??= HiveStore(
           (await Documents().directory).path, 'stores',
-          identify: UserCenter().user?.uid.toString());
+          identify: UserCenter().user?.userId.toString());
     } catch (_) {
       return null;
     } finally {}

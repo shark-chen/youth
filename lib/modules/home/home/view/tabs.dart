@@ -3,7 +3,6 @@ import '../../../../generated/locales.g.dart';
 import '../../doing/doing_page.dart';
 import '../../hall/hall_page.dart';
 import '../../message/message_page.dart';
-import '../../mine/mine_page.dart';
 import '../model/tab_model.dart';
 
 enum HomeTabs { hall, order, blog, mine }
@@ -58,24 +57,24 @@ List<HomePageModel> buildHomePages() {
   return  [
     HomePageModel(
       page: HallPage(),
-      activeLogo: "assets/image/icons/home_sel@3x.png",
-      logo: "assets/image/icons/home_nor@3x.png",
+      activeLogo: "assets/image/common/look_someone@3x.png",
+      logo: "assets/image/common/look_someone@3x.png",
       name: '找人'.tr,
       introduceTitle: LocaleKeys.businessProcessing.tr,
       introduceContent: LocaleKeys.easilyHandleBusiness.tr,
     ),
     HomePageModel(
       page: DoingPage(),
-      activeLogo: "assets/image/home/blog_sel@3x.png",
-      logo: "assets/image/home/blog_nor@3x.png",
+      activeLogo: "assets/image/common/being@3x.png",
+      logo: "assets/image/common/being@3x.png",
       name: '正在'.tr,
       introduceTitle: LocaleKeys.quicklyInformation.tr,
       introduceContent: LocaleKeys.masterCommerceIndustry.tr,
     ),
     HomePageModel(
       page: MessagePage(),
-      activeLogo: "assets/image/icons/user_sel@3x.png",
-      logo: "assets/image/icons/user_nor@3x.png",
+      activeLogo: "assets/image/common/message@3x.png",
+      logo: "assets/image/common/message@3x.png",
       name: '消息'.tr,
     ),
   ];

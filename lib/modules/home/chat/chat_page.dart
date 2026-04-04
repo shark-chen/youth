@@ -1,3 +1,4 @@
+import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:youth/base/base_page.dart';
 import 'chat_controller.dart';
@@ -22,21 +23,15 @@ class ChatPage extends BasePage<ChatController> {
   Widget build(BuildContext context) {
     final now = new DateTime.now();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(controller.title ?? ''),
-      ),
+      resizeToAvoidBottomInset: true,
+      backgroundColor: ThemeColor.themeColor,
+      appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                // BubbleNormalImage(
-                //   id: 'id001',
-                //   image: _image(),
-                //   color: Colors.purpleAccent,
-                //   tail: true,
-                //   delivered: true,
-                // ),
+
                 BubbleNormalAudio(
                   color: Color(0xFFE8E8EE),
                   duration: duration.inSeconds.toDouble(),
@@ -50,137 +45,47 @@ class ChatPage extends BasePage<ChatController> {
                 ),
 
                 ChatBaseWidget(
-                  text:
-                      'bubble normalailnormalailnormalailnormalail',
+                  text: 'bubble normalailnormalailnormalailnormalail',
                   isSender: true,
-                  color: Color(0xFF1B97F3),
                   tail: true,
                   sent: true,
-                  textStyle: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
                 ),
-                BubbleNormal(
-                  text: 'bubble normal with tailnormalailnormalailnormalailnormalailnormalailnormalail',
+                ChatBaseWidget(
+                  text:
+                      'bubble normal with tailnormalailnormalailnormalailnormalailnormalailnormalail',
                   isSender: true,
-                  color: Color(0xFFE8E8EE),
-                  tail: true,
-                  sent: true,
+                  showPortrait: false,
+                  // tail: true,
+
                 ),
                 DateChip(
                   date: new DateTime(now.year, now.month, now.day - 2),
                 ),
-                BubbleNormal(
+                ChatBaseWidget(
                   text: 'bubble normal without tail',
                   isSender: false,
-                  color: Color(0xFF1B97F3),
                   tail: false,
-                  textStyle: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
+
                 ),
-                BubbleNormal(
+                ChatBaseWidget(
                   text: 'bubble normal without tail',
-                  color: Color(0xFFE8E8EE),
                   tail: false,
                   sent: true,
                   seen: true,
                   delivered: true,
+
                 ),
-                BubbleSpecialOne(
+                ChatBaseWidget(
                   text: 'bubble special one with tail',
                   isSender: false,
-                  color: Color(0xFF1B97F3),
-                  textStyle: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
+
                 ),
-                DateChip(
-                  date: new DateTime(now.year, now.month, now.day - 1),
-                ),
-                BubbleSpecialOne(
-                  text: 'bubble special one with tail',
-                  color: Color(0xFFE8E8EE),
-                  seen: true,
-                ),
-                BubbleSpecialOne(
-                  text: 'bubble special one without tail',
-                  isSender: false,
-                  tail: false,
-                  color: Color(0xFF1B97F3),
-                  textStyle: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-                BubbleSpecialOne(
-                  text: 'bubble special one without tail',
-                  tail: false,
-                  color: Color(0xFFE8E8EE),
-                  sent: true,
-                ),
-                BubbleSpecialTwo(
-                  text: 'bubble special tow with tail',
-                  isSender: false,
-                  color: Color(0xFF1B97F3),
-                  textStyle: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
+
+
                 DateChip(
                   date: now,
                 ),
-                BubbleSpecialTwo(
-                  text: 'bubble special tow with tail',
-                  isSender: true,
-                  color: Color(0xFFE8E8EE),
-                  sent: true,
-                ),
-                BubbleSpecialTwo(
-                  text: 'bubble special tow without tail',
-                  isSender: false,
-                  tail: false,
-                  color: Color(0xFF1B97F3),
-                  textStyle: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-                BubbleSpecialTwo(
-                  text: 'bubble special tow without tail',
-                  tail: false,
-                  color: Color(0xFFE8E8EE),
-                  delivered: true,
-                ),
-                BubbleSpecialThree(
-                  text: 'bubble special three without tail',
-                  color: Color(0xFF1B97F3),
-                  tail: false,
-                  textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                BubbleSpecialThree(
-                  text: 'bubble special three with tail',
-                  color: Color(0xFF1B97F3),
-                  tail: true,
-                  textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                BubbleSpecialThree(
-                  text: "bubble special three without tail",
-                  color: Color(0xFFE8E8EE),
-                  tail: false,
-                  isSender: false,
-                ),
-                BubbleSpecialThree(
-                  text: "bubble special three with tail",
-                  color: Color(0xFFE8E8EE),
-                  tail: true,
-                  isSender: false,
-                ),
-                SizedBox(height: 100),
+
               ],
             ),
           ),

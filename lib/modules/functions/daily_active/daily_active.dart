@@ -19,7 +19,7 @@ class DailyActive {
 
   /// APP日活接口
   Future requestDailyActive({AppLifecycleState? state}) async {
-    if (UserCenter().user?.puid == null) return;
+    if (UserCenter().user?.userId == null) return;
     String? date = await Stores().get<String>('dailyActiveKey', userLat: true);
     DateTime currentDate = DateTime.now();
     String currentDataStr =

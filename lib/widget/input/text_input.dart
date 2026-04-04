@@ -178,7 +178,7 @@ class UITextInput extends StatelessWidget {
           },
           autofocus: autofocus ?? false,
           controller: controller,
-          // showKeyboard: hiddenKeyboard == true ? false : true,
+          showKeyboard: hiddenKeyboard == true ? false : true,
           readOnly: readOnly ?? false,
           enabled: enabled,
           keyboardType: keyboardType,

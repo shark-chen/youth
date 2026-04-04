@@ -6,7 +6,7 @@ import 'birthday_select_controller.dart';
 /// @Author 谌文
 /// @Date 2026/3/26 16:31
 ///
-/// @Description
+/// @Description 生日选择-binding
 class BirthdaySelectBinding extends BaseBindings {
   @override
   void dependencies() {

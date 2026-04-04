@@ -1,11 +1,13 @@
 import 'package:youth/base/base_controller.dart';
 
+import 'view_model/birthday_select_vm.dart';
+
 /// FileName: birthday_select_controller
 ///
 /// @Author 谌文
 /// @Date 2026/3/26 16:30
 ///
-/// @Description
+/// @Description 生日选择-controller
 class BirthdaySelectController extends BaseController {
   final int minYear;
   final int maxYear;
@@ -26,7 +28,7 @@ class BirthdaySelectController extends BaseController {
     int? minYear,
     int? maxYear,
     DateTime? initialDate,
-  })  : minYear = minYear ?? 1900,
+  })  : minYear = minYear ?? 1926,
         maxYear = maxYear ?? DateTime.now().year {
     final init = initialDate ?? DateTime.now();
     year.value = init.year.clamp(this.minYear, this.maxYear);
@@ -34,80 +36,83 @@ class BirthdaySelectController extends BaseController {
     day.value = init.day.clamp(1, 31);
   }
 
-   @override
-   void onInit() async {
-       super.onInit();
-       title = '选择生日';
+  /// vm
+  Rx<BirthdaySelectVM> vm = BirthdaySelectVM().obs;
 
-       years = List<int>.generate(maxYear - minYear + 1, (i) => minYear + i);
+  @override
+  void onInit() async {
+    super.onInit();
+    title = '选择生日';
 
-       yearScrollController = FixedExtentScrollController(
-         initialItem: (year.value - minYear).clamp(0, years.length - 1),
-       );
-       monthScrollController = FixedExtentScrollController(
-         initialItem: (month.value - 1).clamp(0, 11),
-       );
+    years = List<int>.generate(maxYear - minYear + 1, (i) => minYear + i);
 
-       _rebuildDays(tryJump: false);
-       dayScrollController = FixedExtentScrollController(
-         initialItem: (day.value - 1).clamp(0, days.length - 1),
-       );
-   }
+    yearScrollController = FixedExtentScrollController(
+      initialItem: (year.value - minYear).clamp(0, years.length - 1),
+    );
+    monthScrollController = FixedExtentScrollController(
+      initialItem: (month.value - 1).clamp(0, 11),
+    );
 
-   @override
-   void onClose() {
-     yearScrollController.dispose();
-     monthScrollController.dispose();
-     dayScrollController.dispose();
-     super.onClose();
-   }
+    _rebuildDays(tryJump: false);
+    dayScrollController = FixedExtentScrollController(
+      initialItem: (day.value - 1).clamp(0, days.length - 1),
+    );
+  }
 
-   DateTime get selectedDate =>
-       DateTime(year.value, month.value, day.value);
+  @override
+  void onClose() {
+    yearScrollController.dispose();
+    monthScrollController.dispose();
+    dayScrollController.dispose();
+    super.onClose();
+  }
 
-   String get selectedDateText {
-     String two(int v) => v < 10 ? '0$v' : '$v';
-     return '${year.value}-${two(month.value)}-${two(day.value)}';
-   }
+  DateTime get selectedDate => DateTime(year.value, month.value, day.value);
 
-   void onYearChanged(int index) {
-     if (index < 0 || index >= years.length) return;
-     year.value = years[index];
-     _rebuildDays(tryJump: true);
-   }
+  String get selectedDateText {
+    String two(int v) => v < 10 ? '0$v' : '$v';
+    return '${year.value}-${two(month.value)}-${two(day.value)}';
+  }
 
-   void onMonthChanged(int index) {
-     if (index < 0 || index >= months.length) return;
-     month.value = months[index];
-     _rebuildDays(tryJump: true);
-   }
+  void onYearChanged(int index) {
+    if (index < 0 || index >= years.length) return;
+    year.value = years[index];
+    _rebuildDays(tryJump: true);
+  }
 
-   void onDayChanged(int index) {
-     if (index < 0 || index >= days.length) return;
-     day.value = days[index];
-   }
+  void onMonthChanged(int index) {
+    if (index < 0 || index >= months.length) return;
+    month.value = months[index];
+    _rebuildDays(tryJump: true);
+  }
 
-   int _daysInMonth(int y, int m) {
-     final firstOfNextMonth = (m == 12) ? DateTime(y + 1, 1, 1) : DateTime(y, m + 1, 1);
-     return firstOfNextMonth.subtract(const Duration(days: 1)).day;
-   }
+  void onDayChanged(int index) {
+    if (index < 0 || index >= days.length) return;
+    day.value = days[index];
+  }
 
-   void _rebuildDays({required bool tryJump}) {
-     final maxDay = _daysInMonth(year.value, month.value);
-     final newDays = List<int>.generate(maxDay, (i) => i + 1);
-     days.assignAll(newDays);
+  int _daysInMonth(int y, int m) {
+    final firstOfNextMonth =
+        (m == 12) ? DateTime(y + 1, 1, 1) : DateTime(y, m + 1, 1);
+    return firstOfNextMonth.subtract(const Duration(days: 1)).day;
+  }
 
-     if (day.value > maxDay) {
-       day.value = maxDay;
-       if (tryJump) {
-         WidgetsBinding.instance.addPostFrameCallback((_) {
-           try {
-             dayScrollController.jumpToItem(day.value - 1);
-           } catch (_) {}
-         });
-       }
-     }
-   }
+  void _rebuildDays({required bool tryJump}) {
+    final maxDay = _daysInMonth(year.value, month.value);
+    final newDays = List<int>.generate(maxDay, (i) => i + 1);
+    days.assignAll(newDays);
+
+    if (day.value > maxDay) {
+      day.value = maxDay;
+      if (tryJump) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          try {
+            dayScrollController.jumpToItem(day.value - 1);
+          } catch (_) {}
+        });
+      }
+    }
+  }
 
   /// push-城市选择-页面-page
   Future pushCitySetPage() async {

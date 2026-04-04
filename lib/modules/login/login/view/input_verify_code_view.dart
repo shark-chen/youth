@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:youth/utils/extension/strings/strings.dart';
 import 'package:youth/utils/extension/text_styles.dart';
 import '../../../../generated/locales.g.dart';
@@ -74,6 +75,10 @@ class InputVerifyCodeWidget extends StatelessWidget {
                       fontSize: 16),
                   controller: controller,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                    LengthLimitingTextInputFormatter(8),
+                  ],
                   maxLength: 30,
                   decoration: InputDecoration(
                     counterText: '',

@@ -8,7 +8,7 @@ import 'birthday_select_controller.dart';
 /// @Author 谌文
 /// @Date 2026/3/26 16:30
 ///
-/// @Description
+/// @Description 生日选择-page
 class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
   const BirthdaySelectPage({Key? key}) : super(key: key);
 
@@ -34,7 +34,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 28),
+            SizedBox(height: 70),
             Text(
               '选择生日',
               style: const TextStyle(
@@ -51,7 +51,6 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                 color: Colors.white.withOpacity(0.6),
               ),
             ),
-            const SizedBox(height: 28),
             Expanded(
               child: Center(
                 child: SizedBox(
@@ -141,7 +140,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 45),
               child: Row(
                 children: [
                   Expanded(

@@ -1,5 +1,7 @@
 import 'package:youth/base/base_controller.dart';
 
+import 'view_model/city_set_vm.dart';
+
 /// FileName: city_set_controller
 ///
 /// @Author 谌文
@@ -7,6 +9,9 @@ import 'package:youth/base/base_controller.dart';
 ///
 /// @Description 地区设置-controller
 class CitySetController extends BaseController {
+  /// vm
+  Rx<CitySetVM> vm = CitySetVM().obs;
+
   @override
   void onInit() async {
     super.onInit();

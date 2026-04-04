@@ -1,6 +1,5 @@
 import "package:youth/utils/extension/strings/strings.dart";
 import "package:intl/intl.dart";
-import "../../../modules/user/user_center/user_center.dart";
 
 /// FileName number
 ///
@@ -9,7 +8,7 @@ import "../../../modules/user/user_center/user_center.dart";
 ///
 /// @Description 金额格式化
 extension NumberFormats on NumberFormat {
-  static String value(dynamic number, {String? currency}) {
+  static String value(dynamic number) {
     if (number == null) return number;
     try {
       var format = NumberFormat("#,##0.00", "en_US");
@@ -20,15 +19,6 @@ extension NumberFormats on NumberFormat {
         number = num.tryParse(number.toString());
       }
       var result = format.format(number);
-      if (currency == null) {
-        currency = UserCenter().user?.currency;
-      }
-      if (number != 0 && "IDR" == currency?.toUpperCase()) {
-        result = result.replaceAll('.', '?');
-        result = result.replaceAll(',', '.');
-        result = result.replaceAll('?', ',');
-        return result.replaceAll(RegExp(r',?0*$'), '');
-      }
       return result.replaceAll(RegExp(r'\.?0*$'), '');
     } catch (_) {
       return number;

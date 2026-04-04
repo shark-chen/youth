@@ -21,10 +21,6 @@ class LaunchPage extends BasePage<LaunchController> {
           padding: EdgeInsets.only(top: 300, left: 12, right: 12),
           child: Column(
             children: [
-              Center(
-                child: Image.asset("assets/image/launch/launch_logo@3x.png",
-                    width: 230, height: 64),
-              ),
               const SizedBox(height: 16),
               Center(
                 child: Text(

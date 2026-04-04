@@ -6,14 +6,12 @@
 /// @Description 三方库/二方库
 export 'package:shared_preferences/shared_preferences.dart';
 export 'camera/cameras.dart';
+
+/// toast
 export 'easy_loading/easy_loading_view.dart';
 export 'audio_player/bs_audio_player.dart';
-export 'get/router/app_router.dart';
 export 'package:get/get.dart';
 export 'package:flutter/material.dart';
-
-/// POS-esc直接打印小票
-export 'esc_pos_utils/esc_pos_utils.dart';
 
 /// 语音播报
 export 'audio_players/bs_audio_players.dart';

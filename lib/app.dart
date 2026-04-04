@@ -3,13 +3,11 @@ import 'package:get/get.dart';
 import 'package:youth/modules/routes/app_pages.dart';
 import 'package:youth/utils/marco/debug_print.dart';
 import 'package:youth/utils/marco/marco.dart';
-import 'package:youth/utils/utils/model_utils.dart';
 import 'modules/auxiliary/network_look/view/draggable_net_view.dart';
 import 'modules/functions/daily_active/daily_active.dart';
 import 'modules/functions/pda/pda.dart';
 import 'modules/home/home/utils/tab_switch_utils.dart';
 import 'modules/home/home/view/tabs.dart';
-import 'modules/user/model/push_entity.dart';
 import 'tripartite_library/get/app_route_observer.dart';
 import 'tripartite_library/notification/event_bus_manager.dart';
 import 'tripartite_library/uuid/udid_util.dart';
@@ -71,22 +69,8 @@ class App extends StatelessWidget with WidgetsBindingObserver {
             '{\"home\":\"order\",\"params\":{\"tab\":\"new\",\"shipProvider\":-2}}'
       };
       if (state == AppLifecycleState.resumed) {
-        var push =
-            PushEntity.fromJson(ModelUtils.convert<String>(map['data']) ?? '');
-
         /// 切换到tab页面
-        TabSwitchUtils.switchTab(stringToHomeTab(push.home ?? ''));
-        // if (push.params?.containsKey('tab') == true) {
-        //   Future.delayed(
-        //       Duration(milliseconds: 500),
-        //       () => TabSwitchUtils.switchOrderTab(
-        //           stringToOrderTabs(push.params?['tab'])));
-        // }
-        // if (Strings.isNotEmpty(push.route)) {
-        //   await Get.toNamed(push.route ?? '', arguments: push.params);
-        // }
-        Future.delayed(
-            Duration(milliseconds: 1000), () => EventBusManager().fire(push));
+        TabSwitchUtils.switchTab(HomeTabs.hall);
       }
     } catch (_) {}
   }

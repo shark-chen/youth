@@ -30,20 +30,15 @@ class UserIntroduceWidget extends BaseStatelessWidget {
             title ?? '',
             style: TextStyles(
               color: ThemeColor.whiteColor,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 6),
-          Container(
-            padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
-            decoration: BoxDecoration(
-              color: ThemeColor.loginFormTextColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              content ?? '',
-              style: TextStyles(
-                color: ThemeColor.whiteColor,
-              ),
+          SizedBox(height: 8),
+          Text(
+            content ?? '',
+            style: TextStyles(
+              fontSize: 12,
+              color: ThemeColor.whiteColor.withOpacity(0.6),
             ),
           ),
         ],

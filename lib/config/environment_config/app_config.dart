@@ -85,8 +85,9 @@ class AppConfig {
     return config.getUrl(url);
   }
 
-  static String get getAppUserSettingUrl {
-    return "/api/v1/app/getAppUserSetting.json";
+  /// 后端健康
+  static String get getaActuatorHealthUrl {
+    return "/actuator/health";
   }
 
   static String get checkLogin {

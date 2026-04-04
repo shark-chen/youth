@@ -11,27 +11,45 @@ class ChatBaseWidget extends BubbleNormal {
   ChatBaseWidget({
     Key? key,
     required super.text,
+    this.showPortrait = true,
     super.constraints,
     super.bubbleRadius,
     super.isSender,
-    super.color,
+    super.color = ThemeColor.inputBgColor,
     super.tail,
     super.sent,
     super.delivered,
     super.seen,
-    super.textStyle,
+    super.textStyle = const TextStyle(
+      fontSize: 14,
+      color: Colors.white,
+    ),
   }) : super(key: key);
+
+  /// 是否展示头像
+  final bool? showPortrait;
 
   @override
   Widget build(BuildContext context) {
     final bubble = super.build(context);
+    final headerImage = showPortrait == true
+        ? ImageLookWidget(
+            imgUrl: 'imgUrl',
+            height: 40,
+            width: 40,
+            imgBorderRadius: BorderRadius.circular(20),
+          )
+        : SizedBox(width: 40, height: 40);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment:
           isSender == true ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: isSender == true
-          ? [Expanded(child: bubble), ImageLookWidget(imgUrl: 'imgUrl')]
-          : [ImageLookWidget(imgUrl: 'imgUrl'), Expanded(child: bubble)],
+          ? [
+              Expanded(child: bubble),
+              headerImage,
+            ]
+          : [headerImage, Expanded(child: bubble)],
     );
   }
 }

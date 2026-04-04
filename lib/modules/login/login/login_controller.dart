@@ -1,11 +1,6 @@
-import 'package:youth/network/net/net_config/net_config.dart';
-import 'package:youth/tripartite_library/uuid/udid_util.dart';
+import 'package:dio/dio.dart';
+import 'package:youth/network/net/entry/user/user.dart';
 import '../../../base/base_controller.dart';
-import '../../../network/net/entry/user/user.dart';
-import 'model/component_utils.dart';
-import '../../functions/daily_active/daily_active.dart';
-import '../../user/global.dart';
-import 'model/reLogin_account_entity.dart';
 import 'view_model/login_vm.dart';
 import 'controller/login_route_controller.dart';
 export 'controller/login_route_controller.dart';
@@ -17,7 +12,7 @@ export 'controller/login_route_controller.dart';
 ///
 /// @Description 登录控制器-controller
 class LoginController extends BaseController {
-  LoginController({ReLoginAccountEntity? reLogin}) {}
+  LoginController();
 
   /// vm
   Rx<LoginVM> vm = LoginVM().obs;
@@ -57,9 +52,19 @@ class LoginController extends BaseController {
     // }
   }
 
+  /// request- 后端健康
+  Future requestActuatorHealth() async {
+    var response = await Net.value<User>().requestActuatorHealth();
+    if (response.success) {
+      return response.data?.data ?? 0;
+    }
+  }
+
   /// MARK - method
   /// 选中隐私协议
   void checkReadProtocol(bool? value) async {
+    getData();
+    requestActuatorHealth();
     if (value != null) {
       vm.value.loginModel.agreeProtocol = value;
       vm.refresh();
@@ -73,6 +78,21 @@ class LoginController extends BaseController {
       vm.value.loginModel.agreeSaveAccount = value;
       UserInfoCenter().agreeSaveAccount = value;
       vm.refresh();
+    }
+  }
+
+  Future<void> getData() async {
+    try {
+      final dio = Dio();
+
+      final response = await dio.get(
+        'http://localhost:8080/actuator/health',
+      );
+
+      print('状态码: ${response.statusCode}');
+      print('返回数据: ${response.data}');
+    } catch (e) {
+      print('请求失败: $e');
     }
   }
 }

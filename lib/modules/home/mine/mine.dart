@@ -1,24 +1,20 @@
-/// FileName mine
+/// FileName: mine
 ///
 /// @Author 谌文
-/// @Date 2023/8/23 13:28
+/// @Date 2026/4/4 23:57
 ///
-/// @Description
-export 'mine_page.dart';
-export 'mine_controller.dart';
-export 'mine_binding.dart';
-
-/// 我的账户
-
-/// 用户详情
-export 'user_info/user_info.dart';
-
-/// 性别选择-这个一般用在注册时候用户选择
-export 'sex_select/sex_select.dart';
-
-/// 生日选择-这个一般用在注册时候用户选择
+/// @Description 我的
+/// 生日模块
 export 'birthday_select/birthday_select.dart';
 
-/// 城市选择-这个一般用在注册时候用户选择
+/// 城市选择模块
 export 'city_select/city_select.dart';
+
+/// 城市设置模块
 export 'city_set/city_set.dart';
+
+/// 性别设置模块
+export 'sex_select/sex_select.dart';
+
+/// 用户信息模块
+export 'user_info/user_info.dart';

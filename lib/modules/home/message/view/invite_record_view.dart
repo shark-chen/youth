@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -5,6 +6,7 @@ import 'package:youth/base/base_controller.dart';
 import 'package:youth/base/base_page.dart';
 import 'package:youth/base/base_stateless_widget.dart';
 import 'package:youth/modules/modules.dart';
+import 'package:youth/tripartite_library/camera/camera_engine/camera_engine.dart';
 import 'package:youth/widget/bottom_dialog/bottom_dialog.dart';
 
 /// FileName: invite_record_view
@@ -35,62 +37,125 @@ class InviteRecordWidget extends BaseStatelessWidget {
     return GestureDetector(
       onTap: tap,
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: ThemeColor.blueColor, width: 1),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        margin: EdgeInsets.only(left: 12, right: 12, bottom: 12),
-        padding: EdgeInsets.only(left: 6, right: 6, bottom: 6, top: 3),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        margin: EdgeInsets.only(left: 4, right: 12, top: 17),
+        // padding: EdgeInsets.only(bottom: 12),
+        child: Stack(
           children: [
-            Row(
+            Container(
+              margin: EdgeInsets.only(top: 4, left: 8),
+              padding:
+                  EdgeInsets.only(top: 12, bottom: 12, right: 12, left: 12),
+              decoration: BoxDecoration(
+                color: ThemeColor.inputBgColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  /// 时间
+                  Text(
+                    time ?? '',
+                    style: TextStyles(color: ThemeColor.whiteColor),
+                  ),
+                  SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// 列表
+                      SizedBox(
+                        width: 200,
+                        height: 24,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: headPortraits?.length ?? 10,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ImageLookWidget(
+                              imgUrl: 'dsad',
+                              height: 24,
+                              width: 24,
+                            );
+                          },
+                        ),
+                      ),
+
+                      Row(
+                        children: [
+                          /// 数量
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: 8,
+                              right: 8,
+                              top: 2,
+                              bottom: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  ThemeColor.themeGreenColor.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              '${headPortraits?.length ?? 0}',
+                              style: TextStyles(
+                                  color: ThemeColor.themeGreenColor,
+                                  fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_back_ios,
+                            size: 16,
+                            color: ThemeColor.whiteColor,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            /// 一起做邀约
+            Stack(
               children: [
-                Text(
-                  '一起做， 邀约',
-                  style: TextStyles(
-                    color: ThemeColor.blueColor,
-                  ),
-                ),
-
-                /// 列表
-                SizedBox(
-                  width: 200,
-                  height: 30,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: headPortraits?.length ?? 10,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ImageLookWidget(
-                        imgUrl: '',
-                        height: 30,
-                        width: 30,
-                      );
-                    },
-                  ),
-                ),
-
-                /// 数量
                 Container(
+                  padding: EdgeInsets.only(
+                    left: 30,
+                    top: 2,
+                    bottom: 2,
+                    right: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xFFBA63FF),
+                        Color(0xFFD7A7FF),
+                      ],
+                    ),
+                  ),
                   child: Text(
-                    '${headPortraits?.length ?? 0}',
+                    '一起做邀约',
                     style: TextStyles(
-                      color: ThemeColor.whiteColor,
+                      fontWeight: FontWeight.w600,
+                      color: ThemeColor.themeColor,
                     ),
                   ),
                 ),
-
-                Icon(Icons.more),
+                Transform.rotate(
+                  angle: -20 * pi / 180, // ⭐ 向左旋转30度（负数）
+                  child: Image.asset(
+                    'assets/image/common/look_someone@3x.png',
+                    width: 34,
+                    height: 32,
+                    color: ThemeColor.themeGreenColor,
+                  ),
+                ),
               ],
-            ),
-
-            /// 时间
-            Text(
-              time ?? '',
-              style: TextStyles(color: ThemeColor.whiteColor),
-            ),
+            )
           ],
         ),
       ),

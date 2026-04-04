@@ -76,14 +76,14 @@ class ImageLookWidget extends StatelessWidget {
               placeholder: (context, url) => Padding(
                 padding: EdgeInsets.all(3),
                 child: Image.asset(
-                  "assets/image/icons/image_placeholder@2x.png",
+                  "assets/image/common/hello@3x.png",
                   fit: BoxFit.fill,
                 ),
               ),
               errorWidget: (context, url, error) => Padding(
                 padding: EdgeInsets.all(3),
                 child: Image.asset(
-                  "assets/image/icons/image_placeholder@2x.png",
+                  "assets/image/common/hello@3x.png",
                   fit: BoxFit.fill,
                 ),
               ),
@@ -92,7 +92,7 @@ class ImageLookWidget extends StatelessWidget {
               width: width ?? 66.0,
               height: height ?? 66.0,
               child: Image.asset(
-                "assets/image/icons/image_placeholder@2x.png",
+                "assets/image/common/hello@3x.png",
                 fit: BoxFit.fill,
               ),
             ),

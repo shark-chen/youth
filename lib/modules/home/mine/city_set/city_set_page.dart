@@ -20,7 +20,7 @@ class CitySetPage extends BasePage<CitySetController> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 28),
+            SizedBox(height: 70),
             Text(
               '你在哪里',
               style: const TextStyle(
@@ -61,7 +61,7 @@ class CitySetPage extends BasePage<CitySetController> {
 
             /// 上一个，完成
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 45),
               child: Row(
                 children: [
                   Expanded(

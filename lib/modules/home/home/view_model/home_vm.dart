@@ -31,10 +31,22 @@ class HomeVm extends BaseVM {
   List<BottomNavigationBarItem> get buildBarItems {
     if (barItems.isNotEmpty) return barItems;
     for (var value in buildHomePages()) {
-      barItems.add(BottomNavigationBarItem(
-          activeIcon: Image.asset(value.activeLogo, width: 32, height: 32),
-          icon: Image.asset(value.logo, width: 32, height: 32),
-          label: value.name));
+      barItems.add(
+        BottomNavigationBarItem(
+            activeIcon: Image.asset(
+              value.activeLogo,
+              width: 32,
+              height: 32,
+              color: ThemeColor.themeGreenColor,
+            ),
+            icon: Image.asset(
+              value.logo,
+              width: 32,
+              height: 32,
+              color: ThemeColor.theme5FColor,
+            ),
+            label: value.name),
+      );
     }
     return barItems;
   }

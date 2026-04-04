@@ -18,28 +18,10 @@ class User extends NetMixin<User> {
 
   factory User.init() => User();
 
-  /// 请求我的页面列表数据
-  Future<NetResult<T>> requestMyList<T>(
-    String module,
-    String appVersion,
-  ) async {
-    return await post<T>(AppConfig.getMenuList(module, appVersion),
-        params: {"platform": GetPlatform.isIOS ? "ios" : "android"});
-  }
 
-  /// 请求首页面列表数据
-  Future<NetResult<T>> requestHallList<T>(
-    String module,
-    String appVersion,
-  ) async {
-    return await post<T>(AppConfig.getMenuV2List(module, appVersion),
-        params: {"platform": GetPlatform.isIOS ? "ios" : "android"});
-  }
-
-  /// 请求系统设置
-  Future<NetResult<T>> requestAppUserSetting<T>(String module) async {
-    var params = {'appMethod': module};
-    return await post<T>(AppConfig.getAppUserSettingUrl, params: params);
+  /// 后端健康
+  Future<NetResult<T>> requestActuatorHealth<T>() async {
+    return await get<T>(AppConfig.getaActuatorHealthUrl);
   }
 
   /// 获取消息数量

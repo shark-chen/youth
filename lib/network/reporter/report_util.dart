@@ -92,8 +92,8 @@ class ReportUtil {
       baseParameters ??= await ReportConfig.getBaseParameters();
       baseParameters?["errorLevel"] = ReportConfig.errorLevelMap[errorLevel];
       baseParameters?["errorTime"] = DateTime.now().toString();
-      baseParameters?['username'] = UserCenter().user?.account;
-      baseParameters?['puid'] = UserCenter().user?.puid;
+      baseParameters?['username'] = UserCenter().user?.userInfo?.phone;
+      baseParameters?['puid'] = UserCenter().user?.userInfo;
       Map<String, dynamic> map = {}
         ..addAll(baseParameters ?? {})
         ..addAll({"errorInfo": text})

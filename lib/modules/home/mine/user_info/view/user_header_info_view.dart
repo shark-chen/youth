@@ -30,28 +30,43 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 16),
       child: Row(
         children: [
           /// 头像
           ImageLookWidget(
+            height: 64,
+            width: 64,
             imgUrl: headPortraitUrl ?? '',
+            imgBorderRadius: BorderRadius.circular(32),
           ),
+          SizedBox(width: 12),
 
           /// 用户名称，性别，年龄 地址
           Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     userName ?? '',
-                    style: TextStyles(color: ThemeColor.whiteColor),
+                    style: TextStyles(
+                      color: ThemeColor.whiteColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Icon(Icons.generating_tokens),
                 ],
               ),
               Text(
                 (age ?? '') + (address ?? ''),
-                style: TextStyles(color: ThemeColor.whiteColor),
+                style: TextStyles(
+                  color: ThemeColor.whiteColor.withOpacity(0.6),
+                ),
               ),
             ],
           )

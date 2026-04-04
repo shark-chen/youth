@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:youth/base/base_stateless_widget.dart';
 
 /// FileName: msg_clout_view
@@ -36,65 +37,148 @@ class MsgCloutWidget extends BaseStatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: ThemeColor.blueColor, width: 1),
-          borderRadius: BorderRadius.circular(6),
-        ),
-        margin: EdgeInsets.only(left: 12, right: 12, bottom: 12),
-        padding: EdgeInsets.only(left: 6, right: 6, bottom: 6, top: 3),
-        child: Column(
+        margin: EdgeInsets.only(left: 4, right: 12, top: 12),
+        padding: EdgeInsets.only(bottom: 12),
+        child: Stack(
           children: [
-            Row(
-              children: [
-                Icon(Icons.cloud),
-                Text(
-                  '敲一下',
-                  style: TextStyles(
-                    color: ThemeColor.blueColor,
+            Container(
+              margin: EdgeInsets.only(top: 4, left: 8),
+              padding:
+                  EdgeInsets.only(top: 40, bottom: 12, right: 12, left: 12),
+              decoration: BoxDecoration(
+                color: ThemeColor.inputBgColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      /// 头像
+                      Row(
+                        children: [
+                          ImageLookWidget(
+                            imgUrl: 'dsad',
+                            height: 42,
+                            width: 42,
+                            imgBorderRadius: BorderRadius.circular(26),
+                          ),
+
+                          SizedBox(width: 12),
+
+                          /// 小雨+ 时间
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: name ?? '',
+                                      style: TextStyle(
+                                        color: ThemeColor.whiteColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '（我敲了她）',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: ThemeColor.whiteColor.withOpacity(0.6),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                time ?? '',
+                                style: TextStyles(
+                                  color: ThemeColor.whiteColor,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          /// 数量
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: 8,
+                              right: 8,
+                              top: 2,
+                              bottom: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  ThemeColor.themeGreenColor.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              '12',
+                              style: TextStyles(
+                                  color: ThemeColor.themeGreenColor,
+                                  fontSize: 12),
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_back_ios,
+                            size: 16,
+                            color: ThemeColor.whiteColor,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-                Expanded(child: Container()),
+                ],
+              ),
+            ),
+
+            /// 一起做邀约
+            Stack(
+              children: [
                 Container(
-                  padding: EdgeInsets.only(left: 6, right: 6),
+                  padding: EdgeInsets.only(
+                    left: 30,
+                    top: 2,
+                    bottom: 2,
+                    right: 12,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: ThemeColor.blueColor.withOpacity(0.1),
-                    border: Border.all(color: ThemeColor.whiteColor, width: 1),
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color(0xFFBA63FF),
+                        Color(0xFFD7A7FF),
+                      ],
+                    ),
                   ),
                   child: Text(
-                    cloutNum ?? '',
+                    '敲一下',
                     style: TextStyles(
-                      color: ThemeColor.whiteColor,
+                      fontWeight: FontWeight.w600,
+                      color: ThemeColor.themeColor,
                     ),
                   ),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                ImageLookWidget(
-                  imgUrl: 'imgUrl',
-                  imgBorderRadius: BorderRadius.circular(30),
                 ),
-                SizedBox(width: 6),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name ?? '',
-                      style: TextStyles(color: ThemeColor.whiteColor),
-                    ),
-                    Text(
-                      time ?? '',
-                      style: TextStyles(color: ThemeColor.whiteColor),
-                    ),
-                  ],
-                ),
-                Expanded(child: Container()),
-                Icon(
-                  Icons.arrow_back_ios,
-                  color: ThemeColor.whiteColor,
+                Transform.rotate(
+                  angle: -20 * pi / 180, // ⭐ 向左旋转30度（负数）
+                  child: Image.asset(
+                    'assets/image/common/look_someone@3x.png',
+                    width: 34,
+                    height: 32,
+                    color: ThemeColor.themeGreenColor,
+                  ),
                 ),
               ],
             )

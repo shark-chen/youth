@@ -49,7 +49,7 @@ class DioNet implements Request {
   Dio instanceDio() {
     if (_dio != null) return _dio!;
     _dio = Dio();
-    _dio?.options.headers['systemType'] = GetPlatform.isIOS ? 2 : 1;
+    // _dio?.options.headers['systemType'] = GetPlatform.isIOS ? 2 : 1;
     _dio?.options
       ?..connectTimeout = Duration(microseconds: 120000)
       ..receiveTimeout = Duration(microseconds: 120000)
@@ -112,21 +112,9 @@ class DioNet implements Request {
   Future configNetOption(NetMixin mixin) async {
     try {
       final dioNet = dio;
-      dioNet.options.headers['language'] = LanguageUtils.langValue.value;
-      if (Strings.isEmpty(dioNet.options.headers['systemType'])) {
-        dioNet.options.headers['systemType'] = GetPlatform.isIOS ? 2 : 1;
-      }
-      if (Strings.isEmpty(dioNet.options.headers['appVersion'])) {
-        // dioNet.options.headers['appVersion'] = (await packageInfo).version;
-      }
-
-      /// 异步初始化 Cookie 拦截器
-      NetConfig.initDioCookieInterceptor();
       dioNet.options
         ..baseUrl = mixin.baseUrl ?? AppConfig.apiHost
-        ..headers["deviceScanMode"] =
-            UserCenter().isCamera ? 'phoneScan' : 'pdaScan'
-        ..headers['mucToken'] = await Global.getAccessToken
+        // ..headers['mucToken'] = await Global.getAccessToken
         ..receiveTimeout = mixin.receiveTimeout
         ..sendTimeout = mixin.sendTimeout
         ..connectTimeout = mixin.connectTimeout;
@@ -138,7 +126,7 @@ class DioNet implements Request {
         dioNet.interceptors.add(HeaderInterceptor());
       }
       if (addCacheInterceptor == false && Global.actualLogin.value) {
-        var uid = UserCenter().user?.uid;
+        var uid = UserCenter().user?.userId;
         if (uid != null) {
           if (addCacheInterceptor == true) return;
           addCacheInterceptor = true;

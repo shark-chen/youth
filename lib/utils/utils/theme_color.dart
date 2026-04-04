@@ -204,6 +204,16 @@ class ThemeColor {
   static const Color textBlackColor = Color(0xFF050503);
   static const Color iconBlackColor = Color(0xFF727272);
   static const Color theme5FColor = Color(0xFF5F5F5F);
+  static const Color pinkColor = Color(0xFFFFE1E1);
+  static const Color cardBgColor = Color(0xFF292929);
+  static const Color themeFourZeroColor = Color(0xFF292929);
+  static const Color theme7FColor = Color(0xFF7F7F7F);
+  static const Color violetColor = Color(0xFFBA66FF);
+
+
+
+
+
 
 
 

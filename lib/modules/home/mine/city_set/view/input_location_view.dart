@@ -86,7 +86,7 @@ class InputLocationWidget extends BaseStatelessWidget {
                 hintText: hint,
                 hintStyle: TextStyle(
                     fontWeight: FontWeight.w500,
-                    color: ThemeColor.whiteColor.withOpacity(0.4),
+                    color: ThemeColor.whiteColor.withOpacity(0.6),
                     fontSize: 16),
               ),
             ),
@@ -94,7 +94,7 @@ class InputLocationWidget extends BaseStatelessWidget {
           FaIcon(
             FontAwesomeIcons.locationCrosshairs,
             color: ThemeColor.themeGreenColor,
-            size: 20,
+            size: 22,
           ),
           SizedBox(width: 16),
           Visibility(
