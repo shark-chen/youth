@@ -5,7 +5,6 @@ import 'package:youth/utils/marco/debug_print.dart';
 import 'package:youth/utils/marco/marco.dart';
 import 'modules/auxiliary/network_look/view/draggable_net_view.dart';
 import 'modules/functions/daily_active/daily_active.dart';
-import 'modules/functions/pda/pda.dart';
 import 'modules/home/home/utils/tab_switch_utils.dart';
 import 'modules/home/home/view/tabs.dart';
 import 'tripartite_library/get/app_route_observer.dart';
@@ -56,10 +55,6 @@ class App extends StatelessWidget with WidgetsBindingObserver {
 
     /// APP日活
     DailyActive().requestDailyActive(state: state);
-
-    if (state == AppLifecycleState.inactive) {
-      Pda.init();
-    }
   }
 
   void testPush(AppLifecycleState state) async {

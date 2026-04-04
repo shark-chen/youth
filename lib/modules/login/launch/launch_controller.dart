@@ -1,8 +1,6 @@
 import 'package:youth/network/net/entry/user/user.dart';
-
 import '../../../network/network_monitor/network_monitor.dart';
 import '../../../base/base_controller.dart';
-import '../../functions/pda/pda.dart';
 import '../../user/global.dart';
 
 /// FileName launch_controller
@@ -15,7 +13,6 @@ class LaunchController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    Pda.init();
 
     /// request- 后端健康
     requestActuatorHealth();
