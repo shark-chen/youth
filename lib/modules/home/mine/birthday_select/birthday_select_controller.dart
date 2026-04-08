@@ -62,7 +62,7 @@ class BirthdaySelectController extends BaseController {
   /// mark - request
   /// request - 更新当前登录用户的信息
   /// birthday: 生日: 1995-06-15
-  Future<bool?> requestUpdateUserInfo({
+  Future<bool> requestUpdateUserInfo({
     String? birthday,
   }) async {
     var response = await Net.value<User>().requestUpdateUserInfo(
@@ -76,15 +76,21 @@ class BirthdaySelectController extends BaseController {
     }
   }
 
+  /// 更新用户信息
+  Future updateUserInfo() async {
+    /// request - 更新当前登录用户的信息
+    final result =
+        await requestUpdateUserInfo(birthday: vm.value.selectedDateText);
+    if (!result) return;
+
+    /// push-城市选择-页面-page
+    await pushCitySetPage();
+  }
+
   /// mark - push
   ///
   /// push-城市选择-页面-page
   Future pushCitySetPage() async {
-    final ok = await requestUpdateUserInfo(
-      birthday: vm.value.selectedDateText,
-    );
-    if (ok == true) {
-      await Get.toNamed(Routes.citySetPage);
-    }
+    await Get.toNamed(Routes.citySetPage);
   }
 }

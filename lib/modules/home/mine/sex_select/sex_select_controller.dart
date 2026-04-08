@@ -20,7 +20,7 @@ class SexSelectController extends BaseController {
   /// mark - request
   /// request - 更新当前登录用户的信息
   /// gender: 性别：0-未知，1-男，2-女
-  Future<bool?> requestUpdateUserInfo({
+  Future<bool> requestUpdateUserInfo({
     int? gender,
   }) async {
     var response = await Net.value<User>().requestUpdateUserInfo(
@@ -40,19 +40,28 @@ class SexSelectController extends BaseController {
   void selectSex(Sex sex) async {
     vm.value.sex = sex;
     vm.refresh();
+  }
+
+  /// 更新用户信息
+  Future updateUserInfo() async {
+    if (vm.value.sex == null) {
+      EasyLoading.showToast('请选择性别');
+      return;
+    }
 
     /// request - 更新当前登录用户的信息
-    await requestUpdateUserInfo(gender: Sex.boy == vm.value.sex ? 1 : 2);
+    final result =
+        await requestUpdateUserInfo(gender: Sex.boy == vm.value.sex ? 1 : 2);
+    if (!result) return;
+
+    /// push-生日选择-页面-page
+    await pushBirthdaySelectPage();
   }
 
   /// mark - push
   ///
   /// push-生日选择-页面-page
   Future pushBirthdaySelectPage() async {
-    if (vm.value.sex == null) {
-      EasyLoading.showToast('请选择性别');
-      return;
-    }
-    await Get.toNamed(Routes.birthdaySelectPage, arguments: vm.value.sex);
+    await Get.toNamed(Routes.birthdaySelectPage);
   }
 }

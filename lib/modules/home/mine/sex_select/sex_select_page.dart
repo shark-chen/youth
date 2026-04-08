@@ -124,8 +124,10 @@ class SexSelectPage extends BasePage<SexSelectController> {
                 ),
               ),
               Expanded(child: Container()),
+
+              /// 点击继续
               GestureDetector(
-                onTap: controller.pushBirthdaySelectPage,
+                onTap: controller.updateUserInfo,
                 child: Container(
                   height: 48,
                   alignment: Alignment.center,

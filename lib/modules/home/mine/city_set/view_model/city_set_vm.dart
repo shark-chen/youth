@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:youth/base/base_vm.dart';
 import 'package:youth/widget/region_picker/region_picker_data.dart';
+import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 
 /// FileName: city_set_vm
 ///
@@ -12,6 +13,9 @@ import 'package:youth/widget/region_picker/region_picker_data.dart';
 class CitySetVM extends BaseVM {
   /// 省市区数据
   List<RegionProvince>? _cachedProvinces;
+
+  /// 选择的省市区
+  RegionPickerSelection? selectRegion;
 
   @override
   void onInit() async {

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:youth/base/base_controller.dart';
 import 'package:youth/network/net/entry/user/user.dart';
+import 'package:youth/utils/marco/debug_print.dart';
 import 'package:youth/widget/region_picker/region_picker_data.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 import 'view_model/city_set_vm.dart';
@@ -26,27 +27,43 @@ class CitySetController extends BaseController {
   ///
   /// 点击完成
   Future clickFinish() async {
-    /// request - 更新当前登录用户的信息
-    final finish = await requestUpdateUserInfo();
-    if (true == finish) {
-      /// push-首页页面-page
-      await pushHomePage();
+    if (vm.value.selectRegion == null ||
+        Strings.isEmpty(vm.value.selectRegion?.district)) {
+      EasyLoading.showToast('请选择城市');
+      return;
     }
+
+    /// 更新用户信息
+    await updateUserInfo(vm.value.selectRegion);
+  }
+
+  /// 更新用户信息
+  Future updateUserInfo(RegionPickerSelection? selection) async {
+    if (Strings.isEmpty(selection?.district)) return;
+
+    /// 需要落库或回填输入框时可写 vm
+    DebugPrint(selection);
+
+    /// request - 更新当前登录用户的信息
+    final result = await requestUpdateUserInfo(
+      province: selection?.province,
+      city: '${selection?.city}' + '/' + '${selection?.district}',
+    );
+    if (!result) return;
+
+    /// push-首页页面-page
+    await pushHomePage();
   }
 
   /// mark - request
   ///
   /// request - 更新当前登录用户的信息
-  Future<bool?> requestUpdateUserInfo({
-    int? gender,
-    String? birthday,
+  Future<bool> requestUpdateUserInfo({
     String? province,
     String? city,
   }) async {
     EasyLoading.show();
     var response = await Net.value<User>().requestUpdateUserInfo(
-      gender: gender,
-      birthday: birthday,
       province: province,
       city: city,
     );
@@ -78,9 +95,12 @@ class CitySetController extends BaseController {
         return RegionPickerSheet(
           provinces: provinces!,
           onClose: Get.back,
-          onSelectionChanged: (s) {
-            // 需要落库或回填输入框时可写 vm
+          onSelectionChanged: (s) async {
             print(s);
+            vm.value.selectRegion = s;
+            if(Strings.isNotEmpty(vm.value.selectRegion)) {
+              Get.back();
+            }
           },
         );
       },

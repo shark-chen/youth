@@ -15,7 +15,7 @@ void DebugPrint(Object? object) {
 }
 
 /// 是否是测试环境 -及非正式环境都是true
-final isDev = AppConfig.env != Environment.prod;
+final isDev = AppConfig.env != Environment.prod || true;
 
 /// Getx是否打印
 final getEnableLog = isDev && true;
