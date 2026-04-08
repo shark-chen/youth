@@ -209,15 +209,5 @@ class ThemeColor {
   static const Color themeFourZeroColor = Color(0xFF292929);
   static const Color theme7FColor = Color(0xFF7F7F7F);
   static const Color violetColor = Color(0xFFBA66FF);
-
-
-
-
-
-
-
-
-
-
-
+  static Color white6Color = Color(0xFFFFFFFF)..withOpacity(0.6);
 }

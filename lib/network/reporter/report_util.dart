@@ -103,19 +103,7 @@ class ReportUtil {
       _writeToFile("****接口名称: $apiPath \n$content\n\n\n\n");
     }
 
-    if (ping ?? false) {
-      /// ping要时间啊，不能及时拿到ping的数据
-      NetworkMonitor().ping(
-        callbackOne: true,
-        complete: (NetworkStatusModel event) {
-          baseParameters?['networkType'] = '${event.networkType}-${event.info}';
-          baseParameters?['networkStatus'] = event.networkStatus;
-          startSaveData();
-        },
-      );
-    } else {
-      startSaveData();
-    }
+    startSaveData();
   }
 
   int fourDayTamp = 4 * 24 * 60 * 60 * 1000;

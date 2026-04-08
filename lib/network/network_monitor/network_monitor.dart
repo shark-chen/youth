@@ -1,9 +1,6 @@
 import 'package:youth/base/base_controller.dart';
 import 'package:youth/config/environment_config/app_config.dart';
-import 'package:youth/utils/marco/debug_print.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:dart_ping_ios/dart_ping_ios.dart';
-import 'package:dart_ping/dart_ping.dart';
 import '../reporter/report_util.dart';
 import 'model/network_status_model.dart';
 
@@ -61,42 +58,5 @@ class NetworkMonitor {
   Future<void> checkNetworkStatus() async {
     connectivityResult = (await (Connectivity().checkConnectivity())).first;
     EventBusManager().fire(networkMap[connectivityResult]);
-  }
-
-  /// ping一下当前网络
-  /// 由于ping会有多次回调，callbackOne： 表示回调一次还是全部回调
-  Ping? _ping;
-
-  Future ping({
-    ValueChanged<NetworkStatusModel>? complete,
-    bool? callbackOne,
-    int? count = 1,
-  }) async {
-    try {
-      if (isIOS) {
-        DartPingIOS.register();
-      }
-      if (_ping != null) {
-        await _ping?.stop();
-        _ping = null;
-      }
-      _ping = Ping('www.bigseller.pro', count: count ?? 1);
-      List list = [];
-      _ping?.stream.listen((event) {
-        list.add(event);
-        var model = networkMap[connectivityResult];
-        var result = NetworkStatusModel(
-          networkType: model?.networkType ?? '',
-          info: model?.info ?? '',
-          networkStatus: list.toString(),
-        );
-        EventBusManager().fire(result);
-        DebugPrint(list.toString());
-        complete?.call(result);
-        if (callbackOne ?? false) {
-          complete = null;
-        }
-      });
-    } catch (_) {}
   }
 }

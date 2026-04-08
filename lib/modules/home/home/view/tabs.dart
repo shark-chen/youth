@@ -5,7 +5,7 @@ import '../../hall/hall_page.dart';
 import '../../message/message_page.dart';
 import '../model/tab_model.dart';
 
-enum HomeTabs { hall, order, blog, mine }
+enum HomeTabs { hall, order, blog }
 
 extension HomeTabsExtension on HomeTabs {
   String get name {
@@ -46,7 +46,6 @@ Map TabsKey = {
   'main': HomeTabs.hall,
   'order': HomeTabs.order,
   'blog': HomeTabs.blog,
-  'personal': HomeTabs.mine,
 };
 
 /// 首页数据

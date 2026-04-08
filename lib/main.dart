@@ -11,6 +11,7 @@ Future<void> main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      initSystem();
       PlatformDispatcher.instance.onError = (error, stackTrace) {
         return true;
       };

@@ -35,15 +35,15 @@ abstract class NetMixin<T> with NetCache<T> implements Net<T> {
   String? path = '';
 
   @override
-  Duration receiveTimeout = Duration(microseconds: 60000);
+  Duration receiveTimeout = Duration(milliseconds: 60000);
 
   /// 链接超时时间
   @override
-  Duration connectTimeout = Duration(microseconds: 60000);
+  Duration connectTimeout = Duration(milliseconds: 60000);
 
   /// 发送数据超时时间
   @override
-  Duration sendTimeout = Duration(microseconds: 60000);
+  Duration sendTimeout = Duration(milliseconds: 60000);
 
   /// MARK - NetCache 辅助接口实现辅助属性
   /// 此参数不需要设置，你在调用cache或caches方法时，会自动默认标记为true,或通过cache参数控制是否，对当前请求进行缓存
@@ -146,6 +146,29 @@ abstract class NetMixin<T> with NetCache<T> implements Net<T> {
       this.path = path;
       await configNetOption(this);
       return await (request ??= Request.value<DioNet>()).post(
+        path,
+        data: isFormData == true ? Dio.FormData.fromMap(data) : data,
+        params: composeParams(params),
+        options: options,
+      );
+    } catch (e) {
+      return NetResult.error(msg: LocaleKeys.NetworkError.tr, message: "e:$e");
+    }
+  }
+
+  /// Convenience method to make an HTTP PUT request.
+  @override
+  Future<NetResult<M>> put<M>(
+    String path, {
+    data,
+    bool? isFormData = false,
+    Map<String, dynamic>? params,
+    Options? options,
+  }) async {
+    try {
+      this.path = path;
+      await configNetOption(this);
+      return await (request ??= Request.value<DioNet>()).put(
         path,
         data: isFormData == true ? Dio.FormData.fromMap(data) : data,
         params: composeParams(params),

@@ -8,7 +8,3 @@
 export 'login/login.dart';
 
 
-/// ping网络模块
-export 'ping/ping.dart';
-
-

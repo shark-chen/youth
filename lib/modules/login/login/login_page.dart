@@ -1,6 +1,5 @@
-import 'dart:ui';
-import 'package:youth/base/base_bindings.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:youth/modules/login/login/view_model/login_vm.dart';
+
 import '../../../base/base_page.dart';
 import 'view/input_phone_mail_view.dart';
 import '../view/login_button.dart';
@@ -22,7 +21,6 @@ class LoginPage extends BasePage<LoginController> {
     return GestureDetector(
       onTap: () {
         controller.hideKeyboard();
-        controller.vm.value.showUsers.value = false;
         controller.vm.refresh();
       },
       child: Scaffold(
@@ -65,18 +63,13 @@ class LoginPage extends BasePage<LoginController> {
                             /// 手机号输入框
                             InputPhoneMailWidget(
                               hint: '请输入手机号'.tr,
-                              controller: controller.vm.value.accountController,
+                              controller: controller.vm.value.phoneController,
                               error:
                                   controller.vm.value.loginModel.accountError,
-                              focusNode: controller.vm.value.accountFocusNode,
-                              inputTap: () {
-                                controller.vm.value.showUsers.value = true;
-                                controller.vm.value.showUsers.refresh();
-                              },
+                              focusNode: controller.vm.value.phoneFocusNode,
                               onFieldSubmittedTap: (value) {
                                 FocusScope.of(context).requestFocus(
-                                    controller.vm.value.passwordFocusNode);
-                                controller.vm.value.showUsers.value = false;
+                                    controller.vm.value.verifyCodeFocusNode);
                                 controller.vm.refresh();
                               },
                             ),
@@ -89,14 +82,15 @@ class LoginPage extends BasePage<LoginController> {
                                   controller.vm.value.verifyCodeController,
                               focusNode:
                                   controller.vm.value.verifyCodeFocusNode,
-                              verifyCode:
-                                  controller.vm.value.loginModel.verifyImage,
                               error: controller
                                   .vm.value.loginModel.verifyCodeError,
-                              onTap: controller.requestVerifyCode,
+                              sendSmsTitle: controller.vm.value.sendSmsTitle,
+                              sendSmsEnable: controller.vm.value.sendSmsEnable,
+                              sendSmsTap: controller.clickSendSmsCode,
                             ),
                             SizedBox(height: 40),
 
+                            /// 登录
                             LoginButton(
                               title: '登录'.tr,
                               onTap: controller.clickLogin,

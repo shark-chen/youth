@@ -38,9 +38,9 @@ class NetResult<T> {
       Map json = ModelUtils.convert<Map>(response?.data) ?? {};
       code = ModelUtils.convert<int>(json['code']) ?? -1;
       errorType = ModelUtils.convert<int>(json['errorType']) ?? -1;
-      msg = ModelUtils.convert<String>(json['msg']) ??
+      msg = ModelUtils.convert<String>(json['message']) ??
           (code != 0 ? LocaleKeys.NetworkError.tr : '');
-      message = ModelUtils.convert<String>(json['msg']);
+      message = ModelUtils.convert<String>(json['message']);
       String type = T.toString().toLowerCase();
       if (type.contains('dynamic') || type.contains('object')) {
         data = json['data'];
@@ -65,9 +65,9 @@ class NetResult<T> {
       try {
         code = ModelUtils.convert<int>(json['code']) ?? -1;
         errorType = ModelUtils.convert<int>(json['errorType']) ?? -1;
-        msg = ModelUtils.convert<String>(json['msg']) ??
+        msg = ModelUtils.convert<String>(json['message']) ??
             (code != 0 ? LocaleKeys.NetworkError.tr : '');
-        message = ModelUtils.convert<String>(json['msg']);
+        message = ModelUtils.convert<String>(json['message']);
         String type = T.toString().toLowerCase();
         if (type.contains('dynamic') || type.contains('object')) {
           data = json['data'];
@@ -86,7 +86,7 @@ class NetResult<T> {
 
   /// 创建成功返回数据
   NetResult.success() {
-    code = 0;
+    code = 200;
     msg = null;
     message = null;
     data = null;
@@ -110,10 +110,10 @@ class NetResult<T> {
   List<T> get values => list ?? [];
 
   /// 成功并且data不为空
-  bool get success => code == 0 && this.response?.data != null;
+  bool get success => code == 200 && this.response?.data != null;
 
   /// 成功并且data不为空
-  bool get succeed => code == 0 && (value != null || Lists.isNotEmpty(values));
+  bool get succeed => code == 200 && (value != null || Lists.isNotEmpty(values));
 
   @override
   String toString() =>

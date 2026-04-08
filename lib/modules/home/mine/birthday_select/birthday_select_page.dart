@@ -1,7 +1,8 @@
 import 'package:youth/base/base_page.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'birthday_select_controller.dart';
+import 'view/birthday_picker_cell.dart';
+import 'view/bottom_double_btn_view.dart';
 
 /// FileName: birthday_select_page
 ///
@@ -11,20 +12,6 @@ import 'birthday_select_controller.dart';
 /// @Description 生日选择-page
 class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
   const BirthdaySelectPage({Key? key}) : super(key: key);
-
-  Widget _pickerItem(String text, {required bool selected}) {
-    return Center(
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          color:
-              selected ? ThemeColor.themeGreenColor : ThemeColor.themeA2Color,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,36 +54,37 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                         ),
                       ),
                       Obx(() {
-                        final selectedYear = controller.year.value;
-                        final selectedMonth = controller.month.value;
-                        final selectedDay = controller.day.value;
+                        final v = controller.vm.value;
+                        final selectedYear = v.pickerModel.selectYear;
+                        final selectedMonth = v.pickerModel.selectMonth;
+                        final selectedDay = v. pickerModel.selectDay;
 
                         return Row(
                           children: [
                             Expanded(
                               child: CupertinoPicker(
-                                scrollController:
-                                    controller.yearScrollController,
-                                looping: true,
+                                scrollController: v.pickerModel.yearScrollController,
+                                looping: false,
                                 itemExtent: 56,
                                 diameterRatio: 1.2,
                                 squeeze: 1.0,
                                 backgroundColor: Colors.transparent,
                                 selectionOverlay: null,
                                 onSelectedItemChanged: controller.onYearChanged,
-                                children: controller.years
-                                    .map((y) => _pickerItem(
-                                          '$y',
-                                          selected: y == selectedYear,
-                                        ))
+                                children: v.pickerModel.years
+                                    .map(
+                                      (y) => BirthdayPickerCell(
+                                        text: '$y',
+                                        selected: y == selectedYear,
+                                      ),
+                                    )
                                     .toList(),
                               ),
                             ),
                             Expanded(
                               child: CupertinoPicker(
-                                scrollController:
-                                    controller.monthScrollController,
-                                looping: true,
+                                scrollController: v.pickerModel.monthScrollController,
+                                looping: false,
                                 itemExtent: 56,
                                 diameterRatio: 1.2,
                                 squeeze: 1.0,
@@ -104,9 +92,9 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                                 selectionOverlay: null,
                                 onSelectedItemChanged:
                                     controller.onMonthChanged,
-                                children: controller.months
-                                    .map((m) => _pickerItem(
-                                          m < 10 ? '0$m' : '$m',
+                                children: v.pickerModel.pickerMonths
+                                    .map((m) => BirthdayPickerCell(
+                                          text: m < 10 ? '0$m' : '$m',
                                           selected: m == selectedMonth,
                                         ))
                                     .toList(),
@@ -114,18 +102,17 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                             ),
                             Expanded(
                               child: CupertinoPicker(
-                                scrollController:
-                                    controller.dayScrollController,
-                                looping: true,
+                                scrollController: v.pickerModel.dayScrollController,
+                                looping: false,
                                 itemExtent: 56,
                                 diameterRatio: 1.2,
                                 squeeze: 1.0,
                                 backgroundColor: Colors.transparent,
                                 selectionOverlay: null,
                                 onSelectedItemChanged: controller.onDayChanged,
-                                children: controller.days
-                                    .map((d) => _pickerItem(
-                                          d < 10 ? '0$d' : '$d',
+                                children: v.pickerModel.days
+                                    .map((d) => BirthdayPickerCell(
+                                          text: d < 10 ? '0$d' : '$d',
                                           selected: d == selectedDay,
                                         ))
                                     .toList(),
@@ -139,60 +126,15 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                 ),
               ),
             ),
+
+            /// 上一个 下一个
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 45),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: SizedBox(
-                      height: 48,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white.withOpacity(0.12),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        onPressed: controller.closePage,
-                        child: const Text(
-                          '上一个',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    flex: 3,
-                    child: SizedBox(
-                      height: 48,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ThemeColor.themeGreenColor,
-                          foregroundColor: Colors.black,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        onPressed: controller.pushCitySetPage,
-                        child: const Text(
-                          '下一个',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              child: BottomDoubleBtnWidget(
+                leftTitle: '上一个',
+                leftTap: controller.closePage,
+                rightTitle: '下一个',
+                rightTap: controller.pushCitySetPage,
               ),
             ),
           ],

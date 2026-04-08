@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'dart:async';
 import 'package:youth/network/net/entry/user/user.dart';
 import '../../../base/base_controller.dart';
 import 'view_model/login_vm.dart';
@@ -17,8 +17,6 @@ class LoginController extends BaseController {
   /// vm
   Rx<LoginVM> vm = LoginVM().obs;
 
-  String uuid = '';
-
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -31,81 +29,87 @@ class LoginController extends BaseController {
   Future clickLogin() async {
     hideKeyboard();
     vm.refresh();
+    /// push-个人信息补充模块页面
+    await pushSexSelectPage();
+    return;
+
+    /// 校验手机号验证码
+    bool isCheck = vm.value.checkLogin;
+    if (isCheck != true) return;
+
+    /// 是否同意隐私协议
     if (vm.value.loginModel.agreeProtocol == false) {
       /// push-打开意思协议弹框
       if (await pushPrivacyPop() == false) return;
     }
 
     /// 请求登录
-    final response = await requestLogin(phone: 1888888, code: 12);
-
-
-
-    /// push-个人信息补充模块页面
-    await pushSexSelectPage();
-  }
-
-  /// request- 请求验证码
-  Future requestVerifyCode() async {
-    // EasyLoading.show();
-    // var response = await NetWork.getVerifyImage();
-    // EasyLoading.dismiss();
-    // if (response.code == 0 && response.data != null) {
-    //   vm.value.configVerifyCodeData(response.data);
-    //   vm.refresh();
-    // } else {
-    //   EasyLoading.showToast(response.msg ?? '');
-    // }/api/auth/login
-  }
-
-  /// mark - request
-  ///
-  /// request - 请求登录
-  Future requestLogin({
-    required int phone,
-    required int code,
-  }) async {
-    var response = await Net.value<User>().requestAuthLogin(
-      phone: phone,
-      code: code,
+    UserInfoEntity? user = await requestLogin(
+      phone: vm.value.phoneController.text,
+      code: vm.value.verifyCodeController.text,
     );
-    if (response.success) {
-      return response.data?.data ?? 0;
+    if (user == null) return;
+    if (true == user.isNewUser) {
+      /// push-个人信息补充模块页面
+      await pushSexSelectPage();
+    } else {
+      await Get.offAllNamed(Routes.homePage);
     }
   }
 
-  /// MARK - method
+  /// 点击发送验证码
+  Future clickSendSmsCode() async {
+    /// 还在倒计时中
+    if (!vm.value.sendSmsEnable) return;
+
+    /// 是否是手机号
+    if (!vm.value.checkPhone) return;
+    final send = await requestSmsSend(phone: vm.value.phoneController.text);
+    if (send == true) {
+      /// 发送成功，开始倒计时
+      vm.value.startSmsCountDown();
+    }
+  }
+
   /// 选中隐私协议
   void checkReadProtocol(bool? value) async {
-    getData();
     if (value != null) {
       vm.value.loginModel.agreeProtocol = value;
       vm.refresh();
     }
   }
 
-  /// 选中保存账户信息
-  void checkSaveAccountInfo(bool? value) async {
-    if (value != null) {
-      /// 是否选择同意记住账户信息
-      vm.value.loginModel.agreeSaveAccount = value;
-      UserInfoCenter().agreeSaveAccount = value;
-      vm.refresh();
+  /// mark - request
+  ///
+  /// request - 请求登录
+  Future<UserInfoEntity?> requestLogin({
+    required String phone,
+    required String code,
+  }) async {
+    var response = await Net.value<User>().requestAuthLogin<UserInfoEntity>(
+      phone: phone,
+      code: code,
+    );
+    if (response.succeed) {
+      return response.value;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return null;
     }
   }
 
-  Future<void> getData() async {
-    try {
-      final dio = Dio();
-
-      final response = await dio.get(
-        'http://localhost:8080/actuator/health',
-      );
-
-      print('状态码: ${response.statusCode}');
-      print('返回数据: ${response.data}');
-    } catch (e) {
-      print('请求失败: $e');
+  /// request - 请求登录
+  Future<bool?> requestSmsSend({
+    required String phone,
+  }) async {
+    var response = await Net.value<User>().requestSmsSend(
+      phone: phone,
+    );
+    if (response.success) {
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
     }
   }
 }

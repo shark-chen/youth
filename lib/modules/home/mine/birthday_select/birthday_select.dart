@@ -7,4 +7,5 @@
 export 'birthday_select_binding.dart';
 export 'birthday_select_controller.dart';
 export 'birthday_select_page.dart';
+export 'model/birthday_picker_model.dart';
 

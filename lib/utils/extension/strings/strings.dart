@@ -141,4 +141,10 @@ extension Strings on String {
     final reg = RegExp(r'<[^>]+>');
     return reg.hasMatch(this);
   }
+
+  /// 是否是手机号
+  bool get isValidPhone {
+    final reg = RegExp(r'^1[3-9]\d{9}$');
+    return reg.hasMatch(this);
+  }
 }

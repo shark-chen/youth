@@ -90,6 +90,28 @@ class DioNet implements Request {
     return NetResult<M>.fromResponse(response);
   }
 
+  /// Handy method to make http POST request, which is a alias of  [dio.fetch(RequestOptions)].
+  /// M: 传入模型类，请求到的数据会自动解析成对应的模型类
+  /// data: body参数
+  /// isFormData: true,会自动把data包装成 FormData.fromMap;
+  /// params: 链接后面拼接参数
+  @override
+  Future<NetResult<M>> put<M>(
+    String path, {
+    data,
+    bool? isFormData = false,
+    Map<String, dynamic>? params,
+    Options? options,
+  }) async {
+    var response = await dio.put(
+      path,
+      data: data,
+      queryParameters: params,
+      options: options,
+    );
+    return NetResult<M>.fromResponse(response);
+  }
+
   @override
   void clear() {
     addCacheInterceptor = false;
@@ -114,7 +136,7 @@ class DioNet implements Request {
       final dioNet = dio;
       dioNet.options
         ..baseUrl = mixin.baseUrl ?? AppConfig.apiHost
-        // ..headers['mucToken'] = await Global.getAccessToken
+        ..headers['Authorization'] = await Global.getAccessToken
         ..receiveTimeout = mixin.receiveTimeout
         ..sendTimeout = mixin.sendTimeout
         ..connectTimeout = mixin.connectTimeout;

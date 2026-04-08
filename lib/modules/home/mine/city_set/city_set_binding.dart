@@ -1,5 +1,4 @@
 import 'package:youth/base/base_bindings.dart';
-
 import 'city_set_controller.dart';
 
 /// FileName: city_set_binding
@@ -9,9 +8,8 @@ import 'city_set_controller.dart';
 ///
 /// @Description 地区设置-binding
 class CitySetBinding extends BaseBindings {
-
-   @override
-   void dependencies() {
-       Get.lazyPut<CitySetController>(()=> CitySetController());
-   }
+  @override
+  void dependencies() {
+    Get.lazyPut<CitySetController>(() => CitySetController());
+  }
 }

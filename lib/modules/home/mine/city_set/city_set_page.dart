@@ -1,5 +1,6 @@
 import 'package:youth/base/base_page.dart';
 
+import '../birthday_select/view/bottom_double_btn_view.dart';
 import 'city_set_controller.dart';
 import 'view/input_location_view.dart';
 
@@ -45,10 +46,7 @@ class CitySetPage extends BasePage<CitySetController> {
               // controller: controller.vm.value.accountController,
               // error: controller.vm.value.loginModel.accountError,
               // focusNode: controller.vm.value.accountFocusNode,
-              inputTap: () {
-                // controller.vm.value.showUsers.value = true;
-                // controller.vm.value.showUsers.refresh();
-              },
+              inputTap: controller.pushRegionPickerPage,
               onFieldSubmittedTap: (value) {
                 // FocusScope.of(context).requestFocus(
                 //     controller.vm.value.passwordFocusNode);
@@ -62,58 +60,11 @@ class CitySetPage extends BasePage<CitySetController> {
             /// 上一个，完成
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 45),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: SizedBox(
-                      height: 48,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white.withOpacity(0.12),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        onPressed: controller.closePage,
-                        child: const Text(
-                          '上一个',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    flex: 3,
-                    child: SizedBox(
-                      height: 48,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ThemeColor.themeGreenColor,
-                          foregroundColor: Colors.black,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        onPressed: controller.pushHomePage,
-                        child: const Text(
-                          '完成',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              child: BottomDoubleBtnWidget(
+                leftTitle: '上一个',
+                leftTap: controller.closePage,
+                rightTitle: '完成',
+                rightTap: controller.clickFinish,
               ),
             ),
           ],

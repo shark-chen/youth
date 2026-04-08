@@ -20,16 +20,14 @@ class InputVerifyCodeWidget extends StatelessWidget {
   const InputVerifyCodeWidget({
     Key? key,
     this.hint,
-    this.controller,
     this.error,
+    this.controller,
     this.focusNode,
     this.onFieldSubmittedTap,
-    this.onTap,
-    this.verifyCode,
+    this.sendSmsTitle,
+    this.sendSmsEnable,
+    this.sendSmsTap,
   }) : super(key: key);
-
-  /// 输入框监控
-  final TextEditingController? controller;
 
   /// 输入框提示语
   final String? hint;
@@ -37,17 +35,23 @@ class InputVerifyCodeWidget extends StatelessWidget {
   /// 错误
   final String? error;
 
-  /// 点击
-  final VoidCallback? onTap;
+  /// 输入框监控
+  final TextEditingController? controller;
 
   /// FocusNode
   final FocusNode? focusNode;
 
-  /// 验证码
-  final Uint8List? verifyCode;
-
   /// 点击事件
   final ValueChanged? onFieldSubmittedTap;
+
+  /// 发送验证码标题
+  final String? sendSmsTitle;
+
+  /// 发送验证码是否可用
+  final bool? sendSmsEnable;
+
+  /// 发送验证码点击
+  final VoidCallback? sendSmsTap;
 
   @override
   Widget build(BuildContext context) {
@@ -95,16 +99,18 @@ class InputVerifyCodeWidget extends StatelessWidget {
 
               /// 发送验证码
               GestureDetector(
-                onTap: onTap,
+                onTap: sendSmsTap,
                 child: Container(
                   color: Colors.transparent,
                   height: 48,
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(left: 12, right: 20),
                   child: Text(
-                    '发送验证码',
+                    sendSmsTitle ?? '发送验证码',
                     style: TextStyles(
-                      color: ThemeColor.themeGreenColor,
+                      color: true == sendSmsEnable
+                          ? ThemeColor.themeGreenColor
+                          : ThemeColor.white6Color,
                     ),
                   ),
                 ),

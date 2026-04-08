@@ -31,7 +31,7 @@ class LoadItem {
       DraggableNetWidget.vm.refresh();
 
       /// 测试环境截图发群
-      await Screenshot().init();
+      // await Screenshot().init();
     }
   }
 

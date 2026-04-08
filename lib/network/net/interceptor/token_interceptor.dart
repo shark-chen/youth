@@ -41,9 +41,6 @@ class TokenInterceptor extends Interceptor {
       if (Lists.isNotEmpty(accessTokens)) {
         Global.setAccessToken(accessTokens?.first ?? '', updateSaveAccountToken: true);
       }
-
-      /// 密码发生变更
-      passwordChanges(response);
     } catch (_) {
     } finally {
       return handler.next(response);

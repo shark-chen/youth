@@ -90,11 +90,33 @@ class AppConfig {
     return '/api/auth/login';
   }
 
+  /// 发送验证码
+  static String get getSmsSendUrl {
+    return '/api/auth/sms/send';
+  }
+
+  /// 获取当前登录用户的信息
+  static String get getUserInfoUrl {
+    return '/api/user/profile';
+  }
+
+
+
+
   /// 后端健康
   static String get getaActuatorHealthUrl {
     return "/actuator/health";
   }
 
+
+
+
+
+
+  //// 老借口
+
+
+  ///
   static String get checkLogin {
     return "/api/v1/isLogin.json";
   }
@@ -392,20 +414,6 @@ class AppConfig {
     return "/api/v1/app/subject/isInventoryAlert.json";
   }
 
-  /// 获取用户信息接口
-  static String get getUserInfoUrl {
-    return "/api/v1/index.json";
-  }
-
-  /// 获取波次发货功能-状态(开启或关闭)
-  static String get getWaveSippedUsedStateUrl {
-    return "/api/v1/order/wave/getWaveSippedUsedState.json";
-  }
-
-  /// 批量安排订单列表页V2
-  static String get getBatchPackOrderPageUrl {
-    return "/api/v1/app/getOrderInfo/batchPackOrderPageV2.json";
-  }
 
   /// 单个安排订单
   static String get getPackOrderUrl {

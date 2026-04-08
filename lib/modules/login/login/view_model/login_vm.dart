@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 import '../../../../base/base_vm.dart';
 import '../../../../utils/utils/aes_cbc_util.dart';
 import '../model/login_model.dart';
-import 'login_phone_vm.dart';
-export 'login_phone_vm.dart';
+import 'login_param_vm.dart';
+export 'login_param_vm.dart';
+import 'login_ui_vm.dart';
+export 'login_ui_vm.dart';
 
 /// FileName login_vm
 ///
@@ -14,41 +17,44 @@ export 'login_phone_vm.dart';
 class LoginVM extends BaseVM {
   LoginModel loginModel = LoginModel();
 
-  /// 是否展示区号
-  bool showArea = false;
+  /// 手机号
+  final phoneController = TextEditingController();
+  final FocusNode phoneFocusNode = FocusNode();
 
-  RxBool showUsers = false.obs;
-
-  final FocusNode accountFocusNode = FocusNode();
-  final FocusNode passwordFocusNode = FocusNode();
+  /// 验证码
+  final verifyCodeController = TextEditingController();
   final FocusNode verifyCodeFocusNode = FocusNode();
 
-  final accountController = TextEditingController();
-  final passwordController = TextEditingController();
-  final verifyCodeController = TextEditingController();
+  /// 倒计时
+  int seconds = -1;
+  Timer? timer;
 
   void onInit() {
     super.onInit();
     addListener();
+  }
 
-
+  /// 验证码倒计时
+  void startSmsCountDown() {
+    seconds = 60;
+    refresh?.call();
+    timer?.cancel();
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (seconds <= 0) {
+        seconds = 0;
+        t.cancel();
+      } else {
+        seconds--;
+      }
+      refresh?.call();
+    });
   }
 
   /// 输入监听
   void addListener() {
     /// 账号信息输入时校验
-    accountController
-        .addListener(() => loginModel.account = accountController.text);
-
-    /// 密码校验
-    passwordController.addListener(() {
-      loginModel.password = passwordController.text;
-      if (Strings.isEmpty(loginModel.passwordError)) return;
-      loginModel.passwordError = Strings.isEmpty(loginModel.password)
-          ? LocaleKeys.passwordCannotEmpty.tr
-          : '';
-      refresh?.call();
-    });
+    phoneController
+        .addListener(() => loginModel.account = phoneController.text);
 
     /// 验证码校验
     verifyCodeController.addListener(() {
@@ -63,13 +69,11 @@ class LoginVM extends BaseVM {
 
   /// 添加账号输入聚焦离焦的监听
   void addFocusNodeListener({VoidCallback? checkPhoneCall}) {
-    accountFocusNode.addListener(() {
-      if (accountFocusNode.hasFocus) {
+    phoneFocusNode.addListener(() {
+      if (phoneFocusNode.hasFocus) {
         loginModel.accountError = '';
-        showArea = false;
       } else {
-        var isNumeric = accountController.text.isNumeric;
-        showArea = isNumeric;
+        var isNumeric = phoneController.text.isNumeric;
         if (isNumeric) {
           checkPhoneCall?.call();
         } else {
@@ -102,39 +106,11 @@ class LoginVM extends BaseVM {
     }
   }
 
-  /// 校验登录
-  bool checkLogin() {
-    var result = true;
-    if (Strings.isEmpty(loginModel.account)) {
-      loginModel.accountError = LocaleKeys.mailPhoneCannotEmpty.tr;
-      result = false;
-    }
-
-    if (showArea == false &&
-        Strings.isNotEmpty(loginModel.account) &&
-        !loginModel.account.contains("@")) {
-      loginModel.accountError = LocaleKeys.EmailValid.tr;
-      result = false;
-    }
-
-    if (Strings.isEmpty(loginModel.password)) {
-      loginModel.passwordError = LocaleKeys.passwordCannotEmpty.tr;
-      result = false;
-    }
-
-    if (Strings.isEmpty(loginModel.verifyCode)) {
-      loginModel.verifyCodeError =
-          LocaleKeys.graphicVerificationCodeCannotEmpty.tr;
-      result = false;
-    }
-    return result;
-  }
-
   /// 苹果审核校验
   Future<bool> appleCheck() async {
     if (GetPlatform.isIOS &&
         UserCenter().unsubscribed &&
-        "xieling@bigseller.com" == accountController.value.text) {
+        "xieling@bigseller.com" == phoneController.value.text) {
       /// 注销账户后，10分钟内不能登录
       final limitTime =
           await Stores().get<int>('unsubscribed_limit_time', userLat: false) ??
@@ -147,11 +123,4 @@ class LoginVM extends BaseVM {
     }
     return true;
   }
-
-  /// 请求参数
-  Future<Map<String, dynamic>> toJson() async {
-    return {}..addAll(loginModel.toJson());
-  }
 }
-
-

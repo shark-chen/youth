@@ -18,20 +18,29 @@ class User extends NetMixin<User> {
 
   factory User.init() => User();
 
-  /// 登录
-  Future<NetResult<T>> requestAuthLogin<T>({
-    required int phone,
-    required int code,
+  /// 获取当前登录用户的信息
+  Future<NetResult<T>> requestUserInfo<T>() async {
+    return await get<T>(AppConfig.getUserInfoUrl);
+  }
+
+  /// 更新当前登录用户的信息
+  /// gender: 性别：0-未知，1-男，2-女
+  /// birthday: 生日: 1995-06-15
+  /// province: 省份: 广东省
+  /// city: 城市
+  Future<NetResult<T>> requestUpdateUserInfo<T>({
+    int? gender,
+    String? birthday,
+    String? province,
+    String? city,
   }) async {
     var params = {
-      'phone': phone,
-      'code': code,
+      'gender': gender,
+      'birthday': birthday,
+      'province': province,
+      'city': city,
     };
-    return await post<T>(
-      AppConfig.getAuthLoginUrl,
-      data: params,
-      isFormData: true,
-    );
+    return await put<T>(AppConfig.getUserInfoUrl, data: params);
   }
 
   /// 后端健康
@@ -47,11 +56,6 @@ class User extends NetMixin<User> {
   /// 获取消息数量
   Future<NetResult<T>> requestAlertNotice<T>() async {
     return await get<T>(AppConfig.requestAlertNotice);
-  }
-
-  /// 获取用户信息接口
-  Future<NetResult<T>> requestUserInfo<T>() async {
-    return await get<T>(AppConfig.getUserInfoUrl);
   }
 
   /// 获取是否取消订单申请推送

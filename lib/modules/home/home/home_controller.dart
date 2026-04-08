@@ -40,14 +40,6 @@ class HomeController extends BaseController {
     LoadItem().homeLoad();
 
     EventBusManager().fire(HomeTabs.values[vm.value.currentTab.index]);
-
-    /// 语言变化的通知, 刷新UI
-    EventBusManager().listen<LangValue>(this, (event) async {
-      vm.value.barItems.clear();
-      vm.value.buildBarItems;
-      vm.refresh();
-    });
-
   }
 
   @override
@@ -67,7 +59,7 @@ class HomeController extends BaseController {
 
   /// 点击tab
   void switchTab(int index) async {
-    if (index > 4) return;
+    if (index > 2) return;
     EasyLoading.dismiss();
 
     /// 切换tab发送通知

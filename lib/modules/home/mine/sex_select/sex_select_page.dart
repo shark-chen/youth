@@ -1,11 +1,4 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
-import 'package:youth/base/base_controller.dart';
 import 'package:youth/base/base_page.dart';
-import 'package:youth/base/base_service.dart';
-import 'package:youth/modules/modules.dart';
-import 'package:youth/tripartite_library/camera/camera_engine/camera_engine.dart';
-import 'package:youth/tripartite_library/camera/cameras.dart';
 import 'sex_select_controller.dart';
 import 'view_model/sex_select_vm.dart';
 
@@ -78,7 +71,7 @@ class SexSelectPage extends BasePage<SexSelectController> {
                         ),
                       ),
                       Image.asset(
-                        "assets/image/common/select_boy@3x.png",
+                        'assets/image/common/select_boy@3x.png',
                         width: 120,
                         height: 106,
                       ),
@@ -106,7 +99,7 @@ class SexSelectPage extends BasePage<SexSelectController> {
                     children: [
                       SizedBox(width: 10),
                       Image.asset(
-                        "assets/image/common/select_girl@3x.png",
+                        'assets/image/common/select_girl@3x.png',
                         width: 120,
                         height: 106,
                       ),

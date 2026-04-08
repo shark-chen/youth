@@ -41,4 +41,17 @@ abstract class Request<T> {
     Map<String, dynamic>? params,
     Options? options,
   });
+
+  /// Handy method to make http POST request, which is a alias of  [dio.fetch(RequestOptions)].
+  /// M: 传入模型类，请求到的数据会自动解析成对应的模型类
+  /// data: body参数
+  /// isFormData: true,会自动把data包装成 FormData.fromMap;
+  /// params: 链接后面拼接参数
+  Future<NetResult<M>> put<M>(
+    String path, {
+    data,
+    bool? isFormData = false,
+    Map<String, dynamic>? params,
+    Options? options,
+  });
 }

@@ -56,4 +56,12 @@ abstract class Net<T> {
     bool? isFormData = false,
     Map<String, dynamic>? params,
   });
+
+  /// Convenience method to make an HTTP PUT request.
+  Future<NetResult<M>> put<M>(
+    String path, {
+    data,
+    bool? isFormData = false,
+    Map<String, dynamic>? params,
+  });
 }

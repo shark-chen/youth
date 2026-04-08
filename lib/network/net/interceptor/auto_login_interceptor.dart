@@ -22,14 +22,15 @@ class AutoLoginInterceptor extends Interceptor {
   @override
   Future onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
+    return handler.next(options);
     /// 已经登录/手动登录 就不需要重新自动登录了
-    if (Global.actualLogin.value) return handler.next(options);
+    // if (Global.actualLogin.value) return handler.next(options);
 
     /// 一些登录注册接口不需要拦截
-    if (ignoreUrl.contains(options.path)) return handler.next(options);
+    // if (ignoreUrl.contains(options.path)) return handler.next(options);
 
     /// 如果正在重新过程中，泽不处理其他请求了（还是要做请求的，比如首页请求数据，但直接return了，等自动登录成功了，这个首页请求不会自动触发了）
-    if (loginIng) return handler.next(options);
+    // if (loginIng) return handler.next(options);
 
     /// 用户进入APP没登录成功，需要重新自动登录
     loginIng = true;

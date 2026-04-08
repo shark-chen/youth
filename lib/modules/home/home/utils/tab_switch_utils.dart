@@ -18,5 +18,4 @@ class TabSwitchUtils {
       controller.switchTab(tab.index);
     } catch (_) {}
   }
-
 }
