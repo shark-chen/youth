@@ -29,8 +29,7 @@ class LoginController extends BaseController {
   Future clickLogin() async {
     hideKeyboard();
     vm.refresh();
-    /// push-个人信息补充模块页面
-    await pushSexSelectPage();
+    await Get.offAllNamed(Routes.homePage);
     return;
 
     /// 校验手机号验证码

@@ -100,6 +100,16 @@ class AppConfig {
     return '/api/user/profile';
   }
 
+  /// 获取当前热门的正在做标签列表
+  static String get getStatusHotTagsUrl {
+    return '/api/status/hot-tags';
+  }
+
+  /// 某标签下「正在做」详情 / 列表（path 参数 tagId）
+  static String getStatusDoingUrl(int tagId) {
+    return '/api/status/doing/$tagId';
+  }
+
 
 
 

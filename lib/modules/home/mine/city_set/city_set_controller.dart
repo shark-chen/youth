@@ -1,10 +1,7 @@
 import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:youth/base/base_controller.dart';
 import 'package:youth/network/net/entry/user/user.dart';
 import 'package:youth/utils/marco/debug_print.dart';
-import 'package:youth/widget/region_picker/region_picker_data.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 import 'view_model/city_set_vm.dart';
 
@@ -98,7 +95,7 @@ class CitySetController extends BaseController {
           onSelectionChanged: (s) async {
             print(s);
             vm.value.selectRegion = s;
-            if(Strings.isNotEmpty(vm.value.selectRegion)) {
+            if (Strings.isNotEmpty(vm.value.selectRegion?.district)) {
               Get.back();
             }
           },

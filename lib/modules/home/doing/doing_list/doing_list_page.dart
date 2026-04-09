@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:youth/base/base_page.dart';
 import 'doing_list_controller.dart';
 import 'view/doing_list_cell.dart';
@@ -13,48 +12,77 @@ import 'view/doing_list_header_view.dart';
 class DoingListPage extends BasePage<DoingListController> {
   const DoingListPage({Key? key}) : super(key: key);
 
+  static const _demoNames = ['小雨', '阿宁', '橙子', 'Momo', '阿哲'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(
-        textColor: ThemeColor.whiteColor,
-        controller.title ?? '',
-        elevation: 0.2,
-        leading: Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: ThemeColor.whiteColor,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Text(
-            '头像',
-            style: TextStyles(),
-          ),
-        ),
+        controller.title ?? '我正在',
         backgroundColor: ThemeColor.themeColor,
+        elevation: 0,
+        textColor: ThemeColor.whiteColor,
+        backTap: controller.closePage,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          /// 正在做的清单-头部view
-          DoingListHeaderWidget(
-            title: '看电影',
-            closeTap: controller.closePage,
-            inviteTap: controller.closePage,
-          ),
-
-          /// 正在做的事情列表
+          Obx(() {
+            final v = controller.vm.value;
+            return DoingListHeaderWidget(
+              title: v.activityTitle,
+              inviteTap: () {},
+            );
+          }),
+          Obx(() {
+            final v = controller.vm.value;
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.45),
+                    fontSize: 14,
+                    height: 1.35,
+                  ),
+                  children: [
+                    const TextSpan(text: '有 '),
+                    TextSpan(
+                      text: '${v.samePeopleCount}',
+                      style: const TextStyle(
+                        color: ThemeColor.themeGreenColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    TextSpan(text: ' 人也在「${v.activityTitle}」'),
+                  ],
+                ),
+              ),
+            );
+          }),
           Expanded(
             child: ListView.separated(
-              padding: EdgeInsets.only(top: 12),
+              padding: const EdgeInsets.only(top: 6, bottom: 24),
               itemCount: 20,
               itemBuilder: (BuildContext context, int index) {
-                return DoingListCell();
+                final name = _demoNames[index % _demoNames.length];
+                final isMale = index % 3 != 1;
+                return DoingListCell(
+                  headerIcon:
+                      'https://i.pravatar.cc/128?img=${(index % 70) + 1}',
+                  name: name,
+                  sex: isMale,
+                  age: '${22 + (index % 18)}',
+                  address: index.isEven ? '深圳' : '广州',
+                  signature: '不讨好，不迎合，不够讨喜，但是做自己最真实',
+                  isOnline: index == 0,
+                  onKnockTap: () {},
+                  onTogetherTap: () {},
+                );
               },
-              separatorBuilder:  (BuildContext context, int index) {
-                return SizedBox(height: 20);
-              },
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
             ),
           ),
         ],

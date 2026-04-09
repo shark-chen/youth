@@ -197,6 +197,16 @@ class ThemeColor {
 
   static const Color themeColor = Color(0xFF171717);
   static const Color inputBgColor = Color(0xFF232323);
+  /// 深色列表卡片（如「正在」同频用户 cell）
+  static const Color doingListCellBgColor = Color(0xFF2C2C2E);
+  /// 深色次级文案（年龄·城市等）
+  static const Color doingListSubLabelColor = Color(0xFFAEAEB2);
+  /// 深色简介/辅助一行
+  static const Color doingListBioLabelColor = Color(0xFF636366);
+  /// 「敲一下」等深绿底按钮
+  static const Color doingListKnockBgColor = Color(0xFF1A3D2E);
+  /// 「一起做」等次级胶囊按钮底
+  static const Color doingListTogetherBgColor = Color(0xFF3A3A3C);
   static const Color themeGreenColor = Color(0xFF10FF93);
   static const Color themeBlackColor = Color(0xFF030303);
   static const Color themeA2Color = Color(0xFFA2A2A2);

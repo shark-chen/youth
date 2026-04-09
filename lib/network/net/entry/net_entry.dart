@@ -1,6 +1,7 @@
 import 'package:youth/config/environment_config/config.dart';
 import 'package:youth/network/net/entry/auxiliary/wechat.dart';
 import 'auxiliary/auxiliary.dart';
+import 'doing/doing.dart';
 import 'user/user.dart';
 
 /// FileName net_entry
@@ -20,5 +21,6 @@ T createNet<T>() {
 /// 实现了NetMixin的请求类
 late final Map<String, dynamic> netEntryMap = {
   (User).toString(): User.init,
+  (Doing).toString(): Doing.init,
   (Auxiliary).toString(): Auxiliary.init,
 };
