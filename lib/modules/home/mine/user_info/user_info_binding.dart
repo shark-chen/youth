@@ -10,6 +10,14 @@ import 'user_info_controller.dart';
 class UserInfoBinding extends BaseBindings {
   @override
   void dependencies() {
-    Get.lazyPut<UserInfoController>(() => UserInfoController());
+    final parameters = Get.parameters;
+    if (Maps.isNotEmpty(parameters) &&
+        parameters['userId'] != null &&
+        parameters['userId'] is int) {
+      Get.lazyPut<UserInfoController>(
+          () => UserInfoController(userId: Get.parameters['userId'] as int));
+    } else {
+      Get.lazyPut<UserInfoController>(() => UserInfoController());
+    }
   }
 }

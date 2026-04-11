@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:youth/base/base_page.dart';
 import 'user_info_controller.dart';
 import 'view/picture_wall_view.dart';
 import 'view/user_header_info_view.dart';
 import 'view/user_introduce_view.dart';
-import 'view/user_label_info_view.dart';
 
 /// FileName: user_info_page
 ///
@@ -17,69 +15,69 @@ class UserInfoPage extends BasePage<UserInfoController> {
 
   @override
   Widget build(BuildContext context) {
+    final userInfo = controller.userInfo;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(left: 16, right: 16),
-              child: Column(
-                children: [
-                  /// 头像，姓名，性别，年龄，地址信息
-                  UserHeaderInfoWidget(
-                    headPortraitUrl: '',
-                    userName: '哈哈哈',
-                    age: '32岁',
-                    address: '上海',
-                  ),
+      body: Obx(
+        () => Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// 用户信息头像信息- view
+                    UserHeaderInfoWidget(
+                      headPortraitUrl: userInfo?.avatar,
+                      userName: userInfo?.nickname,
+                      age: userInfo?.ageInfo,
+                      address: userInfo?.regionInfo,
+                      gender: userInfo?.gender,
+                      showEdit: controller.vm.value.userId == null,
+                      editTap: () {},
+                    ),
+                    const SizedBox(height: 24),
+                    UserIntroduceWidget(
+                      title: '个人标签',
+                      content: Lists.isEmpty(userInfo?.tags)
+                          ? '暂无标签'
+                          : userInfo?.tags?.join('、'),
+                    ),
+                    const SizedBox(height: 28),
 
-                  SizedBox(height: 12),
+                    /// 用户标签信息- view
+                    UserIntroduceWidget(
+                      title: '个人简介',
+                      content: Strings.isEmpty(userInfo?.signature)
+                          ? '暂无简介'
+                          : userInfo?.signature,
+                    ),
+                    const SizedBox(height: 16),
 
-                  /// 进行中的标签
-                  UserLabelInfoWidget(
-                    labels: [
-                      '户外运动',
-                      '周末变身奶爸',
-                      '积极向上充满热情满怀希望',
-                      '这是一个特别长的标签，一行必须展示完xxxxxx',
-                    ],
-                  ),
-                  SizedBox(height: 12),
-
-                  /// 个人标签
-                  UserIntroduceWidget(
-                    title: '个人标签',
-                    content:
-                        '个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域个人签名区域',
-                  ),
-                  SizedBox(height: 28),
-
-                  /// 个人标签
-                  UserIntroduceWidget(
-                    title: '个人简介',
-                    content:
-                        '个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域个人公开介绍内容展示区域',
-                  ),
-                  SizedBox(height: 16),
-
-                  /// 图片墙- view
-                  PictureWallWidget(
-                    title: '照片墙',
-                    pictures: ['', '', '', '', ''],
-                  ),
-                  SizedBox(height: 60),
-                ],
+                    /// 照片墙
+                    PictureWallWidget(
+                      title: '照片墙',
+                      pictures: userInfo?.photos,
+                    ),
+                    const SizedBox(height: 60),
+                  ],
+                ),
               ),
             ),
-          ),
-          BottomButton(
-            rightTitle: '聊一聊',
-            leftTitle: '一起做',
-          ),
-        ],
+            Visibility(
+              visible: controller.vm.value.userId != null,
+              child: BottomButton(
+                rightTitle: '聊一聊',
+                leftTitle: '一起做',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

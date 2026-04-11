@@ -1,6 +1,25 @@
 {
-  // 个人页/我的资料（mine/user_info）；type 用 mine_user_info，避免覆盖登录 UserInfoEntity
+  // 个人页/我的资料（mine/user_info）；gen-entity type=user_info 时用下方 user_info 节点
   "mine_user_info": {
+    "id": 0,
+    "phone": "",
+    "nickname": "",
+    "avatar": "",
+    "gender": 0,
+    "birthday": "",
+    "age": 0,
+    "province": "",
+    "city": "",
+    "signature": "",
+    "tags": [
+      "sdasd"
+    ],
+    "photos": [
+      "sdasd"
+    ],
+    "hasPrivateContent": true
+  },
+  "user_info": {
     "id": 0,
     "phone": "",
     "nickname": "",

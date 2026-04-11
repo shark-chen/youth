@@ -1,4 +1,6 @@
+import 'package:youth/base/base_page.dart';
 import 'package:youth/base/base_stateless_widget.dart';
+import 'package:youth/tripartite_library/camera/camera_engine/camera_engine.dart';
 
 /// FileName: user_header_info_view
 ///
@@ -13,6 +15,9 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
     this.userName,
     this.age,
     this.address,
+    this.gender,
+    this.showEdit,
+    this.editTap,
   }) : super(key: key);
 
   /// 头像
@@ -21,11 +26,20 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
   /// 用户名称
   final String? userName;
 
-  /// 年纪
+  /// 年纪（如 `32岁`）
   final String? age;
 
-  /// 地址
+  /// 地区等副文案
   final String? address;
+
+  /// 1 男 · 2 女（与资料接口一致）
+  final int? gender;
+
+  /// 展示编辑
+  final bool? showEdit;
+
+  /// 编辑点击
+  final VoidCallback? editTap;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +73,12 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.generating_tokens),
+
+                  /// 性别图标
+                  Icon(
+                    1 == gender ? Icons.male : Icons.female,
+                    color: Colors.blue,
+                  ),
                 ],
               ),
               Text(
@@ -69,7 +88,43 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
+
+          Expanded(child: Container()),
+
+          /// 编辑按钮
+          Visibility(
+            visible: true == showEdit,
+            child: GestureDetector(
+              onTap: editTap,
+              child: Container(
+                padding:
+                    EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
+                decoration: BoxDecoration(
+                  color: ThemeColor.themeGreenColor.withOpacity(0.13),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.edit,
+                      color: ThemeColor.themeGreenColor,
+                      size: 12,
+                    ),
+                    SizedBox(width: 3),
+                    Text(
+                      '编辑',
+                      style: TextStyles(
+                        color: ThemeColor.themeGreenColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

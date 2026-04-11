@@ -100,6 +100,16 @@ class AppConfig {
     return '/api/user/profile';
   }
 
+  /// 他人资料（path: userId）
+  static String getUserByUserIdUrl(int userId) {
+    return '/api/user/$userId';
+  }
+
+  /// 上传头像（POST multipart，字段名 `file`）
+  static String get getUserAvatarUrl {
+    return '/api/user/avatar';
+  }
+
   /// 获取当前热门的正在做标签列表
   static String get getStatusHotTagsUrl {
     return '/api/status/hot-tags';

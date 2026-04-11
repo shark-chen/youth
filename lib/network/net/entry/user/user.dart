@@ -1,4 +1,5 @@
-import 'package:get/get_utils/src/platform/platform.dart';
+import 'package:dio/dio.dart';
+
 import '../../../../config/environment_config/app_config.dart';
 import '../../net_mixin.dart';
 import '../../net_result.dart';
@@ -21,6 +22,35 @@ class User extends NetMixin<User> {
   /// 获取当前登录用户的信息
   Future<NetResult<T>> requestUserInfo<T>() async {
     return await get<T>(AppConfig.getUserInfoUrl);
+  }
+
+  /// 他人信息
+  Future<NetResult<T>> requestUserByUserId<T>({
+    required int userId,
+  }) async {
+    return await get<T>(AppConfig.getUserByUserIdUrl(userId));
+  }
+
+  /// 上传头像（multipart 字段 `file`）
+  Future<NetResult<T>> requestUploadUserAvatar<T>(MultipartFile file) async {
+    final formData = FormData.fromMap(<String, dynamic>{'file': file});
+    return await post<T>(
+      AppConfig.getUserAvatarUrl,
+      data: formData,
+      isFormData: false,
+    );
+  }
+
+  /// 使用本地文件路径上传头像
+  Future<NetResult<T>> requestUploadUserAvatarFromPath<T>(
+    String filePath, {
+    String? filename,
+  }) async {
+    final file = await MultipartFile.fromFile(
+      filePath,
+      filename: filename,
+    );
+    return requestUploadUserAvatar<T>(file);
   }
 
   /// 更新当前登录用户的信息
