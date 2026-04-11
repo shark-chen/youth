@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:youth/base/base_vm.dart';
 import 'package:youth/widget/region_picker/region_picker_data.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
+import '../../sex_select/model/user_info_param.dart';
 
 /// FileName: city_set_vm
 ///
@@ -16,6 +17,9 @@ class CitySetVM extends BaseVM {
 
   /// 选择的省市区
   RegionPickerSelection? selectRegion;
+
+  /// 注册登录用户信息参数
+  UserInfoParam? userInfoParam;
 
   @override
   void onInit() async {

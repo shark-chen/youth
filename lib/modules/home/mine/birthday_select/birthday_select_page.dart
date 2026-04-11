@@ -134,7 +134,7 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                 leftTitle: '上一个',
                 leftTap: controller.closePage,
                 rightTitle: '下一个',
-                rightTap: controller.updateUserInfo,
+                rightTap: controller.pushCitySetPage,
               ),
             ),
           ],

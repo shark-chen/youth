@@ -17,9 +17,4 @@ enum Sex {
 class SexSelectVM extends BaseVM {
   /// 性别
   Sex? sex;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 }

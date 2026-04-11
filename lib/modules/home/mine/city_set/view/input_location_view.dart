@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:youth/base/base_stateless_widget.dart';
 import 'package:youth/modules/login/view/verify_error_view.dart';
-import 'package:youth/tripartite_library/tripartite_library.dart';
 
 /// FileName: input_location_view
 ///

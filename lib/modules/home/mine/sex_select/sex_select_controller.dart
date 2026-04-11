@@ -1,5 +1,5 @@
 import 'package:youth/base/base_controller.dart';
-import 'package:youth/network/net/entry/user/user.dart';
+import 'model/user_info_param.dart';
 import 'view_model/sex_select_vm.dart';
 
 /// FileName: sex_select_controller
@@ -11,28 +11,6 @@ import 'view_model/sex_select_vm.dart';
 class SexSelectController extends BaseController {
   /// vm
   Rx<SexSelectVM> vm = SexSelectVM().obs;
-
-  @override
-  void onInit() async {
-    super.onInit();
-  }
-
-  /// mark - request
-  /// request - 更新当前登录用户的信息
-  /// gender: 性别：0-未知，1-男，2-女
-  Future<bool> requestUpdateUserInfo({
-    int? gender,
-  }) async {
-    var response = await Net.value<User>().requestUpdateUserInfo(
-      gender: gender,
-    );
-    if (response.success) {
-      return true;
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-      return false;
-    }
-  }
 
   /// mark - method
   ///
@@ -49,11 +27,6 @@ class SexSelectController extends BaseController {
       return;
     }
 
-    /// request - 更新当前登录用户的信息
-    final result =
-        await requestUpdateUserInfo(gender: Sex.boy == vm.value.sex ? 1 : 2);
-    if (!result) return;
-
     /// push-生日选择-页面-page
     await pushBirthdaySelectPage();
   }
@@ -62,6 +35,8 @@ class SexSelectController extends BaseController {
   ///
   /// push-生日选择-页面-page
   Future pushBirthdaySelectPage() async {
-    await Get.toNamed(Routes.birthdaySelectPage);
+    UserInfoParam param = UserInfoParam();
+    param.gender = Sex.boy == vm.value.sex ? 1 : 2;
+    await Get.toNamed(Routes.birthdaySelectPage, arguments: param);
   }
 }

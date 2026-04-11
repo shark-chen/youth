@@ -12,7 +12,12 @@ import 'view/doing_list_header_view.dart';
 class DoingListPage extends BasePage<DoingListController> {
   const DoingListPage({Key? key}) : super(key: key);
 
-  static const _demoNames = ['小雨', '阿宁', '橙子', 'Momo', '阿哲'];
+  /// 与 [SexSelectController] 一致：1 男 · 2 女
+  static bool? _sexFromGender(int? gender) {
+    if (gender == 1) return true;
+    if (gender == 2) return false;
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,27 +68,40 @@ class DoingListPage extends BasePage<DoingListController> {
             );
           }),
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.only(top: 6, bottom: 24),
-              itemCount: 20,
-              itemBuilder: (BuildContext context, int index) {
-                final name = _demoNames[index % _demoNames.length];
-                final isMale = index % 3 != 1;
-                return DoingListCell(
-                  headerIcon:
-                      'https://i.pravatar.cc/128?img=${(index % 70) + 1}',
-                  name: name,
-                  sex: isMale,
-                  age: '${22 + (index % 18)}',
-                  address: index.isEven ? '深圳' : '广州',
-                  signature: '不讨好，不迎合，不够讨喜，但是做自己最真实',
-                  isOnline: index == 0,
-                  onKnockTap: () {},
-                  onTogetherTap: () {},
+            child: Obx(() {
+              if (Lists.isEmpty(controller.rows)) {
+                return Center(
+                  child: Text(
+                    '暂无同频用户',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.45),
+                      fontSize: 15,
+                    ),
+                  ),
                 );
-              },
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-            ),
+              }
+              return ListView.separated(
+                padding: const EdgeInsets.only(top: 6, bottom: 24),
+                itemCount: controller.rows?.length ?? 0,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = controller.rows?[index];
+                  return DoingListCell(
+                    headerIcon: item?.avatar,
+                    name: item?.nickname,
+                    sex: _sexFromGender(item?.gender),
+                    age: item?.age != null ? '${item?.age}' : null,
+                    address: item?.city,
+                    signature: item?.signature,
+                    isOnline: false,
+                    onKnockTap: item?.userId != null
+                        ? () => controller.requestKnockSend(item!.userId!)
+                        : null,
+                    onTogetherTap: () => controller.requestTogetherCreate(),
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
+              );
+            }),
           ),
         ],
       ),

@@ -1,5 +1,7 @@
 import 'package:youth/base/base_vm.dart';
 
+import '../model/doing_list_entity.dart';
+
 /// FileName: doing_list_vm
 ///
 /// @Author 谌文
@@ -13,8 +15,29 @@ class DoingListVM extends BaseVM {
   /// 「有 N 人也在」
   int samePeopleCount = 318;
 
+  /// 正在做的人列表数据
+  DoingListEntity? doingListEntity;
+
   @override
   void onInit() {
     super.onInit();
+  }
+
+  /// 配置正在做的事情数据
+  void configDoingListEntity(DoingListEntity? value) {
+    doingListEntity = value;
+    final tag = value?.tagName;
+    if (tag != null && tag.isNotEmpty) {
+      activityTitle = tag;
+    }
+    final t = value?.total;
+    if (t != null) {
+      samePeopleCount = t;
+    }
+  }
+
+  /// 获取列表数据
+  List<DoingListList>? get rows {
+    return doingListEntity?.list;
   }
 }

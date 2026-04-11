@@ -24,6 +24,8 @@ class Global {
         return accessToken.value;
       }
       return 'Bearer ' +
+          'eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVUaW1lIjoxNzc1ODc1NTYwNzQ4LCJ1c2VySWQiOjEwMiwic3ViIjoiMTAyIiwiaWF0IjoxNzc1ODc1NTYwLCJleHAiOjE3NzY0ODAzNjB9.kS2e3l6dNkYTqvZAM0czA41djt8VJ0K5O4zoo-AEV3jbULaybRZ64KaSxxZ-5BYh2S4dQjwZLC8pWXNCZF6SAA';
+      return 'Bearer ' +
           'eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVUaW1lIjoxNzc1NDY1Nzg2Nzk3LCJ1c2VySWQiOjEsInN1YiI6IjEiLCJpYXQiOjE3NzU0NjU3ODYsImV4cCI6MTc3NjA3MDU4Nn0.VpXf1-L1wTSOTVp6Su-ge4ntjs1RHb3-v33MAYCZPaaTheJCdR8LN-nfIc9YZz5laXaa8358rXzltai1236Qyw';
       accessToken.value =
           await Stores().get<String>('appLoginToken', userLat: false) ?? '';
@@ -33,12 +35,8 @@ class Global {
     }
   }
 
-  /// 设置登录
-  /// updateSaveAccountToken: 用于更新多账号登录时，当前账号的token
-  static Future setAccessToken(
-    String token, {
-    bool? updateSaveAccountToken = false,
-  }) async {
+  /// 设置保存token
+  static Future setAccessToken(String token) async {
     try {
       if (Strings.isEmpty(token)) return;
       if (token == accessToken.value) {
@@ -137,38 +135,3 @@ class Global {
   }
 }
 
-class RunTimeCache {
-  static Map<String, dynamic> cacheMap = {};
-
-  static void setInt(String key, int value) {
-    cacheMap[key] = value;
-  }
-
-  static void setString(String key, String value) {
-    cacheMap[key] = value;
-  }
-
-  static void set(String key, dynamic value) {
-    cacheMap[key] = value;
-  }
-
-  static int? getInt(String key) {
-    return cacheMap[key];
-  }
-
-  static String? getString(String key) {
-    return cacheMap[key];
-  }
-
-  static dynamic get(String key) {
-    return cacheMap[key];
-  }
-
-  static dynamic delKey(String key) {
-    return cacheMap.remove(key);
-  }
-
-  static void clear() {
-    return cacheMap.clear();
-  }
-}

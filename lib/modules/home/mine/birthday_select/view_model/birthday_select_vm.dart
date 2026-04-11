@@ -1,4 +1,5 @@
 import 'package:youth/base/base_vm.dart';
+import '../../sex_select/model/user_info_param.dart';
 import '../model/birthday_picker_model.dart';
 
 /// FileName: birthday_select_vm
@@ -26,8 +27,8 @@ class BirthdaySelectVM extends BaseVM {
     pickerModel.selectDay = picked.day;
   }
 
-  @override
-  void onInit() {}
+  /// 注册登录用户信息参数
+  UserInfoParam? userInfoParam;
 
   /// 滚轮与选中值纯数据
   final BirthdayPickerModel pickerModel;
@@ -38,7 +39,8 @@ class BirthdaySelectVM extends BaseVM {
         pickerModel.selectDay,
       );
 
-  String get selectedDateText {
+  /// 选择的生日
+  String get selectedBirthday {
     String two(int v) => v < 10 ? '0$v' : '$v';
     return '${pickerModel.selectYear}-${two(pickerModel.selectMonth)}-${two(pickerModel.selectDay)}';
   }

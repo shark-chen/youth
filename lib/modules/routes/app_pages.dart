@@ -131,5 +131,13 @@ class AppPages {
       binding: CitySetBinding(),
       transition: Transition.rightToLeft,
     ),
+
+    /// 个人中心
+    GetPage(
+      name: Routes.userInfoPage,
+      page: () => UserInfoPage(),
+      binding: UserInfoBinding(),
+      transition: Transition.rightToLeft,
+    ),
   ];
 }

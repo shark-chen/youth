@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../../../base/base_page.dart';
 import 'hall_controller.dart';
 import 'view/card_stack_view.dart';
@@ -22,17 +24,20 @@ class HallPage extends BasePage<HallController> {
           child: Row(
             children: [
               SizedBox(width: 14),
-              Container(
-                height: 32,
-                width: 32,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: ThemeColor.whiteColor,
-                  borderRadius: BorderRadius.circular(32),
-                ),
-                child: Text(
-                  '头像',
-                  style: TextStyles(),
+              GestureDetector(
+                onTap: controller.pushUserInfoPage,
+                child: Container(
+                  height: 32,
+                  width: 32,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: ThemeColor.whiteColor,
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                  child: Text(
+                    '头像',
+                    style: TextStyles(),
+                  ),
                 ),
               ),
             ],
@@ -67,15 +72,18 @@ class HallPage extends BasePage<HallController> {
               child: Spacer(),
             ),
 
-            /// 找人卡片
+            /// 热门活动卡片
             Visibility(
               visible: controller.findPrompt,
               child: Center(
                 child: CardStackPage(
                   findTap: controller.clickStartFindFriend,
+                  hotTags: controller.vm.value.hotTags,
                 ),
               ),
             ),
+
+            /// 找人卡片
             Visibility(
               visible: !controller.findPrompt,
               child: Padding(

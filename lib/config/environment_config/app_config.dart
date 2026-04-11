@@ -110,6 +110,16 @@ class AppConfig {
     return '/api/status/doing/$tagId';
   }
 
+  /// 敲一下（POST body: toUserId）
+  static String get getKnockSendUrl {
+    return '/api/knock/send';
+  }
+
+  /// 发起一起做活动（POST body: tagName）
+  static String get getTogetherCreateUrl {
+    return '/api/together/create';
+  }
+
 
 
 

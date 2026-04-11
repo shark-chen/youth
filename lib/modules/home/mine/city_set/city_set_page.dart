@@ -1,5 +1,4 @@
 import 'package:youth/base/base_page.dart';
-
 import '../birthday_select/view/bottom_double_btn_view.dart';
 import 'city_set_controller.dart';
 import 'view/input_location_view.dart';

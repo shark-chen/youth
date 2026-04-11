@@ -13,7 +13,6 @@ import '../../interceptor/auto_login_interceptor.dart';
 import '../../interceptor/cache_interceptor.dart';
 import '../../interceptor/header_interceptor.dart';
 import '../../interceptor/report_interceptor.dart';
-import '../../interceptor/token_interceptor.dart';
 import '../../net_mixin.dart';
 import '../../net_result.dart';
 import '../../request.dart';
@@ -142,7 +141,6 @@ class DioNet implements Request {
         ..connectTimeout = mixin.connectTimeout;
       if (addInterceptor == false) {
         addInterceptor = true;
-        dioNet.interceptors.add(TokenInterceptor());
         dioNet.interceptors.add(AutoLoginInterceptor());
         dioNet.interceptors.add(ReportInterceptor());
         dioNet.interceptors.add(HeaderInterceptor());

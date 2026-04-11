@@ -4,7 +4,8 @@ import 'config_model.dart';
 class DevConfig extends Config {
   DevConfig({this.configModel}) {
     configModel ??= ConfigModel(
-      serverHost: "http://localhost:8080",
+      serverHost: "https://api.onemayy.com",
+      // serverHost: "http://localhost:8080",
       // serverHost: 'https://bs8-priv-www.meiyunji.net',
       clientHost:'https://bs8-priv-www.meiyunji.net',
       blogHost: 'https://bs8-priv-www.meiyunji.net',

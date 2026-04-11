@@ -12,7 +12,7 @@ class LaunchController extends GetxController {
   void onInit() async {
     super.onInit();
     var token = await Global.getAccessToken;
-    if (Strings.isNotEmpty(token) && false) {
+    if (Strings.isNotEmpty(token)) {
       await Get.offAllNamed(Routes.homePage);
     } else {
       /// 如果网络和服务器正常，请求服务器检测更新

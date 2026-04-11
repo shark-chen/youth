@@ -1,5 +1,5 @@
 import 'package:youth/base/base_controller.dart';
-import 'package:youth/network/net/entry/user/user.dart';
+import '../sex_select/model/user_info_param.dart';
 import 'view_model/birthday_select_vm.dart';
 
 /// FileName: birthday_select_controller
@@ -10,18 +10,14 @@ import 'view_model/birthday_select_vm.dart';
 /// @Description 生日选择-controller（请求、路由）
 class BirthdaySelectController extends BaseController {
   /// vm
-  late final Rx<BirthdaySelectVM> vm;
+  Rx<BirthdaySelectVM> vm = BirthdaySelectVM().obs;
 
-  BirthdaySelectController({
-    int? minYear,
-    int? maxYear,
-    DateTime? initialDate,
-  }) {
-    vm = BirthdaySelectVM(
-      minYear: minYear,
-      maxYear: maxYear,
-      initialDate: initialDate,
-    ).obs;
+  /// 构造函数
+  BirthdaySelectController({UserInfoParam? userInfoParam}) {
+    vm.value.userInfoParam = userInfoParam;
+    if (userInfoParam == null) {
+      vm.value.userInfoParam = UserInfoParam();
+    }
   }
 
   @override
@@ -59,38 +55,14 @@ class BirthdaySelectController extends BaseController {
     vm.refresh();
   }
 
-  /// mark - request
-  /// request - 更新当前登录用户的信息
-  /// birthday: 生日: 1995-06-15
-  Future<bool> requestUpdateUserInfo({
-    String? birthday,
-  }) async {
-    var response = await Net.value<User>().requestUpdateUserInfo(
-      birthday: birthday,
-    );
-    if (response.success) {
-      return true;
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-      return false;
-    }
-  }
-
-  /// 更新用户信息
-  Future updateUserInfo() async {
-    /// request - 更新当前登录用户的信息
-    final result =
-        await requestUpdateUserInfo(birthday: vm.value.selectedDateText);
-    if (!result) return;
-
-    /// push-城市选择-页面-page
-    await pushCitySetPage();
-  }
-
   /// mark - push
   ///
   /// push-城市选择-页面-page
   Future pushCitySetPage() async {
-    await Get.toNamed(Routes.citySetPage);
+    vm.value.userInfoParam?.birthday = vm.value.selectedBirthday;
+    await Get.toNamed(
+      Routes.citySetPage,
+      arguments: vm.value.userInfoParam,
+    );
   }
 }

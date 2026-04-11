@@ -3,6 +3,7 @@ import 'package:youth/base/base_controller.dart';
 import 'package:youth/network/net/entry/user/user.dart';
 import 'package:youth/utils/marco/debug_print.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
+import '../sex_select/model/user_info_param.dart';
 import 'view_model/city_set_vm.dart';
 
 /// FileName: city_set_controller
@@ -12,6 +13,14 @@ import 'view_model/city_set_vm.dart';
 ///
 /// @Description 地区设置-controller
 class CitySetController extends BaseController {
+  /// 构造函数
+  CitySetController({UserInfoParam? userInfoParam}) {
+    vm.value.userInfoParam = userInfoParam;
+    if (userInfoParam == null) {
+      vm.value.userInfoParam = UserInfoParam();
+    }
+  }
+
   /// vm
   Rx<CitySetVM> vm = CitySetVM().obs;
 
@@ -44,7 +53,8 @@ class CitySetController extends BaseController {
     /// request - 更新当前登录用户的信息
     final result = await requestUpdateUserInfo(
       province: selection?.province,
-      city: '${selection?.city}' + '/' + '${selection?.district}',
+      city: selection?.city,
+      district: selection?.district,
     );
     if (!result) return;
 
@@ -58,11 +68,15 @@ class CitySetController extends BaseController {
   Future<bool> requestUpdateUserInfo({
     String? province,
     String? city,
+    String? district,
   }) async {
     EasyLoading.show();
     var response = await Net.value<User>().requestUpdateUserInfo(
+      gender: vm.value.userInfoParam?.gender,
+      birthday: vm.value.userInfoParam?.birthday,
       province: province,
       city: city,
+      district: district,
     );
     EasyLoading.dismiss();
     if (response.success) {

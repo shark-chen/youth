@@ -28,17 +28,20 @@ class User extends NetMixin<User> {
   /// birthday: 生日: 1995-06-15
   /// province: 省份: 广东省
   /// city: 城市
+  /// district: 区，县
   Future<NetResult<T>> requestUpdateUserInfo<T>({
     int? gender,
     String? birthday,
     String? province,
     String? city,
+    String? district,
   }) async {
     var params = {
       'gender': gender,
       'birthday': birthday,
       'province': province,
       'city': city,
+      'district': district,
     };
     return await put<T>(AppConfig.getUserInfoUrl, data: params);
   }

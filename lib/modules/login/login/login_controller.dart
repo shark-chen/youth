@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:youth/modules/user/global.dart';
 import 'package:youth/network/net/entry/user/user.dart';
 import '../../../base/base_controller.dart';
 import 'view_model/login_vm.dart';
@@ -29,8 +30,6 @@ class LoginController extends BaseController {
   Future clickLogin() async {
     hideKeyboard();
     vm.refresh();
-    await Get.offAllNamed(Routes.homePage);
-    return;
 
     /// 校验手机号验证码
     bool isCheck = vm.value.checkLogin;
@@ -48,6 +47,13 @@ class LoginController extends BaseController {
       code: vm.value.verifyCodeController.text,
     );
     if (user == null) return;
+    if (Strings.isEmpty(user.token)) {
+      EasyLoading.showToast('登录失败');
+      return;
+    }
+
+    /// 设置保存token
+    Global.setAccessToken(user.token ?? '');
     if (true == user.isNewUser) {
       /// push-个人信息补充模块页面
       await pushSexSelectPage();

@@ -3,8 +3,6 @@ import 'channel/camera_view_script_channel.dart';
 import 'channel/dialog_script_channel.dart';
 import 'channel/global_script_channel.dart';
 import 'channel/reload_script_channel.dart';
-
-import 'channel/token_script_channel.dart';
 import 'webView_script_channel.dart';
 import 'webview_page/base_web_view_controller.dart';
 
@@ -18,7 +16,6 @@ class WebViewScriptConfig {
       DialogScriptChannel('PostDialog', controller),
       GlobalScriptChannel('Global', controller),
       ReloadScriptChannel('Reload', controller),
-      TokenScriptChannel('TokenManage', controller),
     ];
   }
 }

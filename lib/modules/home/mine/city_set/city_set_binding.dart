@@ -1,4 +1,5 @@
 import 'package:youth/base/base_bindings.dart';
+import '../sex_select/model/user_info_param.dart';
 import 'city_set_controller.dart';
 
 /// FileName: city_set_binding
@@ -10,6 +11,12 @@ import 'city_set_controller.dart';
 class CitySetBinding extends BaseBindings {
   @override
   void dependencies() {
-    Get.lazyPut<CitySetController>(() => CitySetController());
+    if (Get.arguments != null && Get.arguments is UserInfoParam) {
+      Get.lazyPut<CitySetController>(
+        () => CitySetController(userInfoParam: Get.arguments),
+      );
+    } else {
+      Get.lazyPut<CitySetController>(() => CitySetController());
+    }
   }
 }
