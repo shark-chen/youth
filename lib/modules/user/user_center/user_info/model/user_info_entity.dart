@@ -1,21 +1,21 @@
-import 'package:youth/generated/json/succeed/user_info_entity.g.dart';
+import 'package:youth/generated/json/succeed/login_user_info_entity.g.dart';
 import 'dart:convert';
 import 'package:youth/utils/extension/maps/maps.dart';
-export 'package:youth/generated/json/succeed/user_info_entity.g.dart';
+export 'package:youth/generated/json/succeed/login_user_info_entity.g.dart';
 
-class UserInfoEntity {
+class LoginUserInfoEntity {
   String? token;
   int? userId;
   bool? isNewUser;
-  UserInfoUserInfo? userInfo;
+  LoginUserInfoUserInfo? userInfo;
 
-  UserInfoEntity();
+  LoginUserInfoEntity();
 
-  factory UserInfoEntity.fromJson(dynamic json) {
+  factory LoginUserInfoEntity.fromJson(dynamic json) {
     if (Maps.isNotEmpty(json)) {
-      return $UserInfoEntityFromJson(json);
+      return $LoginUserInfoEntityFromJson(json);
     }
-    return UserInfoEntity();
+    return LoginUserInfoEntity();
   }
 
   Map<String, dynamic> toJson() => $UserInfoEntityToJson(this);
@@ -26,23 +26,23 @@ class UserInfoEntity {
   }
 }
 
-class UserInfoUserInfo {
+class LoginUserInfoUserInfo {
   int? id;
   String? phone;
   String? nickname;
   String? avatar;
   int? gender;
 
-  UserInfoUserInfo();
+  LoginUserInfoUserInfo();
 
-  factory UserInfoUserInfo.fromJson(dynamic json) {
+  factory LoginUserInfoUserInfo.fromJson(dynamic json) {
     if (Maps.isNotEmpty(json)) {
-      return $UserInfoUserInfoFromJson(json);
+      return $LoginUserInfoUserInfoFromJson(json);
     }
-    return UserInfoUserInfo();
+    return LoginUserInfoUserInfo();
   }
 
-  Map<String, dynamic> toJson() => $UserInfoUserInfoToJson(this);
+  Map<String, dynamic> toJson() => $LoginUserInfoUserInfoToJson(this);
 
   @override
   String toString() {

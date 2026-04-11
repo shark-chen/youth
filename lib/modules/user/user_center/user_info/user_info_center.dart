@@ -18,7 +18,7 @@ class UserInfoCenter extends BaseUser {
   bool agreeSaveAccount = false;
 
   /// 用户信息模型属性
-  UserInfoEntity? userInfoEntity;
+  LoginUserInfoEntity? userInfoEntity;
 
   @override
   Future init() async {
@@ -33,13 +33,13 @@ class UserInfoCenter extends BaseUser {
     agreeSaveAccount = false;
   }
 
-  Future<UserInfoEntity?> get userInfo async {
+  Future<LoginUserInfoEntity?> get userInfo async {
     userInfoEntity ??= await requestUserInfo();
     return userInfoEntity;
   }
 
   /// 获取用户信息接口
-  Future<UserInfoEntity?> requestUserInfo({bool? update}) async {
+  Future<LoginUserInfoEntity?> requestUserInfo({bool? update}) async {
     if (userInfoEntity != null && update != true) return userInfoEntity;
     // var response = await NetWork.requestUserInfo();
     // if (response.code == 0) {

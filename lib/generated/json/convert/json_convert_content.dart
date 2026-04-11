@@ -15,8 +15,8 @@ typedef EnumConvertFunction<T> = T Function(String value);
 
 class JsonConvert {
   static final Map<String, JsonConvertFunction> convertFuncMap = {
-    (UserInfoEntity).toString(): UserInfoEntity.fromJson,
-    (UserInfoUserInfo).toString(): UserInfoUserInfo.fromJson,
+    (LoginUserInfoEntity).toString(): LoginUserInfoEntity.fromJson,
+    (LoginUserInfoUserInfo).toString(): LoginUserInfoUserInfo.fromJson,
     (UserProfileEntity).toString(): UserProfileEntity.fromJson,
     (DoingHotTagsEntity).toString(): DoingHotTagsEntity.fromJson,
     (DoingListEntity).toString(): DoingListEntity.fromJson,
@@ -108,16 +108,16 @@ class JsonConvert {
 
   //list is returned by type
   static M? _getListChildType<M>(List<Map<String, dynamic>> data) {
-    if (<UserInfoEntity>[] is M) {
+    if (<LoginUserInfoEntity>[] is M) {
       return data
-          .map<UserInfoEntity>(
-              (Map<String, dynamic> e) => UserInfoEntity.fromJson(e))
+          .map<LoginUserInfoEntity>(
+              (Map<String, dynamic> e) => LoginUserInfoEntity.fromJson(e))
           .toList() as M;
     }
-    if (<UserInfoUserInfo>[] is M) {
+    if (<LoginUserInfoUserInfo>[] is M) {
       return data
-          .map<UserInfoUserInfo>(
-              (Map<String, dynamic> e) => UserInfoUserInfo.fromJson(e))
+          .map<LoginUserInfoUserInfo>(
+              (Map<String, dynamic> e) => LoginUserInfoUserInfo.fromJson(e))
           .toList() as M;
     }
     if (<UserProfileEntity>[] is M) {
@@ -136,6 +136,7 @@ class JsonConvert {
       return data.map<DoingListList>((Map<String, dynamic> e) =>
           DoingListList.fromJson(e)).toList() as M;
     }
+
     debugPrint("${M.toString()} not found");
     return null;
   }

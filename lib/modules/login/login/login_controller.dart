@@ -42,7 +42,7 @@ class LoginController extends BaseController {
     }
 
     /// 请求登录
-    UserInfoEntity? user = await requestLogin(
+    LoginUserInfoEntity? user = await requestLogin(
       phone: vm.value.phoneController.text,
       code: vm.value.verifyCodeController.text,
     );
@@ -87,11 +87,11 @@ class LoginController extends BaseController {
   /// mark - request
   ///
   /// request - 请求登录
-  Future<UserInfoEntity?> requestLogin({
+  Future<LoginUserInfoEntity?> requestLogin({
     required String phone,
     required String code,
   }) async {
-    var response = await Net.value<User>().requestAuthLogin<UserInfoEntity>(
+    var response = await Net.value<User>().requestAuthLogin<LoginUserInfoEntity>(
       phone: phone,
       code: code,
     );

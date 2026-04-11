@@ -132,17 +132,17 @@ class UserCenter extends BaseUser {
   /// MARK: -用户信息模块 - UserInfoCenter
 
   /// 获取用户信息+信息为空会请求-之后使用缓存
-  Future<UserInfoEntity?> get userInfo async {
+  Future<LoginUserInfoEntity?> get userInfo async {
     return await UserInfoCenter().userInfo;
   }
 
   /// 使用缓存
-  UserInfoEntity? get user {
+  LoginUserInfoEntity? get user {
     return UserInfoCenter().userInfoEntity;
   }
 
   /// request-获取用户信息接口
-  Future<UserInfoEntity?> requestUserInfo({bool? update}) async {
+  Future<LoginUserInfoEntity?> requestUserInfo({bool? update}) async {
     return UserInfoCenter().requestUserInfo(update: update);
   }
 
