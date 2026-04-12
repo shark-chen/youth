@@ -47,7 +47,6 @@
 3. **网络**：在对应 **`NetMixin`** 入口类（如 `User`、`Doing`）增加方法；URL 放 **`AppConfig`**；勿绕过拦截器另起裸 Dio。
 4. **模型**：优先 **`scripts/json_entity.py` + `lib/generated/jason.json5`**（见 `docs/gen-entity.md`），并在 **`json_convert_content.dart`** 注册类型。
 5. **UI**：颜色优先 **`ThemeColor`**；列表/滚动注意 **`Column` 在 `SingleChildScrollView` 内须 `mainAxisSize: MainAxisSize.min`**；`Obx` 与 `ScrollView` 嵌套时优先 **`Obx` 包在外层**并配合 **`SizedBox.expand`**（见资料页踩坑总结）。
-6. **文案**：优先 **`LocaleKeys` / `generated/locales.g.dart`**，避免大面积硬编码。
 7. **范围**：只改任务相关文件；不做无关大重构或擅自升级依赖。
 
 ---

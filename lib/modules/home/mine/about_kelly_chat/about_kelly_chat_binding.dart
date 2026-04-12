@@ -1,5 +1,4 @@
 import 'package:youth/base/base_bindings.dart';
-
 import 'about_kelly_chat_controller.dart';
 
 /// FileName: about_kelly_chat_binding
