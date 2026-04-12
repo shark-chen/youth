@@ -1,0 +1,59 @@
+---
+description: Youth Flutter 核心约定（GetX、路由、网络、ThemeColor）与 Agent 工作流（任务计划、backlog、交接）
+alwaysApply: true
+---
+
+# Youth（Kelly）Flutter
+
+详细目录与索引见仓库根目录 **AGENTS.md**；本规则为 Agent **必须遵守**的硬约定与工作流。
+
+## 技术栈
+
+- **状态与路由**：**GetX**（`GetPage`、`Bindings`、`BaseController`、`Rx` / `.obs`）。不要默认引入 Riverpod / Bloc / Provider 替代现有方案。
+- **网络**：使用 **`lib/network/`**（`Net` / `NetMixin`、`DioNet`）与拦截器；不要为业务单开无 Token 的裸 Dio。
+- **模型**：生成物在 **`lib/generated/json/`**；勿手改 `*.g.dart`。新类型须在 **`lib/generated/json/convert/json_convert_content.dart`** 注册（见 **`docs/gen-entity.md`**）。
+
+## 新页面 / 新功能
+
+- 业务放在 **`lib/modules/`** 对应子域；典型：**`*Page` + `*Controller` + `*Binding`**，可选 **`view_model/`**。
+- 新路由：在 **`lib/modules/routes/app_routes.dart`** 增加 **`Routes`** 常量，在 **`app_pages.dart`** 注册 **`GetPage`** + **Binding**。
+- 包名 **`youth`**；import 使用 **`package:youth/...`**。
+
+## UI
+
+- 颜色与样式优先 **`lib/utils/utils/theme_color.dart`（`ThemeColor`）**；避免业务里堆魔法数色值。
+- **`Column` + `SingleChildScrollView`**：内层 **`Column`** 使用 **`mainAxisSize: MainAxisSize.min`**；**`Obx` 不要作为 `SingleChildScrollView` 唯一直接子级**——用 **`Obx(() => SizedBox.expand(child: SingleChildScrollView(...)))`** 等模式避免布局 `size: MISSING`。
+
+## 日志与异常
+
+- 调试输出优先项目内 **`DebugPrint`**（若存在），避免随意 **`print`**。
+- 不要无故吞掉关键异常；加载态与 **`EasyLoading`** 等与现有模块一致。
+
+## 协作
+
+- **只改任务相关文件**；不做无关大范围格式化或擅自升级依赖。
+- 对用户说明、提交信息默认 **简体中文**（与用户当轮要求冲突时以用户为准）。
+
+## 任务计划（避免过早宣告完成）
+
+多阶段任务将计划与勾选写在本机 **`.cursor/task-plan.md`**（**已 gitignore**），结构见 **`.cursor/task-plan.template.md`**。
+
+- 完成阶段后把对应项改为 **`[x]`** 并更新「当前进度」。
+- 用户说 **「对照计划检查进度」** 或汇报阶段结论前，**先读** `task-plan.md`（若存在）。
+- **`task-plan.md` 存在且仍有 `[ ]` 未勾选时，不得宣称整体任务已完成**。
+- 计划正文**只**写 `task-plan.md`，除非用户明确要求写入仓库内其他 md。
+
+## 发现即记录
+
+超出当前任务范围但值得记下的发现，**追加**到本机 **`.cursor/agent-backlog.md`**（**gitignore**），一行一条；格式见 **`.cursor/agent-backlog.template.md`**。勿整文件覆盖。默认**不**把 backlog 正文写入仓库内可跟踪 md。
+
+## 会话交接
+
+用户表示 **交接 / 收尾 / 会话摘要** 或本轮交付且用户收工时，输出 **简体中文 Markdown「会话交接」**，须覆盖：日期、目标与结论、涉及文件、未完成/风险、**任务计划进度**（有 `task-plan.md` 则如实勾选概况）、**下次建议第一步**、**观察到但未处理**（对照 `agent-backlog.md` 若存在）。
+
+用户要求落盘时 **只** 写入 **`.cursor/session-handoff.md`**（gitignore），结构见 **`.cursor/session-handoff.template.md`**。
+
+## 技能索引
+
+- **项目约定与目录**：`.cursor/skills/youth-flutter-conventions/SKILL.md`
+- **任务计划 / backlog / 交接**：`.cursor/skills/youth-agent-workflow/SKILL.md`
