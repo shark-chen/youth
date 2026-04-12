@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:youth/network/net/entry/doing/doing.dart';
-
 import '../../../base/base_controller.dart';
 import '../doing/model/doing_hot_tags_entity.dart';
 import 'view_model/hall_vm.dart';
@@ -84,6 +83,6 @@ class HallController extends BaseController
   ///
   /// 个人信息页面
   Future pushUserInfoPage() async {
-    await Get.toNamed(Routes.userInfoPage);
+    await Get.toNamed(Routes.minePage);
   }
 }

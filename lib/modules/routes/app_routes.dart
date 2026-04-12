@@ -32,4 +32,6 @@ abstract class Routes {
   static const birthdaySelectPage = '/birthdaySelectPage';
   static const citySelectPage = '/citySelectPage';
   static const citySetPage = '/citySetPage';
+  static const minePage = '/minePage';
+  static const aboutKellyChatPage = '/aboutKellyChatPage';
 }

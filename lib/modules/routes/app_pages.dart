@@ -1,7 +1,6 @@
 import 'package:youth/config/environment_config/app_config.dart';
 import 'package:youth/tripartite_library/webview/webview_page/base_webview_binding.dart';
 import '../../tripartite_library/webview/webview_page/base_webview_page.dart';
-import 'package:youth/tripartite_library/get/get_page_sheet.dart';
 import '../modules.dart';
 
 part 'app_routes.dart';
@@ -137,6 +136,22 @@ class AppPages {
       name: Routes.userInfoPage,
       page: () => UserInfoPage(),
       binding: UserInfoBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 我的
+    GetPage(
+      name: Routes.minePage,
+      page: () => const MinePage(),
+      binding: MineBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 关于 KellyChat
+    GetPage(
+      name: Routes.aboutKellyChatPage,
+      page: () => const AboutKellyChatPage(),
+      binding: AboutKellyChatBinding(),
       transition: Transition.rightToLeft,
     ),
   ];

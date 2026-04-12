@@ -4,6 +4,11 @@
 /// @Date 2026/4/4 23:57
 ///
 /// @Description 我的
+export 'about_kelly_chat/about_kelly_chat.dart';
+export 'mine_binding.dart';
+export 'mine_controller.dart';
+export 'mine_page.dart';
+
 /// 生日模块
 export 'birthday_select/birthday_select.dart';
 
