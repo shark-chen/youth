@@ -39,7 +39,7 @@ class UserInfoPage extends BasePage<UserInfoController> {
                       address: userInfo?.regionInfo,
                       gender: userInfo?.gender,
                       showEdit: controller.vm.value.userId == null,
-                      editTap: () {},
+                      editTap: controller.pushEditMineInfoPage,
                     ),
                     const SizedBox(height: 24),
                     UserIntroduceWidget(

@@ -76,7 +76,7 @@ class AboutKellyChatPage extends BasePage<AboutKellyChatController> {
                             _aboutDivider(),
                             _AboutTile(
                               title: '反馈',
-                              onTap: controller.openFeedback,
+                              onTap: controller.pushFeedback,
                             ),
                           ],
                         ),

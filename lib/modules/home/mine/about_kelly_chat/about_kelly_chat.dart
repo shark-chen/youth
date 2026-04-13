@@ -7,3 +7,4 @@
 export 'about_kelly_chat_binding.dart';
 export 'about_kelly_chat_controller.dart';
 export 'about_kelly_chat_page.dart';
+export 'feedback/feedback.dart';

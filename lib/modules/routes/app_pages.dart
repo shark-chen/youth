@@ -154,5 +154,21 @@ class AppPages {
       binding: AboutKellyChatBinding(),
       transition: Transition.rightToLeft,
     ),
+
+    /// 意见反馈
+    GetPage(
+      name: Routes.feedbackPage,
+      page: () => const FeedbackPage(),
+      binding: FeedbackBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 编辑资料
+    GetPage(
+      name: Routes.editMineInfoPage,
+      page: () => const EditMineInfoPage(),
+      binding: EditMineInfoBinding(),
+      transition: Transition.rightToLeft,
+    ),
   ];
 }

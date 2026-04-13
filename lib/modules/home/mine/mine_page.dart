@@ -1,6 +1,5 @@
 import 'package:youth/base/base_page.dart';
 import 'mine_controller.dart';
-import 'user_info/model/user_info_entity.dart';
 
 /// FileName: mine_page
 ///

@@ -59,20 +59,28 @@ class User extends NetMixin<User> {
   /// province: 省份: 广东省
   /// city: 城市
   /// district: 区，县
+  /// nickname / signature / tags / photos：按后端约定可选提交（空则不入参）
   Future<NetResult<T>> requestUpdateUserInfo<T>({
     int? gender,
     String? birthday,
     String? province,
     String? city,
     String? district,
+    String? nickname,
+    String? signature,
+    List<String>? tags,
+    List<String>? photos,
   }) async {
-    var params = {
-      'gender': gender,
-      'birthday': birthday,
-      'province': province,
-      'city': city,
-      'district': district,
-    };
+    final Map<String, dynamic> params = <String, dynamic>{};
+    if (gender != null) params['gender'] = gender;
+    if (birthday != null) params['birthday'] = birthday;
+    if (province != null) params['province'] = province;
+    if (city != null) params['city'] = city;
+    if (district != null) params['district'] = district;
+    if (nickname != null) params['nickname'] = nickname;
+    if (signature != null) params['signature'] = signature;
+    if (tags != null) params['tags'] = tags;
+    if (photos != null) params['photos'] = photos;
     return await put<T>(AppConfig.getUserInfoUrl, data: params);
   }
 

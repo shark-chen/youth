@@ -5,6 +5,7 @@
 ///
 /// @Description 我的
 export 'about_kelly_chat/about_kelly_chat.dart';
+export 'edit_mine_info/edit_mine_info.dart';
 export 'mine_binding.dart';
 export 'mine_controller.dart';
 export 'mine_page.dart';

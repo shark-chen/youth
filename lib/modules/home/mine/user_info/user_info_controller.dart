@@ -90,4 +90,11 @@ class UserInfoController extends BaseController {
       EasyLoading.showToast(response.msg ?? '');
     }
   }
+
+  /// mark - push
+  ///
+  /// 关于 KellyChat
+  Future<void> pushEditMineInfoPage() async {
+    await Get.toNamed(Routes.editMineInfoPage);
+  }
 }

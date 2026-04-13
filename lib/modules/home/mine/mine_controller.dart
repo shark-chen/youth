@@ -44,9 +44,9 @@ class MineController extends BaseController {
 
   /// mark - push
   ///
-  /// 进入「我的资料」
-  Future pushMyProfile() async {
-    await Get.toNamed(Routes.userInfoPage);
+  /// 进入「编辑资料」
+  Future<void> pushMyProfile() async {
+    final changed = await Get.toNamed(Routes.userInfoPage);
     await refreshProfile();
   }
 

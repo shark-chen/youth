@@ -20,9 +20,6 @@ class AboutKellyChatController extends BaseController {
   static const String _androidMarketUrl =
       'https://play.google.com/store/apps/details?id=com.example.youth';
 
-  /// 反馈邮箱（按需替换）
-  static const String _feedbackMail = 'support@kellychat.app';
-
   @override
   void onInit() {
     super.onInit();
@@ -67,15 +64,8 @@ class AboutKellyChatController extends BaseController {
     }
   }
 
-  /// 反馈：调起邮件
-  Future<void> openFeedback() async {
-    final uri = Uri.parse(
-      'mailto:$_feedbackMail?subject=${Uri.encodeComponent('KellyChat 反馈')}',
-    );
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    } else {
-      EasyLoading.showToast('请发送邮件至 $_feedbackMail');
-    }
+  /// 反馈：进入反馈页
+  Future pushFeedback() async {
+   await Get.toNamed(Routes.feedbackPage);
   }
 }
