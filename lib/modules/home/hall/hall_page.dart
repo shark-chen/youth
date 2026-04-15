@@ -78,7 +78,7 @@ class HallPage extends BasePage<HallController> {
               child: Center(
                 child: CardStackPage(
                   findTap: controller.clickStartFindFriend,
-                  hotTags: controller.vm.value.hotTags,
+                  aiTags: controller.vm.value.aiTags,
                 ),
               ),
             ),

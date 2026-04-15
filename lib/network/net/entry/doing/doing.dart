@@ -33,10 +33,16 @@ class Doing extends NetMixin<Doing> {
   }
 
   /// POST /api/together/create / 发起一起做活动
-  Future<NetResult<T>> requestTogetherCreate<T>({required String tagName}) async {
+  Future<NetResult<T>> requestTogetherCreate<T>(
+      {required String tagName}) async {
     return await post<T>(
       AppConfig.getTogetherCreateUrl,
       data: {'tagName': tagName},
     );
+  }
+
+  /// GET /api/match/suggestions
+  Future<NetResult<T>> requestMatchSuggestions<T>() async {
+    return await get<T>(AppConfig.getMatchSuggestionsUrl);
   }
 }

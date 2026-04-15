@@ -15,14 +15,14 @@ import '../model/card_item.dart';
 class CardStackPage extends StatefulWidget {
   CardStackPage({
     this.findTap,
-    this.hotTags,
+    this.aiTags,
   });
 
   /// 找一找点击
   final VoidCallback? findTap;
 
   /// 热门正在做标签，驱动卡片文案
-  final List<DoingHotTagsEntity>? hotTags;
+  final List<String>? aiTags;
 
   @override
   _CardStackPageState createState() => _CardStackPageState();
@@ -37,42 +37,21 @@ class _CardStackPageState extends State<CardStackPage> {
   @override
   void initState() {
     super.initState();
-    items = _tagsToItems(widget.hotTags ?? []);
+    items = _tagsToItems(widget.aiTags ?? []);
   }
 
   @override
   void didUpdateWidget(CardStackPage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!_sameTags(oldWidget.hotTags ?? [], widget.hotTags ?? [])) {
-      setState(() {
-        items = _tagsToItems(widget.hotTags ?? []);
-        position = Offset.zero;
-        angle = 0;
-      });
-    }
+    setState(() {
+      items = _tagsToItems(widget.aiTags ?? []);
+      position = Offset.zero;
+      angle = 0;
+    });
   }
 
-  static bool _sameTags(
-    List<DoingHotTagsEntity> a,
-    List<DoingHotTagsEntity> b,
-  ) {
-    if (a.length != b.length) return false;
-    for (var i = 0; i < a.length; i++) {
-      if (a[i].tagId != b[i].tagId) return false;
-    }
-    return true;
-  }
-
-  static List<CardItem> _tagsToItems(List<DoingHotTagsEntity> tags) {
-    return tags.map((e) => CardItem(_displayForTag(e))).toList();
-  }
-
-  static String _displayForTag(DoingHotTagsEntity e) {
-    final name = e.tagName?.trim() ?? '';
-    final icon = e.icon?.trim() ?? '';
-    if (icon.isNotEmpty && name.isNotEmpty) return '$icon $name';
-    if (name.isNotEmpty) return name;
-    return '热门活动';
+  static List<CardItem> _tagsToItems(List<String> tags) {
+    return tags.map((e) => CardItem(e)).toList();
   }
 
   void onPanUpdate(DragUpdateDetails details) {
@@ -116,7 +95,7 @@ class _CardStackPageState extends State<CardStackPage> {
     return Center(
       child: items.isEmpty
           ? Text(
-              Lists.isEmpty(widget.hotTags) ? '暂无热门标签' : '没有更多了',
+              Lists.isEmpty(widget.aiTags) ? '暂无热门标签' : '没有更多了',
               style: TextStyle(color: Colors.white.withOpacity(0.7)),
             )
           : Stack(

@@ -23,7 +23,8 @@ class HallController extends BaseController
   @override
   void onReady() async {
     super.onReady();
-    await requestHotTags();
+    /// 获取配对建议列表
+    await requestMatchSuggestions();
   }
 
   @override
@@ -48,15 +49,15 @@ class HallController extends BaseController
 
   /// mark - request
   ///
-  /// 获取当前热门的正在做标签列表
-  Future requestHotTags() async {
+  /// 获取配对建议列表
+  Future requestMatchSuggestions() async {
     EasyLoading.show();
     var response =
-        await Net.value<Doing>().requestHotTags<DoingHotTagsEntity>(limit: 20);
+        await Net.value<Doing>().requestMatchSuggestions<String>();
     EasyLoading.dismiss();
     if (response.succeed) {
-      /// 配置热门标签（含空列表，用于清空展示）
-      vm.value.configHotTags(response.values);
+      /// 配置AI标签（含空列表，用于清空展示）
+      vm.value.configAiTags(response.values);
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');

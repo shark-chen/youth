@@ -24,15 +24,15 @@ class HallVM extends BaseVM {
   /// 找友模式
   FindMode findMode = FindMode.findPrompt;
 
-  /// 热门标签
-  List<DoingHotTagsEntity> hotTags = [];
+  /// ai - 标签
+  List<String> aiTags = [];
 
   /// 获取列表数量
   int itemCount() => 1;
 
-  /// 配置热门标签（含空列表，用于清空展示）
-  void configHotTags(List<DoingHotTagsEntity>? values) {
-    hotTags = List<DoingHotTagsEntity>.from(values ?? const []);
+  /// 配置AI标签（含空列表，用于清空展示）
+  void configAiTags(List<String>? values) {
+    aiTags = values ?? [];
   }
 
   /// 是否是找友提示语模式

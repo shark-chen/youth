@@ -130,8 +130,10 @@ class AppConfig {
     return '/api/together/create';
   }
 
-
-
+  /// 匹配推荐 / 建议列表
+  static String get getMatchSuggestionsUrl {
+    return '/api/match/suggestions';
+  }
 
   /// 后端健康
   static String get getaActuatorHealthUrl {

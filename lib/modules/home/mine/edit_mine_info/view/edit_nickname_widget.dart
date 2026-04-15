@@ -1,4 +1,6 @@
 import 'package:youth/base/base_stateless_widget.dart';
+import 'package:youth/tripartite_library/camera/camera_engine/camera_engine.dart';
+import 'package:youth/widget/bottom_dialog/bottom_dialog.dart';
 
 /// FileName: edit_nickname_widget.dart
 ///
@@ -36,108 +38,107 @@ class EditNickNameWidget extends BaseStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(child: Container()),
-        SafeArea(
-          child: Container(
-            width: Get.width,
-            decoration: const BoxDecoration(
-              color: ThemeColor.themeColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0)),
-            ),
-            padding: const EdgeInsets.fromLTRB(20, 8, 12, 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '编辑昵称',
-                        style: TextStyle(
-                          color: ThemeColor.whiteColor,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: closeTap,
-                      icon: Icon(
-                        Icons.close,
-                        color: ThemeColor.whiteColor.withOpacity(0.9),
-                        size: 24,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  maxLength: maxLength,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: ThemeColor.whiteColor,
-                    fontSize: 16,
-                  ),
-                  cursorColor: ThemeColor.themeGreenColor,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: ThemeColor.doingListCellBgColor,
-                    hintText: '请输入昵称...',
-                    hintStyle: TextStyle(
-                      color: ThemeColor.secondaryTextColor,
-                      fontSize: 16,
-                    ),
-                    counterText: '',
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: ThemeColor.themeGreenColor.withOpacity(0.65),
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  onSubmitted: (_) => sureTap?.call(),
-                ),
-                const SizedBox(height: 24),
-                GestureDetector(
-                  onTap: sureTap,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: ThemeColor.themeGreenColor,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    alignment: Alignment.center,
-                    height: 50,
-                    width: double.infinity,
+        Container(
+          alignment: Alignment.bottomCenter,
+          width: Get.width,
+          decoration: BoxDecoration(
+            color: ThemeColor.redColor,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24.0),
+                topRight: Radius.circular(24.0)),
+          ),
+          padding: const EdgeInsets.fromLTRB(20, 8, 12, 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
                     child: Text(
-                      '确定',
+                      '编辑昵称',
                       style: TextStyle(
-                        color: ThemeColor.themeColor,
+                        color: ThemeColor.whiteColor,
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
+                  IconButton(
+                    onPressed: closeTap,
+                    icon: Icon(
+                      Icons.close,
+                      color: ThemeColor.whiteColor.withOpacity(0.9),
+                      size: 24,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: controller,
+                focusNode: focusNode,
+                maxLength: maxLength,
+                maxLines: 1,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: ThemeColor.whiteColor,
+                  fontSize: 16,
                 ),
-              ],
-            ),
+                cursorColor: ThemeColor.themeGreenColor,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: ThemeColor.doingListCellBgColor,
+                  hintText: '请输入昵称...',
+                  hintStyle: TextStyle(
+                    color: ThemeColor.secondaryTextColor,
+                    fontSize: 16,
+                  ),
+                  counterText: '',
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: ThemeColor.themeGreenColor.withOpacity(0.65),
+                      width: 1,
+                    ),
+                  ),
+                ),
+                onSubmitted: (_) => sureTap?.call(),
+              ),
+              const SizedBox(height: 24),
+              GestureDetector(
+                onTap: sureTap,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ThemeColor.themeGreenColor,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  alignment: Alignment.center,
+                  height: 50,
+                  width: double.infinity,
+                  child: Text(
+                    '确定',
+                    style: TextStyle(
+                      color: ThemeColor.themeColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
           ),
         ),
       ],
