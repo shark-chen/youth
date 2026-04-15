@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- image_picker：相册（Android 13+ / 旧版存储） -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <!-- 拍照（若使用 ImageSource.camera） -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:label="youth"
         android:name="${applicationName}"

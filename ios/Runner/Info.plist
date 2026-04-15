@@ -26,6 +26,11 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<!-- image_picker：相册 / 相机（未声明会导致访问时闪退） -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>用于在编辑资料时从相册选择头像与照片</string>
+	<key>NSCameraUsageDescription</key>
+	<string>用于拍摄头像或照片并上传</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

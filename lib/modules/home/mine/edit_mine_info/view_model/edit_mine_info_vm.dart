@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:youth/base/base_vm.dart';
@@ -27,6 +28,25 @@ class EditMineInfoVM extends BaseVM {
   List<RegionProvince>? _cachedProvinces;
 
   final ImagePicker _imagePicker = ImagePicker();
+
+  /// 相册选图：关闭 Loading、下一帧再调起，避免遮罩/重建与系统相册冲突；iOS 关闭全量元数据以减轻卡死
+  Future<XFile?> _pickImageFromGallery({
+    int imageQuality = 85,
+  }) async {
+    EasyLoading.dismiss();
+    await Future<void>.delayed(const Duration(milliseconds: 80));
+    final scheduler = SchedulerBinding.instance;
+    if (scheduler.schedulerPhase != SchedulerPhase.idle) {
+      await scheduler.endOfFrame;
+    }
+    return _imagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 2048,
+      maxHeight: 2048,
+      imageQuality: imageQuality,
+      requestFullMetadata: false,
+    );
+  }
 
   @override
   void onInit() {
@@ -190,10 +210,7 @@ class EditMineInfoVM extends BaseVM {
 
   Future<void> pickAvatarFile() async {
     try {
-      final x = await _imagePicker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 90,
-      );
+      final x = await _pickImageFromGallery(imageQuality: 90);
       if (x == null) return;
       draft.pendingAvatarLocalPath = x.path;
       refresh?.call();
@@ -205,10 +222,7 @@ class EditMineInfoVM extends BaseVM {
   Future<void> pickPhotoFile() async {
     if (draft.photos.length >= EditProfileDraft.maxPhotos) return;
     try {
-      final x = await _imagePicker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 88,
-      );
+      final x = await _pickImageFromGallery(imageQuality: 88);
       if (x == null) return;
       draft.photos.add(x.path);
       refresh?.call();
