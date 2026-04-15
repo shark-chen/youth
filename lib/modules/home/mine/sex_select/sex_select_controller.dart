@@ -1,4 +1,5 @@
 import 'package:youth/base/base_controller.dart';
+import 'model/gender.dart';
 import 'model/user_info_param.dart';
 import 'view_model/sex_select_vm.dart';
 
@@ -15,7 +16,7 @@ class SexSelectController extends BaseController {
   /// mark - method
   ///
   /// 选择性别
-  void selectSex(Sex sex) async {
+  void selectSex(Gender sex) async {
     vm.value.sex = sex;
     vm.refresh();
   }
@@ -36,7 +37,7 @@ class SexSelectController extends BaseController {
   /// push-生日选择-页面-page
   Future pushBirthdaySelectPage() async {
     UserInfoParam param = UserInfoParam();
-    param.gender = Sex.boy == vm.value.sex ? 1 : 2;
+    param.gender = Gender.boy == vm.value.sex ? 1 : 2;
     await Get.toNamed(Routes.birthdaySelectPage, arguments: param);
   }
 }

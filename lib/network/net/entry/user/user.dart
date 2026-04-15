@@ -84,6 +84,17 @@ class User extends NetMixin<User> {
     return await put<T>(AppConfig.getUserInfoUrl, data: params);
   }
 
+  /// PUT /api/user/tags
+  /// body: `{ "tags": ["标签1", "标签2"] }`（字符串数组）
+  Future<NetResult<T>> requestUpdateUserTags<T>({
+    required List<String> tags,
+  }) async {
+    return await put<T>(
+      AppConfig.getUserTagsUrl,
+      data: <String, dynamic>{'tags': tags},
+    );
+  }
+
   /// 后端健康
   Future<NetResult<T>> requestActuatorHealth<T>() async {
     return await get<T>(AppConfig.getaActuatorHealthUrl);

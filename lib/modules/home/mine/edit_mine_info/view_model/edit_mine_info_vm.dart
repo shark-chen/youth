@@ -8,6 +8,7 @@ import 'package:youth/network/net/entry/user/user.dart';
 import 'package:youth/widget/region_picker/region_picker_data.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 
+import '../../sex_select/model/gender.dart';
 import '../model/edit_profile_draft.dart';
 import '../model/edit_region_indices.dart';
 
@@ -18,7 +19,6 @@ import '../model/edit_region_indices.dart';
 ///
 /// @Description 编辑资料：数据组装、校验与网络（流程由 Controller 调度）
 class EditMineInfoVM extends BaseVM {
-
   /// 草稿
   EditProfileDraft draft = EditProfileDraft();
 
@@ -63,8 +63,7 @@ class EditMineInfoVM extends BaseVM {
 
   /// 拉取服务端资料并填充草稿
   Future<String?> loadFromServer() async {
-    final response =
-        await Net.value<User>().requestUserInfo<UserInfoEntity>();
+    final response = await Net.value<User>().requestUserInfo<UserInfoEntity>();
     if (response.succeed && response.value != null) {
       applyUserInfo(response.value);
       return null;
@@ -101,6 +100,15 @@ class EditMineInfoVM extends BaseVM {
   void setGender(int g) {
     draft.gender = g.clamp(0, 2);
     refresh?.call();
+  }
+
+  Gender? get gender {
+    if (1 == draft.gender) {
+      return Gender.boy;
+    } else if (2 == draft.gender) {
+      return Gender.girl;
+    }
+    return null;
   }
 
   void setBirthday(DateTime d) {
@@ -258,7 +266,6 @@ class EditMineInfoVM extends BaseVM {
       district: draft.district,
       nickname: draft.nickname.isEmpty ? null : draft.nickname,
       signature: draft.signature.isEmpty ? null : draft.signature,
-      tags: draft.tags.isEmpty ? null : List<String>.from(draft.tags),
       photos: remotePhotos.isEmpty ? null : remotePhotos,
     );
 

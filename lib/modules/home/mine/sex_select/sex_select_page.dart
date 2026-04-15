@@ -1,4 +1,5 @@
 import 'package:youth/base/base_page.dart';
+import 'model/gender.dart';
 import 'sex_select_controller.dart';
 import 'view_model/sex_select_vm.dart';
 
@@ -41,12 +42,12 @@ class SexSelectPage extends BasePage<SexSelectController> {
 
               /// 男
               GestureDetector(
-                onTap: () => controller.selectSex(Sex.boy),
+                onTap: () => controller.selectSex(Gender.boy),
                 child: Container(
                   height: 120,
                   margin: EdgeInsets.only(left: 45, right: 45),
                   decoration: BoxDecoration(
-                    color: (Sex.boy == controller.vm.value.sex)
+                    color: (Gender.boy == controller.vm.value.sex)
                         ? ThemeColor.poolBlueColor
                         : ThemeColor.inputBgColor,
                     borderRadius: BorderRadius.circular(16),
@@ -64,7 +65,7 @@ class SexSelectPage extends BasePage<SexSelectController> {
                           style: TextStyles(
                             fontSize: 25,
                             fontWeight: FontWeight.w600,
-                            color: (Sex.boy == controller.vm.value.sex)
+                            color: (Gender.boy == controller.vm.value.sex)
                                 ? ThemeColor.themeBlackColor
                                 : ThemeColor.whiteColor,
                           ),
@@ -84,12 +85,12 @@ class SexSelectPage extends BasePage<SexSelectController> {
 
               /// 女
               GestureDetector(
-                onTap: () => controller.selectSex(Sex.girl),
+                onTap: () => controller.selectSex(Gender.girl),
                 child: Container(
                   height: 120,
                   margin: EdgeInsets.only(left: 45, right: 45),
                   decoration: BoxDecoration(
-                    color: (Sex.girl == controller.vm.value.sex)
+                    color: (Gender.girl == controller.vm.value.sex)
                         ? ThemeColor.pinkColor
                         : ThemeColor.inputBgColor,
                     borderRadius: BorderRadius.circular(16),
@@ -112,7 +113,7 @@ class SexSelectPage extends BasePage<SexSelectController> {
                           style: TextStyles(
                             fontSize: 25,
                             fontWeight: FontWeight.w600,
-                            color: (Sex.girl == controller.vm.value.sex)
+                            color: (Gender.girl == controller.vm.value.sex)
                                 ? ThemeColor.themeBlackColor
                                 : ThemeColor.whiteColor,
                           ),

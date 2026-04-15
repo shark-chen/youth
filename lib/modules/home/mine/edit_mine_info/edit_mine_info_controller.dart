@@ -1,9 +1,10 @@
 import 'package:youth/base/base_controller.dart';
+import 'package:youth/network/net/entry/user/user.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
-import 'view/edit_nickname_widget.dart';
+import 'view/edit_gender_sheet_widget.dart';
 import 'view_model/edit_mine_info_vm.dart';
-import 'controller/edit_mine_info_route_controller.dart';
 export 'controller/edit_mine_info_route_controller.dart';
+import 'controller/edit_mine_info_route_controller.dart';
 
 /// FileName: edit_mine_info_controller
 ///
@@ -57,56 +58,49 @@ class EditMineInfoController extends BaseController {
     Get.back(result: true);
   }
 
+  /// request - 标签走独立接口 PUT /api/user/tags
+  Future requestUpdateUserTags() async {
+    EasyLoading.show();
+    final response = await Net.value<User>().requestUpdateUserTags(
+      tags: List<String>.from(vm.value.draft.tags),
+    );
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast('标签保存成功');
+    } else {
+      EasyLoading.showToast(response.msg ?? '标签保存失败');
+    }
+  }
+
+  /// 点击编辑昵称
+  Future<void> clickEditNiceName() async {
+    await pushEditNiceNameAlert(
+      title: '编辑昵称',
+      text: vm.value.draft.nickname,
+      sureCall: (value) {
+        vm.value.applyNickname(value);
+        Get.back();
+        vm.refresh();
+      },
+    );
+  }
+
+  /// 点击添加标签
+  Future<void> clickAddTags() async {
+    await pushEditNiceNameAlert(
+      title: '添加标签',
+      sureCall: (value) async  {
+        vm.value.addTag(value);
+        Get.back();
+        await requestUpdateUserTags();
+        vm.refresh();
+      },
+    );
+  }
+
   Future<void> onAvatarTap() async {
     await vm.value.pickAvatarFile();
     vm.refresh();
-  }
-
-
-
-  Future<void> onGenderTap() async {
-    final ctx = Get.context;
-    if (ctx == null) return;
-    await showModalBottomSheet<void>(
-      context: ctx,
-      backgroundColor: ThemeColor.doingListCellBgColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (c) {
-        return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: Text('男', style: TextStyle(color: ThemeColor.whiteColor)),
-                onTap: () {
-                  vm.value.setGender(1);
-                  Navigator.pop(c);
-                  vm.refresh();
-                },
-              ),
-              ListTile(
-                title: Text('女', style: TextStyle(color: ThemeColor.whiteColor)),
-                onTap: () {
-                  vm.value.setGender(2);
-                  Navigator.pop(c);
-                  vm.refresh();
-                },
-              ),
-              ListTile(
-                title: Text('未知', style: TextStyle(color: ThemeColor.whiteColor)),
-                onTap: () {
-                  vm.value.setGender(0);
-                  Navigator.pop(c);
-                  vm.refresh();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   Future<void> onBirthdayTap() async {
@@ -135,36 +129,6 @@ class EditMineInfoController extends BaseController {
       vm.value.setBirthday(picked);
       vm.refresh();
     }
-  }
-
-  Future<void> onRegionTap() async {
-    final ctx = Get.context;
-    if (ctx == null) return;
-    final provinces = await vm.value.loadProvinces();
-    if (provinces == null || provinces.isEmpty) return;
-    final idx = vm.value.regionIndices(provinces);
-    await showModalBottomSheet<void>(
-      context: ctx,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (c) {
-        return RegionPickerSheet(
-          provinces: provinces,
-          initialProvinceIndex: idx?.provinceIndex ?? 0,
-          initialCityIndex: idx?.cityIndex ?? 0,
-          initialDistrictIndex: idx?.districtIndex,
-          initialTabIndex: idx?.districtIndex != null ? 2 : 0,
-          onClose: () => Navigator.pop(c),
-          onSelectionChanged: (s) {
-            vm.value.applyRegion(s);
-            vm.refresh();
-            if (s.district.isNotEmpty) {
-              Navigator.pop(c);
-            }
-          },
-        );
-      },
-    );
   }
 
   void onTagReorder(int oldIndex, int newIndex) {

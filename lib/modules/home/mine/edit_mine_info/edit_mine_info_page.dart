@@ -39,6 +39,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    /// 基础信息
                     EditBasicInfoSection(
                       avatarUrl: d.avatarUrl,
                       avatarLocalPath: d.pendingAvatarLocalPath,
@@ -47,25 +48,31 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                       birthdayText: d.birthday ?? '',
                       regionText: v.regionDisplay(),
                       onAvatar: controller.onAvatarTap,
-                      onNickname: controller.pushEditNiceNameAlert,
-                      onGender: controller.onGenderTap,
+                      onNickname: controller.clickEditNiceName,
+                      onGender: controller.pushEditGenderAlert,
                       onBirthday: controller.onBirthdayTap,
-                      onRegion: controller.onRegionTap,
+                      onRegion: controller.pushRegionPickerAlert,
                     ),
                     const SizedBox(height: 12),
+
+                    /// 标签view
                     EditTagsSection(
                       tags: List<String>.from(d.tags),
                       maxTags: EditProfileDraft.maxTags,
                       profileCardTagCount: EditProfileDraft.profileCardTagCount,
                       onReorder: controller.onTagReorder,
-                      onAdd: controller.onAddTagTap,
+                      onAdd: controller.clickAddTags,
                     ),
                     const SizedBox(height: 12),
+
+                    /// 个人简介
                     EditSignatureSection(
                       controller: v.signatureController,
                       maxLength: EditProfileDraft.maxSignatureLength,
                     ),
                     const SizedBox(height: 16),
+
+                    /// 图片墙
                     EditPhotoWallSection(
                       photos: List<String>.from(d.photos),
                       crossAxisCount: 2,
@@ -74,6 +81,8 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                       onRemove: controller.onRemovePhoto,
                     ),
                     const SizedBox(height: 20),
+
+                    /// 密码设置
                     EditPrivateSection(
                       onAiTap: controller.onPrivateAiTap,
                       onChangePasswordTap: controller.onChangePasswordTap,

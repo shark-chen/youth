@@ -110,6 +110,11 @@ class AppConfig {
     return '/api/user/avatar';
   }
 
+  /// 更新用户标签（PUT body: `{ "tags": ["..."] }`）
+  static String get getUserTagsUrl {
+    return '/api/user/tags';
+  }
+
   /// 获取当前热门的正在做标签列表
   static String get getStatusHotTagsUrl {
     return '/api/status/hot-tags';

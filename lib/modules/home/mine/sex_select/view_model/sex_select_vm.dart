@@ -1,4 +1,6 @@
 import 'package:youth/base/base_vm.dart';
+import '../model/gender.dart';
+import '../model/user_info_param.dart';
 
 /// FileName: sex_select_vm
 ///
@@ -6,15 +8,8 @@ import 'package:youth/base/base_vm.dart';
 /// @Date 2026/3/28 23:00
 ///
 /// @Description 性别选择-vm
-enum Sex {
-  /// 男孩
-  boy,
-
-  /// 女孩
-  girl,
-}
 
 class SexSelectVM extends BaseVM {
   /// 性别
-  Sex? sex;
+  Gender? sex;
 }
