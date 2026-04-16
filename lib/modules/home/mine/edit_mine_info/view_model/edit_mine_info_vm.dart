@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:youth/base/base_vm.dart';
 import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
 import 'package:youth/network/net/entry/user/user.dart';
+import 'package:youth/utils/authority/photos_authority.dart';
 import 'package:youth/widget/region_picker/region_picker_data.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 
@@ -33,13 +34,7 @@ class EditMineInfoVM extends BaseVM {
   Future<XFile?> _pickImageFromGallery({
     int imageQuality = 85,
   }) async {
-    EasyLoading.dismiss();
-    await Future<void>.delayed(const Duration(milliseconds: 80));
-    final scheduler = SchedulerBinding.instance;
-    if (scheduler.schedulerPhase != SchedulerPhase.idle) {
-      await scheduler.endOfFrame;
-    }
-    return _imagePicker.pickImage(
+    return await _imagePicker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 2048,
       maxHeight: 2048,
@@ -210,6 +205,7 @@ class EditMineInfoVM extends BaseVM {
 
   Future<void> pickAvatarFile() async {
     try {
+      if (!await PhotosAuthority.request()) return;
       final x = await _pickImageFromGallery(imageQuality: 90);
       if (x == null) return;
       draft.pendingAvatarLocalPath = x.path;
@@ -222,6 +218,7 @@ class EditMineInfoVM extends BaseVM {
   Future<void> pickPhotoFile() async {
     if (draft.photos.length >= EditProfileDraft.maxPhotos) return;
     try {
+      if (!await PhotosAuthority.request()) return;
       final x = await _pickImageFromGallery(imageQuality: 88);
       if (x == null) return;
       draft.photos.add(x.path);
