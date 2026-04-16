@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../base/base_page.dart';
 import 'hall_controller.dart';
+import 'model/card_item.dart';
 import 'view/card_stack_view.dart';
 import 'view/find_friend_prompt_view.dart';
 import 'view/input_ai_view.dart';
@@ -72,18 +73,21 @@ class HallPage extends BasePage<HallController> {
               child: Spacer(),
             ),
 
-            /// 热门活动卡片
+            /// 热门活动卡片（提示语模式：aiTags）
             Visibility(
               visible: controller.findPrompt,
               child: Center(
                 child: CardStackPage(
-                  findTap: controller.clickStartFindFriend,
-                  aiTags: controller.vm.value.aiTags,
+                  findTap: (content) =>
+                      controller.editingController?.text = content,
+                  items: controller.vm.value.aiTags,
+                  emptyHintWhenNoData: '暂无热门标签',
+                  emptyHintWhenNoMore: '没有更多了',
                 ),
               ),
             ),
 
-            /// 找人卡片
+            /// 找人卡片（找友模式：匹配结果 friends）
             Visibility(
               visible: !controller.findPrompt,
               child: Padding(
@@ -94,7 +98,15 @@ class HallPage extends BasePage<HallController> {
             Spacer(),
 
             /// 底部输入框
-            InputAiWidget(hint: '输入你正在做的事…'),
+            InputAiWidget(
+              hint: '输入你正在做的事…',
+              controller: controller.editingController,
+              focusNode: controller.focusNode,
+              onSubmittedTap: (content) async {
+                /// 点击开始找人
+                controller.clickStartFindFriend(content);
+              },
+            ),
             SizedBox(height: 12)
           ],
         ),

@@ -2,6 +2,7 @@ import 'package:youth/base/base_stateless_widget.dart';
 import 'package:flutter/services.dart';
 import 'package:youth/base/base_stateless_widget.dart';
 import 'package:youth/modules/login/view/verify_error_view.dart';
+import 'package:youth/modules/modules.dart';
 import 'package:youth/tripartite_library/camera/cameras.dart';
 
 /// FileName: input_ai_view
@@ -16,7 +17,7 @@ class InputAiWidget extends BaseStatelessWidget {
     this.error,
     this.hint,
     this.inputTap,
-    this.onFieldSubmittedTap,
+    this.onSubmittedTap,
     this.controller,
     this.focusNode,
     this.inputFormatters,
@@ -30,7 +31,7 @@ class InputAiWidget extends BaseStatelessWidget {
   final VoidCallback? inputTap;
 
   /// 输入框点击
-  final ValueChanged? onFieldSubmittedTap;
+  final ValueChanged? onSubmittedTap;
 
   /// 输入框监控
   final TextEditingController? controller;
@@ -63,7 +64,7 @@ class InputAiWidget extends BaseStatelessWidget {
         children: [
           Expanded(
             child: TextFormField(
-              onFieldSubmitted: onFieldSubmittedTap,
+              onFieldSubmitted: onSubmittedTap,
               autocorrect: false,
               style: TextStyle(
                   fontWeight: FontWeight.w600,
@@ -86,18 +87,21 @@ class InputAiWidget extends BaseStatelessWidget {
               ),
             ),
           ),
-          Container(
-            width: 36,
-            height: 36,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(36),
-              color: ThemeColor.themeGreenColor,
-            ),
-            child: Image.asset(
-              "assets/image/common/send@3x.png",
+          GestureDetector(
+            onTap: () => onSubmittedTap?.call(controller?.text),
+            child: Container(
               width: 36,
               height: 36,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(36),
+                color: ThemeColor.themeGreenColor,
+              ),
+              child: Image.asset(
+                "assets/image/common/send@3x.png",
+                width: 36,
+                height: 36,
+              ),
             ),
           ),
           SizedBox(width: 16),

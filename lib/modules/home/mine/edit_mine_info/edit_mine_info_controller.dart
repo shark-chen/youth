@@ -5,6 +5,7 @@ import 'view/edit_gender_sheet_widget.dart';
 import 'view_model/edit_mine_info_vm.dart';
 export 'controller/edit_mine_info_route_controller.dart';
 import 'controller/edit_mine_info_route_controller.dart';
+import 'controller/edit_mine_info_request_controller.dart';
 
 /// FileName: edit_mine_info_controller
 ///
@@ -188,7 +189,11 @@ class EditMineInfoController extends BaseController {
 
   Future<void> onAddPhotoTap() async {
     await vm.value.pickPhotoFile();
+
     vm.refresh();
+    String? fileName = vm.value.draft.photos.last.split('/').last;
+
+    requestUploadPhoto(filePath: vm.value.draft.photos.last, filename: fileName);
   }
 
   void onRemovePhoto(int index) {

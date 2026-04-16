@@ -1,6 +1,7 @@
 import 'package:youth/base/base_vm.dart';
 
 import '../../doing/model/doing_hot_tags_entity.dart';
+import '../model/smart_match_people_entity.dart';
 
 enum FindMode {
   /// 提示语模式 - 找友
@@ -26,6 +27,9 @@ class HallVM extends BaseVM {
 
   /// ai - 标签
   List<String> aiTags = [];
+
+  /// 智能匹配到的朋友
+  List<SmartMatchPeopleList>? friends;
 
   /// 获取列表数量
   int itemCount() => 1;

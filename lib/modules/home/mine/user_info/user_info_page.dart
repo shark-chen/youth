@@ -15,7 +15,6 @@ class UserInfoPage extends BasePage<UserInfoController> {
 
   @override
   Widget build(BuildContext context) {
-    final userInfo = controller.userInfo;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
@@ -33,36 +32,36 @@ class UserInfoPage extends BasePage<UserInfoController> {
                   children: [
                     /// 用户信息头像信息- view
                     UserHeaderInfoWidget(
-                      headPortraitUrl: userInfo?.avatar,
-                      userName: userInfo?.nickname,
-                      age: userInfo?.ageInfo,
-                      address: userInfo?.regionInfo,
-                      gender: userInfo?.gender,
+                      headPortraitUrl:  controller.userInfo?.avatar,
+                      userName:  controller.userInfo?.nickname,
+                      age: controller.userInfo?.ageInfo,
+                      address: controller.userInfo?.regionInfo,
+                      gender: controller.userInfo?.gender,
                       showEdit: controller.vm.value.userId == null,
                       editTap: controller.pushEditMineInfoPage,
                     ),
                     const SizedBox(height: 24),
                     UserIntroduceWidget(
                       title: '个人标签',
-                      content: Lists.isEmpty(userInfo?.tags)
+                      content: Lists.isEmpty(controller.userInfo?.tags)
                           ? '暂无标签'
-                          : userInfo?.tags?.join('、'),
+                          : controller.userInfo?.tags?.join('、'),
                     ),
                     const SizedBox(height: 28),
 
                     /// 用户标签信息- view
                     UserIntroduceWidget(
                       title: '个人简介',
-                      content: Strings.isEmpty(userInfo?.signature)
+                      content: Strings.isEmpty(controller.userInfo?.signature)
                           ? '暂无简介'
-                          : userInfo?.signature,
+                          : controller.userInfo?.signature,
                     ),
                     const SizedBox(height: 16),
 
                     /// 照片墙
                     PictureWallWidget(
                       title: '照片墙',
-                      pictures: userInfo?.photos,
+                      pictures: controller.userInfo?.photos,
                     ),
                     const SizedBox(height: 60),
                   ],

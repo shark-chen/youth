@@ -140,9 +140,20 @@ class AppConfig {
     return '/api/match/suggestions';
   }
 
+  /// 匹配搜索（POST body: description, page, size）
+  static String get getMatchSearchUrl {
+    return '/api/match/search';
+  }
+
   /// 后端健康
   static String get getaActuatorHealthUrl {
     return "/actuator/health";
+  }
+
+
+  /// 上传照片
+  static String get getUploadPhotoUrl {
+    return '/api/user/photo';
   }
 
 
@@ -1870,4 +1881,6 @@ class AppConfig {
   static String get switchUserCheckLoginUrl {
     return '/api/v1/app/switchUserCheckLogin.json';
   }
+
+
 }

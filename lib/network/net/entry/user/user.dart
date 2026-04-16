@@ -155,4 +155,20 @@ class User extends NetMixin<User> {
   Future<NetResult<T>> requestMyAccount<T>() async {
     return await get<T>(AppConfig.myAccountUrl);
   }
+
+  /// 上传图片 · POST /api/user/photo（multipart 字段 `file`）
+  Future<NetResult<T>> requestUploadPhoto<T>({
+    required String filePath,
+    String? filename,
+  }) async {
+    final file = await MultipartFile.fromFile(
+      filePath,
+      filename: filename,
+    );
+    return await post<T>(
+      AppConfig.getUploadPhotoUrl,
+      data: {'file': file},
+      isFormData: true,
+    );
+  }
 }

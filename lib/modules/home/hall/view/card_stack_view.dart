@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:youth/utils/extension/lists/lists.dart';
 import 'package:youth/utils/marco/marco.dart';
 import 'package:youth/utils/utils/theme_color.dart';
-import '../../doing/model/doing_hot_tags_entity.dart';
 import '../model/card_item.dart';
 
 /// FileName: card_stack_view
@@ -14,22 +12,30 @@ import '../model/card_item.dart';
 /// @Description
 class CardStackPage extends StatefulWidget {
   CardStackPage({
+    this.items,
+    this.emptyHintWhenNoData,
+    this.emptyHintWhenNoMore,
     this.findTap,
-    this.aiTags,
   });
 
-  /// 找一找点击
-  final VoidCallback? findTap;
+  /// 卡片数据（由外部传入，如 aiTags / 匹配结果 friends 映射而来）
+  final List<String>? items;
 
-  /// 热门正在做标签，驱动卡片文案
-  final List<String>? aiTags;
+  /// 列表为空时的提示（如尚无标签）
+  final String? emptyHintWhenNoData;
+
+  /// 卡片滑完后的提示
+  final String? emptyHintWhenNoMore;
+
+  /// 找一找点击
+  final ValueChanged<String>? findTap;
 
   @override
   _CardStackPageState createState() => _CardStackPageState();
 }
 
 class _CardStackPageState extends State<CardStackPage> {
-  late List<CardItem> items;
+  late List<String> _stack;
 
   Offset position = Offset.zero;
   double angle = 0;
@@ -37,21 +43,17 @@ class _CardStackPageState extends State<CardStackPage> {
   @override
   void initState() {
     super.initState();
-    items = _tagsToItems(widget.aiTags ?? []);
+    _stack = widget.items ?? [];
   }
 
   @override
   void didUpdateWidget(CardStackPage oldWidget) {
     super.didUpdateWidget(oldWidget);
     setState(() {
-      items = _tagsToItems(widget.aiTags ?? []);
+      _stack = widget.items ?? [];
       position = Offset.zero;
       angle = 0;
     });
-  }
-
-  static List<CardItem> _tagsToItems(List<String> tags) {
-    return tags.map((e) => CardItem(e)).toList();
   }
 
   void onPanUpdate(DragUpdateDetails details) {
@@ -76,7 +78,7 @@ class _CardStackPageState extends State<CardStackPage> {
 
       Future.delayed(Duration(milliseconds: 300), () {
         setState(() {
-          items.removeAt(0);
+          _stack.removeAt(0);
           position = Offset.zero;
           angle = 0;
         });
@@ -90,17 +92,25 @@ class _CardStackPageState extends State<CardStackPage> {
     }
   }
 
+  String _emptyMessage() {
+    if (_stack.isNotEmpty) return '';
+    if (Lists.isEmpty(widget.items)) {
+      return widget.emptyHintWhenNoData ?? '暂无数据';
+    }
+    return widget.emptyHintWhenNoMore ?? '没有更多了';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: items.isEmpty
+      child: _stack.isEmpty
           ? Text(
-              Lists.isEmpty(widget.aiTags) ? '暂无热门标签' : '没有更多了',
+              _emptyMessage(),
               style: TextStyle(color: Colors.white.withOpacity(0.7)),
             )
           : Stack(
               alignment: Alignment.center,
-              children: items
+              children: _stack
                   .asMap()
                   .map((index, item) {
                     if (index >= 3) return MapEntry(index, SizedBox());
@@ -151,7 +161,7 @@ class _CardStackPageState extends State<CardStackPage> {
     );
   }
 
-  Widget buildCard(CardItem item) {
+  Widget buildCard(String title) {
     return Container(
       width: screenWidth * 0.5,
       height: screenWidth * 0.5 * 1.2,
@@ -171,12 +181,12 @@ class _CardStackPageState extends State<CardStackPage> {
           ),
           Center(
             child: Text(
-              item.text,
+              title,
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),
           GestureDetector(
-            onTap: widget.findTap,
+            onTap: () => widget.findTap?.call(title),
             child: Align(
               alignment: Alignment.bottomRight,
               child: Container(

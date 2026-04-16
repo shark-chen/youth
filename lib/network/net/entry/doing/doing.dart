@@ -45,4 +45,20 @@ class Doing extends NetMixin<Doing> {
   Future<NetResult<T>> requestMatchSuggestions<T>() async {
     return await get<T>(AppConfig.getMatchSuggestionsUrl);
   }
+
+  /// POST /api/match/search
+  Future<NetResult<T>> requestMatchSearch<T>({
+    String description = '',
+    int page = 0,
+    int size = 0,
+  }) async {
+    return await post<T>(
+      AppConfig.getMatchSearchUrl,
+      data: <String, dynamic>{
+        'description': description,
+        'page': page,
+        'size': size,
+      },
+    );
+  }
 }

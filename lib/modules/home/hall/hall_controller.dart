@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:youth/modules/home/hall/controller/hall_request_controller.dart';
 import 'package:youth/network/net/entry/doing/doing.dart';
 import 'package:youth/utils/authority/photos_authority.dart';
 import '../../../base/base_controller.dart';
 import 'view_model/hall_vm.dart';
+
+export 'controller/hall_request_controller.dart';
 
 /// FileName hall_controller
 ///
@@ -23,6 +26,7 @@ class HallController extends BaseController
   @override
   Future onInit() async {
     super.onInit();
+    buildEditingManage();
   }
 
   @override
@@ -75,8 +79,11 @@ class HallController extends BaseController
   int itemCount() => vm.value.itemCount();
 
   /// 点击开始找人
-  void clickStartFindFriend() {
-    vm.value.findMode = FindMode.findFriend;
+  Future clickStartFindFriend(String content) async {
+   final succeed = await requestMatchSearch(description:content);
+   if(succeed) {
+     vm.value.findMode = FindMode.findFriend;
+   }
     vm.refresh();
   }
 
@@ -87,30 +94,8 @@ class HallController extends BaseController
 
   /// mark - push
   ///
-  /// 相册选图：关闭 Loading、下一帧再调起，避免遮罩拦截系统相册触摸；iOS 关闭全量元数据
-  Future<XFile?> _pickImageFromGallery() async {
-    EasyLoading.dismiss();
-    await Future<void>.delayed(const Duration(milliseconds: 80));
-    final scheduler = SchedulerBinding.instance;
-    if (scheduler.schedulerPhase != SchedulerPhase.idle) {
-      await scheduler.endOfFrame;
-    }
-    return _imagePicker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 2048,
-      maxHeight: 2048,
-      requestFullMetadata: false,
-    );
-  }
-
   /// 个人信息页面
-  Future<XFile?> pushUserInfoPage() async {
-    if (!await PhotosAuthority.request()) return null;
-    try {
-      return await _pickImageFromGallery();
-    } catch (_) {
-      EasyLoading.showToast('选择图片失败');
-      return null;
-    }
+  Future pushUserInfoPage() async {
+    await Get.toNamed(Routes.minePage);
   }
 }
