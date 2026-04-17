@@ -10,11 +10,13 @@ class EditPrivateSection extends StatelessWidget {
     required this.onAiTap,
     required this.onChangePasswordTap,
     this.passwordHint = '已设置过密码',
+    this.passwordBtnTitle = '修改密码',
   });
 
   final VoidCallback onAiTap;
   final VoidCallback onChangePasswordTap;
   final String passwordHint;
+  final String passwordBtnTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +148,7 @@ class EditPrivateSection extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '修改密码',
+                    passwordBtnTitle,
                     style: TextStyle(
                       color: ThemeColor.themeGreenColor,
                       fontSize: 15,

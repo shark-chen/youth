@@ -179,6 +179,31 @@ abstract class NetMixin<T> with NetCache<T> implements Net<T> {
     }
   }
 
+  /// Handy method to make http delete request, which is a alias of  [dio.fetch(RequestOptions)].
+  /// M: 传入模型类，请求到的数据会自动解析成对应的模型类
+  /// data: body参数
+  /// params: 链接后面拼接参数
+  @override
+  Future<NetResult<M>> delete<M>(
+    String path, {
+    data,
+    Map<String, dynamic>? params,
+    Options? options,
+  }) async {
+    try {
+      this.path = path;
+      await configNetOption(this);
+      return await (request ??= Request.value<DioNet>()).delete(
+        path,
+        data: data,
+        params: composeParams(params),
+        options: options,
+      );
+    } catch (e) {
+      return NetResult.error(msg: LocaleKeys.NetworkError.tr, message: "e:$e");
+    }
+  }
+
   /// 清空
   @override
   Future clear() async {

@@ -13,6 +13,7 @@ import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 import '../../sex_select/model/gender.dart';
 import '../model/edit_profile_draft.dart';
 import '../model/edit_region_indices.dart';
+import '../model/user_private_info_entity.dart';
 
 /// FileName: edit_mine_info_vm
 ///
@@ -29,6 +30,10 @@ class EditMineInfoVM extends BaseVM {
   List<RegionProvince>? _cachedProvinces;
 
   final ImagePicker _imagePicker = ImagePicker();
+
+
+  /// 私密信息
+  UserPrivateInfoEntity? userPrivateInfoEntity;
 
   /// 相册选图：关闭 Loading、下一帧再调起，避免遮罩/重建与系统相册冲突；iOS 关闭全量元数据以减轻卡死
   Future<XFile?> _pickImageFromGallery({

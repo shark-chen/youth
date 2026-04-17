@@ -85,6 +85,16 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                     /// 密码设置
                     EditPrivateSection(
                       onAiTap: controller.onPrivateAiTap,
+                      passwordHint: true ==
+                              controller
+                                  .vm.value.userPrivateInfoEntity?.hasPassword
+                          ? '已设置过密码'
+                          : '未设置过密码',
+                      passwordBtnTitle: true ==
+                          controller
+                              .vm.value.userPrivateInfoEntity?.hasPassword
+                          ? '修改密码'
+                          : '设置密码',
                       onChangePasswordTap: controller.onChangePasswordTap,
                     ),
                     const SizedBox(height: 80),

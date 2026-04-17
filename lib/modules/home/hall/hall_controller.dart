@@ -6,6 +6,7 @@ import 'package:youth/modules/home/hall/controller/hall_request_controller.dart'
 import 'package:youth/network/net/entry/doing/doing.dart';
 import 'package:youth/utils/authority/photos_authority.dart';
 import '../../../base/base_controller.dart';
+import 'model/smart_match_people_entity.dart';
 import 'view_model/hall_vm.dart';
 
 export 'controller/hall_request_controller.dart';
@@ -56,22 +57,7 @@ class HallController extends BaseController
   @override
   Future onRefresh() async {}
 
-  /// mark - request
-  ///
-  /// 获取配对建议列表
-  Future requestMatchSuggestions() async {
-    EasyLoading.show();
-    var response =
-        await Net.value<Doing>().requestMatchSuggestions<String>();
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      /// 配置AI标签（含空列表，用于清空展示）
-      vm.value.configAiTags(response.values);
-      vm.refresh();
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-    }
-  }
+
 
   /// MARK - method
   ///
@@ -92,10 +78,23 @@ class HallController extends BaseController
     return vm.value.findPrompt;
   }
 
+  /// 点击查看个人信息
+  Future clickLookUserInfo(SmartMatchPeopleList? item) async {
+    if (item?.userId == null) return;
+    await pushProfile(userId: '${item?.userId}');
+  }
+
   /// mark - push
   ///
   /// 个人信息页面
   Future pushUserInfoPage() async {
     await Get.toNamed(Routes.minePage);
+  }
+
+  /// push - 个人信息页面
+  Future<void> pushProfile({required String userId}) async {
+    await Get.toNamed(Routes.userInfoPage, parameters: {
+      'userId': userId,
+    });
   }
 }

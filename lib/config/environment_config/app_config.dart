@@ -100,8 +100,18 @@ class AppConfig {
     return '/api/user/profile';
   }
 
+  /// 获取当前登录用户的私密信息
+  static String get getUserPrivateUrl {
+    return '/api/user/private';
+  }
+
+  /// 修改私密信息中的密码
+  static String get putUserPrivatePasswordUrl {
+    return '/api/user/private/password';
+  }
+
   /// 他人资料（path: userId）
-  static String getUserByUserIdUrl(int userId) {
+  static String getUserByUserIdUrl(String userId) {
     return '/api/user/$userId';
   }
 
@@ -125,6 +135,16 @@ class AppConfig {
     return '/api/status/doing/$tagId';
   }
 
+  /// 正在做（POST body: tagName；与 GET `/api/status/doing/{tagId}` 区分）
+  static String get postStatusDoingUrl {
+    return '/api/status/doing';
+  }
+
+  /// 我的正在做列表
+  static String get getStatusMyDoingUrl {
+    return '/api/status/my-doing';
+  }
+
   /// 敲一下（POST body: toUserId）
   static String get getKnockSendUrl {
     return '/api/knock/send';
@@ -133,6 +153,11 @@ class AppConfig {
   /// 发起一起做活动（POST body: tagName）
   static String get getTogetherCreateUrl {
     return '/api/together/create';
+  }
+
+  /// 加入一个等待中的一起做活动（POST path: togetherId）
+  static String getTogetherJoinUrl(String togetherId) {
+    return '/api/together/$togetherId/join';
   }
 
   /// 匹配推荐 / 建议列表

@@ -12,10 +12,10 @@ class UserInfoBinding extends BaseBindings {
   void dependencies() {
     final parameters = Get.parameters;
     if (Maps.isNotEmpty(parameters) &&
-        parameters['userId'] != null &&
-        parameters['userId'] is int) {
+        Strings.isNotEmpty(parameters['userId'])) {
       Get.lazyPut<UserInfoController>(
-          () => UserInfoController(userId: Get.parameters['userId'] as int));
+        () => UserInfoController(userId: parameters['userId']),
+      );
     } else {
       Get.lazyPut<UserInfoController>(() => UserInfoController());
     }

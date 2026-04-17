@@ -24,9 +24,47 @@ class User extends NetMixin<User> {
     return await get<T>(AppConfig.getUserInfoUrl);
   }
 
+  /// 获取当前登录用户的私密信息
+  /// GET /api/user/private
+  Future<NetResult<T>> requestUserPrivate<T>() async {
+    return await get<T>(AppConfig.getUserPrivateUrl);
+  }
+
+  /// 更新当前登录用户的私密信息
+  /// PUT /api/user/private
+  Future<NetResult<T>> requestUpdateUserPrivate<T>({
+    required String wishDescription,
+    required String password,
+    required String oldPassword,
+  }) async {
+    return await put<T>(
+      AppConfig.getUserPrivateUrl,
+      data: <String, dynamic>{
+        'wishDescription': wishDescription,
+        'password': password,
+        'oldPassword': oldPassword,
+      },
+    );
+  }
+
+  /// 修改私密信息中的密码
+  /// PUT /api/user/private/password
+  Future<NetResult<T>> requestUpdateUserPrivatePassword<T>({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    return await put<T>(
+      AppConfig.putUserPrivatePasswordUrl,
+      data: <String, dynamic>{
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+      },
+    );
+  }
+
   /// 他人信息
   Future<NetResult<T>> requestUserByUserId<T>({
-    required int userId,
+    required String userId,
   }) async {
     return await get<T>(AppConfig.getUserByUserIdUrl(userId));
   }

@@ -131,7 +131,6 @@ class DoingPage extends BasePage<DoingController> {
                           children: tags
                               .map(
                                 (e) => HotTagCell(
-                                  icon: e.icon ?? '🔖',
                                   text: e.tagName ?? '',
                                   onTap: () async {
                                     /// push-正在做的清单-页面
@@ -144,8 +143,16 @@ class DoingPage extends BasePage<DoingController> {
                       }),
                     ),
                   ),
-
-                  InputAiWidget(hint: '输入你正在做的事…'),
+                  SizedBox(height: 12),
+                  InputAiWidget(
+                    hint: '输入你正在做的事…',
+                    controller: controller.editingController,
+                    focusNode: controller.focusNode,
+                    onSubmittedTap: (content) async {
+                      /// 点击发布正在做的事
+                      controller.clickPublishDoing(content);
+                    },
+                  ),
                   SizedBox(height: 12)
                 ],
               ),

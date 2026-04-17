@@ -79,6 +79,10 @@ DoingListList $DoingListListFromJson(Map<String, dynamic> json) {
   if (age != null) {
     doingListList.age = age;
   }
+  final String? togetherId = jsonConvert.convert<String>(json['togetherId']);
+  if (togetherId != null) {
+    doingListList.togetherId = togetherId;
+  }
   return doingListList;
 }
 
@@ -93,6 +97,7 @@ Map<String, dynamic> $DoingListListToJson(DoingListList entity) {
   data['signature'] = entity.signature;
   data['startTime'] = entity.startTime;
   data['age'] = entity.age;
+  data['togetherId'] = entity.togetherId;
   return data;
 }
 

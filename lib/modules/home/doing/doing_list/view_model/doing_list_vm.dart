@@ -1,5 +1,6 @@
 import 'package:youth/base/base_vm.dart';
 
+import '../../model/publish_doing_entity.dart';
 import '../model/doing_list_entity.dart';
 
 /// FileName: doing_list_vm
@@ -18,6 +19,9 @@ class DoingListVM extends BaseVM {
   /// 正在做的人列表数据
   DoingListEntity? doingListEntity;
 
+  /// 我正在做的事
+  PublishDoingEntity? myDoing;
+
   @override
   void onInit() {
     super.onInit();
@@ -34,6 +38,11 @@ class DoingListVM extends BaseVM {
     if (t != null) {
       samePeopleCount = t;
     }
+  }
+
+  /// 配置我正在做的事
+  void configMyDoing(PublishDoingEntity? value) {
+    myDoing = value;
   }
 
   /// 获取列表数据

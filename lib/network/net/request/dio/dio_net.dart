@@ -111,6 +111,26 @@ class DioNet implements Request {
     return NetResult<M>.fromResponse(response);
   }
 
+  /// Handy method to make http delete request, which is a alias of  [dio.fetch(RequestOptions)].
+  /// M: 传入模型类，请求到的数据会自动解析成对应的模型类
+  /// data: body参数
+  /// params: 链接后面拼接参数
+  @override
+  Future<NetResult<M>> delete<M>(
+    String path, {
+    data,
+    Map<String, dynamic>? params,
+    Options? options,
+  }) async {
+    var response = await dio.delete(
+      path,
+      data: data,
+      queryParameters: params,
+      options: options,
+    );
+    return NetResult<M>.fromResponse(response);
+  }
+
   @override
   void clear() {
     addCacheInterceptor = false;

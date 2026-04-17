@@ -22,13 +22,41 @@ class Doing extends NetMixin<Doing> {
   }
 
   /// GET /api/status/doing/{tagId}
+  /// 获取正在做某个标签的用户列表
   Future<NetResult<T>> requestStatusDoing<T>({required int tagId}) async {
     return await get<T>(AppConfig.getStatusDoingUrl(tagId));
   }
 
+  /// DELETE /api/status/doing/{statusId}
+  /// 删除某条「正在做」状态（path 与 GET 相同，方法不同）
+  Future<NetResult<T>> requestDeleteStatusDoing<T>(
+      {required int statusId}) async {
+    return await delete<T>(AppConfig.getStatusDoingUrl(statusId));
+  }
+
+  /// GET /api/status/my-doing
+  Future<NetResult<T>> requestMyDoing<T>() async {
+    return await get<T>(AppConfig.getStatusMyDoingUrl);
+  }
+
+  /// 发布一个正在做的状态
+  /// POST /api/status/doing  body: `{ "tagName": "" }`
+  Future<NetResult<T>> requestPostStatusDoing<T>({String tagName = ''}) async {
+    return await post<T>(
+      AppConfig.postStatusDoingUrl,
+      data: <String, dynamic>{'tagName': tagName},
+    );
+  }
+
   /// POST /api/knock/send / 向某个用户发送敲一下
-  Future<NetResult<T>> requestKnockSend<T>({required int toUserId}) async {
-    var params = {'toUserId': toUserId};
+  Future<NetResult<T>> requestKnockSend<T>({
+    required int toUserId,
+    int? tagId,
+  }) async {
+    var params = {
+      'toUserId': toUserId,
+      'tagId': tagId,
+    };
     return await post<T>(AppConfig.getKnockSendUrl, data: params);
   }
 
@@ -39,6 +67,13 @@ class Doing extends NetMixin<Doing> {
       AppConfig.getTogetherCreateUrl,
       data: {'tagName': tagName},
     );
+  }
+
+  /// POST /api/together/{togetherId}/join
+  /// 加入一个等待中的一起做活动
+  Future<NetResult<T>> requestTogetherJoin<T>(
+      {required String togetherId}) async {
+    return await post<T>(AppConfig.getTogetherJoinUrl(togetherId));
   }
 
   /// GET /api/match/suggestions

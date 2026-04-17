@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../base/base_page.dart';
 import 'hall_controller.dart';
-import 'model/card_item.dart';
 import 'view/card_stack_view.dart';
 import 'view/find_friend_prompt_view.dart';
 import 'view/input_ai_view.dart';
@@ -92,7 +91,12 @@ class HallPage extends BasePage<HallController> {
               visible: !controller.findPrompt,
               child: Padding(
                 padding: EdgeInsets.only(top: 20),
-                child: CardStackDemo(),
+                child: CardStackDemo(
+                  friends: controller.vm.value.friends ?? [],
+                  onTap: controller.clickLookUserInfo,
+                  emptyHintWhenNoData: '暂无匹配用户',
+                  emptyHintWhenNoMore: '没有更多了',
+                ),
               ),
             ),
             Spacer(),

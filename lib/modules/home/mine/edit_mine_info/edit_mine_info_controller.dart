@@ -22,6 +22,9 @@ class EditMineInfoController extends BaseController {
     title = '编辑资料';
     vm.value.refresh = vm.refresh;
     _bootstrap();
+
+    /// 获取用户私密信息 · GET /api/user/private
+    requestUserPrivate();
   }
 
   Future<void> _bootstrap() async {

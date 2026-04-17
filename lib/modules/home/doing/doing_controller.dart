@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:youth/base/base_controller.dart';
 import 'package:youth/network/net/entry/doing/doing.dart';
 
 import 'model/doing_hot_tags_entity.dart';
+import 'model/publish_doing_entity.dart';
 import 'view_model/doing_vm.dart';
+import 'controller/doing_request_controller.dart';
+export 'controller/doing_request_controller.dart';
 
 /// FileName doing_controller
 ///
@@ -17,24 +22,17 @@ class DoingController extends BaseController {
   @override
   void onInit() async {
     super.onInit();
+    buildEditingManage();
 
     /// 获取当前热门的正在做标签列表
     await requestHotTags();
   }
 
-  /// mark - request
-  ///
-  /// 获取当前热门的正在做标签列表
-  Future requestHotTags() async {
-    EasyLoading.show();
-    var response =
-        await Net.value<Doing>().requestHotTags<DoingHotTagsEntity>(limit: 20);
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      vm.value.configHotTags(response.values);
-      vm.refresh();
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
+  /// 点击发布正在做的事
+  Future clickPublishDoing(String content) async {
+    final result = await requestPostStatusDoing(tagName: content);
+    if (result) {
+      editingController?.text = '';
     }
   }
 

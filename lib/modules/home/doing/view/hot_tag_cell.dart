@@ -9,13 +9,9 @@ import 'package:flutter/material.dart';
 class HotTagCell extends StatelessWidget {
   const HotTagCell({
     super.key,
-    this.icon,
     this.text,
     this.onTap,
   });
-
-  /// 图标
-  final String? icon;
 
   /// 文字
   final String? text;
@@ -28,6 +24,7 @@ class HotTagCell extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        padding: EdgeInsets.only(left: 6, right: 6),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.08),
@@ -36,19 +33,14 @@ class HotTagCell extends StatelessWidget {
             color: Colors.white.withOpacity(0.2),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(icon ?? '', style: const TextStyle(fontSize: 16)),
-            const SizedBox(width: 6),
-            Text(
-              text ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-              ),
-            )
-          ],
+        child: Text(
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          text ?? '' ,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+          ),
         ),
       ),
     );

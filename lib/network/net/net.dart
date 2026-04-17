@@ -64,4 +64,15 @@ abstract class Net<T> {
     bool? isFormData = false,
     Map<String, dynamic>? params,
   });
+
+  /// Handy method to make http delete request, which is a alias of  [dio.fetch(RequestOptions)].
+  /// M: 传入模型类，请求到的数据会自动解析成对应的模型类
+  /// data: body参数
+  /// params: 链接后面拼接参数
+  Future<NetResult<M>> delete<M>(
+    String path, {
+    data,
+    Map<String, dynamic>? params,
+    Options? options,
+  });
 }

@@ -35,6 +35,7 @@ class DoingListList {
   String? signature;
   String? startTime;
   int? age;
+  String? togetherId;
 
   DoingListList();
 

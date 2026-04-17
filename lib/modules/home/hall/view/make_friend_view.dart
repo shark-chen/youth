@@ -1,35 +1,112 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:youth/tripartite_library/tripartite_library.dart';
+
+import '../model/smart_match_people_entity.dart';
 
 /// FileName: make_friend_view
 ///
 /// @Author 谌文
 /// @Date 2026/3/29 20:05
 ///
-/// @Description 左右侧滑交友认识- view
-/// 数据模型
-class CardItem {
-  final String name;
-  final String desc;
-
-  CardItem(this.name, this.desc);
-}
-
+/// @Description 左右侧滑交友认识- view（数据由外部传入）
 class CardStackDemo extends StatefulWidget {
+  CardStackDemo({
+    this.friends,
+    this.onTap,
+    this.emptyHintWhenNoData,
+    this.emptyHintWhenNoMore,
+  });
+
+  /// 匹配结果列表（如 `HallVM.friends`）
+  final List<SmartMatchPeopleList>? friends;
+
+  /// 点击查看卡片用户信息
+  final ValueChanged<SmartMatchPeopleList>? onTap;
+
+  /// 尚无数据时的提示
+  final String? emptyHintWhenNoData;
+
+  /// 卡片滑完后的提示
+  final String? emptyHintWhenNoMore;
+
   @override
   State<CardStackDemo> createState() => _CardStackDemoState();
 }
 
 class _CardStackDemoState extends State<CardStackDemo> {
-  List<CardItem> items = List.generate(
-    5,
-    (i) => CardItem("晓雨 $i", "别问我为什么单身，我们神仙和凡人谈恋爱是触犯天条..."),
-  );
+  late List<SmartMatchPeopleList> _stack;
 
   Offset position = Offset.zero;
   double angle = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _stack = List<SmartMatchPeopleList>.from(widget.friends ?? []);
+  }
+
+  @override
+  void didUpdateWidget(CardStackDemo oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!_sameFriends(widget.friends, oldWidget.friends)) {
+      setState(() {
+        _stack = List<SmartMatchPeopleList>.from(widget.friends ?? []);
+        position = Offset.zero;
+        angle = 0;
+      });
+    }
+  }
+
+  bool _sameFriends(
+    List<SmartMatchPeopleList>? a,
+    List<SmartMatchPeopleList>? b,
+  ) {
+    if (a == null && b == null) return true;
+    if (a == null || b == null) return false;
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i].userId != b[i].userId) return false;
+    }
+    return true;
+  }
+
+  String _displayName(SmartMatchPeopleList item) {
+    final n = item.nickname?.trim();
+    if (n != null && n.isNotEmpty) return n;
+    return '用户${item.userId ?? ''}';
+  }
+
+  String _ageCityLine(SmartMatchPeopleList item) {
+    final parts = <String>[];
+    final age = item.age;
+    if (age != null) parts.add('$age岁');
+    final city = item.city?.trim();
+    if (city != null && city.isNotEmpty) parts.add(city);
+    if (parts.isEmpty) return '—';
+    return parts.join(' · ');
+  }
+
+  String _descLine(SmartMatchPeopleList item) {
+    final tags = item.tags;
+    if (Lists.isEmpty(tags)) return '暂无标签';
+    return tags!
+        .map((e) => e?.toString() ?? '')
+        .where((s) => s.isNotEmpty)
+        .join(' · ');
+  }
+
+  List<Widget> _tagChips(SmartMatchPeopleList item) {
+    final tags = item.tags;
+    if (Lists.isEmpty(tags)) {
+      return [chip('暂无标签')];
+    }
+    final list = tags!
+        .map((e) => e?.toString() ?? '')
+        .where((s) => s.isNotEmpty)
+        .take(3)
+        .map((t) => chip(t))
+        .toList();
+    return list.isEmpty ? [chip('暂无标签')] : list;
+  }
 
   /// 拖动
   void onPanUpdate(DragUpdateDetails details) {
@@ -45,7 +122,6 @@ class _CardStackDemoState extends State<CardStackDemo> {
     const threshold = 120;
 
     if (position.distance > threshold) {
-      /// 飞出去
       setState(() {
         position = Offset(
           position.dx > 0 ? size.width : -size.width,
@@ -54,14 +130,14 @@ class _CardStackDemoState extends State<CardStackDemo> {
       });
 
       Future.delayed(const Duration(milliseconds: 300), () {
+        if (!mounted) return;
         setState(() {
-          items.removeAt(0);
+          if (_stack.isNotEmpty) _stack.removeAt(0);
           position = Offset.zero;
           angle = 0;
         });
       });
     } else {
-      /// 回弹
       setState(() {
         position = Offset.zero;
         angle = 0;
@@ -69,36 +145,49 @@ class _CardStackDemoState extends State<CardStackDemo> {
     }
   }
 
+  String _emptyMessage() {
+    if (_stack.isNotEmpty) return '';
+    final parent = widget.friends;
+    if (parent == null || parent.isEmpty) {
+      return widget.emptyHintWhenNoData ?? '暂无匹配用户';
+    }
+    return widget.emptyHintWhenNoMore ?? '没有更多了';
+  }
+
   @override
   Widget build(BuildContext context) {
-    return items.length < 2
-        ? const Text("没有更多了", style: TextStyle(color: Colors.white))
-        : Stack(
-            alignment: Alignment.center,
-            children: [
-              /// 👇 下层卡片
-              buildBackCard(),
-
-              /// 👇 上层卡片
-              buildFrontCard(),
-            ],
-          );
+    if (_stack.isEmpty) {
+      return Text(
+        _emptyMessage(),
+        style: const TextStyle(color: Colors.white70),
+      );
+    }
+    if (_stack.length == 1) {
+      return Stack(
+        alignment: Alignment.center,
+        children: [buildFrontCard()],
+      );
+    }
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        buildBackCard(),
+        buildFrontCard(),
+      ],
+    );
   }
 
   /// ================== 下层卡片 ==================
   Widget buildBackCard() {
-    /// progress：0~1
     double progress = (position.distance / 200).clamp(0.0, 1.0);
 
     return Transform.translate(
-      offset: Offset(0, 30 * (1 - progress)), // 上移
+      offset: Offset(0, 30 * (1 - progress)),
       child: Transform.scale(
-        scale: 0.92 + 0.08 * progress, // 放大
+        scale: 0.92 + 0.08 * progress,
         child: Opacity(
           opacity: 0.7 + 0.3 * progress,
           child: Container(
-            // width: screenWidth - 48,
-            // height: (screenWidth - 64) * (410.0 / 327.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
@@ -109,7 +198,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
                 )
               ],
             ),
-            child: buildCard(items[1]),
+            child: buildCard(_stack[1]),
           ),
         ),
       ),
@@ -125,14 +214,18 @@ class _CardStackDemoState extends State<CardStackDemo> {
         child: GestureDetector(
           onPanUpdate: onPanUpdate,
           onPanEnd: onPanEnd,
-          child: buildCard(items[0]),
+          child: GestureDetector(
+            onTap: () => widget.onTap?.call(_stack[0]),
+            child: buildCard(_stack[0]),
+          ),
         ),
       ),
     );
   }
 
   /// ================== 卡片UI ==================
-  Widget buildCard(CardItem item) {
+  Widget buildCard(SmartMatchPeopleList item) {
+    final seed = item.userId ?? item.nickname?.hashCode ?? 0;
     return ClipRRect(
       borderRadius: BorderRadius.circular(24),
       child: Container(
@@ -140,24 +233,17 @@ class _CardStackDemoState extends State<CardStackDemo> {
         height: (screenWidth - 48) * (498.0 / 327.0),
         child: Stack(
           children: [
-            /// 背景图（示例用颜色代替）
             Positioned.fill(
               child: Container(
                 color: Colors.red,
-                // width: screenWidth - 64,
-                // height: (screenWidth - 64)* (410.0/327.0),
                 child: Image.network(
-                  "https://picsum.photos/400/600?random=${item.name}",
+                  'https://picsum.photos/400/600?random=$seed',
                   fit: BoxFit.fill,
                 ),
               ),
             ),
-
-            /// 渐变遮罩
             Positioned.fill(
               child: Container(
-                // width: screenWidth - 64,
-                // height: (screenWidth - 64)* (410.0/327.0),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -170,24 +256,26 @@ class _CardStackDemoState extends State<CardStackDemo> {
                 ),
               ),
             ),
-
-            /// 信息
             Positioned(
               left: 16,
               right: 16,
               bottom: 24,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  /// 名字 + 在线
                   Row(
                     children: [
-                      Text(
-                        item.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+                      Flexible(
+                        child: Text(
+                          _displayName(item),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -199,46 +287,34 @@ class _CardStackDemoState extends State<CardStackDemo> {
                           border: Border.all(color: Colors.white),
                         ),
                         child: const Text(
-                          "在线",
+                          '在线',
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       )
                     ],
                   ),
-
                   const SizedBox(height: 6),
-
-                  const Text(
-                    "33岁 · 深圳",
-                    style: TextStyle(color: Colors.white70),
-                  ),
-
-                  const SizedBox(height: 6),
-
                   Text(
-                    item.desc,
+                    _ageCityLine(item),
+                    style: const TextStyle(color: Colors.white70),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    _descLine(item),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.white60),
                   ),
-
                   const SizedBox(height: 12),
-
-                  /// 标签
-                  Row(
-                    children: [
-                      chip("🎬 爱看电影"),
-                      chip("🍔 吃货"),
-                      chip("🏃 爱徒步"),
-                    ],
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    children: _tagChips(item),
                   ),
-
                   const SizedBox(height: 16),
-
-                  /// 按钮
                   Row(
                     children: [
-                      SizedBox(width: 12),
+                      const SizedBox(width: 12),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(40),
@@ -254,7 +330,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
                           color: ThemeColor.whiteColor,
                         ),
                       ),
-                      SizedBox(width: 30),
+                      const SizedBox(width: 30),
                       Expanded(
                         child: Container(
                           height: 44,
@@ -264,7 +340,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
                             borderRadius: BorderRadius.circular(24),
                           ),
                           child: const Text(
-                            "聊一聊",
+                            '聊一聊',
                             style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -272,7 +348,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 24),
+                      const SizedBox(width: 24),
                     ],
                   )
                 ],

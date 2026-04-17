@@ -2,8 +2,13 @@ import 'package:youth/base/base_controller.dart';
 import 'package:youth/network/net/entry/doing/doing.dart';
 
 import '../model/doing_hot_tags_entity.dart';
+import '../model/publish_doing_entity.dart';
 import 'model/doing_list_entity.dart';
 import 'view_model/doing_list_vm.dart';
+import 'controller/doing_list_request_controller.dart';
+export 'controller/doing_list_request_controller.dart';
+import 'controller/doing_list_route_controller.dart';
+export 'controller/doing_list_route_controller.dart';
 
 /// FileName: doing_list_controller
 ///
@@ -19,6 +24,7 @@ class DoingListController extends BaseController {
   void onInit() async {
     super.onInit();
     title = '我正在';
+    requestMyDoing();
     final arg = Get.arguments;
     if (arg is DoingHotTagsEntity) {
       final name = arg.tagName;
@@ -37,59 +43,40 @@ class DoingListController extends BaseController {
     }
   }
 
+  /// 点击删除我正在做的事
+  Future clickDeleteStatusDoing() async {
+    await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
+    vm.refresh();
+  }
+
+  /// 点击敲一下
+  Future clickKnock(DoingListList? item) async {
+    if (item?.userId == null) return;
+    await requestKnockSend(
+      toUserId: item?.userId ?? 0,
+      tagId: vm.value.myDoing?.tagId,
+    );
+    vm.refresh();
+  }
+
+  /// 点击加入一起
+  Future clickJoinTogether(DoingListList? item) async {
+    if (item?.togetherId == null) return;
+    await requestTogetherJoin(item?.togetherId ?? '0');
+    vm.refresh();
+  }
+
+  /// 点击查看个人信息
+  Future clickLookUserInfo(DoingListList? item) async {
+    if (item?.userId == null) return;
+    await pushProfile(userId: '${item?.userId}');
+  }
+
   /// mark - method
   ///
   /// 获取列表数据源
   /// 获取列表数据
   List<DoingListList>? get rows {
     return vm.value.rows;
-  }
-
-  /// mark - request
-  ///
-  /// GET /api/status/doing/{tagId}
-  Future<void> requestStatusDoingByTagId(int tagId) async {
-    EasyLoading.show();
-    final response = await Net.value<Doing>()
-        .requestStatusDoing<DoingListEntity>(tagId: tagId);
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      /// 配置正在做的事情数据
-      vm.value.configDoingListEntity(response.value);
-      vm.refresh();
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-    }
-  }
-
-  /// 向某个用户发送敲一下
-  Future<void> requestKnockSend(int toUserId) async {
-    EasyLoading.show();
-    final response =
-        await Net.value<Doing>().requestKnockSend<dynamic>(toUserId: toUserId);
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      EasyLoading.showToast('已发送');
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-    }
-  }
-
-  /// 发起一起做活动
-  Future<void> requestTogetherCreate({String? tagName}) async {
-    final name = (tagName ?? vm.value.activityTitle).trim();
-    if (name.isEmpty) {
-      EasyLoading.showToast('暂无活动标签');
-      return;
-    }
-    EasyLoading.show();
-    final response =
-        await Net.value<Doing>().requestTogetherCreate<dynamic>(tagName: name);
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      EasyLoading.showToast('已发起');
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-    }
   }
 }

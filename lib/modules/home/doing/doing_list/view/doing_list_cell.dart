@@ -18,6 +18,7 @@ class DoingListCell extends BaseStatelessWidget {
     this.isOnline = false,
     this.onKnockTap,
     this.onTogetherTap,
+    this.onTap,
   }) : super(key: key);
 
   /// 头像 URL
@@ -43,6 +44,8 @@ class DoingListCell extends BaseStatelessWidget {
 
   final VoidCallback? onKnockTap;
   final VoidCallback? onTogetherTap;
+  final VoidCallback? onTap;
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,93 +54,96 @@ class DoingListCell extends BaseStatelessWidget {
       if (Strings.isNotEmpty(address)) address,
     ].join('·');
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-      decoration: BoxDecoration(
-        color: ThemeColor.doingListCellBgColor,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _Avatar(url: headerIcon ?? '', showOnlineDot: isOnline),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        name ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: ThemeColor.whiteColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+        decoration: BoxDecoration(
+          color: ThemeColor.doingListCellBgColor,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _Avatar(url: headerIcon ?? '', showOnlineDot: isOnline),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          name ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: ThemeColor.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                    ),
-                    if (sex != null) ...[
-                      const SizedBox(width: 4),
-                      Icon(
-                        sex == true ? Icons.male : Icons.female,
-                        size: 18,
-                        color: sex == true
-                            ? const Color(0xFF5AC8FA)
-                            : const Color(0xFFFF2D55),
-                      ),
+                      if (sex != null) ...[
+                        const SizedBox(width: 4),
+                        Icon(
+                          sex == true ? Icons.male : Icons.female,
+                          size: 18,
+                          color: sex == true
+                              ? const Color(0xFF5AC8FA)
+                              : const Color(0xFFFF2D55),
+                        ),
+                      ],
                     ],
+                  ),
+                  if (ageLoc.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      ageLoc,
+                      style: const TextStyle(
+                        color: ThemeColor.doingListSubLabelColor,
+                        fontSize: 13,
+                      ),
+                    ),
                   ],
+                  if (Strings.isNotEmpty(signature)) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      signature!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: ThemeColor.doingListBioLabelColor,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _PillButton(
+                  label: '敲一下',
+                  background: ThemeColor.doingListKnockBgColor,
+                  foreground: ThemeColor.themeGreenColor,
+                  onTap: onKnockTap,
                 ),
-                if (ageLoc.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    ageLoc,
-                    style: const TextStyle(
-                      color: ThemeColor.doingListSubLabelColor,
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-                if (Strings.isNotEmpty(signature)) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    signature!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: ThemeColor.doingListBioLabelColor,
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
+                const SizedBox(height: 8),
+                _PillButton(
+                  label: '一起做',
+                  background: ThemeColor.doingListTogetherBgColor,
+                  foreground: Colors.white,
+                  onTap: onTogetherTap,
+                ),
               ],
             ),
-          ),
-          const SizedBox(width: 8),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _PillButton(
-                label: '敲一下',
-                background: ThemeColor.doingListKnockBgColor,
-                foreground: ThemeColor.themeGreenColor,
-                onTap: onKnockTap,
-              ),
-              const SizedBox(height: 8),
-              _PillButton(
-                label: '一起做',
-                background: ThemeColor.doingListTogetherBgColor,
-                foreground: Colors.white,
-                onTap: onTogetherTap,
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

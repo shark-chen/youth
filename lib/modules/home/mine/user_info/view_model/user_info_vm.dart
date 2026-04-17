@@ -12,7 +12,7 @@ class UserInfoVM extends BaseVM {
   UserInfoEntity? userInfo;
 
   /// 用户ID，无ID表示本人，有则是其他人
-  int? userId;
+  String? userId;
 
   @override
   void onInit() {

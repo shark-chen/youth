@@ -10,7 +10,7 @@ import 'view_model/user_info_vm.dart';
 ///
 /// @Description 用户信息模块-controller
 class UserInfoController extends BaseController {
-  UserInfoController({int? userId}) {
+  UserInfoController({String? userId}) {
     vm.value.userId = userId;
   }
 
@@ -54,7 +54,7 @@ class UserInfoController extends BaseController {
   }
 
   /// request -他人信息
-  Future<void> requestOtherUserProfile(int userId) async {
+  Future<void> requestOtherUserProfile(String userId) async {
     EasyLoading.show();
     final response = await Net.value<User>()
         .requestUserByUserId<UserInfoEntity>(userId: userId);

@@ -26,84 +26,85 @@ class DoingListPage extends BasePage<DoingListController> {
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(
         controller.title ?? '我正在',
-        backgroundColor: ThemeColor.themeColor,
-        elevation: 0,
-        textColor: ThemeColor.whiteColor,
         backTap: controller.closePage,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Obx(() {
-            final v = controller.vm.value;
-            return DoingListHeaderWidget(
-              title: v.activityTitle,
-              inviteTap: () {},
-            );
-          }),
-          Obx(() {
-            final v = controller.vm.value;
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
-              child: RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.45),
-                    fontSize: 14,
-                    height: 1.35,
-                  ),
-                  children: [
-                    const TextSpan(text: '有 '),
-                    TextSpan(
-                      text: '${v.samePeopleCount}',
-                      style: const TextStyle(
-                        color: ThemeColor.themeGreenColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    TextSpan(text: ' 人也在「${v.activityTitle}」'),
-                  ],
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Obx(() {
+              return GestureDetector(
+                onTap: controller.clickDeleteStatusDoing,
+                child: DoingListHeaderWidget(
+                  title: controller.vm.value.myDoing?.tagName ?? '--',
+                  inviteTap: controller.pushInviteAlert,
                 ),
-              ),
-            );
-          }),
-          Expanded(
-            child: Obx(() {
-              if (Lists.isEmpty(controller.rows)) {
-                return Center(
-                  child: Text(
-                    '暂无同频用户',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.45),
-                      fontSize: 15,
-                    ),
-                  ),
-                );
-              }
-              return ListView.separated(
-                padding: const EdgeInsets.only(top: 6, bottom: 24),
-                itemCount: controller.rows?.length ?? 0,
-                itemBuilder: (BuildContext context, int index) {
-                  final item = controller.rows?[index];
-                  return DoingListCell(
-                    headerIcon: item?.avatar,
-                    name: item?.nickname,
-                    sex: _sexFromGender(item?.gender),
-                    age: item?.age != null ? '${item?.age}' : null,
-                    address: item?.city,
-                    signature: item?.signature,
-                    isOnline: false,
-                    onKnockTap: item?.userId != null
-                        ? () => controller.requestKnockSend(item!.userId!)
-                        : null,
-                    onTogetherTap: () => controller.requestTogetherCreate(),
-                  );
-                },
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
               );
             }),
-          ),
-        ],
+            Obx(() {
+              final v = controller.vm.value;
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.45),
+                      fontSize: 14,
+                      height: 1.35,
+                    ),
+                    children: [
+                      const TextSpan(text: '有 '),
+                      TextSpan(
+                        text: '${v.samePeopleCount}',
+                        style: const TextStyle(
+                          color: ThemeColor.themeGreenColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      TextSpan(text: ' 人也在「${v.activityTitle}」'),
+                    ],
+                  ),
+                ),
+              );
+            }),
+            Expanded(
+              child: Obx(() {
+                if (Lists.isEmpty(controller.rows)) {
+                  return Center(
+                    child: Text(
+                      '暂无同频用户',
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.45),
+                        fontSize: 15,
+                      ),
+                    ),
+                  );
+                }
+                return ListView.separated(
+                  padding: const EdgeInsets.only(top: 6, bottom: 24),
+                  itemCount: controller.rows?.length ?? 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    final item = controller.rows?[index];
+                    return DoingListCell(
+                      headerIcon: item?.avatar,
+                      name: item?.nickname,
+                      sex: _sexFromGender(item?.gender),
+                      age: item?.age != null ? '${item?.age}' : null,
+                      address: item?.city,
+                      signature: item?.signature,
+                      isOnline: false,
+                      onKnockTap: () async => controller.clickKnock(item),
+                      onTogetherTap: () async =>
+                          controller.clickJoinTogether(item),
+                      onTap: () async => controller.clickLookUserInfo(item),
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
