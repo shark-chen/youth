@@ -3,6 +3,7 @@ import 'package:youth/modules/user/global.dart';
 import 'package:youth/network/net/entry/user/user.dart';
 import 'user_info/model/user_info_entity.dart';
 import 'view_model/mine_vm.dart';
+import 'controller/mine_request_controller.dart';
 
 /// FileName: mine_controller
 ///
@@ -19,20 +20,6 @@ class MineController extends BaseController {
     super.onInit();
     title = '个人中心';
     refreshProfile();
-  }
-
-  /// mark - request
-  ///
-  /// 拉取个人资料（头像、昵称等）
-  Future<void> refreshProfile() async {
-    final response = await Net.value<User>().requestUserInfo<UserInfoEntity>();
-    if (response.succeed) {
-      /// 当前登录用户资料（与资料页同源模型）
-      vm.value.configUserProfile(response.value);
-      vm.refresh();
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-    }
   }
 
   /// mark - method

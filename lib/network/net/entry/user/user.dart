@@ -35,7 +35,7 @@ class User extends NetMixin<User> {
   Future<NetResult<T>> requestUpdateUserPrivate<T>({
     required String wishDescription,
     required String password,
-    required String oldPassword,
+    String? oldPassword,
   }) async {
     return await put<T>(
       AppConfig.getUserPrivateUrl,

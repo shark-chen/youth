@@ -43,7 +43,10 @@ class UserInfoController extends BaseController {
   /// 获取个人信息 · GET /api/user/profile
   Future<void> requestUserProfile() async {
     EasyLoading.show();
-    final response = await Net.value<User>().requestUserInfo<UserInfoEntity>();
+    final response = await Net.value<User>().cache<UserInfoEntity>((value) {
+      vm.value.configUserInfo(value);
+      vm.refresh();
+    }).requestUserInfo<UserInfoEntity>();
     EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configUserInfo(response.value);

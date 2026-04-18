@@ -165,8 +165,8 @@ class DioNet implements Request {
         dioNet.interceptors.add(ReportInterceptor());
         dioNet.interceptors.add(HeaderInterceptor());
       }
-      if (addCacheInterceptor == false && Global.actualLogin.value) {
-        var uid = UserCenter().user?.userId;
+      if (addCacheInterceptor == false) {
+        var uid = UserCenter().user?.userId ?? '12';
         if (uid != null) {
           if (addCacheInterceptor == true) return;
           addCacheInterceptor = true;

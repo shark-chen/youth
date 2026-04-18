@@ -1,4 +1,5 @@
 import 'package:youth/base/base_page.dart';
+import 'package:youth/modules/home/doing/doing_list/view/doing_list_header_view.dart';
 import 'package:youth/widget/bottom_alert/bottom_alert.dart';
 import 'package:youth/widget/bottom_dialog/bottom_dialog.dart';
 import 'package:youth/widget/input/sure_input/input_sure.dart';
@@ -73,10 +74,14 @@ class MessagePage extends BasePage<MessageController> {
               itemBuilder: (BuildContext context, int index) {
                 if (index == 0) {
                   /// 消息列表-正在做的任务
-                  return MsgDoingWidget(
-                    doing: '正在看电影',
-                    whoName: '小美',
+                  return GestureDetector(
+                    onTap: controller.clickDeleteStatusDoing,
+                    child: DoingListHeaderWidget(
+                      title: controller.vm.value.myDoing?.tagName ?? '--',
+                      inviteTap: controller.pushInviteAlert,
+                    ),
                   );
+                  ;
                 } else if (index == 1) {
                   /// 邀约中的任务view
                   return InviteRecordWidget(

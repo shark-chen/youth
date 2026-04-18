@@ -1,3 +1,5 @@
+import 'package:youth/modules/home/doing/doing_list/view/invite_together_sheet_widget.dart';
+
 import '../message_controller.dart';
 import 'package:youth/base/base_controller.dart';
 
@@ -21,5 +23,20 @@ extension MessageRouteController on MessageController {
   /// push - 实际聊天窗口-page-页面
   Future pushChatPage() async {
     await Get.toNamed(Routes.chatPage);
+  }
+
+  /// push - 邀请
+  Future<void> pushInviteAlert() async {
+    final ctx = Get.context;
+    if (ctx == null) return;
+    await BottomAlert.alerts(
+      ctx,
+      isDismissible: true,
+      wholeCustomWidget: InviteTogetherSheetWidget(
+        inviteCode: '${vm.value.myDoing?.tagId ?? '--'}',
+        shareLink:
+        'https://images.unsplash.com/photo-1538370965046-79c0d6907d47',
+      ),
+    );
   }
 }

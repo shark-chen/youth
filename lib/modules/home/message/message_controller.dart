@@ -2,6 +2,8 @@ import 'package:youth/base/base_controller.dart';
 import 'view_model/message_vm.dart';
 import 'controller/message_route_controller.dart';
 export 'controller/message_route_controller.dart';
+import 'controller/message_request_controller.dart';
+export 'controller/message_request_controller.dart';
 
 /// FileName: message_controller
 ///
@@ -19,5 +21,14 @@ class MessageController extends BaseController {
   void onInit() async {
     super.onInit();
     title = '消息';
+
+    /// GET /api/status/my-doing
+    requestMyDoing();
+  }
+
+  /// 点击删除我正在做的事
+  Future clickDeleteStatusDoing() async {
+    await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
+    vm.refresh();
   }
 }

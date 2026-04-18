@@ -31,7 +31,6 @@ class EditMineInfoVM extends BaseVM {
 
   final ImagePicker _imagePicker = ImagePicker();
 
-
   /// 私密信息
   UserPrivateInfoEntity? userPrivateInfoEntity;
 
@@ -79,16 +78,6 @@ class EditMineInfoVM extends BaseVM {
       return null;
     }
     return _cachedProvinces;
-  }
-
-  /// 拉取服务端资料并填充草稿
-  Future<String?> loadFromServer() async {
-    final response = await Net.value<User>().requestUserInfo<UserInfoEntity>();
-    if (response.succeed && response.value != null) {
-      applyUserInfo(response.value);
-      return null;
-    }
-    return response.msg ?? LocaleKeys.NetworkError.tr;
   }
 
   void applyUserInfo(UserInfoEntity? u) {
@@ -250,6 +239,8 @@ class EditMineInfoVM extends BaseVM {
     final res =
         await Net.value<User>().requestUploadUserAvatarFromPath<dynamic>(
       path,
+      filename:
+          'image_picker_6EE1DF4E-FC22-452A-B5CB-2989CE652F37-31083-00000A84C9D7C0EB.png',
     );
     if (res.succeed || res.success || (res.code == 200) || (res.code == 0)) {
       draft.pendingAvatarLocalPath = null;
@@ -273,7 +264,7 @@ class EditMineInfoVM extends BaseVM {
 
     final remotePhotos = draft.remotePhotoUrls();
     final hadLocalPhotos = draft.hasLocalPhotos;
-
+    return '';
     final response = await Net.value<User>().requestUpdateUserInfo<dynamic>(
       gender: draft.gender,
       birthday: draft.birthday,

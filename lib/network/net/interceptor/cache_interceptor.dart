@@ -73,7 +73,7 @@ class CacheInterceptor extends Interceptor {
         queryParameters.remove("cacheCall");
         Map? data = ModelUtils.convert<Map>(response.data);
         int? code = ModelUtils.convert<int>(data?['code']);
-        if (code == 0) {
+        if (code == 200) {
           var identify =
               ModelUtils.convert<String>(queryParameters['identify']);
           store?.put(getStoreKey(response.requestOptions, identify: identify),
