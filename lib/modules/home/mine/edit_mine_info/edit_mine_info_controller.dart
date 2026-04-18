@@ -84,7 +84,19 @@ class EditMineInfoController extends BaseController {
         onConfirm: (password) async {
           /// 验证私密信息密码
           final check = await requestUserPrivateVerify(password: password);
-          if (check) {}
+          if (check) {
+            await pushEditNiceNameAlert(
+              title: '更新私密内容',
+              sureCall: (content) async {
+                /// 第一次设置私密
+                final result = await requestUpdateUserPrivate(
+                  wishDescription: content,
+                  oldPassword: password,
+                );
+                Get.back();
+              },
+            );
+          }
         },
       );
     } else {
@@ -97,7 +109,7 @@ class EditMineInfoController extends BaseController {
               /// 第一次设置私密
               final result = await requestUpdateUserPrivate(
                 wishDescription: content,
-                password: password,
+                oldPassword: password,
               );
               Get.back();
             },
@@ -105,6 +117,30 @@ class EditMineInfoController extends BaseController {
         },
       );
     }
+  }
+
+  /// 点击修改密码
+  Future clickModifyPassword() async {
+    await pushPasswordAlert(
+      title: '验证密码',
+      onConfirm: (oldPassword) async {
+        /// 验证私密信息密码
+        final check = await requestUserPrivateVerify(password: oldPassword);
+        if (check) {
+          await pushPasswordAlert(
+            title: '更新尼玛',
+            onConfirm: (newPassword) async {
+              /// 第一次设置私密
+              final result = await requestUpdateUserPrivatePassword(
+                newPassword: newPassword,
+                oldPassword: oldPassword,
+              );
+              Get.back();
+            },
+          );
+        }
+      },
+    );
   }
 
   Future<void> onAvatarTap() async {

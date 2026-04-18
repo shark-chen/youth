@@ -18,20 +18,19 @@ class FeedbackPage extends BasePage<FeedbackController> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
-    return Scaffold(
-      backgroundColor: ThemeColor.themeColor,
-      resizeToAvoidBottomInset: true,
-      appBar: AppBarKit.appBar(
-        controller.title ?? '',
+    return GestureDetector(
+      onTap: controller.hideKeyboard,
+      child: Scaffold(
         backgroundColor: ThemeColor.themeColor,
-        elevation: 0,
-        textColor: ThemeColor.whiteColor,
-        backTap: controller.closePage,
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(bottom: bottomInset),
-        child: Column(
+        resizeToAvoidBottomInset: true,
+        appBar: AppBarKit.appBar(
+          controller.title ?? '',
+          backgroundColor: ThemeColor.themeColor,
+          elevation: 0,
+          textColor: ThemeColor.whiteColor,
+          backTap: controller.closePage,
+        ),
+        body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(

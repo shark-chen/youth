@@ -1,12 +1,13 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:youth/utils/extension/lists/lists.dart';
 import 'package:youth/utils/extension/strings/strings.dart';
 import 'package:youth/widget/bottom_alert/bottom_alert.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 import '../edit_mine_info_controller.dart';
+import 'edit_mine_info_request_controller.dart';
 import '../view/edit_change_password_sheet_widget.dart';
 import '../view/edit_gender_sheet_widget.dart';
+import '../view/edit_reset_private_password_confirm_dialog.dart';
 import '../view/edit_nickname_sheet_widget.dart';
 
 /// FileName: edit_mine_info_route_controller
@@ -60,13 +61,34 @@ extension EditMineInfoRouteController on EditMineInfoController {
       wholeCustomWidget: EditChangePasswordSheetWidget(
         title: title,
         closeTap: Get.back,
+        showResetPassword: vm.value.userPrivateInfoEntity?.hasPassword,
         onConfirm: (password) {
           Get.back();
           onConfirm.call(password);
         },
         onModifyPasswordTap: () {
           Get.back();
-          EasyLoading.showToast('敬请期待');
+          Future<void>.microtask(() async {
+            await showResetPrivatePasswordConfirmDialog();
+          });
+        },
+      ),
+    );
+  }
+
+  /// 居中弹框：确认重置私密密码（清空私密信息）
+  Future<void> showResetPrivatePasswordConfirmDialog() async {
+    final ctx = Get.context;
+    if (ctx == null) return;
+    await showDialog<void>(
+      context: ctx,
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => EditResetPrivatePasswordConfirmDialog(
+        onCancel: () => Navigator.pop(dialogContext),
+        onConfirm: () async {
+          Navigator.pop(dialogContext);
+          await requestUserPrivateResetPassword();
         },
       ),
     );

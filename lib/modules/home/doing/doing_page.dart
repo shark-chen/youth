@@ -16,7 +16,7 @@ class DoingPage extends BasePage<DoingController> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: controller.requestHotTags,
+      onTap: controller.hideKeyboard,
       child: Scaffold(
         backgroundColor: ThemeColor.themeColor,
         body: Stack(

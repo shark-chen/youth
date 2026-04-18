@@ -1,18 +1,22 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:youth/tripartite_library/tripartite_library.dart';
+import 'package:youth/utils/extension/text_styles.dart';
 import 'package:youth/utils/utils/theme_color.dart';
 
 /// 非公开内容：AI 说明区 + 密码行
 class EditPrivateSection extends StatelessWidget {
   const EditPrivateSection({
     super.key,
+    this.privateContent,
     required this.onAiTap,
     required this.onChangePasswordTap,
     this.passwordHint = '已设置过密码',
     this.passwordBtnTitle = '修改密码',
   });
 
+  final String? privateContent;
   final VoidCallback onAiTap;
   final VoidCallback onChangePasswordTap;
   final String passwordHint;
@@ -98,27 +102,34 @@ class EditPrivateSection extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 28),
                     alignment: Alignment.center,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: ThemeColor.themeColor.withOpacity(0.65),
-                        borderRadius: BorderRadius.circular(22),
-                        border: Border.all(
-                          color: ThemeColor.whiteColor.withOpacity(0.12),
-                        ),
-                      ),
-                      child: Text(
-                        '+ 说两句',
-                        style: TextStyle(
-                          color: ThemeColor.whiteColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
+                    child: Strings.isNotEmpty(privateContent)
+                        ? Text(
+                            privateContent ?? '',
+                            style: TextStyles(
+                              color: ThemeColor.whiteColor,
+                            ),
+                          )
+                        : Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: ThemeColor.themeColor.withOpacity(0.65),
+                              borderRadius: BorderRadius.circular(22),
+                              border: Border.all(
+                                color: ThemeColor.whiteColor.withOpacity(0.12),
+                              ),
+                            ),
+                            child: Text(
+                              '+ 说两句',
+                              style: TextStyle(
+                                color: ThemeColor.whiteColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
                   ),
                 ),
               ),

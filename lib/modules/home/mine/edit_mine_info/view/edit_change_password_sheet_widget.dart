@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:youth/modules/modules.dart';
 import 'package:youth/utils/utils/theme_color.dart';
 
 /// 更改密码底部弹层：6 位数字密码 +「修改密码」入口 + 确定（风格对齐 [EditGenderSheetWidget] / [EditNickNameSheetWidget]）
@@ -10,6 +11,7 @@ class EditChangePasswordSheetWidget extends StatefulWidget {
     this.title,
     this.closeTap,
     this.onConfirm,
+    this.showResetPassword,
     this.onModifyPasswordTap,
   });
 
@@ -20,6 +22,9 @@ class EditChangePasswordSheetWidget extends StatefulWidget {
 
   /// 输入满 6 位数字后点击确定
   final ValueChanged<String>? onConfirm;
+
+  /// 展示重置密码
+  final bool? showResetPassword;
 
   /// 右侧「修改密码」
   final VoidCallback? onModifyPasswordTap;
@@ -68,7 +73,8 @@ class _EditChangePasswordSheetWidgetState
         AnimatedPadding(
           duration: const Duration(milliseconds: 120),
           curve: Curves.easeOutCubic,
-          padding: EdgeInsets.only(bottom: bottomInset > 500 ? 500 : bottomInset),
+          padding:
+              EdgeInsets.only(bottom: bottomInset > 500 ? 500 : bottomInset),
           child: Container(
             alignment: Alignment.bottomCenter,
             width: Get.width,
@@ -127,7 +133,8 @@ class _EditChangePasswordSheetWidgetState
                           final has = text.length > i;
                           final ch = has ? text[i] : '';
                           final active = _focusNode.hasFocus &&
-                              (text.length == i || (text.length == 6 && i == 5));
+                              (text.length == i ||
+                                  (text.length == 6 && i == 5));
                           return Expanded(
                             child: Padding(
                               padding: EdgeInsets.only(right: i < 5 ? 8 : 0),
@@ -185,29 +192,32 @@ class _EditChangePasswordSheetWidgetState
                     ],
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: widget.onModifyPasswordTap,
-                    behavior: HitTestBehavior.opaque,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8, bottom: 4),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            '修改密码',
-                            style: TextStyle(
-                              color: ThemeColor.whiteColor,
-                              fontSize: 14,
+                Visibility(
+                  visible: true == widget.showResetPassword,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: widget.onModifyPasswordTap,
+                      behavior: HitTestBehavior.opaque,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 4),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              '重置密码',
+                              style: TextStyle(
+                                color: ThemeColor.whiteColor,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                          Icon(
-                            Icons.chevron_right,
-                            color: ThemeColor.whiteColor,
-                            size: 20,
-                          ),
-                        ],
+                            Icon(
+                              Icons.chevron_right,
+                              color: ThemeColor.whiteColor,
+                              size: 20,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

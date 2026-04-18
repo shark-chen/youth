@@ -115,6 +115,11 @@ class AppConfig {
     return '/api/user/private/verify';
   }
 
+  /// 重置私密信息密码（无参数）
+  static String get postUserPrivateResetPasswordUrl {
+    return '/api/user/private/reset-password';
+  }
+
   /// 他人资料（path: userId）
   static String getUserByUserIdUrl(String userId) {
     return '/api/user/$userId';
@@ -184,6 +189,16 @@ class AppConfig {
   /// 上传照片
   static String get getUploadPhotoUrl {
     return '/api/user/photo';
+  }
+
+  /// 意见反馈提交（POST body: content, images, contact）
+  static String get postFeedbackSubmitUrl {
+    return '/api/feedback/submit';
+  }
+
+  /// 会话列表（GET query: page, size）
+  static String get getMessageConversationsUrl {
+    return '/api/message/conversations';
   }
 
 

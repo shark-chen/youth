@@ -49,15 +49,17 @@ extension EditMineInfoReuestController on EditMineInfoController {
     EasyLoading.dismiss();
     if (response.success) {
       return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
     }
-    return false;
   }
 
   /// 第一次设置私密
   /// 更新用户私密信息 · PUT /api/user/private
   Future<bool> requestUpdateUserPrivate({
     required String wishDescription,
-    required String password,
+    String? password,
     String? oldPassword,
   }) async {
     EasyLoading.show();
@@ -67,7 +69,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
       oldPassword: oldPassword,
     );
     EasyLoading.dismiss();
-    if(response.success) {
+    if (response.success) {
       EasyLoading.showToast('设置成功');
       return true;
     } else {
@@ -77,7 +79,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
   }
 
   /// 修改私密信息中的密码 · PUT /api/user/private/password
-  Future<NetResult<dynamic>> requestUpdateUserPrivatePassword({
+  Future<bool> requestUpdateUserPrivatePassword({
     required String oldPassword,
     required String newPassword,
   }) async {
@@ -88,7 +90,13 @@ extension EditMineInfoReuestController on EditMineInfoController {
       newPassword: newPassword,
     );
     EasyLoading.dismiss();
-    return response;
+    if (response.success) {
+      EasyLoading.showToast('修改成功');
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
+    }
   }
 
   /// 上传图片 · POST /api/user/photo（multipart 字段 `file`）
@@ -103,5 +111,20 @@ extension EditMineInfoReuestController on EditMineInfoController {
     );
     EasyLoading.dismiss();
     return response;
+  }
+
+  /// 重置私密信息密码 · POST /api/user/private/reset-password（无参数）
+  Future<bool> requestUserPrivateResetPassword() async {
+    EasyLoading.show();
+    final response = await Net.value<User>().requestUserPrivateResetPassword();
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast('重置成功');
+      vm.refresh();
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
+    }
   }
 }

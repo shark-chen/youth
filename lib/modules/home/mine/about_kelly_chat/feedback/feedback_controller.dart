@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:youth/base/base_controller.dart';
+import 'package:youth/network/net/entry/auxiliary/auxiliary.dart';
 
 /// FileName: feedback_controller
 ///
@@ -75,11 +76,18 @@ class FeedbackController extends BaseController {
     requesting.value = true;
     try {
       EasyLoading.show(status: LocaleKeys.Commiting.tr);
-      // TODO: 对接反馈接口：multipart 上传 text、contact、imagePaths
-      await Future<void>.delayed(const Duration(milliseconds: 400));
+      final response = await Net.value<Auxiliary>().requestFeedbackSubmit(
+        content: text,
+        images: imagePaths.isEmpty ? '' : imagePaths.join(','),
+        contact: contactController.text.trim(),
+      );
       EasyLoading.dismiss();
-      EasyLoading.showToast(LocaleKeys.submitSuccess.tr);
-      Get.back();
+      if (response.success) {
+        EasyLoading.showToast(response.msg ?? LocaleKeys.submitSuccess.tr);
+        Future.delayed(Duration(seconds: 2), Get.back);
+      } else {
+        EasyLoading.showToast(response.msg ?? LocaleKeys.SubmitFailed.tr);
+      }
     } catch (_) {
       EasyLoading.dismiss();
       EasyLoading.showToast(LocaleKeys.SubmitFailed.tr);

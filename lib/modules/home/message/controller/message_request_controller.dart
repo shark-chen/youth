@@ -1,5 +1,6 @@
 import 'package:youth/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:youth/network/net/entry/doing/doing.dart';
+import 'package:youth/network/net/entry/message/message.dart';
 
 import '../message_controller.dart';
 import 'package:youth/base/base_controller.dart';
@@ -13,6 +14,24 @@ import 'package:youth/base/base_controller.dart';
 extension MessageRequestController on MessageController {
   /// mark - request
   ///
+  /// GET /api/message/conversations 获取用户会话列表
+  Future<void> requestConversations({
+    int page = 1,
+    int size = 20,
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<Message>().requestMessageConversations<dynamic>(
+      page: page,
+      size: size,
+    );
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
   /// GET /api/status/my-doing
   Future<void> requestMyDoing() async {
     EasyLoading.show();

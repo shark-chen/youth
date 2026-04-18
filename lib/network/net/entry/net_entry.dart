@@ -2,6 +2,7 @@ import 'package:youth/config/environment_config/config.dart';
 import 'package:youth/network/net/entry/auxiliary/wechat.dart';
 import 'auxiliary/auxiliary.dart';
 import 'doing/doing.dart';
+import 'message/message.dart';
 import 'user/user.dart';
 
 /// FileName net_entry
@@ -22,5 +23,6 @@ T createNet<T>() {
 late final Map<String, dynamic> netEntryMap = {
   (User).toString(): User.init,
   (Doing).toString(): Doing.init,
+  (Message).toString(): Message.init,
   (Auxiliary).toString(): Auxiliary.init,
 };

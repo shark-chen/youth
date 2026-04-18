@@ -34,7 +34,7 @@ class User extends NetMixin<User> {
   /// PUT /api/user/private
   Future<NetResult<T>> requestUpdateUserPrivate<T>({
     required String wishDescription,
-    required String password,
+    String? password,
     String? oldPassword,
   }) async {
     return await put<T>(
@@ -70,6 +70,15 @@ class User extends NetMixin<User> {
     return await post<T>(
       AppConfig.postUserPrivateVerifyUrl,
       data: <String, dynamic>{'password': password},
+    );
+  }
+
+  /// 重置私密信息密码
+  /// POST /api/user/private/reset-password（无参数）
+  Future<NetResult<T>> requestUserPrivateResetPassword<T>() async {
+    return await post<T>(
+      AppConfig.postUserPrivateResetPasswordUrl,
+      data: <String, dynamic>{},
     );
   }
 
