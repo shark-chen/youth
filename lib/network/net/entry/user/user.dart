@@ -95,7 +95,6 @@ class User extends NetMixin<User> {
     return await post<T>(
       AppConfig.getUserAvatarUrl,
       data: formData,
-      isFormData: false,
     );
   }
 
@@ -107,6 +106,7 @@ class User extends NetMixin<User> {
     final file = await MultipartFile.fromFile(
       filePath,
       filename: filename,
+      contentType: MediaType('image', 'jpeg'),
     );
     return requestUploadUserAvatar<T>(file);
   }
