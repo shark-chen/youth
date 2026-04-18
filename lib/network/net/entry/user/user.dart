@@ -62,6 +62,17 @@ class User extends NetMixin<User> {
     );
   }
 
+  /// 验证私密信息密码
+  /// POST /api/user/private/verify body: `{ "password": "..." }`
+  Future<NetResult<T>> requestUserPrivateVerify<T>({
+    required String password,
+  }) async {
+    return await post<T>(
+      AppConfig.postUserPrivateVerifyUrl,
+      data: <String, dynamic>{'password': password},
+    );
+  }
+
   /// 他人信息
   Future<NetResult<T>> requestUserByUserId<T>({
     required String userId,

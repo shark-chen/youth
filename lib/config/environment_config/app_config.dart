@@ -110,6 +110,11 @@ class AppConfig {
     return '/api/user/private/password';
   }
 
+  /// 验证保护密码并获取私密内容
+  static String get postUserPrivateVerifyUrl {
+    return '/api/user/private/verify';
+  }
+
   /// 他人资料（path: userId）
   static String getUserByUserIdUrl(String userId) {
     return '/api/user/$userId';

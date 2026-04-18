@@ -1,9 +1,11 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:youth/utils/extension/lists/lists.dart';
 import 'package:youth/utils/extension/strings/strings.dart';
 import 'package:youth/widget/bottom_alert/bottom_alert.dart';
 import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 import '../edit_mine_info_controller.dart';
+import '../view/edit_change_password_sheet_widget.dart';
 import '../view/edit_gender_sheet_widget.dart';
 import '../view/edit_nickname_sheet_widget.dart';
 
@@ -43,6 +45,31 @@ extension EditMineInfoRouteController on EditMineInfoController {
       tec.dispose();
       focusNode.dispose();
     }
+  }
+
+  /// push - 更改密码（6 位数字 + 修改密码入口）
+  Future<void> pushPasswordAlert({
+    required String title,
+    required ValueChanged<String> onConfirm,
+  }) async {
+    final ctx = Get.context;
+    if (ctx == null) return;
+    await BottomAlert.alerts(
+      ctx,
+      isDismissible: true,
+      wholeCustomWidget: EditChangePasswordSheetWidget(
+        title: title,
+        closeTap: Get.back,
+        onConfirm: (password) {
+          Get.back();
+          onConfirm.call(password);
+        },
+        onModifyPasswordTap: () {
+          Get.back();
+          EasyLoading.showToast('敬请期待');
+        },
+      ),
+    );
   }
 
   /// push - 修改性别

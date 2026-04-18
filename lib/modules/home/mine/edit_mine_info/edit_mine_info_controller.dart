@@ -1,11 +1,8 @@
 import 'package:youth/base/base_controller.dart';
-import 'package:youth/network/net/entry/user/user.dart';
-import 'package:youth/widget/region_picker/region_picker_sheet.dart';
-import 'view/edit_gender_sheet_widget.dart';
 import 'view_model/edit_mine_info_vm.dart';
 export 'controller/edit_mine_info_route_controller.dart';
-import 'controller/edit_mine_info_route_controller.dart';
 import 'controller/edit_mine_info_request_controller.dart';
+import 'controller/edit_mine_info_route_controller.dart';
 
 /// FileName: edit_mine_info_controller
 ///
@@ -21,15 +18,13 @@ class EditMineInfoController extends BaseController {
     super.onInit();
     title = '编辑资料';
     vm.value.refresh = vm.refresh;
-
-    /// 获取当前登录用户的信息
-     requestUserInfo();
-
-    /// 获取用户私密信息 · GET /api/user/private
-    requestUserPrivate();
+    _bootstrap();
   }
 
-
+  Future<void> _bootstrap() async {
+    await requestUserInfo();
+    await requestUserPrivate();
+  }
 
   @override
   void onClose() {
@@ -56,20 +51,6 @@ class EditMineInfoController extends BaseController {
     Get.back(result: true);
   }
 
-  /// request - 标签走独立接口 PUT /api/user/tags
-  Future requestUpdateUserTags() async {
-    EasyLoading.show();
-    final response = await Net.value<User>().requestUpdateUserTags(
-      tags: List<String>.from(vm.value.draft.tags),
-    );
-    EasyLoading.dismiss();
-    if (response.success) {
-      EasyLoading.showToast('标签保存成功');
-    } else {
-      EasyLoading.showToast(response.msg ?? '标签保存失败');
-    }
-  }
-
   /// 点击编辑昵称
   Future<void> clickEditNiceName() async {
     await pushEditNiceNameAlert(
@@ -87,13 +68,43 @@ class EditMineInfoController extends BaseController {
   Future<void> clickAddTags() async {
     await pushEditNiceNameAlert(
       title: '添加标签',
-      sureCall: (value) async  {
+      sureCall: (value) {
         vm.value.addTag(value);
         Get.back();
-        await requestUpdateUserTags();
         vm.refresh();
       },
     );
+  }
+
+  /// 点击添加秘密
+  Future clickAddPrivacyMessage() async {
+    if (vm.value.draft.hasPrivateContent) {
+      await pushPasswordAlert(
+        title: '验证密码',
+        onConfirm: (password) async {
+          /// 验证私密信息密码
+          final check = await requestUserPrivateVerify(password: password);
+          if (check) {}
+        },
+      );
+    } else {
+      await pushPasswordAlert(
+        title: '设置密码',
+        onConfirm: (password) async {
+          await pushEditNiceNameAlert(
+            title: '设置私密内容',
+            sureCall: (content) async {
+              /// 第一次设置私密
+              final result = await requestUpdateUserPrivate(
+                wishDescription: content,
+                password: password,
+              );
+              Get.back();
+            },
+          );
+        },
+      );
+    }
   }
 
   Future<void> onAvatarTap() async {
@@ -186,11 +197,7 @@ class EditMineInfoController extends BaseController {
 
   Future<void> onAddPhotoTap() async {
     await vm.value.pickPhotoFile();
-
     vm.refresh();
-    String? fileName = vm.value.draft.photos.last.split('/').last;
-
-    requestUploadPhoto(filePath: vm.value.draft.photos.last, filename: fileName);
   }
 
   void onRemovePhoto(int index) {
@@ -202,7 +209,7 @@ class EditMineInfoController extends BaseController {
     EasyLoading.showToast('敬请期待');
   }
 
-  void onChangePasswordTap() {
-    EasyLoading.showToast('修改密码功能即将开放');
+  Future<void> onChangePasswordTap() async {
+    await pushPasswordAlert(title: '验证密码', onConfirm: (_) {});
   }
 }

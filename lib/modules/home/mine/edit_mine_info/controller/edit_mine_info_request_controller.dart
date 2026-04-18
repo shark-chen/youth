@@ -1,5 +1,4 @@
 import 'package:youth/network/net/entry/user/user.dart';
-import 'package:youth/network/net/net.dart';
 import 'package:youth/network/net/net_result.dart';
 import '../../user_info/model/user_info_entity.dart';
 import '../edit_mine_info_controller.dart';
@@ -40,19 +39,41 @@ extension EditMineInfoReuestController on EditMineInfoController {
     return response;
   }
 
+  /// 验证私密信息密码 · POST /api/user/private/verify
+  Future<bool> requestUserPrivateVerify({
+    required String password,
+  }) async {
+    EasyLoading.show();
+    final response =
+        await Net.value<User>().requestUserPrivateVerify(password: password);
+    EasyLoading.dismiss();
+    if (response.success) {
+      return true;
+    }
+    return false;
+  }
+
   /// 第一次设置私密
   /// 更新用户私密信息 · PUT /api/user/private
-  Future<NetResult<dynamic>> requestUpdateUserPrivate({
+  Future<bool> requestUpdateUserPrivate({
     required String wishDescription,
     required String password,
-     String? oldPassword,
+    String? oldPassword,
   }) async {
+    EasyLoading.show();
     final response = await Net.value<User>().requestUpdateUserPrivate<dynamic>(
       wishDescription: wishDescription,
       password: password,
       oldPassword: oldPassword,
     );
-    return response;
+    EasyLoading.dismiss();
+    if(response.success) {
+      EasyLoading.showToast('设置成功');
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
+    }
   }
 
   /// 修改私密信息中的密码 · PUT /api/user/private/password
@@ -60,11 +81,13 @@ extension EditMineInfoReuestController on EditMineInfoController {
     required String oldPassword,
     required String newPassword,
   }) async {
+    EasyLoading.show();
     final response =
         await Net.value<User>().requestUpdateUserPrivatePassword<dynamic>(
       oldPassword: oldPassword,
       newPassword: newPassword,
     );
+    EasyLoading.dismiss();
     return response;
   }
 
@@ -73,10 +96,12 @@ extension EditMineInfoReuestController on EditMineInfoController {
     required String filePath,
     String? filename,
   }) async {
+    EasyLoading.show();
     final response = await Net.value<User>().requestUploadPhoto<dynamic>(
       filePath: filePath,
       filename: filename,
     );
+    EasyLoading.dismiss();
     return response;
   }
 }
