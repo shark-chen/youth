@@ -5,7 +5,6 @@
 ///
 /// @Description 三方库/二方库
 export 'package:shared_preferences/shared_preferences.dart';
-export 'camera/cameras.dart';
 
 /// toast
 export 'easy_loading/easy_loading_view.dart';

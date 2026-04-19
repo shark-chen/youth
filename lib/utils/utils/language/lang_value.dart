@@ -1,4 +1,5 @@
 import 'package:youth/tripartite_library/tripartite_library.dart';
+import 'package:youth/utils/extension/strings/strings.dart';
 
 /// 后端lang 值
 enum LangValue {

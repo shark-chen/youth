@@ -1,6 +1,5 @@
 import 'package:youth/base/base_page.dart';
 import 'package:youth/base/base_stateless_widget.dart';
-import 'package:youth/tripartite_library/camera/camera_engine/camera_engine.dart';
 
 /// FileName: user_header_info_view
 ///

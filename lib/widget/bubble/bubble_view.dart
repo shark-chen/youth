@@ -1,5 +1,6 @@
 import 'dart:math';
-import 'package:youth/tripartite_library/camera/cameras.dart';
+import 'package:youth/widget/bubble/model/bubble_model.dart';
+import '../../base/base_stateless_widget.dart';
 import '../triangle/triangle_painter.dart';
 
 /// FileName bubble_view

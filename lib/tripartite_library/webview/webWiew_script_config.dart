@@ -1,5 +1,3 @@
-import 'channel/camera_script_channel.dart';
-import 'channel/camera_view_script_channel.dart';
 import 'channel/dialog_script_channel.dart';
 import 'channel/global_script_channel.dart';
 import 'channel/reload_script_channel.dart';
@@ -11,8 +9,6 @@ class WebViewScriptConfig {
     BaseWebViewController controller,
   ) {
     return [
-      CameraScriptChannel('Camera', controller),
-      CameraViewScriptChannel('CameraView', controller),
       DialogScriptChannel('PostDialog', controller),
       GlobalScriptChannel('Global', controller),
       ReloadScriptChannel('Reload', controller),

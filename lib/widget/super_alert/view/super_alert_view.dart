@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:youth/tripartite_library/camera/cameras.dart';
 import 'package:flutter/services.dart';
+
+import '../../../base/base_stateless_widget.dart';
 
 /// FileName super_view
 ///

@@ -6,7 +6,6 @@ import 'package:youth/base/base_controller.dart';
 import 'package:youth/base/base_page.dart';
 import 'package:youth/base/base_stateless_widget.dart';
 import 'package:youth/modules/modules.dart';
-import 'package:youth/tripartite_library/camera/camera_engine/camera_engine.dart';
 import 'package:youth/widget/bottom_dialog/bottom_dialog.dart';
 
 /// FileName: invite_record_view

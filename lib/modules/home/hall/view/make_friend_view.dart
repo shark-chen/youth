@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:youth/tripartite_library/tripartite_library.dart';
-
+import 'package:youth/utils/extension/lists/lists.dart';
+import 'package:youth/utils/marco/marco.dart';
+import 'package:youth/utils/utils/theme_color.dart';
 import '../model/smart_match_people_entity.dart';
 
 /// FileName: make_friend_view

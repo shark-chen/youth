@@ -1,4 +1,5 @@
 import 'dart:io';
+import '../../../../base/base_controller.dart';
 import '../../../../base/base_page.dart';
 import '../../../../network/downloader/stream_speed_assist.dart';
 import '../../../../utils/router_observer/router_observer.dart';

@@ -3,7 +3,6 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-export '../tripartite_library/camera/model/camera_callback.dart';
 import 'base_controller.dart';
 export 'base_model_entity.dart';
 export 'package:get/get.dart';
@@ -68,7 +67,6 @@ abstract class BaseController extends GetxController
   bool isCamera = UserCenter().isCamera;
   bool hiddenKeyboard = true; // PDA会自动聚焦键盘,但不弹出键盘，如果点击输入框时需要弹起键盘，使用此字段
 
-  CameraScanCallBack? cameraScanCallBack;
 
   RefreshController refreshController =
       RefreshController(initialRefresh: false);

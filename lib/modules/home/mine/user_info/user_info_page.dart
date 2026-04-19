@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:youth/base/base_page.dart';
+import 'package:youth/utils/extension/lists/lists.dart';
+import 'package:youth/utils/extension/strings/strings.dart';
 import 'user_info_controller.dart';
 import 'view/picture_wall_view.dart';
 import 'view/user_header_info_view.dart';

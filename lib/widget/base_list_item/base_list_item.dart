@@ -1,6 +1,5 @@
 import 'package:youth/base/base_controller.dart';
 import 'package:youth/modules/modules.dart';
-import 'package:youth/tripartite_library/camera/cameras_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 

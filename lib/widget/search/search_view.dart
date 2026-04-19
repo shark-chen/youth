@@ -1,4 +1,5 @@
 import 'package:youth/tripartite_library/tripartite_library.dart';
+import 'package:youth/utils/utils/theme_color.dart';
 import 'search_base_view.dart';
 
 /// FileName search_view

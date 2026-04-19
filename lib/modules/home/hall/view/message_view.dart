@@ -1,4 +1,6 @@
 import 'package:youth/tripartite_library/tripartite_library.dart';
+import 'package:youth/utils/extension/strings/strings.dart';
+import 'package:youth/utils/utils/theme_color.dart';
 import '../../../../utils/extension/text_styles.dart';
 
 /// FileName message_view

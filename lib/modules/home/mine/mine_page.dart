@@ -1,4 +1,5 @@
 import 'package:youth/base/base_page.dart';
+import 'package:youth/utils/extension/strings/strings.dart';
 import 'mine_controller.dart';
 
 /// FileName: mine_page
