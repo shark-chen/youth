@@ -135,6 +135,11 @@ class AppConfig {
     return '/api/user/tags';
   }
 
+  /// 更新照片墙（PUT body: `{ "photos": ["https://..."] }`，与 profile 上的 photos 字段不同路径）
+  static String get putUserPhotosUrl {
+    return '/api/user/photos';
+  }
+
   /// 获取当前热门的正在做标签列表
   static String get getStatusHotTagsUrl {
     return '/api/status/hot-tags';

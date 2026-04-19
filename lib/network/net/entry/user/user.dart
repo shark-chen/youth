@@ -157,6 +157,17 @@ class User extends NetMixin<User> {
     );
   }
 
+  /// 更新照片墙（独立接口，非 [requestUpdateUserInfo] 中的 photos）
+  /// PUT /api/user/photos body: `{ "photos": ["https://..."] }`
+  Future<NetResult<T>> requestUpdateUserPhotos<T>({
+    required List<String> photos,
+  }) async {
+    return await put<T>(
+      AppConfig.putUserPhotosUrl,
+      data: <String, dynamic>{'photos': photos},
+    );
+  }
+
   /// 后端健康
   Future<NetResult<T>> requestActuatorHealth<T>() async {
     return await get<T>(AppConfig.getaActuatorHealthUrl);

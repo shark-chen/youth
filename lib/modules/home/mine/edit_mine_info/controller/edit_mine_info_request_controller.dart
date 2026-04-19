@@ -64,6 +64,25 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
+  /// 更新照片墙 · PUT /api/user/photos
+  Future<bool> requestUpdateUserPhotos({
+    required List<String> photos,
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<User>().requestUpdateUserPhotos<dynamic>(
+      photos: photos,
+    );
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast('保存成功');
+      vm.refresh();
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
+    }
+  }
+
   /// 获取用户私密信息 · GET /api/user/private
   Future<NetResult<dynamic>> requestUserPrivate() async {
     EasyLoading.show();

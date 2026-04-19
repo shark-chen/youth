@@ -81,7 +81,7 @@ class EditMineInfoController extends BaseController {
 
   /// 点击添加秘密
   Future clickAddPrivacyMessage() async {
-    if (vm.value.draft.hasPrivateContent) {
+    if (true == vm.value.userPrivateInfoEntity?.hasPassword) {
       await pushPasswordAlert(
         title: '验证密码',
         onConfirm: (password) async {
@@ -117,6 +117,10 @@ class EditMineInfoController extends BaseController {
                 wishDescription: content,
                 oldPassword: password,
               );
+              if (result) {
+                vm.value.userPrivateInfoEntity?.wishDescription = content;
+                vm.refresh();
+              }
               Get.back();
             },
           );
@@ -243,6 +247,10 @@ class EditMineInfoController extends BaseController {
     final url = await requestUploadPhoto(file?.path ?? '');
     if (Strings.isEmpty(url)) return;
     vm.value.draft.photos.add(url ?? '');
+    if (Lists.isNotEmpty(vm.value.draft.photos)) {
+      /// 更新照片墙 · PUT /api/user/photos
+      await requestUpdateUserPhotos(photos: vm.value.draft.photos);
+    }
     vm.refresh();
   }
 
