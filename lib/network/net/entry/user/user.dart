@@ -89,6 +89,17 @@ class User extends NetMixin<User> {
     return await get<T>(AppConfig.getUserByUserIdUrl(userId));
   }
 
+  /// 拉黑用户
+  /// POST /api/block/{blockedUserId} body: `{ "blockedUserId": "..." }`
+  Future<NetResult<T>> requestBlockUser<T>({
+    required String blockedUserId,
+  }) async {
+    return await post<T>(
+      AppConfig.postBlockUserUrl(blockedUserId),
+      data: <String, dynamic>{'blockedUserId': blockedUserId},
+    );
+  }
+
   /// 上传头像（multipart 字段 `file`）
   Future<NetResult<T>> requestUploadUserAvatar<T>(MultipartFile file) async {
     final formData = FormData.fromMap(<String, dynamic>{'file': file});

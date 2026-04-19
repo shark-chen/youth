@@ -6,6 +6,7 @@ import 'view/card_stack_view.dart';
 import 'view/find_friend_prompt_view.dart';
 import 'view/input_ai_view.dart';
 import 'view/make_friend_view.dart';
+import 'view_model/hall_vm.dart';
 
 /// 首页大厅页面
 class HallPage extends BasePage<HallController> {
@@ -96,6 +97,12 @@ class HallPage extends BasePage<HallController> {
                   onTap: controller.clickLookUserInfo,
                   emptyHintWhenNoData: '暂无匹配用户',
                   emptyHintWhenNoMore: '没有更多了',
+                  removeFriendCall: (count) {
+                    if(count <= 0) {
+                      controller.vm.value.findMode = FindMode.findPrompt;
+                      controller.vm.refresh();
+                    }
+                  },
                 ),
               ),
             ),

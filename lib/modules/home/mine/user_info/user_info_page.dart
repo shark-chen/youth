@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:youth/base/base_page.dart';
 import 'user_info_controller.dart';
 import 'view/picture_wall_view.dart';
@@ -18,7 +19,19 @@ class UserInfoPage extends BasePage<UserInfoController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
-      appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
+      appBar: AppBarKit.appBar(controller.title ?? '',
+          elevation: 0.2,
+          actions: controller.vm.value.userId != null
+              ? [
+                  IconButton(
+                    onPressed: controller.pushMoreActionsAlert,
+                    icon: Icon(
+                      Icons.more_horiz,
+                      color: ThemeColor.whiteColor,
+                    ),
+                  )
+                ]
+              : []),
       body: Obx(
         () => Column(
           children: [
@@ -32,8 +45,8 @@ class UserInfoPage extends BasePage<UserInfoController> {
                   children: [
                     /// 用户信息头像信息- view
                     UserHeaderInfoWidget(
-                      headPortraitUrl:  controller.userInfo?.avatar,
-                      userName:  controller.userInfo?.nickname,
+                      headPortraitUrl: controller.userInfo?.avatar,
+                      userName: controller.userInfo?.nickname,
                       age: controller.userInfo?.ageInfo,
                       address: controller.userInfo?.regionInfo,
                       gender: controller.userInfo?.gender,

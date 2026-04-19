@@ -125,6 +125,11 @@ class AppConfig {
     return '/api/user/$userId';
   }
 
+  /// 拉黑用户（POST path: blockedUserId，body 含 `blockedUserId`）
+  static String postBlockUserUrl(String blockedUserId) {
+    return '/api/block/$blockedUserId';
+  }
+
   /// 上传头像（POST multipart，字段名 `file`）
   static String get getUserAvatarUrl {
     return '/api/user/avatar';

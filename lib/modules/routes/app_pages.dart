@@ -170,5 +170,21 @@ class AppPages {
       binding: EditMineInfoBinding(),
       transition: Transition.rightToLeft,
     ),
+
+    /// 举报理由
+    GetPage(
+      name: Routes.reportPage,
+      page: () => const ReportPage(),
+      binding: ReportBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 举报证据
+    GetPage(
+      name: Routes.reportSubmitPage,
+      page: () => const ReportSubmitPage(),
+      binding: ReportSubmitBinding(),
+      transition: Transition.rightToLeft,
+    ),
   ];
 }

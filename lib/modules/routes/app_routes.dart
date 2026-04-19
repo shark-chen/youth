@@ -36,4 +36,6 @@ abstract class Routes {
   static const aboutKellyChatPage = '/aboutKellyChatPage';
   static const feedbackPage = '/feedbackPage';
   static const editMineInfoPage = '/editMineInfoPage';
+  static const reportPage = '/reportPage';
+  static const reportSubmitPage = '/reportSubmitPage';
 }

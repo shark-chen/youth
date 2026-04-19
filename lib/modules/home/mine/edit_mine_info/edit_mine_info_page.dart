@@ -88,12 +88,12 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                       onAiTap: controller.clickAddPrivacyMessage,
                       passwordHint: true ==
                               controller
-                                  .vm.value.userPrivateInfoEntity?.hasPassword
+                                  .vm.value.draft?.hasPrivateContent
                           ? '已设置过密码'
                           : '未设置过密码',
                       passwordBtnTitle: true ==
                           controller
-                              .vm.value.userPrivateInfoEntity?.hasPassword
+                              .vm.value.draft?.hasPrivateContent
                           ? '修改密码'
                           : '设置密码',
                       onChangePasswordTap: controller.clickModifyPassword,

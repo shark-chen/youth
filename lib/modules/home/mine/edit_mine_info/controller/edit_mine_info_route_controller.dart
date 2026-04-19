@@ -61,7 +61,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
       wholeCustomWidget: EditChangePasswordSheetWidget(
         title: title,
         closeTap: Get.back,
-        showResetPassword: vm.value.userPrivateInfoEntity?.hasPassword,
+        showResetPassword: vm.value.draft?.hasPrivateContent ,
         onConfirm: (password) {
           Get.back();
           onConfirm.call(password);

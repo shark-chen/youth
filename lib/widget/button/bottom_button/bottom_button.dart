@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,10 +35,10 @@ class BottomButton extends StatelessWidget {
     this.rightEnable = true,
     this.width,
     this.height,
-    this.color = Colors.white,
+    this.color = ThemeColor.themeColor,
     this.circular = 5,
     this.buttonSpace = 9,
-    this.showLine = true,
+    this.showLine = false,
     this.wipePhoneXLeave = false,
     this.bottomPad,
     this.leftBtnFlex,
@@ -128,7 +130,7 @@ class BottomButton extends StatelessWidget {
       height: height ?? (72 + (bottomPad ?? bottomPadding)),
       width: (width ?? Get.width),
       decoration: BoxDecoration(
-        color: color ?? Colors.white,
+        color: color ?? ThemeColor.themeColor,
         border: Border(
           top: BorderSide(
               color: (showLine ?? true)
@@ -158,7 +160,7 @@ class BottomButton extends StatelessWidget {
                         border:
                             Border.all(color: ThemeColor.threeDColor, width: 1),
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(6),
+                        borderRadius: BorderRadius.circular(32),
                       ),
                   child: leftIcon == null
                       ? textButton(
@@ -190,8 +192,8 @@ class BottomButton extends StatelessWidget {
                 child: Container(
                   decoration: rightDecoration ??
                       BoxDecoration(
-                        color: ThemeColor.blueColor,
-                        borderRadius: BorderRadius.circular(6),
+                        color: ThemeColor.themeGreenColor,
+                        borderRadius: BorderRadius.circular(32),
                       ),
                   child: rightIcon == null
                       ? textButton(
@@ -263,7 +265,7 @@ class BottomButton extends StatelessWidget {
         maxLines: 2,
         title ?? '',
         style: TextStyles(
-            color: titleColor ?? Colors.white,
+            color: titleColor ?? Colors.black,
             fontSize: 16,
             fontWeight: FontWeight.w500),
       ),

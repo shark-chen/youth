@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:youth/tripartite_library/tripartite_library.dart';
 
 import '../model/smart_match_people_entity.dart';
@@ -14,6 +15,7 @@ class CardStackDemo extends StatefulWidget {
     this.onTap,
     this.emptyHintWhenNoData,
     this.emptyHintWhenNoMore,
+    this.removeFriendCall,
   });
 
   /// 匹配结果列表（如 `HallVM.friends`）
@@ -27,6 +29,9 @@ class CardStackDemo extends StatefulWidget {
 
   /// 卡片滑完后的提示
   final String? emptyHintWhenNoMore;
+
+  /// 点击查看卡片用户信息
+  final ValueChanged<int>? removeFriendCall;
 
   @override
   State<CardStackDemo> createState() => _CardStackDemoState();
@@ -135,6 +140,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
           if (_stack.isNotEmpty) _stack.removeAt(0);
           position = Offset.zero;
           angle = 0;
+          widget.removeFriendCall?.call(_stack.length);
         });
       });
     } else {
@@ -315,19 +321,32 @@ class _CardStackDemoState extends State<CardStackDemo> {
                   Row(
                     children: [
                       const SizedBox(width: 12),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          border: Border.all(
-                            width: 1,
-                            color: ThemeColor.themeFourZeroColor,
+                      GestureDetector(
+                        onTap: () {
+                          Future.delayed(const Duration(milliseconds: 300), () {
+                            if (!mounted) return;
+                            setState(() {
+                              if (_stack.isNotEmpty) _stack.removeAt(0);
+                              position = Offset.zero;
+                              angle = 0;
+                              widget.removeFriendCall?.call(_stack.length);
+                            });
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            border: Border.all(
+                              width: 1,
+                              color: ThemeColor.themeFourZeroColor,
+                            ),
                           ),
-                        ),
-                        width: 40,
-                        height: 40,
-                        child: Icon(
-                          Icons.close,
-                          color: ThemeColor.whiteColor,
+                          width: 40,
+                          height: 40,
+                          child: Icon(
+                            Icons.close,
+                            color: ThemeColor.whiteColor,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 30),

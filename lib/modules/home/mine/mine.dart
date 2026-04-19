@@ -24,3 +24,6 @@ export 'sex_select/sex_select.dart';
 
 /// 用户信息模块
 export 'user_info/user_info.dart';
+
+/// 举报
+export 'report/report.dart';

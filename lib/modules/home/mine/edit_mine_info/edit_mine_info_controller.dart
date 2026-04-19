@@ -81,7 +81,7 @@ class EditMineInfoController extends BaseController {
 
   /// 点击添加秘密
   Future clickAddPrivacyMessage() async {
-    if (true == vm.value.userPrivateInfoEntity?.hasPassword) {
+    if (true == vm.value.draft?.hasPrivateContent) {
       await pushPasswordAlert(
         title: '验证密码',
         onConfirm: (password) async {
@@ -115,12 +115,13 @@ class EditMineInfoController extends BaseController {
               /// 第一次设置私密
               final result = await requestUpdateUserPrivate(
                 wishDescription: content,
-                oldPassword: password,
+                password: password,
               );
               if (result) {
                 vm.value.userPrivateInfoEntity?.wishDescription = content;
                 vm.refresh();
               }
+              await requestUserInfo();
               Get.back();
             },
           );
