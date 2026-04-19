@@ -24,6 +24,9 @@ class DoingController extends BaseController {
     super.onInit();
     buildEditingManage();
 
+    /// 获取个人信息 · GET /api/user/profile
+    requestUserProfile();
+
     /// 获取当前热门的正在做标签列表
     await requestHotTags();
   }
@@ -41,5 +44,10 @@ class DoingController extends BaseController {
   /// push-正在做的清单-页面
   Future pushDoingListPage(DoingHotTagsEntity tag) async {
     await Get.toNamed(Routes.doingListPage, arguments: tag);
+  }
+
+  /// 个人信息页面
+  Future pushUserInfoPage() async {
+    await Get.toNamed(Routes.minePage);
   }
 }

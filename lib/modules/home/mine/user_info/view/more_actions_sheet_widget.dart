@@ -5,6 +5,7 @@ class MoreActionsSheetWidget extends BaseStatelessWidget {
   const MoreActionsSheetWidget({
     super.key,
     this.title,
+    this.blocked,
     this.closeTap,
     this.onReportTap,
     this.onBlockTap,
@@ -12,6 +13,9 @@ class MoreActionsSheetWidget extends BaseStatelessWidget {
 
   /// 标题，默认「更多」
   final String? title;
+
+  /// 标题，默认「更多」
+  final bool? blocked;
 
   final VoidCallback? closeTap;
   final VoidCallback? onReportTap;
@@ -82,7 +86,7 @@ class MoreActionsSheetWidget extends BaseStatelessWidget {
                       const SizedBox(width: 28),
                       _RoundAction(
                         icon: Icons.person_off_rounded,
-                        label: '拉黑',
+                        label: true == blocked ? '已拉黑' : '拉黑',
                         onTap: onBlockTap,
                       ),
                     ],

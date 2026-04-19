@@ -1,4 +1,6 @@
+import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
 import 'package:youth/network/net/entry/doing/doing.dart';
+import 'package:youth/network/net/entry/user/user.dart';
 import '../doing_controller.dart';
 import 'package:youth/base/base_controller.dart';
 import '../model/doing_hot_tags_entity.dart';
@@ -46,6 +48,24 @@ extension DoingRequestController on DoingController {
     } else {
       EasyLoading.showToast(response.msg ?? '');
       return false;
+    }
+  }
+
+
+
+  /// 获取个人信息 · GET /api/user/profile
+  Future<void> requestUserProfile() async {
+    EasyLoading.show();
+    final response = await Net.value<User>().cache<UserInfoEntity>((value) {
+      vm.value.configUserInfo(value);
+      vm.refresh();
+    }).requestUserInfo<UserInfoEntity>();
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      vm.value.configUserInfo(response.value);
+      vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
     }
   }
 }

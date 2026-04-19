@@ -32,6 +32,16 @@ class ReportReasonData {
     return null;
   }
 
+  /// 举报大类，对应接口字段 `reportType`（与 [sections] 分组顺序一致：0 用户违规 / 1 不良风气 / 2 其他）
+  static int reportTypeForReasonId(String id) {
+    for (var i = 0; i < sections.length; i++) {
+      for (final it in sections[i].items) {
+        if (it.id == id) return i;
+      }
+    }
+    return 0;
+  }
+
   static const List<ReportReasonSection> sections = [
     ReportReasonSection(
       title: '用户违规',

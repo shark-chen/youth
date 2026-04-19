@@ -100,6 +100,40 @@ class User extends NetMixin<User> {
     );
   }
 
+  /// 取消拉黑 · DELETE /api/block/{blockedUserId}
+  Future<NetResult<T>> requestUnblockUser<T>({
+    required String blockedUserId,
+  }) async {
+    return await delete<T>(AppConfig.deleteBlockUserUrl(blockedUserId));
+  }
+
+  /// 查询是否已拉黑对方 · GET /api/block/check/{blockedUserId}
+  Future<NetResult<T>> requestBlockCheck<T>({
+    required String blockedUserId,
+  }) async {
+    return await get<T>(AppConfig.getBlockCheckUrl(blockedUserId));
+  }
+
+  /// 举报提交 · POST /api/report/submit
+  Future<NetResult<T>> requestReportSubmit<T>({
+    required int reportedUserId,
+    required int reportType,
+    required String reason,
+    required String description,
+    String images = '',
+  }) async {
+    return await post<T>(
+      AppConfig.postReportSubmitUrl,
+      data: <String, dynamic>{
+        'reportedUserId': reportedUserId,
+        'reportType': reportType,
+        'reason': reason,
+        'description': description,
+        'images': images,
+      },
+    );
+  }
+
   /// 上传头像（multipart 字段 `file`）
   Future<NetResult<T>> requestUploadUserAvatar<T>(MultipartFile file) async {
     final formData = FormData.fromMap(<String, dynamic>{'file': file});

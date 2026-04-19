@@ -9,10 +9,14 @@ class BlockUserConfirmDialog extends BaseStatelessWidget {
     required this.targetName,
     this.onCancel,
     this.onConfirm,
+    this.blocked,
   });
 
   /// 被拉黑对象展示名（昵称等）
   final String targetName;
+
+  /// 是否已拉黑
+  final bool? blocked;
 
   final VoidCallback? onCancel;
   final VoidCallback? onConfirm;
@@ -55,7 +59,7 @@ class BlockUserConfirmDialog extends BaseStatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  '拉黑',
+                  true == blocked ? '取消拉黑' : '拉黑',
                   style: TextStyle(
                     color: ThemeColor.whiteColor,
                     fontSize: 19,
@@ -64,7 +68,9 @@ class BlockUserConfirmDialog extends BaseStatelessWidget {
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  '确定将「$name」拉黑吗？拉黑后，对方无法查看你的主页，也无法与你互动。对方不会收到被拉黑的通知。',
+                  true == blocked
+                      ? '取消拉黑'
+                      : '确定将「$name」拉黑吗？拉黑后，对方无法查看你的主页，也无法与你互动。对方不会收到被拉黑的通知。',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: ThemeColor.whiteColor.withOpacity(0.92),
@@ -86,7 +92,7 @@ class BlockUserConfirmDialog extends BaseStatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: _BlockPillButton(
-                        label: '拉黑',
+                        label: true == blocked ? '取消拉黑' : '拉黑',
                         backgroundColor: _confirmBg,
                         textColor: ThemeColor.whiteColor,
                         onTap: onConfirm,

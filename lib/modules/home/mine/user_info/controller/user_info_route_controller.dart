@@ -13,8 +13,11 @@ import 'user_info_request_controller.dart';
 ///
 /// @Description 编辑资料-路由-controller
 extension UserInfoRouteController on UserInfoController {
-  /// push - 修改性别
+  /// push - 更多
   Future<void> pushMoreActionsAlert() async {
+    /// 是否已拉黑 · GET /api/block/check/{blockedUserId}
+    final blocked =
+        await requestBlockCheck(blockedUserId: vm.value.userId ?? '2');
     final ctx = Get.context;
     if (ctx == null) return;
     await BottomAlert.alerts(
@@ -22,30 +25,44 @@ extension UserInfoRouteController on UserInfoController {
       isDismissible: true,
       wholeCustomWidget: MoreActionsSheetWidget(
         title: '',
+        blocked: blocked,
         closeTap: Get.back,
-        onReportTap: pushReportPage,
-        onBlockTap: pushBlockUserConfirmAlert,
+        onReportTap: () async {
+          Get.back();
+          await pushReportPage();
+        },
+        onBlockTap: () async {
+          Get.back();
+          await pushBlockUserConfirmAlert(
+            blocked: blocked,
+          );
+        },
       ),
     );
   }
 
   /// push - 修改性别
-  Future<void> pushBlockUserConfirmAlert() async {
+  Future<void> pushBlockUserConfirmAlert({bool? blocked}) async {
     final ctx = Get.context;
     if (ctx == null) return;
+
     await showDialog<void>(
       context: ctx,
       barrierDismissible: true,
       barrierColor: Colors.black54,
       builder: (ctx) => BlockUserConfirmDialog(
         targetName: vm.value.userInfo?.nickname ?? '',
+        blocked: blocked,
         onCancel: Get.back,
         onConfirm: () async {
           Get.back();
-
-          /// 拉黑用户
-          await requestBlockUser(blockedUserId: vm.value.userId ?? '2');
-          Get.back();
+          if (true == blocked) {
+            /// 取消拉黑 · DELETE /api/block/{blockedUserId}
+            await requestUnblockUser(blockedUserId: vm.value.userId ?? '2');
+          } else {
+            /// 拉黑用户
+            await requestBlockUser(blockedUserId: vm.value.userId ?? '2');
+          }
         },
       ),
     );
@@ -53,6 +70,17 @@ extension UserInfoRouteController on UserInfoController {
 
   /// 举报
   Future<void> pushReportPage() async {
-    await Get.toNamed(Routes.reportPage);
+    final id = vm.value.userId?.trim();
+    if (id != null && id.isNotEmpty) {
+      await Get.toNamed(Routes.reportPage,
+          parameters: <String, String>{'userId': id});
+    } else {
+      await Get.toNamed(Routes.reportPage);
+    }
+  }
+
+  /// 关于 KellyChat
+  Future<void> pushEditMineInfoPage() async {
+    await Get.toNamed(Routes.editMineInfoPage);
   }
 }

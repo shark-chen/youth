@@ -28,11 +28,15 @@ class HallController extends BaseController
   Future onInit() async {
     super.onInit();
     buildEditingManage();
+
+    /// 获取个人信息 · GET /api/user/profile
+    requestUserProfile();
   }
 
   @override
   void onReady() async {
     super.onReady();
+
     /// 获取配对建议列表
     await requestMatchSuggestions();
   }
@@ -57,8 +61,6 @@ class HallController extends BaseController
   @override
   Future onRefresh() async {}
 
-
-
   /// MARK - method
   ///
   /// 获取列表数量
@@ -66,10 +68,10 @@ class HallController extends BaseController
 
   /// 点击开始找人
   Future clickStartFindFriend(String content) async {
-   final succeed = await requestMatchSearch(description:content);
-   if(succeed) {
-     vm.value.findMode = FindMode.findFriend;
-   }
+    final succeed = await requestMatchSearch(description: content);
+    if (succeed) {
+      vm.value.findMode = FindMode.findFriend;
+    }
     vm.refresh();
   }
 

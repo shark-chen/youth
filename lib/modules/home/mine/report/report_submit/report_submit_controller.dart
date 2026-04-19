@@ -1,5 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:youth/base/base_controller.dart';
+import 'package:youth/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
+import 'package:youth/network/net/entry/user/user.dart';
 import 'package:youth/utils/authority/photos_authority.dart';
 
 import '../model/report_reason_data.dart';
@@ -72,21 +74,74 @@ class ReportSubmitController extends BaseController {
     imagePaths.removeAt(index);
   }
 
+  /// 上传单张图片（与 [EditMineInfoReuestController.requestUploadPhoto] 一致，不在此重复 EasyLoading）
+  Future<String?> _requestUploadPhoto(String path) async {
+    if (Strings.isEmpty(path)) return null;
+    final response = await Net.value<User>()
+        .requestUploadUserAvatarFromPath<ImageLinksEntity>(
+      path,
+      filename: path.split('/').last,
+    );
+    if (response.succeed) {
+      return response.value?.url ?? '';
+    }
+    EasyLoading.showToast('图片上传失败');
+    return null;
+  }
+
   Future<void> submit() async {
     final text = contentController.text.trim();
     if (text.isEmpty && imagePaths.isEmpty) {
       EasyLoading.showToast('请填写举报描述或上传图片证据');
       return;
     }
+    final rid = reasonId?.trim();
+    if (rid == null || rid.isEmpty) {
+      EasyLoading.showToast('缺少举报类型');
+      return;
+    }
+    final uidStr = reportedUserId?.trim();
+    final reportedUid = int.tryParse(uidStr ?? '');
+    if (reportedUid == null || reportedUid <= 0) {
+      EasyLoading.showToast('缺少被举报用户信息');
+      return;
+    }
     if (requesting.value) return;
     requesting.value = true;
     try {
       EasyLoading.show(status: LocaleKeys.Commiting.tr);
-      // TODO: 对接举报提交接口（描述、图片、reasonId、reportedUserId）
-      await Future<void>.delayed(const Duration(milliseconds: 400));
+      final urls = <String>[];
+      for (final path in imagePaths) {
+        final url = await _requestUploadPhoto(path);
+        if (url == null || url.isEmpty) {
+          EasyLoading.dismiss();
+          return;
+        }
+        urls.add(url);
+      }
+      final imagesParam = urls.isEmpty ? '' : urls.join(',');
+      final reasonText =
+          (reasonLabel != null && reasonLabel!.isNotEmpty)
+              ? reasonLabel!
+              : (ReportReasonData.labelForReasonId(rid) ?? rid);
+      final response = await Net.value<User>().requestReportSubmit<dynamic>(
+        reportedUserId: reportedUid,
+        reportType: ReportReasonData.reportTypeForReasonId(rid),
+        reason: reasonText,
+        description: text,
+        images: imagesParam,
+      );
       EasyLoading.dismiss();
-      EasyLoading.showToast(LocaleKeys.submitSuccess.tr);
-      Get.back();
+      final ok = response.code == 200 || response.code == 0;
+      if (ok) {
+        final tip = response.msg;
+        EasyLoading.showToast(
+          (tip != null && tip.isNotEmpty) ? tip : LocaleKeys.submitSuccess.tr,
+        );
+        Future.delayed(Duration(seconds: 2), Get.back);
+      } else {
+        EasyLoading.showToast(response.msg ?? LocaleKeys.SubmitFailed.tr);
+      }
     } catch (_) {
       EasyLoading.dismiss();
       EasyLoading.showToast(LocaleKeys.SubmitFailed.tr);

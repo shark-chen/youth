@@ -25,19 +25,23 @@ class HallPage extends BasePage<HallController> {
           child: Row(
             children: [
               SizedBox(width: 14),
-              GestureDetector(
-                onTap: controller.pushUserInfoPage,
-                child: Container(
-                  height: 32,
-                  width: 32,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: ThemeColor.whiteColor,
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  child: Text(
-                    '头像',
-                    style: TextStyles(),
+              Obx(
+                () => GestureDetector(
+                  onTap: controller.pushUserInfoPage,
+                  child: Container(
+                    height: 32,
+                    width: 32,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: ThemeColor.whiteColor,
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                    child: ImageLookWidget(
+                      imgUrl: controller.vm.value.userInfo?.avatar ?? '',
+                      width: 32,
+                      height: 23,
+                      imgBorderRadius: BorderRadius.circular(32),
+                    ),
                   ),
                 ),
               ),
@@ -98,7 +102,7 @@ class HallPage extends BasePage<HallController> {
                   emptyHintWhenNoData: '暂无匹配用户',
                   emptyHintWhenNoMore: '没有更多了',
                   removeFriendCall: (count) {
-                    if(count <= 0) {
+                    if (count <= 0) {
                       controller.vm.value.findMode = FindMode.findPrompt;
                       controller.vm.refresh();
                     }

@@ -55,10 +55,17 @@ class DoingPage extends BasePage<DoingController> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage(
-                            'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
+                        GestureDetector(
+                          onTap: controller.pushUserInfoPage,
+                          child: Container(
+                            color: Colors.transparent,
+                            child: ImageLookWidget(
+                              enlargeLook: false,
+                              imgUrl: controller.vm.value.userInfo?.avatar ?? '',
+                              width: 32,
+                              height: 32,
+                              imgBorderRadius: BorderRadius.circular(32),
+                            ),
                           ),
                         ),
                         const Spacer(),

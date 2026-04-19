@@ -130,6 +130,21 @@ class AppConfig {
     return '/api/block/$blockedUserId';
   }
 
+  /// 取消拉黑（DELETE path: blockedUserId）
+  static String deleteBlockUserUrl(String blockedUserId) {
+    return '/api/block/$blockedUserId';
+  }
+
+  /// 是否已拉黑（GET path: blockedUserId）
+  static String getBlockCheckUrl(String blockedUserId) {
+    return '/api/block/check/$blockedUserId';
+  }
+
+  /// 举报提交 · POST body: `reportedUserId, reportType, reason, description, images`
+  static String get postReportSubmitUrl {
+    return '/api/report/submit';
+  }
+
   /// 上传头像（POST multipart，字段名 `file`）
   static String get getUserAvatarUrl {
     return '/api/user/avatar';

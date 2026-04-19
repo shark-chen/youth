@@ -1,6 +1,7 @@
 import 'package:youth/base/base_vm.dart';
 
 import '../../doing/model/doing_hot_tags_entity.dart';
+import '../../mine/user_info/model/user_info_entity.dart';
 import '../model/smart_match_people_entity.dart';
 
 enum FindMode {
@@ -34,6 +35,9 @@ class HallVM extends BaseVM {
   /// 获取列表数量
   int itemCount() => 1;
 
+  /// 人信息数据
+  UserInfoEntity? userInfo;
+
   /// 配置AI标签（含空列表，用于清空展示）
   void configAiTags(List<String>? values) {
     aiTags = values ?? [];
@@ -42,5 +46,10 @@ class HallVM extends BaseVM {
   /// 是否是找友提示语模式
   bool get findPrompt {
     return findMode == FindMode.findPrompt;
+  }
+
+  /// 配置个人信息数据
+  void configUserInfo(UserInfoEntity? value) {
+    userInfo = value;
   }
 }

@@ -1,7 +1,9 @@
 import 'package:youth/network/net/entry/doing/doing.dart';
+import 'package:youth/network/net/entry/user/user.dart';
 import 'package:youth/network/net/net.dart';
 import 'package:youth/utils/extension/lists/lists.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import '../../mine/user_info/model/user_info_entity.dart';
 import '../hall_controller.dart';
 import '../model/smart_match_people_entity.dart';
 
@@ -50,5 +52,21 @@ extension HallRequestController on HallController {
       return Lists.isNotEmpty(vm.value.friends);
     }
     return false;
+  }
+
+  /// 获取个人信息 · GET /api/user/profile
+  Future<void> requestUserProfile() async {
+    EasyLoading.show();
+    final response = await Net.value<User>().cache<UserInfoEntity>((value) {
+      vm.value.configUserInfo(value);
+      vm.refresh();
+    }).requestUserInfo<UserInfoEntity>();
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      vm.value.configUserInfo(response.value);
+      vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
   }
 }
