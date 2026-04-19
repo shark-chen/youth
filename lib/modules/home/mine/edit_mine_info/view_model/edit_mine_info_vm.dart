@@ -239,8 +239,7 @@ class EditMineInfoVM extends BaseVM {
     final res =
         await Net.value<User>().requestUploadUserAvatarFromPath<dynamic>(
       path,
-      filename:
-          'image_picker_6EE1DF4E-FC22-452A-B5CB-2989CE652F37-31083-00000A84C9D7C0EB.png',
+      filename: path.split(Platform.isWindows ? '\\' : '/').last,
     );
     if (res.succeed || res.success || (res.code == 200) || (res.code == 0)) {
       draft.pendingAvatarLocalPath = null;
