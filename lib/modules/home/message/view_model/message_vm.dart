@@ -1,6 +1,7 @@
 import 'package:youth/base/base_vm.dart';
 
 import '../../doing/model/publish_doing_entity.dart';
+import '../beat_record/model/beat_item_entity.dart';
 import '../invite_record/model/together_list_entity.dart';
 import '../model/message_person_list_entity.dart';
 
@@ -20,6 +21,9 @@ class MessageVM extends BaseVM {
   /// 列表
   List<TogetherListEntity> togetherList = [];
 
+  /// 敲一下列表
+  List<BeatItemEntity> beatList = [];
+
   @override
   void onInit() {
     super.onInit();
@@ -38,5 +42,10 @@ class MessageVM extends BaseVM {
   /// 配置对话列表
   void configConversations(List<MessagePersonListEntity>? values) {
     conversations.addAll(values ?? []);
+  }
+
+  /// 添加数据
+  void configBeatItemList(List<BeatItemEntity>? values) {
+    beatList.addAll(values ?? []);
   }
 }

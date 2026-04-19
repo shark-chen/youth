@@ -60,6 +60,29 @@ class Doing extends NetMixin<Doing> {
     return await post<T>(AppConfig.getKnockSendUrl, data: params);
   }
 
+  /// GET /api/knock/received
+  Future<NetResult<T>> requestKnockReceived<T>() async {
+    return await get<T>(AppConfig.getKnockReceivedUrl);
+  }
+
+  /// POST /api/invitation/send
+  Future<NetResult<T>> requestInvitationSend<T>({
+    required int toUserId,
+    required int invitationType,
+    required int tagId,
+    String message = '',
+  }) async {
+    return await post<T>(
+      AppConfig.postInvitationSendUrl,
+      data: <String, dynamic>{
+        'toUserId': toUserId,
+        'invitationType': invitationType,
+        'tagId': tagId,
+        'message': message,
+      },
+    );
+  }
+
   /// POST /api/together/create / 发起一起做活动
   Future<NetResult<T>> requestTogetherCreate<T>(
       {required String tagName}) async {

@@ -99,4 +99,9 @@ class HallController extends BaseController
       'userId': userId,
     });
   }
+
+  /// push - 实际聊天窗口-page-页面
+  Future pushChatPage(SmartMatchPeopleList friend) async {
+    await Get.toNamed(Routes.chatPage);
+  }
 }

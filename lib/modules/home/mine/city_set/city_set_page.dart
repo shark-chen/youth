@@ -42,18 +42,9 @@ class CitySetPage extends BasePage<CitySetController> {
             /// 选择城市
             InputLocationWidget(
               hint: '选择城市'.tr,
-              // controller: controller.vm.value.accountController,
-              // error: controller.vm.value.loginModel.accountError,
-              // focusNode: controller.vm.value.accountFocusNode,
-              inputTap: controller.pushRegionPickerPage,
-              onFieldSubmittedTap: (value) {
-                // FocusScope.of(context).requestFocus(
-                //     controller.vm.value.passwordFocusNode);
-                // controller.vm.value.showUsers.value = false;
-                // controller.vm.refresh();
-              },
+              content: controller.vm.value.selectLocation,
+              selectTap: controller.pushRegionPickerPage,
             ),
-
             Expanded(child: Container()),
 
             /// 上一个，完成

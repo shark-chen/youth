@@ -17,18 +17,20 @@ class BeatRecordPage extends BasePage<BeatRecordController> {
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
-      body: ListView.builder(
-        padding: EdgeInsets.only(top: 12),
-        itemCount: 300,
-        // itemCount: controller.rows.length,
-        itemBuilder: (BuildContext context, int index) {
-          return BeatRecordCell(
-            headPortraitUrl: '',
-            name: '大三大四的',
-            time: '12:12',
-            userInfoTap: controller.pushUserInfoPage,
-          );
-        },
+      body: Obx(
+        () => ListView.builder(
+          padding: EdgeInsets.only(top: 12),
+          itemCount: controller.rows.length,
+          itemBuilder: (BuildContext context, int index) {
+            final item = controller.rows[index];
+            return BeatRecordCell(
+              headPortraitUrl: item.fromAvatar,
+              name: item.fromNickname,
+              time: item.createdAt,
+              userInfoTap: controller.pushUserInfoPage,
+            );
+          },
+        ),
       ),
     );
   }

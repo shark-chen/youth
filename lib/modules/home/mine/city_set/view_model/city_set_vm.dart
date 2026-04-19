@@ -27,6 +27,13 @@ class CitySetVM extends BaseVM {
     unawaited(_preloadRegions());
   }
 
+  /// 选择的位置
+  String? get selectLocation {
+    return '${selectRegion?.province ?? ''}' +
+        '${selectRegion?.city ?? ''}' +
+        '${selectRegion?.district ?? ''}';
+  }
+
   /// 预加载省市区数据
   Future<void> _preloadRegions() async {
     try {

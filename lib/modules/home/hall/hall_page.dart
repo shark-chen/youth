@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../../../base/base_page.dart';
 import 'hall_controller.dart';
 import 'view/card_stack_view.dart';
@@ -40,6 +39,7 @@ class HallPage extends BasePage<HallController> {
                       imgUrl: controller.vm.value.userInfo?.avatar ?? '',
                       width: 32,
                       height: 23,
+                      enlargeLook: false,
                       imgBorderRadius: BorderRadius.circular(32),
                     ),
                   ),
@@ -106,6 +106,9 @@ class HallPage extends BasePage<HallController> {
                       controller.vm.value.findMode = FindMode.findPrompt;
                       controller.vm.refresh();
                     }
+                  },
+                  chatTap: (friend) {
+                    controller.pushChatPage(friend);
                   },
                 ),
               ),

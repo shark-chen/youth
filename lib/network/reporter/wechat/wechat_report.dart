@@ -16,7 +16,7 @@ class WechatReport {
   /// 发送日志
   static Future requestReport(String msg, {bool? record = false}) async {
     try {
-      if (!whiteList.contains(UserCenter().user?.userInfo?.phone)) return;
+      if (!whiteList.contains(UserCenter().user?.phone)) return;
       await Net.value<Wechat>().requestSendText(msg: msg);
       if (record == true) {
         ReportUtil().record(msg, ping: true);
@@ -29,7 +29,7 @@ class WechatReport {
     final file = await ReportConfig.getReportFile();
     final formData = Api.FormData.fromMap({
       'media': await Api.MultipartFile.fromFile(file.path,
-          filename: 'BigSeller_log_${UserCenter().user?.userInfo?.phone}.txt'),
+          filename: 'BigSeller_log_${UserCenter().user?.phone}.txt'),
     });
     if (!file.existsSync()) {
       return EasyLoading.showToast('no data upload');

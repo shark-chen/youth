@@ -34,4 +34,12 @@ extension Login on User {
       data: params,
     );
   }
+
+  /// 退出登录 · POST /api/auth/logout
+  Future<NetResult<T>> requestAuthLogout<T>() async {
+    return await post<T>(
+      AppConfig.postAuthLogoutUrl,
+      data: <String, dynamic>{},
+    );
+  }
 }

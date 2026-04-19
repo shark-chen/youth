@@ -155,7 +155,8 @@ class DioNet implements Request {
       final dioNet = dio;
       dioNet.options
         ..baseUrl = mixin.baseUrl ?? AppConfig.apiHost
-        ..headers['Authorization'] = await Global.getAccessToken
+        ..headers['Authorization'] =
+            'Bearer ' + ((await Global.getAccessToken) ?? '')
         ..receiveTimeout = mixin.receiveTimeout
         ..sendTimeout = mixin.sendTimeout
         ..connectTimeout = mixin.connectTimeout;
@@ -166,7 +167,7 @@ class DioNet implements Request {
         dioNet.interceptors.add(HeaderInterceptor());
       }
       if (addCacheInterceptor == false) {
-        var uid = UserCenter().user?.userId ?? '12';
+        var uid = UserCenter().user?.id;
         if (uid != null) {
           if (addCacheInterceptor == true) return;
           addCacheInterceptor = true;

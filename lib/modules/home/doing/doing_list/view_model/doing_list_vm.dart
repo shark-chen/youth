@@ -1,5 +1,6 @@
 import 'package:youth/base/base_vm.dart';
 
+import '../../model/doing_hot_tags_entity.dart';
 import '../../model/publish_doing_entity.dart';
 import '../model/doing_list_entity.dart';
 
@@ -21,6 +22,8 @@ class DoingListVM extends BaseVM {
 
   /// 我正在做的事
   PublishDoingEntity? myDoing;
+
+  DoingHotTagsEntity? doingHotTagsEntity;
 
   @override
   void onInit() {

@@ -1,4 +1,5 @@
 import 'package:youth/base/base_controller.dart';
+import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
 import 'package:youth/utils/marco/debug_print.dart';
 import '../../../network/net/request/dio/dio_net.dart';
 import '../../../network/reporter/report_util.dart';
@@ -66,7 +67,7 @@ class UserCenter extends BaseUser {
     requestUserInfo(update: true);
 
     if (kDebugMode) {
-      DebugPrint('puid: ${UserCenter().user?.userId}');
+      DebugPrint('puid: ${UserCenter().user?.id}');
     }
   }
 
@@ -132,19 +133,17 @@ class UserCenter extends BaseUser {
   /// MARK: -用户信息模块 - UserInfoCenter
 
   /// 获取用户信息+信息为空会请求-之后使用缓存
-  Future<LoginUserInfoEntity?> get userInfo async {
+  Future<UserInfoEntity?> get userInfo async {
     return await UserInfoCenter().userInfo;
   }
 
   /// 使用缓存
-  LoginUserInfoEntity? get user {
+  UserInfoEntity? get user {
     return UserInfoCenter().userInfoEntity;
   }
 
   /// request-获取用户信息接口
-  Future<LoginUserInfoEntity?> requestUserInfo({bool? update}) async {
+  Future<UserInfoEntity?> requestUserInfo({bool? update}) async {
     return UserInfoCenter().requestUserInfo(update: update);
   }
-
-
 }

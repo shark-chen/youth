@@ -103,7 +103,7 @@ class LoginController extends BaseController {
     }
   }
 
-  /// request - 请求登录
+  /// request - 请求发送验证码
   Future<bool?> requestSmsSend({
     required String phone,
   }) async {

@@ -29,8 +29,8 @@ class ReportConfig {
   /// 基础参数
   static Future<Map<String, dynamic>> getBaseParameters() async {
     return {
-      "username": UserCenter().user?.userInfo?.phone,
-      "puid": UserCenter().user?.userId,
+      "username": UserCenter().user?.phone,
+      "puid": UserCenter().user?.id,
       "errorLevel": "一般",
       "platform": isIOS ? "iOS" : ((UserCenter().isCamera) ? 'Android' : 'PDA'),
       "apiPath": '',
@@ -55,7 +55,7 @@ class ReportConfig {
   static Future<File> getReportFile() async {
     final directory = await Documents().directory;
     return File(
-        '${directory.path}/BigSeller_log_${UserCenter().user?.userInfo?.phone}.txt');
+        '${directory.path}/BigSeller_log_${UserCenter().user?.phone}.txt');
   }
 }
 

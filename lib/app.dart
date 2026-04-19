@@ -4,7 +4,6 @@ import 'package:youth/modules/routes/app_pages.dart';
 import 'package:youth/utils/marco/debug_print.dart';
 import 'package:youth/utils/marco/marco.dart';
 import 'modules/auxiliary/network_look/view/draggable_net_view.dart';
-import 'modules/functions/daily_active/daily_active.dart';
 import 'modules/home/home/utils/tab_switch_utils.dart';
 import 'modules/home/home/view/tabs.dart';
 import 'tripartite_library/get/app_route_observer.dart';
@@ -49,12 +48,6 @@ class App extends StatelessWidget with WidgetsBindingObserver {
     if (!isLandscapePad) {
       SystemChromes.setPortraitScreen();
     }
-
-    /// 提前加载UUID，后续好使用
-    UdidUtil().udid;
-
-    /// APP日活
-    DailyActive().requestDailyActive(state: state);
   }
 
   void testPush(AppLifecycleState state) async {

@@ -141,7 +141,7 @@ class DoingPage extends BasePage<DoingController> {
                                   text: e.tagName ?? '',
                                   onTap: () async {
                                     /// push-正在做的清单-页面
-                                    await controller.pushDoingListPage(e);
+                                    await controller.clickSelectPublishDoing(e);
                                   },
                                 ),
                               )

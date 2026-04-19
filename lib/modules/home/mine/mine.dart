@@ -13,9 +13,6 @@ export 'mine_page.dart';
 /// 生日模块
 export 'birthday_select/birthday_select.dart';
 
-/// 城市选择模块
-export 'city_select/city_select.dart';
-
 /// 城市设置模块
 export 'city_set/city_set.dart';
 

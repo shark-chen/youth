@@ -16,6 +16,7 @@ class CardStackDemo extends StatefulWidget {
     this.emptyHintWhenNoData,
     this.emptyHintWhenNoMore,
     this.removeFriendCall,
+    this.chatTap,
   });
 
   /// 匹配结果列表（如 `HallVM.friends`）
@@ -32,6 +33,9 @@ class CardStackDemo extends StatefulWidget {
 
   /// 点击查看卡片用户信息
   final ValueChanged<int>? removeFriendCall;
+
+  /// 点击聊一聊
+  final ValueChanged<SmartMatchPeopleList>? chatTap;
 
   @override
   State<CardStackDemo> createState() => _CardStackDemoState();
@@ -351,18 +355,21 @@ class _CardStackDemoState extends State<CardStackDemo> {
                       ),
                       const SizedBox(width: 30),
                       Expanded(
-                        child: Container(
-                          height: 44,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent,
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: const Text(
-                            '聊一聊',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                        child: GestureDetector(
+                          onTap: () => widget.chatTap?.call(_stack.first),
+                          child: Container(
+                            height: 44,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.greenAccent,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: const Text(
+                              '聊一聊',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),

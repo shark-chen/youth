@@ -27,6 +27,7 @@ class DoingListController extends BaseController {
     requestMyDoing();
     final arg = Get.arguments;
     if (arg is DoingHotTagsEntity) {
+      vm.value.doingHotTagsEntity = arg;
       final name = arg.tagName;
       if (name != null && name.isNotEmpty) {
         vm.value.activityTitle = name;
@@ -61,7 +62,15 @@ class DoingListController extends BaseController {
 
   /// 点击加入一起
   Future clickJoinTogether(DoingListList? item) async {
-    if (item?.togetherId == null) return;
+    if (item?.togetherId == null) {
+      /// 发送邀约 · POST /api/invitation/send
+      await requestInvitationSend(
+        toUserId: item?.userId ?? 0,
+        invitationType: 1,
+        tagId: vm.value.doingHotTagsEntity?.tagId ?? 0,
+      );
+      return;
+    }
     await requestTogetherJoin(item?.togetherId ?? '0');
     vm.refresh();
   }

@@ -6,4 +6,5 @@
 /// @Description 实际聊天窗口
 export 'chat_binding.dart';
 export 'chat_controller.dart';
+export 'controller/chat_request_controller.dart';
 export 'chat_page.dart';

@@ -32,7 +32,7 @@ extension DoingRequestController on DoingController {
 
   /// 发布一个正在做的状态
   /// POST /api/status/doing  body: `{ "tagName": "" }`
-  Future<bool> requestPostStatusDoing({
+  Future<PublishDoingEntity?> requestPostStatusDoing({
     String tagName = '',
   }) async {
     EasyLoading.show();
@@ -44,10 +44,10 @@ extension DoingRequestController on DoingController {
     if (response.succeed) {
       vm.refresh();
       EasyLoading.showToast('发布成功');
-      return true;
+      return response.value;
     } else {
       EasyLoading.showToast(response.msg ?? '');
-      return false;
+      return null;
     }
   }
 

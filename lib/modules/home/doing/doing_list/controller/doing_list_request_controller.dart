@@ -76,6 +76,28 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
+  /// 发送邀约 · POST /api/invitation/send
+  Future<void> requestInvitationSend({
+    required int toUserId,
+    int invitationType = 1,
+    required int tagId,
+    String message = '',
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>().requestInvitationSend<dynamic>(
+      toUserId: toUserId,
+      invitationType: invitationType,
+      tagId: tagId,
+      message: message,
+    );
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      EasyLoading.showToast('已发送');
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
   /// 发起一起做活动
   Future<void> requestTogetherCreate({String? tagName}) async {
     final name = (tagName ?? vm.value.activityTitle).trim();

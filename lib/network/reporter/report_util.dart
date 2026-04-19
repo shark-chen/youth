@@ -5,7 +5,6 @@ import 'package:dio/dio.dart' as Api;
 import '../../config/environment_config/config.dart';
 import '../../tripartite_library/store/preferences.dart';
 import '../network_monitor/model/network_status_model.dart';
-import '../network_monitor/network_monitor.dart';
 import 'config/report_config.dart';
 import '../../base/base_controller.dart';
 
@@ -92,8 +91,8 @@ class ReportUtil {
       baseParameters ??= await ReportConfig.getBaseParameters();
       baseParameters?["errorLevel"] = ReportConfig.errorLevelMap[errorLevel];
       baseParameters?["errorTime"] = DateTime.now().toString();
-      baseParameters?['username'] = UserCenter().user?.userInfo?.phone;
-      baseParameters?['puid'] = UserCenter().user?.userInfo;
+      baseParameters?['username'] = UserCenter().user?.phone;
+      baseParameters?['puid'] = UserCenter().user?.id;
       Map<String, dynamic> map = {}
         ..addAll(baseParameters ?? {})
         ..addAll({"errorInfo": text})

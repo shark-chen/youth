@@ -33,8 +33,8 @@ class StorePreferences {
   /// 获取存储key
   String _getKey(String key, {bool? userLat}) {
     if (userLat ?? true) {
-      if (UserCenter().user?.userId != null) {
-        return "${key}_${UserCenter().user?.userId}";
+      if (UserCenter().user?.id != null) {
+        return "${key}_${UserCenter().user?.id}";
       }
     }
     return key.toString();

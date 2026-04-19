@@ -1,5 +1,7 @@
+import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
+import 'package:youth/network/net/entry/user/user.dart';
+import 'package:youth/network/net/net.dart';
 import '../user_mixin/user_mixin.dart';
-import 'model/user_info_entity.dart';
 
 /// FileName user_info_center
 ///
@@ -18,7 +20,7 @@ class UserInfoCenter extends BaseUser {
   bool agreeSaveAccount = false;
 
   /// 用户信息模型属性
-  LoginUserInfoEntity? userInfoEntity;
+  UserInfoEntity? userInfoEntity;
 
   @override
   Future init() async {
@@ -33,20 +35,23 @@ class UserInfoCenter extends BaseUser {
     agreeSaveAccount = false;
   }
 
-  Future<LoginUserInfoEntity?> get userInfo async {
+  Future<UserInfoEntity?> get userInfo async {
     userInfoEntity ??= await requestUserInfo();
     return userInfoEntity;
   }
 
   /// 获取用户信息接口
-  Future<LoginUserInfoEntity?> requestUserInfo({bool? update}) async {
+  Future<UserInfoEntity?> requestUserInfo({bool? update}) async {
     if (userInfoEntity != null && update != true) return userInfoEntity;
-    // var response = await NetWork.requestUserInfo();
-    // if (response.code == 0) {
-    //   succeed = true;
-    //   userInfoEntity = UserInfoEntity.fromJson(response.data);
-    //   return userInfoEntity;
-    // }
+    final response = await Net.value<User>().cache<UserInfoEntity>((value) {
+      if(value != null) {
+        userInfoEntity = value;
+      }
+    }).requestUserInfo<UserInfoEntity>();
+    if (response.succeed) {
+      userInfoEntity = response.value;
+      return userInfoEntity;
+    }
     return null;
   }
 }

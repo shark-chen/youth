@@ -40,7 +40,7 @@ class NetworkLookController extends BaseController {
       if (index >= netDataLists.length) return;
       var model = netDataLists[index];
       EasyLoading.show();
-      var msg = '账号：${UserCenter().user?.userInfo?.phone}\n' +
+      var msg = '账号：${UserCenter().user?.phone}\n' +
           '服务地址：${AppConfig.apiHost} \n\n' +
           '接口名称 ${model.title} \n' +
           '请求参数 ${model.requestParameters}\n' +

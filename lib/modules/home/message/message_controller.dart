@@ -29,6 +29,9 @@ class MessageController extends BaseController {
 
     /// GET /api/status/my-doing
     requestMyDoing();
+
+    /// 收到的敲一下列表 · GET /api/knock/received
+    requestKnockReceived();
   }
 
   /// 点击删除我正在做的事

@@ -2,6 +2,7 @@ import 'package:youth/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:youth/network/net/entry/doing/doing.dart';
 import 'package:youth/network/net/entry/message/message.dart';
 
+import '../beat_record/model/beat_item_entity.dart';
 import '../invite_record/model/together_list_entity.dart';
 import '../message_controller.dart';
 import 'package:youth/base/base_controller.dart';
@@ -82,6 +83,22 @@ extension MessageRequestController on MessageController {
     EasyLoading.dismiss();
     if (response.success) {
       vm.value.configTogetherList(response.values);
+      vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
+  /// 收到的敲一下列表 · GET /api/knock/received
+  Future<void> requestKnockReceived() async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>().caches<BeatItemEntity>((values) {
+      vm.value.configBeatItemList(values);
+      vm.refresh();
+    }).requestKnockReceived<BeatItemEntity>();
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      vm.value.configBeatItemList(response.values);
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');

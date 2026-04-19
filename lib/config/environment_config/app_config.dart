@@ -90,6 +90,11 @@ class AppConfig {
     return '/api/auth/login';
   }
 
+  /// 退出登录
+  static String get postAuthLogoutUrl {
+    return '/api/auth/logout';
+  }
+
   /// 发送验证码
   static String get getSmsSendUrl {
     return '/api/auth/sms/send';
@@ -170,7 +175,7 @@ class AppConfig {
     return '/api/status/doing/$tagId';
   }
 
-  /// 正在做（POST body: tagName；与 GET `/api/status/doing/{tagId}` 区分）
+  /// 正在做（POST body: tagName；与 GET `/xapi/status/doing/{tagId}` 区分）
   static String get postStatusDoingUrl {
     return '/api/status/doing';
   }
@@ -183,6 +188,16 @@ class AppConfig {
   /// 敲一下（POST body: toUserId）
   static String get getKnockSendUrl {
     return '/api/knock/send';
+  }
+
+  /// 收到的敲一下列表（GET）
+  static String get getKnockReceivedUrl {
+    return '/api/knock/received';
+  }
+
+  /// 发送邀约（POST body: toUserId, invitationType, tagId, message）
+  static String get postInvitationSendUrl {
+    return '/api/invitation/send';
   }
 
   /// 发起一起做活动（POST body: tagName）
@@ -229,6 +244,11 @@ class AppConfig {
   /// 会话列表（GET query: page, size）
   static String get getMessageConversationsUrl {
     return '/api/message/conversations';
+  }
+
+  /// 某会话聊天历史（GET path: userId；query: lastMessageId, size）
+  static String getMessageHistoryUrl(String userId) {
+    return '/api/message/history/$userId';
   }
 
 

@@ -26,4 +26,20 @@ class Message extends NetMixin<Message> {
       },
     );
   }
+
+  /// GET /api/message/history/{userId} query: lastMessageId, size
+  Future<NetResult<T>> requestMessageHistory<T>({
+    required String userId,
+    int? lastMessageId,
+    int size = 20,
+  }) async {
+    final params = <String, dynamic>{'size': size};
+    if (lastMessageId != null) {
+      params['lastMessageId'] = lastMessageId;
+    }
+    return await get<T>(
+      AppConfig.getMessageHistoryUrl(userId),
+      params: params,
+    );
+  }
 }

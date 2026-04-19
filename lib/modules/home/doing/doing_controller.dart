@@ -31,12 +31,20 @@ class DoingController extends BaseController {
     await requestHotTags();
   }
 
+  /// 点击选择你想发布的事情
+  Future clickSelectPublishDoing(DoingHotTagsEntity tag) async {
+    if (Strings.isEmpty(tag.tagName)) return;
+    await requestPostStatusDoing(tagName: tag.tagName ?? '');
+    await pushDoingListPage(tag);
+    }
+
   /// 点击发布正在做的事
   Future clickPublishDoing(String content) async {
     final result = await requestPostStatusDoing(tagName: content);
-    if (result) {
-      editingController?.text = '';
-    }
+    final tag = DoingHotTagsEntity()
+      ..tagName = result?.tagName
+      ..tagId = result?.tagId;
+    await pushDoingListPage(tag);
   }
 
   /// mark - push

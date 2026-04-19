@@ -6,6 +6,7 @@ import 'package:youth/modules/home/doing/doing_list/model/doing_list_entity.dart
 import 'package:youth/modules/home/doing/model/doing_hot_tags_entity.dart';
 import 'package:youth/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:youth/modules/home/hall/model/smart_match_people_entity.dart';
+import 'package:youth/modules/home/message/beat_record/model/beat_item_entity.dart';
 import 'package:youth/modules/home/message/invite_record/model/together_list_entity.dart';
 import 'package:youth/modules/home/message/model/message_person_list_entity.dart';
 import 'package:youth/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
@@ -36,6 +37,7 @@ class JsonConvert {
     (MessagePersonListEntity).toString(): MessagePersonListEntity.fromJson,
     (TogetherListEntity).toString(): TogetherListEntity.fromJson,
     (ImageLinksEntity).toString(): ImageLinksEntity.fromJson,
+    (BeatItemEntity).toString(): BeatItemEntity.fromJson,
   };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -182,6 +184,10 @@ class JsonConvert {
     if (<ImageLinksEntity>[] is M) {
       return data.map<ImageLinksEntity>((Map<String, dynamic> e) =>
           ImageLinksEntity.fromJson(e)).toList() as M;
+    }
+    if (<BeatItemEntity>[] is M) {
+      return data.map<BeatItemEntity>((Map<String, dynamic> e) =>
+          BeatItemEntity.fromJson(e)).toList() as M;
     }
     debugPrint("${M.toString()} not found");
     return null;

@@ -1,6 +1,5 @@
 import 'package:youth/base/base_controller.dart';
 import 'package:youth/modules/user/global.dart';
-import 'package:youth/network/net/entry/user/user.dart';
 import 'user_info/model/user_info_entity.dart';
 import 'view_model/mine_vm.dart';
 import 'controller/mine_request_controller.dart';
@@ -29,11 +28,12 @@ class MineController extends BaseController {
     return vm.value.userProfile;
   }
 
+
   /// mark - push
   ///
   /// 进入「编辑资料」
   Future<void> pushMyProfile() async {
-    final changed = await Get.toNamed(Routes.userInfoPage);
+    await Get.toNamed(Routes.userInfoPage);
     await refreshProfile();
   }
 
@@ -77,6 +77,8 @@ class MineController extends BaseController {
       },
     );
     if (ok != true) return;
+    final apiOk = await requestAuthLogout();
+    if (!apiOk) return;
     await Global.clearAccessToken();
     Global.actualLogin.value = false;
     await UserCenter().clear(loginOut: true);

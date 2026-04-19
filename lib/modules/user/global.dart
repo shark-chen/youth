@@ -21,7 +21,7 @@ class Global {
   static Future<String?> get getAccessToken async {
     try {
       if (accessToken.isNotEmpty) {
-        return ('Bearer ' + accessToken.value);
+        return accessToken.value;
       }
       /// eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVUaW1lIjoxNzc2NDgwNzg2MzA3LCJ1c2VySWQiOjEwMiwic3ViIjoiMTAyIiwiaWF0IjoxNzc2NDgwNzg2LCJleHAiOjE3NzcwODU1ODZ9.ZxqMojcAlPEsRtepDOMWdGN8-1T0noCjQCiDAOW0tDFV31v232hWK2eO7NGbsKgs40S9hppoTN5pRVWRPfKTag
       // return 'Bearer ' +
@@ -30,7 +30,7 @@ class Global {
       //     'eyJhbGciOiJIUzUxMiJ9.eyJjcmVhdGVUaW1lIjoxNzc1NDY1Nzg2Nzk3LCJ1c2VySWQiOjEsInN1YiI6IjEiLCJpYXQiOjE3NzU0NjU3ODYsImV4cCI6MTc3NjA3MDU4Nn0.VpXf1-L1wTSOTVp6Su-ge4ntjs1RHb3-v33MAYCZPaaTheJCdR8LN-nfIc9YZz5laXaa8358rXzltai1236Qyw';
       accessToken.value =
           await Stores().get<String>('appLoginToken', userLat: false) ?? '';
-      return ('Bearer ' + accessToken.value);
+      return accessToken.value;
     } catch (_) {
       return accessToken.value;
     }

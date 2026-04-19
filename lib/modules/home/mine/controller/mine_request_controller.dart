@@ -10,6 +10,18 @@ import 'package:youth/base/base_controller.dart';
 ///
 /// @Description 我的-tab 控制器
 extension MineRequestController on MineController {
+  /// 退出登录 · POST /api/auth/logout
+  Future<bool> requestAuthLogout() async {
+    EasyLoading.show();
+    final response = await Net.value<User>().requestAuthLogout<dynamic>();
+    EasyLoading.dismiss();
+    if (response.success) {
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
+  }
+
   /// mark - request
   ///
   /// 拉取个人资料（头像、昵称等）

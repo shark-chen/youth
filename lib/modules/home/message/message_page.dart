@@ -94,12 +94,15 @@ class MessagePage extends BasePage<MessageController> {
                         .toList(),
                   );
                 } else if (index == 2) {
-                  return MsgCloutWidget(
-                    onTap: controller.pushBeatRecordPage,
-                    name: '小妹',
-                    cloutNum: '123',
-                    time: '22小时前',
-                  );
+                  if(Lists.isNotEmpty(controller.vm.value.beatList)) {
+                    return MsgCloutWidget(
+                      onTap: controller.pushBeatRecordPage,
+                      name: controller.vm.value.beatList.first.fromNickname,
+                      cloutNum: '${controller.vm.value.beatList.length ?? 0}',
+                      time: controller.vm.value.beatList.first.createdAt,
+                    );
+                  }
+                 return Container();
                 } else if (index == 3) {
                   return Padding(
                     padding: EdgeInsets.only(top: 16, bottom: 12, left: 12),
