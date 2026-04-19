@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:youth/base/base_page.dart';
 
 import 'invite_record_controller.dart';
@@ -23,14 +25,16 @@ class InviteRecordPage extends BasePage<InviteRecordController> {
           borderRadius: BorderRadius.circular(45),
           child: ListView.builder(
             padding: EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
-            itemCount: 30,
+            itemCount: controller.vm.value.rows.length,
             itemBuilder: (BuildContext context, int index) {
+              final row = controller.vm.value.rows[index];
               return InviteRecordCell(
                 userInfoTap: controller.pushUserInfoPage,
-                name: '小米',
-                inviteMatter: '真的想你哦',
-                inviteStatusStr: '就是想拒绝你',
-                time: '12点',
+                headPortraitUrl: row.initiatorAvatar,
+                name: row.initiatorNickname,
+                inviteMatter: row.completedAt,
+                inviteStatusStr: row.statusText,
+                time: row.completedAt,
               );
             },
           ),

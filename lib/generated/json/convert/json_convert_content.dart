@@ -6,6 +6,8 @@ import 'package:youth/modules/home/doing/doing_list/model/doing_list_entity.dart
 import 'package:youth/modules/home/doing/model/doing_hot_tags_entity.dart';
 import 'package:youth/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:youth/modules/home/hall/model/smart_match_people_entity.dart';
+import 'package:youth/modules/home/message/invite_record/model/together_list_entity.dart';
+import 'package:youth/modules/home/message/model/message_person_list_entity.dart';
 import 'package:youth/modules/home/mine/edit_mine_info/model/user_private_info_entity.dart';
 import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
 import 'package:youth/modules/user/user_center/user_info/model/user_info_entity.dart';
@@ -30,6 +32,8 @@ class JsonConvert {
     (SmartMatchPeopleList).toString(): SmartMatchPeopleList.fromJson,
     (PublishDoingEntity).toString(): PublishDoingEntity.fromJson,
     (UserPrivateInfoEntity).toString(): UserPrivateInfoEntity.fromJson,
+    (MessagePersonListEntity).toString(): MessagePersonListEntity.fromJson,
+    (TogetherListEntity).toString(): TogetherListEntity.fromJson,
   };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -164,6 +168,14 @@ class JsonConvert {
     if (<UserPrivateInfoEntity>[] is M) {
       return data.map<UserPrivateInfoEntity>((Map<String, dynamic> e) =>
           UserPrivateInfoEntity.fromJson(e)).toList() as M;
+    }
+    if (<MessagePersonListEntity>[] is M) {
+      return data.map<MessagePersonListEntity>((Map<String, dynamic> e) =>
+          MessagePersonListEntity.fromJson(e)).toList() as M;
+    }
+    if (<TogetherListEntity>[] is M) {
+      return data.map<TogetherListEntity>((Map<String, dynamic> e) =>
+          TogetherListEntity.fromJson(e)).toList() as M;
     }
     debugPrint("${M.toString()} not found");
     return null;

@@ -76,6 +76,11 @@ class Doing extends NetMixin<Doing> {
     return await post<T>(AppConfig.getTogetherJoinUrl(togetherId));
   }
 
+  /// GET /api/together/my-list 我的邀约列表
+  Future<NetResult<T>> requestTogetherMyList<T>() async {
+    return await get<T>(AppConfig.getTogetherMyListUrl);
+  }
+
   /// GET /api/match/suggestions
   Future<NetResult<T>> requestMatchSuggestions<T>() async {
     return await get<T>(AppConfig.getMatchSuggestionsUrl);

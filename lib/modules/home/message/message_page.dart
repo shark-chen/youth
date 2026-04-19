@@ -70,7 +70,7 @@ class MessagePage extends BasePage<MessageController> {
           /// 列表
           Expanded(
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: controller.vm.value.conversations.length + 4,
               itemBuilder: (BuildContext context, int index) {
                 if (index == 0) {
                   /// 消息列表-正在做的任务
@@ -86,8 +86,12 @@ class MessagePage extends BasePage<MessageController> {
                   /// 邀约中的任务view
                   return InviteRecordWidget(
                     tap: controller.pushInviteRecordPage,
-                    time: '123小时',
-                    headPortraits: ['dsad', 'dsd', 'dsad', 'dasd'],
+                    time: Lists.isNotEmpty(controller.vm.value.togetherList)
+                        ? controller.vm.value.togetherList.first.completedAt
+                        : '',
+                    headPortraits: controller.vm.value.togetherList
+                        .map((e) => e.initiatorAvatar ?? '')
+                        .toList(),
                   );
                 } else if (index == 2) {
                   return MsgCloutWidget(
@@ -109,12 +113,13 @@ class MessagePage extends BasePage<MessageController> {
                     ),
                   );
                 }
+                final item = controller.vm.value.conversations[index - 4];
                 return ChatListCell(
                   onTap: controller.pushChatPage,
-                  headPortraitUrl: '',
-                  name: '亚马逊',
-                  msg: '你牛逼',
-                  time: '23:00',
+                  headPortraitUrl: item.avatar,
+                  name: item.nickname,
+                  msg: item.lastMessage,
+                  time: item.lastMessageTimeRaw,
                 );
               },
             ),

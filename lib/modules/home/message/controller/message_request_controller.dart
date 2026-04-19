@@ -2,8 +2,11 @@ import 'package:youth/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:youth/network/net/entry/doing/doing.dart';
 import 'package:youth/network/net/entry/message/message.dart';
 
+import '../invite_record/model/together_list_entity.dart';
 import '../message_controller.dart';
 import 'package:youth/base/base_controller.dart';
+
+import '../model/message_person_list_entity.dart';
 
 /// FileName: message_request_controller
 ///
@@ -20,12 +23,17 @@ extension MessageRequestController on MessageController {
     int size = 20,
   }) async {
     EasyLoading.show();
-    final response = await Net.value<Message>().requestMessageConversations<dynamic>(
+    final response =
+        await Net.value<Message>().caches<MessagePersonListEntity>((values) {
+      vm.value.configConversations(values);
+      vm.refresh();
+    }).requestMessageConversations<MessagePersonListEntity>(
       page: page,
       size: size,
     );
     EasyLoading.dismiss();
     if (response.succeed) {
+      vm.value.configConversations(response.values);
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');
@@ -36,7 +44,7 @@ extension MessageRequestController on MessageController {
   Future<void> requestMyDoing() async {
     EasyLoading.show();
     final response =
-    await Net.value<Doing>().cache<PublishDoingEntity>((value) {
+        await Net.value<Doing>().cache<PublishDoingEntity>((value) {
       vm.value.configMyDoing(value);
       vm.refresh();
     }).requestMyDoing<PublishDoingEntity>();
@@ -58,6 +66,23 @@ extension MessageRequestController on MessageController {
     EasyLoading.dismiss();
     if (response.succeed) {
       EasyLoading.showToast('已删除');
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
+  /// GET /api/together/my-list
+  Future<void> requestTogetherMyList() async {
+    EasyLoading.show();
+    final response =
+    await Net.value<Doing>().caches<TogetherListEntity>((values) {
+      vm.value.configTogetherList(values);
+      vm.refresh();
+    }).requestTogetherMyList<TogetherListEntity>();
+    EasyLoading.dismiss();
+    if (response.success) {
+      vm.value.configTogetherList(response.values);
+      vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');
     }

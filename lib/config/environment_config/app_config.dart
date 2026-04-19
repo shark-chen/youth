@@ -170,6 +170,11 @@ class AppConfig {
     return '/api/together/$togetherId/join';
   }
 
+  /// 我的「一起做」邀约列表
+  static String get getTogetherMyListUrl {
+    return '/api/together/my-list';
+  }
+
   /// 匹配推荐 / 建议列表
   static String get getMatchSuggestionsUrl {
     return '/api/match/suggestions';

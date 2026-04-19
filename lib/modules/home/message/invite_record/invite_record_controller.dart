@@ -1,5 +1,7 @@
 import 'package:youth/base/base_controller.dart';
 
+import 'controller/invite_record_request_controller.dart';
+export 'controller/invite_record_request_controller.dart';
 import 'view_model/invite_record_vm.dart';
 
 /// FileName: invite_record_controller
@@ -15,7 +17,8 @@ class InviteRecordController extends BaseController {
   @override
   void onInit() async {
     super.onInit();
-    title = '一起做 邀约';
+    title = '邀约';
+    requestTogetherMyList();
   }
 
   /// push - 跳转到用户信息页面-page

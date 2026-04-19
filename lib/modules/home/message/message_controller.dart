@@ -22,6 +22,11 @@ class MessageController extends BaseController {
     super.onInit();
     title = '消息';
 
+    /// mark - request
+    ///
+    /// GET /api/message/conversations 获取用户会话列表
+    requestConversations();
+
     /// GET /api/status/my-doing
     requestMyDoing();
   }
