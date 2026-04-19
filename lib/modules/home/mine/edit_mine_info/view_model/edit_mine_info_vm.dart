@@ -13,6 +13,7 @@ import 'package:youth/widget/region_picker/region_picker_sheet.dart';
 import '../../sex_select/model/gender.dart';
 import '../model/edit_profile_draft.dart';
 import '../model/edit_region_indices.dart';
+import '../model/image_links_entity.dart';
 import '../model/user_private_info_entity.dart';
 
 /// FileName: edit_mine_info_vm
@@ -209,16 +210,16 @@ class EditMineInfoVM extends BaseVM {
     }
   }
 
-  Future<void> pickPhotoFile() async {
-    if (draft.photos.length >= EditProfileDraft.maxPhotos) return;
+  Future<XFile?> pickPhotoFile() async {
+    if (draft.photos.length >= EditProfileDraft.maxPhotos) return null;
     try {
-      if (!await PhotosAuthority.request()) return;
+      if (!await PhotosAuthority.request()) return null;
       final x = await _pickImageFromGallery(imageQuality: 88);
-      if (x == null) return;
-      draft.photos.add(x.path);
-      refresh?.call();
+      if (x == null) return null;
+      return x;
     } catch (_) {
       EasyLoading.showToast('选择图片失败');
+      return null;
     }
   }
 
@@ -231,63 +232,6 @@ class EditMineInfoVM extends BaseVM {
   /// 同步签名输入框到草稿（保存前调用）
   void syncSignatureFromInput() {
     draft.signature = signatureController.text.trim();
-  }
-
-  Future<String?> _uploadPendingAvatarIfNeeded() async {
-    final path = draft.pendingAvatarLocalPath;
-    if (path == null || path.isEmpty) return null;
-    final res =
-        await Net.value<User>().requestUploadUserAvatarFromPath<dynamic>(
-      path,
-      filename: path.split(Platform.isWindows ? '\\' : '/').last,
-    );
-    if (res.succeed || res.success || (res.code == 200) || (res.code == 0)) {
-      draft.pendingAvatarLocalPath = null;
-      final data = res.data;
-      if (data is Map && data['avatar'] is String) {
-        draft.avatarUrl = data['avatar'] as String;
-      } else if (data is String && data.startsWith('http')) {
-        draft.avatarUrl = data;
-      }
-      return null;
-    }
-    return res.msg ?? '头像上传失败';
-  }
-
-  /// 落库：先头像再 PUT 资料
-  Future<String?> persistProfile() async {
-    syncSignatureFromInput();
-
-    final err = await _uploadPendingAvatarIfNeeded();
-    if (err != null) return err;
-
-    final remotePhotos = draft.remotePhotoUrls();
-    final hadLocalPhotos = draft.hasLocalPhotos;
-    return '';
-    final response = await Net.value<User>().requestUpdateUserInfo<dynamic>(
-      gender: draft.gender,
-      birthday: draft.birthday,
-      province: draft.province,
-      city: draft.city,
-      district: draft.district,
-      nickname: draft.nickname.isEmpty ? null : draft.nickname,
-      signature: draft.signature.isEmpty ? null : draft.signature,
-      photos: remotePhotos.isEmpty ? null : remotePhotos,
-    );
-
-    final ok = response.succeed ||
-        response.success ||
-        response.code == 200 ||
-        response.code == 0;
-    if (!ok) {
-      return response.msg ?? LocaleKeys.NetworkError.tr;
-    }
-
-    if (hadLocalPhotos) {
-      EasyLoading.showToast('相册中本地图片暂未上传，已保存其余资料');
-    }
-
-    return null;
   }
 
   DateTime? birthdayAsDate() {

@@ -77,7 +77,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                       photos: List<String>.from(d.photos),
                       crossAxisCount: 2,
                       spacing: 10,
-                      onAdd: controller.onAddPhotoTap,
+                      onAdd: controller.clickAddPhoto,
                       onRemove: controller.onRemovePhoto,
                     ),
                     const SizedBox(height: 20),

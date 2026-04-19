@@ -2,6 +2,7 @@ import 'package:youth/network/net/entry/user/user.dart';
 import 'package:youth/network/net/net_result.dart';
 import '../../user_info/model/user_info_entity.dart';
 import '../edit_mine_info_controller.dart';
+import '../model/image_links_entity.dart';
 import '../model/user_private_info_entity.dart';
 import 'package:youth/base/base_controller.dart';
 
@@ -12,6 +13,24 @@ import 'package:youth/base/base_controller.dart';
 ///
 /// @Description
 extension EditMineInfoReuestController on EditMineInfoController {
+  /// request - 上传图片
+  Future<String?> requestUploadPhoto(String path) async {
+    if (Strings.isEmpty(path)) return null;
+    EasyLoading.show();
+    final response = await Net.value<User>()
+        .requestUploadUserAvatarFromPath<ImageLinksEntity>(
+      path,
+      filename: path.split('/').last,
+    );
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      return response.value?.url ?? '';
+    } else {
+      EasyLoading.showToast('头像上传失败');
+      return null;
+    }
+  }
+
   /// 获取当前登录用户的信息
   Future requestUserInfo() async {
     EasyLoading.show();
@@ -28,11 +47,30 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
+  /// 更新用户标签（最多10个）
+  Future<bool> requestUpdateUserTags({
+    required List<String> tags,
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<User>().requestUpdateUserTags(tags: tags);
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast('添加标签成功');
+      vm.refresh();
+      return true;
+    } else {
+      EasyLoading.showToast('添加标签成功');
+      return false;
+    }
+  }
+
   /// 获取用户私密信息 · GET /api/user/private
   Future<NetResult<dynamic>> requestUserPrivate() async {
+    EasyLoading.show();
     final response =
         await Net.value<User>().requestUserPrivate<UserPrivateInfoEntity>();
-    if (response.succeed) {
+    EasyLoading.dismiss();
+    if (response.success) {
       vm.value.userPrivateInfoEntity = response.value;
       vm.refresh();
     }
@@ -63,7 +101,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     String? oldPassword,
   }) async {
     EasyLoading.show();
-    final response = await Net.value<User>().requestUpdateUserPrivate<dynamic>(
+    final response = await Net.value<User>().requestUpdateUserPrivate(
       wishDescription: wishDescription,
       password: password,
       oldPassword: oldPassword,
@@ -99,20 +137,6 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// 上传图片 · POST /api/user/photo（multipart 字段 `file`）
-  Future<NetResult<dynamic>> requestUploadPhoto({
-    required String filePath,
-    String? filename,
-  }) async {
-    EasyLoading.show();
-    final response = await Net.value<User>().requestUploadPhoto<dynamic>(
-      filePath: filePath,
-      filename: filename,
-    );
-    EasyLoading.dismiss();
-    return response;
-  }
-
   /// 重置私密信息密码 · POST /api/user/private/reset-password（无参数）
   Future<bool> requestUserPrivateResetPassword() async {
     EasyLoading.show();
@@ -120,11 +144,41 @@ extension EditMineInfoReuestController on EditMineInfoController {
     EasyLoading.dismiss();
     if (response.success) {
       EasyLoading.showToast('重置成功');
+      vm.value.userPrivateInfoEntity?.wishDescription = '';
+      vm.value.userPrivateInfoEntity?.hasPassword = false;
       vm.refresh();
       return true;
     } else {
       EasyLoading.showToast(response.msg ?? '');
       return false;
     }
+  }
+
+  /// 落库：先头像再 PUT 资料
+  Future<String?> requestSavePersistProfile() async {
+    vm.value.syncSignatureFromInput();
+    final url =
+        await requestUploadPhoto(vm.value.draft.pendingAvatarLocalPath ?? '');
+    if (Strings.isNotEmpty(url)) {
+      vm.value.draft.pendingAvatarLocalPath = null;
+      vm.value.draft.avatarUrl = url ?? '';
+    }
+    final remotePhotos = vm.value.draft.remotePhotoUrls();
+    final response = await Net.value<User>().requestUpdateUserInfo<dynamic>(
+      gender: vm.value.draft.gender,
+      birthday: vm.value.draft.birthday,
+      province: vm.value.draft.province,
+      city: vm.value.draft.city,
+      district: vm.value.draft.district,
+      nickname:
+          vm.value.draft.nickname.isEmpty ? null : vm.value.draft.nickname,
+      signature:
+          vm.value.draft.signature.isEmpty ? null : vm.value.draft.signature,
+      photos: remotePhotos.isEmpty ? null : remotePhotos,
+    );
+    if (!response.success) {
+      return response.msg ?? LocaleKeys.NetworkError.tr;
+    }
+    return null;
   }
 }

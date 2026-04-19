@@ -40,7 +40,7 @@ class EditMineInfoController extends BaseController {
     if (requesting.value) return;
     requesting.value = true;
     EasyLoading.show(status: LocaleKeys.Commiting.tr);
-    final err = await vm.value.persistProfile();
+    final err = await requestSavePersistProfile();
     EasyLoading.dismiss();
     requesting.value = false;
     if (err != null && err.isNotEmpty) {
@@ -68,8 +68,11 @@ class EditMineInfoController extends BaseController {
   Future<void> clickAddTags() async {
     await pushEditNiceNameAlert(
       title: '添加标签',
-      sureCall: (value) {
+      sureCall: (value) async {
         vm.value.addTag(value);
+
+        /// 更新用户标签（最多10个）
+        await requestUpdateUserTags(tags: vm.value.draft.tags ?? []);
         Get.back();
         vm.refresh();
       },
@@ -88,11 +91,14 @@ class EditMineInfoController extends BaseController {
             await pushEditNiceNameAlert(
               title: '更新私密内容',
               sureCall: (content) async {
-                /// 第一次设置私密
                 final result = await requestUpdateUserPrivate(
                   wishDescription: content,
                   oldPassword: password,
                 );
+                if (result) {
+                  vm.value.userPrivateInfoEntity?.wishDescription = content;
+                  vm.refresh();
+                }
                 Get.back();
               },
             );
@@ -231,8 +237,12 @@ class EditMineInfoController extends BaseController {
     }
   }
 
-  Future<void> onAddPhotoTap() async {
-    await vm.value.pickPhotoFile();
+  /// 点击添加图片
+  Future<void> clickAddPhoto() async {
+    final file = await vm.value.pickPhotoFile();
+    final url = await requestUploadPhoto(file?.path ?? '');
+    if (Strings.isEmpty(url)) return;
+    vm.value.draft.photos.add(url ?? '');
     vm.refresh();
   }
 

@@ -8,6 +8,7 @@ import 'package:youth/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:youth/modules/home/hall/model/smart_match_people_entity.dart';
 import 'package:youth/modules/home/message/invite_record/model/together_list_entity.dart';
 import 'package:youth/modules/home/message/model/message_person_list_entity.dart';
+import 'package:youth/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
 import 'package:youth/modules/home/mine/edit_mine_info/model/user_private_info_entity.dart';
 import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
 import 'package:youth/modules/user/user_center/user_info/model/user_info_entity.dart';
@@ -34,6 +35,7 @@ class JsonConvert {
     (UserPrivateInfoEntity).toString(): UserPrivateInfoEntity.fromJson,
     (MessagePersonListEntity).toString(): MessagePersonListEntity.fromJson,
     (TogetherListEntity).toString(): TogetherListEntity.fromJson,
+    (ImageLinksEntity).toString(): ImageLinksEntity.fromJson,
   };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -176,6 +178,10 @@ class JsonConvert {
     if (<TogetherListEntity>[] is M) {
       return data.map<TogetherListEntity>((Map<String, dynamic> e) =>
           TogetherListEntity.fromJson(e)).toList() as M;
+    }
+    if (<ImageLinksEntity>[] is M) {
+      return data.map<ImageLinksEntity>((Map<String, dynamic> e) =>
+          ImageLinksEntity.fromJson(e)).toList() as M;
     }
     debugPrint("${M.toString()} not found");
     return null;

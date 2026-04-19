@@ -106,7 +106,10 @@ class User extends NetMixin<User> {
     final file = await MultipartFile.fromFile(
       filePath,
       filename: filename,
-      contentType: MediaType('image', 'jpeg'),
+      contentType: DioMediaType(
+        'image',
+        filename?.split('.').last ?? 'png',
+      ),
     );
     return requestUploadUserAvatar<T>(file);
   }
@@ -142,6 +145,7 @@ class User extends NetMixin<User> {
     return await put<T>(AppConfig.getUserInfoUrl, data: params);
   }
 
+  /// 更新用户标签（最多10个）
   /// PUT /api/user/tags
   /// body: `{ "tags": ["标签1", "标签2"] }`（字符串数组）
   Future<NetResult<T>> requestUpdateUserTags<T>({

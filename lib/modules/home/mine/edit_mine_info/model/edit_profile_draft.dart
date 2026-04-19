@@ -85,4 +85,6 @@ class EditProfileDraft {
 
   bool get hasLocalPhotos =>
       photos.any((e) => !e.startsWith('http://') && !e.startsWith('https://'));
+
+
 }
