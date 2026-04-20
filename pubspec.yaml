@@ -38,7 +38,7 @@ dependencies:
       ref: a832727080d7e8b0919a38191541ee0bc4174c9a
   # 文件存储
   path: 1.9.0
-  path_provider: 2.1.4
+  path_provider: 2.1.2
   # http库
   dio: 5.6.0
   url_launcher: 6.2.5
@@ -68,7 +68,7 @@ dependencies:
   # 设备信息获取
   device_info_plus: 10.1.0
   # 跳转手机设置库
-  app_settings: 7.0.0
+  app_settings: 6.1.1
   # 点击手机键盘库
   flutter_keyboard_visibility: 6.0.0
   # 下拉刷新组件
@@ -87,7 +87,7 @@ dependencies:
   # 网络监控库
   connectivity_plus: 6.1.5
   # 忘了是干啥的啦
-  extended_image: ^8.3.0
+  extended_image: 8.2.0
   # cell 侧滑删除库
   flutter_swipe_action_cell: 3.1.3
   # 本地缓存库
@@ -127,7 +127,7 @@ dependencies:
   # 数据监控
   rxdart: 0.27.7
   # 设备唯一码，卸载安装也是唯一的
-  flutter_udid: 4.0.0
+#  flutter_udid: 4.0.0
 #  flutter_chat_core: 0.0.2
 #  flutter_chat_ui: 1.6.15
   chat_bubbles: 1.5.0

@@ -8,7 +8,6 @@ import 'modules/home/home/utils/tab_switch_utils.dart';
 import 'modules/home/home/view/tabs.dart';
 import 'tripartite_library/get/app_route_observer.dart';
 import 'tripartite_library/notification/event_bus_manager.dart';
-import 'tripartite_library/uuid/udid_util.dart';
 import 'utils/extension/system_chromes/system_chromes.dart';
 import 'utils/lang/translation_service.dart';
 
