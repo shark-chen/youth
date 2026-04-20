@@ -4,7 +4,7 @@ import 'config_model.dart';
 class ProdConfig extends Config {
   ProdConfig({this.configModel}) {
     configModel ??= ConfigModel(
-      serverHost: "https://www.bigseller.pro",
+      serverHost: "https://api.onemayy.com",
       clientHost: "https://m-web.bigseller.pro",
       blogHost: "https://blog.tongpaidang.com",
     );
