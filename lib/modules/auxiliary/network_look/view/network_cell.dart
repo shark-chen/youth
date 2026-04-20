@@ -84,13 +84,13 @@ class NetworkCell extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 30),
-              GestureDetector(
-                onTap: sendTap,
-                child: Text(
-                  '发到群聊',
-                  style: const TextStyle(color: Colors.blue),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: sendTap,
+              //   child: Text(
+              //     '发到群聊',
+              //     style: const TextStyle(color: Colors.blue),
+              //   ),
+              // ),
             ],
           )
         ],
