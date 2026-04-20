@@ -9,5 +9,5 @@ export 'utils/theme_color.dart';
 export 'extension/extension.dart';
 export 'utils/model_utils.dart';
 export 'utils/open_app_util.dart';
+export 'utils/location_util.dart';
 export 'extension/doubles/doubles.dart';
-

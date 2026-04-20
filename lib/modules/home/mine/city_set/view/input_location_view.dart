@@ -13,6 +13,7 @@ class InputLocationWidget extends BaseStatelessWidget {
     this.hint,
     this.content,
     this.selectTap,
+    this.locationTap,
     this.error,
   }) : super(key: key);
 
@@ -24,6 +25,9 @@ class InputLocationWidget extends BaseStatelessWidget {
 
   /// 点击选择
   final VoidCallback? selectTap;
+
+  /// 定位选择
+  final VoidCallback? locationTap;
 
   /// 错误
   final String? error;
@@ -61,10 +65,13 @@ class InputLocationWidget extends BaseStatelessWidget {
                 ),
               ),
             ),
-            FaIcon(
-              FontAwesomeIcons.locationCrosshairs,
-              color: ThemeColor.themeGreenColor,
-              size: 22,
+            GestureDetector(
+              onTap: locationTap,
+              child: FaIcon(
+                FontAwesomeIcons.locationCrosshairs,
+                color: ThemeColor.themeGreenColor,
+                size: 22,
+              ),
             ),
             SizedBox(width: 16),
             Visibility(

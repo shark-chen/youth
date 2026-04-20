@@ -44,6 +44,7 @@ class CitySetPage extends BasePage<CitySetController> {
               hint: '选择城市'.tr,
               content: controller.vm.value.selectLocation,
               selectTap: controller.pushRegionPickerPage,
+              locationTap: controller.clickGetLocation,
             ),
             Expanded(child: Container()),
 

@@ -30,6 +30,10 @@
 	<string>用于拍摄头像或照片并上传</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>用于在编辑资料时从相册选择头像与照片</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>用于获取你所在的省市区信息</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>用于获取你所在的省市区信息</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

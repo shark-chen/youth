@@ -43,6 +43,23 @@ class CitySetController extends BaseController {
     await updateUserInfo(vm.value.selectRegion);
   }
 
+  /// 点击获取位置
+  Future clickGetLocation() async {
+    try {
+      final location = await LocationUtil.getProvinceCityDistrict();
+      vm.value.selectRegion = RegionPickerSelection(
+        province: location.province,
+        city: location.city,
+        district: location.city,
+      );
+      vm.refresh();
+    } catch (e) {
+      if (e is LocationUtilException) {
+        EasyLoading.showToast(e.message);
+      }
+    }
+  }
+
   /// 更新用户信息
   Future updateUserInfo(RegionPickerSelection? selection) async {
     if (Strings.isEmpty(selection?.district)) return;

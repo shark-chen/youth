@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.youth"
+    namespace "com.onemayy.kelly.chat"
     compileSdk 35
     ndkVersion "26.3.11579264"
 
@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.youth"
+        applicationId "com.onemayy.kelly.chat"
         minSdk 21
         multiDexEnabled true
         targetSdkVersion 34

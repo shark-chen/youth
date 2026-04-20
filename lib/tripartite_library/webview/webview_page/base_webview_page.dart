@@ -77,6 +77,7 @@ class BaseWebViewPage extends BasePage<BaseWebViewController> {
   Widget build(BuildContext context) {
     final widget = Scaffold(
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      backgroundColor: ThemeColor.themeColor,
       appBar: _buildAppBar(context),
       body: Stack(
         children: [
@@ -87,7 +88,7 @@ class BaseWebViewPage extends BasePage<BaseWebViewController> {
           (needLinearProgress ?? false)
               ? Obx(
                   () => LinearProgressIndicator(
-                    backgroundColor: Colors.grey[300], // 设置进度条背景色
+                    backgroundColor: Colors.grey[300],
                     valueColor:
                         const AlwaysStoppedAnimation<Color>(Colors.blue),
                     minHeight: 1.5,
@@ -133,6 +134,6 @@ class BaseWebViewPage extends BasePage<BaseWebViewController> {
         controller: controller.webViewController!,
       );
     }
-    return Container();
+    return Container(color: ThemeColor.themeColor);
   }
 }

@@ -54,7 +54,7 @@ class LoginController extends BaseController {
 
     /// 设置保存token
     Global.setAccessToken(user.token ?? '');
-    if (true == user.isNewUser) {
+    if (true == user.isNewUser || true) {
       /// push-个人信息补充模块页面
       await pushSexSelectPage();
     } else {
