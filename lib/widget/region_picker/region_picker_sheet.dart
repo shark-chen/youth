@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youth/utils/marco/marco.dart';
 import 'package:youth/utils/utils/theme_color.dart';
 import 'region_picker_data.dart';
+import 'package:get/get.dart';
 
 /// 当前选中的省 / 市 / 区（仅展示用快照）
 class RegionPickerSelection {
@@ -18,18 +20,6 @@ class RegionPickerSelection {
 /// 省市区底部选择面板（纯 UI，数据由 [provinces] 传入）
 ///
 /// 使用示例：
-/// ```dart
-/// showModalBottomSheet(
-///   context: context,
-///   backgroundColor: Colors.transparent,
-///   isScrollControlled: true,
-///   builder: (ctx) => RegionPickerSheet(
-///     provinces: list,
-///     onClose: () => Navigator.pop(ctx),
-///     onSelectionChanged: (s) { },
-///   ),
-/// );
-/// ```
 class RegionPickerSheet extends StatefulWidget {
   const RegionPickerSheet({
     super.key,
@@ -47,8 +37,10 @@ class RegionPickerSheet extends StatefulWidget {
   final String title;
   final int initialProvinceIndex;
   final int initialCityIndex;
+
   /// 为 `null` 时不预选任何区，需用户手动点选
   final int? initialDistrictIndex;
+
   /// 0 省 / 1 市 / 2 区，与设计稿一致可传 2
   final int initialTabIndex;
   final VoidCallback onClose;
@@ -66,14 +58,14 @@ class _RegionPickerSheetState extends State<RegionPickerSheet> {
   late int _tabIndex;
   late int _provinceIndex;
   late int _cityIndex;
+
   /// `null` 表示尚未选择区，列表不显示勾选
   int? _districtIndex;
 
   @override
   void initState() {
     super.initState();
-    _provinceIndex =
-        _clamp(widget.initialProvinceIndex, 0, _maxProvince);
+    _provinceIndex = _clamp(widget.initialProvinceIndex, 0, _maxProvince);
     _cityIndex = _clamp(widget.initialCityIndex, 0, _maxCity);
     final di = widget.initialDistrictIndex;
     if (di != null && di >= 0 && di <= _maxDistrict) {
@@ -190,7 +182,9 @@ class _RegionPickerSheetState extends State<RegionPickerSheet> {
       case 0:
         return widget.provinces.map((e) => e.name).toList();
       case 1:
-        return widget.provinces[_provinceIndex].cities.map((e) => e.name).toList();
+        return widget.provinces[_provinceIndex].cities
+            .map((e) => e.name)
+            .toList();
       case 2:
         return widget.provinces[_provinceIndex].cities[_cityIndex].districts;
       default:
@@ -229,75 +223,70 @@ class _RegionPickerSheetState extends State<RegionPickerSheet> {
   Widget build(BuildContext context) {
     final bottom = MediaQuery.of(context).padding.bottom;
     final options = _currentOptions();
-
-    return Material(
-      color: Colors.transparent,
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF0D0D0D),
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        child: SafeArea(
-          top: false,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Expanded(child: Container()),
+        Container(
+          width: Get.width,
+          height: Get.height - (44 + topPadding + 20 + 200),
+          decoration: BoxDecoration(
+              // color: ThemeColor.themeBlackColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.0),
+                  topRight: Radius.circular(16.0))),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               _Header(
                 title: widget.title,
                 onClose: widget.onClose,
               ),
-              ClipRRect(
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(14)),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      color: RegionPickerSheet._tabBarBg,
-                      child: _TabBar(
-                        selection: _selection,
-                        tabIndex: _tabIndex,
-                        onTab: _setTab,
-                        accent: RegionPickerSheet._accent,
-                      ),
-                    ),
-                    Container(
-                      height: 320,
-                      width: double.infinity,
-                      color: RegionPickerSheet._listBg,
-                      child: options.isEmpty
-                          ? const Center(
-                              child: Text(
-                                '暂无数据',
-                                style: TextStyle(
-                                  color: Color(0xFF8E8E93),
-                                  fontSize: 15,
-                                ),
-                              ),
-                            )
-                          : ListView.builder(
-                              padding: EdgeInsets.only(bottom: bottom + 8),
-                              itemCount: options.length,
-                              itemBuilder: (context, index) {
-                                final label = options[index];
-                                final checked = _isItemChecked(index);
-                                return _RegionListTile(
-                                  label: label,
-                                  checked: checked,
-                                  accent: RegionPickerSheet._accent,
-                                  onTap: () => _onTapItem(index),
-                                );
-                              },
-                            ),
-                    ),
-                  ],
+              Container(
+                width: double.infinity,
+                color: RegionPickerSheet._tabBarBg,
+                child: _TabBar(
+                  selection: _selection,
+                  tabIndex: _tabIndex,
+                  onTab: _setTab,
+                  accent: RegionPickerSheet._accent,
                 ),
+              ),
+              Container(
+                height: 450,
+                width: double.infinity,
+                color: RegionPickerSheet._listBg,
+                child: options.isEmpty
+                    ? const Center(
+                        child: Text(
+                          '暂无数据',
+                          style: TextStyle(
+                            color: Color(0xFF8E8E93),
+                            fontSize: 15,
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: EdgeInsets.only(bottom: bottom + 8),
+                        itemCount: options.length,
+                        itemBuilder: (context, index) {
+                          final label = options[index];
+                          final checked = _isItemChecked(index);
+                          return _RegionListTile(
+                            label: label,
+                            checked: checked,
+                            accent: RegionPickerSheet._accent,
+                            onTap: () => _onTapItem(index),
+                          );
+                        },
+                      ),
               ),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -20,6 +20,10 @@ extension LoginParamVM on LoginVM {
 
   /// 是否是手机号
   bool get checkPhone {
+    if (Strings.isEmpty(phoneController.text)) {
+      EasyLoading.showToast('请输入手机号');
+      return false;
+    }
     final isValidPhone = phoneController.text.isValidPhone;
     if (isValidPhone != true) {
       EasyLoading.showToast('手机号格式不正确');

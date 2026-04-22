@@ -117,7 +117,7 @@ class CitySetController extends BaseController {
     if (ctx == null) return;
     var provinces = await vm.value.cachedProvinces;
     if (Lists.isEmpty(provinces)) return;
-    await showModalBottomSheet(
+    await showDialog(
       context: ctx,
       builder: (BuildContext context) {
         return RegionPickerSheet(

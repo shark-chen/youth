@@ -58,53 +58,51 @@ class InputVerifyCodeWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 48,
-          decoration: BoxDecoration(
-            color: ThemeColor.inputBgColor,
-            borderRadius: BorderRadius.circular(24.0),
-          ),
-          padding: EdgeInsets.only(left: 18),
-          child: Row(
-            children: [
-              /// 验证码输入框
-              Expanded(
-                child: TextFormField(
-                  focusNode: focusNode,
-                  onFieldSubmitted: onFieldSubmittedTap,
-                  autocorrect: false,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: ThemeColor.whiteColor,
-                      fontSize: 16),
-                  controller: controller,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp("[0-9]")),
-                    LengthLimitingTextInputFormatter(8),
-                  ],
-                  maxLength: 30,
-                  decoration: InputDecoration(
-                    counterText: '',
-                    border: InputBorder.none,
-                    hintText: hint,
-                    hintStyle: TextStyle(
-                        height: 1.0,
-                        fontWeight: FontWeight.w500,
-                        color: ThemeColor.whiteColor.withOpacity(0.4),
-                        fontSize: 16),
-                  ),
-                ),
+        TextFormField(
+          focusNode: focusNode,
+          onFieldSubmitted: onFieldSubmittedTap,
+          autocorrect: false,
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: ThemeColor.whiteColor,
+              fontSize: 16),
+          controller: controller,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+            LengthLimitingTextInputFormatter(9),
+          ],
+          maxLength: 30,
+          decoration: InputDecoration(
+            counterText: '',
+            hintText: hint,
+            filled: true,
+            isDense: true,
+            fillColor: ThemeColor.inputBgColor,
+            hintStyle: TextStyle(
+                height: 1.0,
+                fontWeight: FontWeight.w500,
+                color: ThemeColor.whiteColor.withOpacity(0.4),
+                fontSize: 16),
+            contentPadding: EdgeInsets.only(left: 16, top: 12, bottom: 12),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(24),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: ThemeColor.themeGreenColor.withOpacity(0.3),
+                width: 1.0,
               ),
-
-              /// 发送验证码
-              GestureDetector(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            suffixIcon: Align(
+              alignment: Alignment.centerRight,
+              widthFactor: 1,
+              child: GestureDetector(
                 onTap: sendSmsTap,
-                child: Container(
-                  color: Colors.transparent,
-                  height: 48,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(left: 12, right: 20),
+                child: Padding(
+                  padding: EdgeInsets.only(right: 20),
                   child: Text(
                     sendSmsTitle ?? '发送验证码',
                     style: TextStyles(
@@ -115,7 +113,7 @@ class InputVerifyCodeWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
         Visibility(

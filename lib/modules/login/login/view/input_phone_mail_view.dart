@@ -50,40 +50,44 @@ class InputPhoneMailWidget extends BaseStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          height: 48,
-          decoration: BoxDecoration(
-            color: ThemeColor.inputBgColor,
-            borderRadius: BorderRadius.circular(24),
-          ),
-          padding: EdgeInsets.only(left: 18),
-          child: TextFormField(
-            onFieldSubmitted: onFieldSubmittedTap,
-            autocorrect: false,
-            style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: ThemeColor.whiteColor,
+        TextFormField(
+          onFieldSubmitted: onFieldSubmittedTap,
+          autocorrect: false,
+          style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: ThemeColor.whiteColor,
+              fontSize: 16),
+          controller: controller,
+          focusNode: focusNode,
+          keyboardType: TextInputType.number,
+          maxLength: 50,
+          onTap: inputTap,
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+            LengthLimitingTextInputFormatter(11),
+            ZeroInputFormatter(),
+          ],
+          decoration: InputDecoration(
+            isDense: true,
+            filled: true,
+            counterText: '',
+            fillColor: ThemeColor.inputBgColor,
+            hintText: hint,
+            hintStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: ThemeColor.whiteColor.withOpacity(0.4),
                 fontSize: 16),
-            controller: controller,
-            focusNode: focusNode,
-            keyboardType: TextInputType.number,
-            maxLength: 50,
-            onTap: inputTap,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp("[0-9]")),
-              LengthLimitingTextInputFormatter(11),
-              ZeroInputFormatter(),
-            ],
-            decoration: InputDecoration(
-              isDense: true,
-              counterText: '',
-              border: InputBorder.none,
-              hintText: hint,
-              hintStyle: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: ThemeColor.whiteColor.withOpacity(0.4),
-                  fontSize: 16),
+            contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(24),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: ThemeColor.themeGreenColor.withOpacity(0.3),
+                width: 1.0,
+              ),
+              borderRadius: BorderRadius.circular(24),
             ),
           ),
         ),
