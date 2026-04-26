@@ -1,5 +1,6 @@
 import 'package:youth/base/base_controller.dart';
 import 'package:youth/base/base_page.dart';
+import 'package:youth/base/base_service.dart';
 import 'hall_controller.dart';
 import 'view/hot_tags_view.dart';
 import 'view/find_friend_prompt_view.dart';
@@ -62,12 +63,15 @@ class HallPage extends BasePage<HallController> {
             preferredSize: Size.fromHeight(1.0),
           ),
           actions: [
-            Padding(
-              padding: EdgeInsets.only(right: 6),
-              child: Image.asset(
-                "assets/image/common/create_chat@3x.png",
-                width: 32,
-                height: 32,
+            GestureDetector(
+              onTap: controller.clickNewChat,
+              child: Padding(
+                padding: EdgeInsets.only(right: 6),
+                child: Image.asset(
+                  "assets/image/common/create_chat@3x.png",
+                  width: 32,
+                  height: 32,
+                ),
               ),
             ),
           ],
@@ -76,9 +80,7 @@ class HallPage extends BasePage<HallController> {
           () {
             final bottomInset = MediaQuery.of(context).viewInsets.bottom;
             final bottomSafe = MediaQuery.of(context).viewPadding.bottom;
-          final y =  (bottomInset -
-                kBottomNavigationBarHeight -
-                bottomSafe);
+            final y = (bottomInset - kBottomNavigationBarHeight - bottomSafe);
             return Stack(
               children: [
                 Column(
@@ -136,7 +138,7 @@ class HallPage extends BasePage<HallController> {
                     ),
 
                     /// 保持主体布局占位，不随键盘挤压改变
-                    Spacer(),
+                    // Spacer(),
                   ],
                 ),
 
@@ -149,9 +151,8 @@ class HallPage extends BasePage<HallController> {
                     duration: const Duration(milliseconds: 100),
                     curve: Curves.easeOut,
                     padding: EdgeInsets.only(
-                        bottom: y > 0
-                            ? (y> 0? y:  bottomInset)
-                            : bottomInset),
+                        bottom:
+                            y > 0 ? (y > 0 ? y : bottomInset) : bottomInset),
                     child: Padding(
                       padding: EdgeInsets.only(
                         bottom: bottomInset > 60 ? 0 : (bottomSafe + 12),

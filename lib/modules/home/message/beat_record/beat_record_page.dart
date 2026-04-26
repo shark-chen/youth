@@ -1,4 +1,5 @@
 import 'package:youth/base/base_page.dart';
+import 'package:youth/utils/extension/lists/lists.dart';
 import 'beat_record_controller.dart';
 import 'view/beat_record_cell.dart';
 
@@ -18,19 +19,32 @@ class BeatRecordPage extends BasePage<BeatRecordController> {
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
       body: Obx(
-        () => ListView.builder(
-          padding: EdgeInsets.only(top: 12),
-          itemCount: controller.rows.length,
-          itemBuilder: (BuildContext context, int index) {
-            final item = controller.rows[index];
-            return BeatRecordCell(
-              headPortraitUrl: item.fromAvatar,
-              name: item.fromNickname,
-              time: item.createdAt,
-              userInfoTap: controller.pushUserInfoPage,
-            );
-          },
-        ),
+        () => Lists.isNotEmpty(controller.rows)
+            ? ListView.builder(
+                padding: EdgeInsets.only(top: 12),
+                itemCount: controller.rows.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = controller.rows[index];
+                  return BeatRecordCell(
+                    headPortraitUrl: item.fromAvatar,
+                    name: item.fromNickname,
+                    time: item.createdAt,
+                    tagName: item.tagName,
+                    userInfoTap: controller.pushUserInfoPage,
+                    chatTap: controller.pushChatPage,
+                  );
+                },
+              )
+            : Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 120),
+                  child: Text(
+                    '暂无消息',
+                    style: TextStyles(color: ThemeColor.whiteColor),
+                  ),
+                ),
+              ),
       ),
     );
   }

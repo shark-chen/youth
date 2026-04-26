@@ -1,6 +1,5 @@
 import 'package:youth/base/base_controller.dart';
 import 'view_model/message_vm.dart';
-import 'controller/message_route_controller.dart';
 export 'controller/message_route_controller.dart';
 import 'controller/message_request_controller.dart';
 export 'controller/message_request_controller.dart';

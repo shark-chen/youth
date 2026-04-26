@@ -99,7 +99,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                   color: ThemeColor.theme7FColor,
                 ),
                 const SizedBox(width: 6),
-                 Text(
+                Text(
                   '搜索',
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.4),
@@ -123,8 +123,12 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                 color: Colors.white.withOpacity(0.5),
               ),
               prefixIcon: isFocus
-                  ? Icon(Icons.search, color: Colors.white.withOpacity(0.6))
+                  ? Padding(
+                      padding: EdgeInsets.only(left: 12, right: 2),
+                      child: Icon(Icons.search, color: Colors.white.withOpacity(0.6)))
                   : null,
+              prefixIconConstraints:
+                  const BoxConstraints(minWidth: 20, minHeight: 20),
               suffixIcon: (!isEmpty)
                   ? IconButton(
                       icon: Icon(Icons.close,

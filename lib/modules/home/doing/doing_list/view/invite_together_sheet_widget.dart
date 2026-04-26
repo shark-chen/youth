@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:youth/base/base_stateless_widget.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:youth/base/base_stateless_widget.dart';
 
 /// 邀请好友一起做 — 底部弹层内容（与 [showModalBottomSheet] / [BottomAlert.alerts] 搭配）
 ///
@@ -34,7 +35,8 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
   static const Color _weChatGreen = Color(0xFF07C160);
 
   Future<void> _defaultCopyCode() async {
-    await Clipboard.setData(ClipboardData(text: inviteCode.replaceAll(' ', '')));
+    await Clipboard.setData(
+        ClipboardData(text: inviteCode.replaceAll(' ', '')));
     EasyLoading.showToast('复制成功');
   }
 
@@ -65,47 +67,47 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  const SizedBox(width: 48),
-                  Expanded(
-                    child: Text(
-                      '邀请好友一起做',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: ThemeColor.whiteColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
+              GestureDetector(
+                onTap: Get.back,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
                     width: 48,
                     child: IconButton(
                       onPressed: closeTap,
                       icon: Icon(
                         Icons.close,
-                        color: ThemeColor.whiteColor.withOpacity(0.9),
-                        size: 24,
+                        color: ThemeColor.whiteColor.withOpacity(0.4),
+                        size: 26,
                       ),
                     ),
                   ),
-                ],
+                ),
+              ),
+              Text(
+                '邀请好友一起做',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: ThemeColor.whiteColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 10),
               Text(
                 '好友通过口令或链接可与你建立一起做的状态。',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: ThemeColor.whiteColor.withOpacity(0.55),
-                  fontSize: 13,
+                  color: ThemeColor.whiteColor.withOpacity(0.6),
+                  fontSize: 12,
                   height: 1.35,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
               _buildCodePill(context),
-              const SizedBox(height: 28),
+              const SizedBox(height: 32),
               _buildShareRow(context),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -115,7 +117,7 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
 
   Widget _buildCodePill(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      height: 49,
       decoration: BoxDecoration(
         color: ThemeColor.inputBgColor,
         borderRadius: BorderRadius.circular(30),
@@ -124,16 +126,23 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Text(
-              '口令： $inviteCode',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: ThemeColor.whiteColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+          Text(
+            '口令：',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: ThemeColor.whiteColor.withOpacity(0.6),
+              fontSize: 16,
+            ),
+          ),
+          Text(
+            '$inviteCode',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: ThemeColor.whiteColor.withOpacity(0.6),
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
             ),
           ),
           IconButton(
@@ -144,10 +153,10 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
                 _defaultCopyCode();
               }
             },
-            icon: Icon(
-              Icons.copy_outlined,
-              color: ThemeColor.whiteColor.withOpacity(0.85),
-              size: 22,
+            icon: Image.asset(
+              'assets/image/common/copy@3x.png',
+              width: 20,
+              height: 20,
             ),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
@@ -162,20 +171,20 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _shareAction(
-          icon: FaIcon(
-            FontAwesomeIcons.weixin,
-            color: ThemeColor.whiteColor,
-            size: 26,
+          icon: Image.asset(
+            'assets/image/common/we_chat@3x.png',
+            width: 60,
+            height: 60,
           ),
           iconBackground: _weChatGreen,
           label: '微信好友',
           onTap: onWeChatTap,
         ),
         _shareAction(
-          icon: Icon(
-            Icons.link,
-            color: const Color(0xFF5AC8FA),
-            size: 26,
+          icon: Image.asset(
+            'assets/image/common/link@3x.png',
+            width: 60,
+            height: 60,
           ),
           iconBackground: ThemeColor.doingListCellBgColor,
           label: '复制链接',
@@ -206,8 +215,8 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              width: 56,
-              height: 56,
+              width: 60,
+              height: 60,
               decoration: BoxDecoration(
                 color: iconBackground,
                 shape: BoxShape.circle,
@@ -215,12 +224,12 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
               alignment: Alignment.center,
               child: icon,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 6),
             Text(
               label,
               style: TextStyle(
-                color: ThemeColor.whiteColor.withOpacity(0.9),
-                fontSize: 13,
+                color: ThemeColor.whiteColor.withOpacity(0.6),
+                fontSize: 12,
               ),
             ),
           ],

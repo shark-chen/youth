@@ -1,4 +1,5 @@
 import 'package:youth/base/base_stateless_widget.dart';
+import 'package:youth/tripartite_library/tripartite_library.dart';
 
 /// FileName: beat_record_cell
 ///
@@ -12,6 +13,7 @@ class BeatRecordCell extends BaseStatelessWidget {
     this.headPortraitUrl,
     this.name,
     this.time,
+    this.tagName,
     this.userInfoTap,
     this.chatTap,
   }) : super(key: key);
@@ -24,6 +26,9 @@ class BeatRecordCell extends BaseStatelessWidget {
 
   /// 时间
   final String? time;
+
+  /// 任务
+  final String? tagName;
 
   /// 点击用户信息
   final VoidCallback? userInfoTap;
@@ -76,20 +81,38 @@ class BeatRecordCell extends BaseStatelessWidget {
                   ),
                 ),
 
-                Text(
-                  '我敲了下她',
-                  style: TextStyles(
-                    fontSize: 12,
-                    color: ThemeColor.whiteColor.withOpacity(0.6),
-                    fontWeight: FontWeight.normal,
+                /// 我敲啦下
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '我敲了下她',
+                        style: TextStyles(
+                          fontSize: 12,
+                          color: ThemeColor.whiteColor.withOpacity(0.6),
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' [${tagName ?? ''} 状态]',
+                        style: TextStyles(
+                          fontSize: 12,
+                          color: ThemeColor.themeGreenColor,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
             Expanded(child: Container()),
-            Icon(
-              Icons.chat,
-              color: ThemeColor.themeGreenColor,
+            GestureDetector(
+              onTap: chatTap,
+              child: Icon(
+                Icons.chat,
+                color: ThemeColor.themeGreenColor,
+              ),
             ),
           ],
         ),

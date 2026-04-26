@@ -71,8 +71,8 @@ class EditNickNameSheetWidget extends BaseStatelessWidget {
                         title ?? '--',
                         style: TextStyle(
                           color: ThemeColor.whiteColor,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
@@ -86,7 +86,7 @@ class EditNickNameSheetWidget extends BaseStatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 24),
                 TextField(
                   controller: controller,
                   focusNode: focusNode,

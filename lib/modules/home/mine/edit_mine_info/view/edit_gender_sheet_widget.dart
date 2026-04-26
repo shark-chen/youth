@@ -39,7 +39,7 @@ class EditGenderSheetWidget extends BaseStatelessWidget {
           padding: const EdgeInsets.fromLTRB(20, 8, 12, 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
@@ -49,8 +49,8 @@ class EditGenderSheetWidget extends BaseStatelessWidget {
                       '编辑昵称',
                       style: TextStyle(
                         color: ThemeColor.whiteColor,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
@@ -58,8 +58,8 @@ class EditGenderSheetWidget extends BaseStatelessWidget {
                     onPressed: closeTap,
                     icon: Icon(
                       Icons.close,
-                      color: ThemeColor.whiteColor.withOpacity(0.9),
-                      size: 24,
+                      color: ThemeColor.whiteColor.withOpacity(0.6),
+                      size: 20,
                     ),
                   ),
                 ],
@@ -70,10 +70,13 @@ class EditGenderSheetWidget extends BaseStatelessWidget {
                 child: Container(
                   color: Colors.transparent,
                   alignment: Alignment.center,
-                  height: 44,
+                  height: 64,
+                  width: 200,
                   child: Text(
                     '男',
                     style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                       color: Gender.boy == selectGender
                           ? ThemeColor.themeGreenColor
                           : ThemeColor.white6Color,
@@ -81,15 +84,19 @@ class EditGenderSheetWidget extends BaseStatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 8),
               GestureDetector(
                 onTap: () => selectTap?.call(Gender.girl),
                 child: Container(
                   color: Colors.transparent,
-                  height: 44,
+                  height: 64,
+                  width: 200,
                   alignment: Alignment.center,
                   child: Text(
                     '女',
                     style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                       color: Gender.girl == selectGender
                           ? ThemeColor.themeGreenColor
                           : ThemeColor.white6Color,

@@ -88,7 +88,8 @@ class MsgCloutWidget extends BaseStatelessWidget {
                                       text: '（我敲了她）',
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: ThemeColor.whiteColor.withOpacity(0.6),
+                                        color: ThemeColor.whiteColor
+                                            .withOpacity(0.6),
                                       ),
                                     ),
                                   ],
@@ -129,10 +130,13 @@ class MsgCloutWidget extends BaseStatelessWidget {
                             ),
                           ),
                           SizedBox(width: 4),
-                          Icon(
-                            Icons.arrow_back_ios,
-                            size: 16,
-                            color: ThemeColor.whiteColor,
+                          Transform.rotate(
+                            angle: 3.14159,
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 16,
+                              color: ThemeColor.whiteColor,
+                            ),
                           ),
                         ],
                       ),

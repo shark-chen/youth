@@ -10,6 +10,13 @@ import 'package:youth/base/base_controller.dart';
 ///
 /// @Description 消息模块-路由-controller
 extension MessageRouteController on MessageController {
+  /// mark - push
+  ///
+  /// 个人信息页面
+  Future pushUserInfoPage() async {
+    await Get.toNamed(Routes.minePage);
+  }
+
   /// push - 跳转到邀约记录-页面
   Future pushInviteRecordPage() async {
     await Get.toNamed(Routes.inviteRecordPage);

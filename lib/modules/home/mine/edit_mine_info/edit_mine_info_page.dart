@@ -1,5 +1,4 @@
 import 'package:youth/base/base_page.dart';
-
 import 'edit_mine_info_controller.dart';
 import 'model/edit_profile_draft.dart';
 import 'view/edit_basic_info_section.dart';
@@ -84,18 +83,17 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
 
                     /// 密码设置
                     EditPrivateSection(
-                      privateContent: controller.vm.value.userPrivateInfoEntity?.wishDescription,
+                      privateContent: controller
+                          .vm.value.userPrivateInfoEntity?.wishDescription,
                       onAiTap: controller.clickAddPrivacyMessage,
-                      passwordHint: true ==
-                              controller
-                                  .vm.value.draft?.hasPrivateContent
-                          ? '已设置过密码'
-                          : '未设置过密码',
-                      passwordBtnTitle: true ==
-                          controller
-                              .vm.value.draft?.hasPrivateContent
-                          ? '修改密码'
-                          : '设置密码',
+                      passwordHint:
+                          true == controller.vm.value.draft.hasPrivateContent
+                              ? ''
+                              : '未设置过密码',
+                      passwordBtnTitle:
+                          true == controller.vm.value.draft.hasPrivateContent
+                              ? '修改密码'
+                              : '设置密码',
                       onChangePasswordTap: controller.clickModifyPassword,
                     ),
                     const SizedBox(height: 80),

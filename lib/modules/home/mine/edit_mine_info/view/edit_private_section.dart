@@ -5,6 +5,7 @@ import 'package:youth/tripartite_library/tripartite_library.dart';
 import 'package:youth/utils/extension/strings/strings.dart';
 import 'package:youth/utils/extension/text_styles.dart';
 import 'package:youth/utils/utils/theme_color.dart';
+import 'package:youth/widget/bottom_alert/bottom_alert.dart';
 
 /// 非公开内容：AI 说明区 + 密码行
 class EditPrivateSection extends StatelessWidget {
@@ -72,7 +73,7 @@ class EditPrivateSection extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          '以下内容仅用于 AI 更好地理解你，不会在资料卡向他人展示。',
+          '在这里告诉 AI 的事情，AI 会为你绝对保密，打死都不会告诉任何人。你可以把你的小癖好、小众爱好、找人的需求写到这里，AI 将根据实际情况应用这些信息，但不会直接向他人展示。',
           style: TextStyle(
             color: ThemeColor.secondaryTextColor,
             fontSize: 12,
@@ -138,40 +139,43 @@ class EditPrivateSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          decoration: BoxDecoration(
-            color: ThemeColor.doingListCellBgColor,
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onChangePasswordTap,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      passwordHint,
+        Visibility(
+          visible: Strings.isNotEmpty(privateContent),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              color: ThemeColor.doingListCellBgColor,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onChangePasswordTap,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        passwordHint,
+                        style: TextStyle(
+                          color: ThemeColor.whiteColor.withOpacity(0.85),
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      passwordBtnTitle,
                       style: TextStyle(
-                        color: ThemeColor.whiteColor.withOpacity(0.85),
+                        color: ThemeColor.themeGreenColor,
                         fontSize: 15,
                       ),
                     ),
-                  ),
-                  Text(
-                    passwordBtnTitle,
-                    style: TextStyle(
-                      color: ThemeColor.themeGreenColor,
-                      fontSize: 15,
+                    Icon(
+                      Icons.chevron_right,
+                      color: ThemeColor.themeGreenColor.withOpacity(0.8),
+                      size: 22,
                     ),
-                  ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: ThemeColor.themeGreenColor.withOpacity(0.8),
-                    size: 22,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

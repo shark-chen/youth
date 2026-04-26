@@ -14,6 +14,7 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
     this.userName,
     this.age,
     this.address,
+    this.province,
     this.gender,
     this.showEdit,
     this.editTap,
@@ -30,6 +31,9 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
 
   /// 地区等副文案
   final String? address;
+
+  /// 地区等副文案
+  final String? province;
 
   /// 1 男 · 2 女（与资料接口一致）
   final int? gender;
@@ -81,7 +85,7 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
                 ],
               ),
               Text(
-                (age ?? '') + (address ?? ''),
+                (age ?? '') +'·'+ (address ?? '') + '   IP:${province ?? ''}',
                 style: TextStyles(
                   color: ThemeColor.whiteColor.withOpacity(0.6),
                 ),

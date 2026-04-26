@@ -72,6 +72,13 @@ class HallController extends BaseController
     vm.refresh();
   }
 
+  /// 点击新对话
+  void clickNewChat() {
+    vm.value.findMode = FindMode.findPrompt;
+    editingController?.text = '';
+    vm.refresh();
+  }
+
   /// 是否是找友提示语模式
   bool get findPrompt {
     return vm.value.findPrompt;

@@ -1,5 +1,6 @@
 import 'package:youth/tripartite_library/tripartite_library.dart';
 import 'package:youth/utils/extension/lists/lists.dart';
+import 'package:youth/utils/extension/text_styles.dart';
 import 'package:youth/utils/marco/marco.dart';
 import 'package:youth/utils/utils/theme_color.dart';
 import '../model/smart_match_people_entity.dart';
@@ -174,17 +175,21 @@ class _CardStackDemoState extends State<CardStackDemo> {
       );
     }
     if (_stack.length == 1) {
-      return Stack(
-        alignment: Alignment.center,
-        children: [buildFrontCard()],
+      return Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [buildFrontCard()],
+        ),
       );
     }
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        buildBackCard(),
-        buildFrontCard(),
-      ],
+    return Center(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          buildBackCard(),
+          buildFrontCard(),
+        ],
+      ),
     );
   }
 
@@ -193,7 +198,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
     double progress = (position.distance / 200).clamp(0.0, 1.0);
 
     return Transform.translate(
-      offset: Offset(0, 30 * (1 - progress)),
+      offset: Offset(0, 30 * (1 - progress) + 7),
       child: Transform.scale(
         scale: 0.92 + 0.08 * progress,
         child: Opacity(
@@ -237,16 +242,35 @@ class _CardStackDemoState extends State<CardStackDemo> {
   /// ================== 卡片UI ==================
   Widget buildCard(SmartMatchPeopleList item) {
     final seed = item.userId ?? item.nickname?.hashCode ?? 0;
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: Container(
-        width: screenWidth - 48,
-        height: (screenWidth - 48) * (498.0 / 327.0),
-        child: Stack(
-          children: [
+    final cardWidth = screenWidth - 48;
+    final cardHeight = cardWidth * (498.0 / 327.0);
+    return Container(
+      width: cardWidth,
+      height: cardHeight,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        color: ThemeColor.theme5FColor,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.4),
+            offset: const Offset(0, 4),
+            blurRadius: 8,
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Container(
+          color: ThemeColor.theme5FColor,
+          child: Stack(
+            children: [
             Positioned.fill(
-              child: Container(
-                color: Colors.red,
+              top: 0.0,
+              left: 0.0,
+              right: 0.0,
+              bottom: 88,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
                 child: Image.network(
                   item.avatar ?? '',
                   fit: BoxFit.fill,
@@ -275,41 +299,41 @@ class _CardStackDemoState extends State<CardStackDemo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  /// 昵称
+                  Flexible(
+                    child: Text(
+                      _displayName(item),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+
+                  /// 城市 + 性别
                   Row(
                     children: [
-                      Flexible(
-                        child: Text(
-                          _displayName(item),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      Text(
+                        _ageCityLine(item),
+                        style: const TextStyle(color: Colors.white70),
                       ),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.white),
-                        ),
-                        child: const Text(
-                          '在线',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      )
+
+                      SizedBox(width: 2),
+
+                      /// 性别图标
+                      Icon(
+                        1 == item.gender ? Icons.male : Icons.female,
+                        color: Colors.blue,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    _ageCityLine(item),
-                    style: const TextStyle(color: Colors.white70),
-                  ),
-                  const SizedBox(height: 6),
+
+                  /// 信息
                   Text(
                     _descLine(item),
                     maxLines: 1,
@@ -317,12 +341,16 @@ class _CardStackDemoState extends State<CardStackDemo> {
                     style: const TextStyle(color: Colors.white60),
                   ),
                   const SizedBox(height: 12),
+
+                  /// 标签
                   Wrap(
                     spacing: 8,
                     runSpacing: 6,
                     children: _tagChips(item),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 36),
+
+                  /// 聊一聊
                   Row(
                     children: [
                       const SizedBox(width: 12),
@@ -343,7 +371,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(
                               width: 1,
-                              color: ThemeColor.themeFourZeroColor,
+                              color: ThemeColor.whiteColor.withOpacity(0.4),
                             ),
                           ),
                           width: 40,
@@ -365,11 +393,11 @@ class _CardStackDemoState extends State<CardStackDemo> {
                               color: Colors.greenAccent,
                               borderRadius: BorderRadius.circular(24),
                             ),
-                            child: const Text(
+                            child: Text(
                               '聊一聊',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
+                              style: TextStyles(
+                                color: ThemeColor.themeColor,
+                                fontSize: 16,
                               ),
                             ),
                           ),
@@ -377,11 +405,12 @@ class _CardStackDemoState extends State<CardStackDemo> {
                       ),
                       const SizedBox(width: 24),
                     ],
-                  )
+                  ),
                 ],
               ),
             )
-          ],
+            ],
+          ),
         ),
       ),
     );

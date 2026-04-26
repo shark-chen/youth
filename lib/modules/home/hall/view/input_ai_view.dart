@@ -66,9 +66,9 @@ class InputAiWidget extends BaseStatelessWidget {
               onFieldSubmitted: onSubmittedTap,
               autocorrect: false,
               style: TextStyle(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w400,
                   color: ThemeColor.whiteColor,
-                  fontSize: 16),
+                  fontSize: 14),
               controller: controller,
               focusNode: focusNode,
               keyboardType: TextInputType.visiblePassword,
@@ -80,9 +80,9 @@ class InputAiWidget extends BaseStatelessWidget {
                 border: InputBorder.none,
                 hintText: hint,
                 hintStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                     color: ThemeColor.whiteColor.withOpacity(0.4),
-                    fontSize: 16),
+                    fontSize: 14),
               ),
             ),
           ),

@@ -22,10 +22,17 @@ class BeatRecordController extends BaseController {
     requestKnockReceived();
   }
 
+
+  List<BeatItemEntity> get rows => vm.value.rows;
+
   /// push - 跳转到用户信息页面-page
   Future pushUserInfoPage() async {
     await Get.toNamed(Routes.userInfoPage);
   }
 
-  List<BeatItemEntity> get rows => vm.value.rows;
+  /// push - 实际聊天窗口-page-页面
+  Future pushChatPage() async {
+    await Get.toNamed(Routes.chatPage);
+  }
+
 }

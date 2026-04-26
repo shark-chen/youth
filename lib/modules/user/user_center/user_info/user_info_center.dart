@@ -16,9 +16,6 @@ class UserInfoCenter extends BaseUser {
 
   UserInfoCenter._();
 
-  /// 是否选择同意记住账户信息
-  bool agreeSaveAccount = false;
-
   /// 用户信息模型属性
   UserInfoEntity? userInfoEntity;
 
@@ -32,7 +29,6 @@ class UserInfoCenter extends BaseUser {
   void clear() {
     super.clear();
     userInfoEntity = null;
-    agreeSaveAccount = false;
   }
 
   Future<UserInfoEntity?> get userInfo async {

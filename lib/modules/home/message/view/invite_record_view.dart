@@ -95,17 +95,22 @@ class InviteRecordWidget extends BaseStatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              '${headPortraits?.length ?? 0}',
+                              Lists.isEmpty(headPortraits)
+                                  ? '暂无消息'
+                                  : '${headPortraits?.length ?? 0}',
                               style: TextStyles(
                                   color: ThemeColor.themeGreenColor,
                                   fontSize: 12),
                             ),
                           ),
                           SizedBox(width: 4),
-                          Icon(
-                            Icons.arrow_back_ios,
-                            size: 16,
-                            color: ThemeColor.whiteColor,
+                          Transform.rotate(
+                            angle: 3.14159,
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 16,
+                              color: ThemeColor.whiteColor,
+                            ),
                           ),
                         ],
                       ),

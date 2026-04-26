@@ -53,74 +53,80 @@ class BirthdaySelectPage extends BasePage<BirthdaySelectController> {
                           borderRadius: BorderRadius.circular(14),
                         ),
                       ),
-                      Obx(() {
-                        final v = controller.vm.value;
-                        final selectedYear = v.pickerModel.selectYear;
-                        final selectedMonth = v.pickerModel.selectMonth;
-                        final selectedDay = v. pickerModel.selectDay;
-
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: CupertinoPicker(
-                                scrollController: v.pickerModel.yearScrollController,
-                                looping: false,
-                                itemExtent: 56,
-                                diameterRatio: 1.2,
-                                squeeze: 1.0,
-                                backgroundColor: Colors.transparent,
-                                selectionOverlay: null,
-                                onSelectedItemChanged: controller.onYearChanged,
-                                children: v.pickerModel.years
-                                    .map(
-                                      (y) => BirthdayPickerCell(
-                                        text: '$y',
-                                        selected: y == selectedYear,
-                                      ),
-                                    )
-                                    .toList(),
+                      Obx(
+                        () {
+                          final v = controller.vm.value;
+                          final selectedYear = v.pickerModel.selectYear;
+                          final selectedMonth = v.pickerModel.selectMonth;
+                          final selectedDay = v.pickerModel.selectDay;
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: CupertinoPicker(
+                                  scrollController:
+                                      v.pickerModel.yearScrollController,
+                                  looping: false,
+                                  itemExtent: 56,
+                                  diameterRatio: 1.2,
+                                  squeeze: 1.0,
+                                  backgroundColor: Colors.transparent,
+                                  selectionOverlay: null,
+                                  onSelectedItemChanged:
+                                      controller.onYearChanged,
+                                  children: v.pickerModel.years
+                                      .map(
+                                        (y) => BirthdayPickerCell(
+                                          text: '$y',
+                                          selected: y == selectedYear,
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              child: CupertinoPicker(
-                                scrollController: v.pickerModel.monthScrollController,
-                                looping: false,
-                                itemExtent: 56,
-                                diameterRatio: 1.2,
-                                squeeze: 1.0,
-                                backgroundColor: Colors.transparent,
-                                selectionOverlay: null,
-                                onSelectedItemChanged:
-                                    controller.onMonthChanged,
-                                children: v.pickerModel.pickerMonths
-                                    .map((m) => BirthdayPickerCell(
-                                          text: m < 10 ? '0$m' : '$m',
-                                          selected: m == selectedMonth,
-                                        ))
-                                    .toList(),
+                              Expanded(
+                                child: CupertinoPicker(
+                                  scrollController:
+                                      v.pickerModel.monthScrollController,
+                                  looping: false,
+                                  itemExtent: 56,
+                                  diameterRatio: 1.2,
+                                  squeeze: 1.0,
+                                  backgroundColor: Colors.transparent,
+                                  selectionOverlay: null,
+                                  onSelectedItemChanged:
+                                      controller.onMonthChanged,
+                                  children: v.pickerModel.pickerMonths
+                                      .map((m) => BirthdayPickerCell(
+                                            text: m < 10 ? '0$m' : '$m',
+                                            selected: m == selectedMonth,
+                                          ))
+                                      .toList(),
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              child: CupertinoPicker(
-                                scrollController: v.pickerModel.dayScrollController,
-                                looping: false,
-                                itemExtent: 56,
-                                diameterRatio: 1.2,
-                                squeeze: 1.0,
-                                backgroundColor: Colors.transparent,
-                                selectionOverlay: null,
-                                onSelectedItemChanged: controller.onDayChanged,
-                                children: v.pickerModel.days
-                                    .map((d) => BirthdayPickerCell(
-                                          text: d < 10 ? '0$d' : '$d',
-                                          selected: d == selectedDay,
-                                        ))
-                                    .toList(),
+                              Expanded(
+                                child: CupertinoPicker(
+                                  scrollController:
+                                      v.pickerModel.dayScrollController,
+                                  looping: false,
+                                  itemExtent: 56,
+                                  diameterRatio: 1.2,
+                                  squeeze: 1.0,
+                                  backgroundColor: Colors.transparent,
+                                  selectionOverlay: null,
+                                  onSelectedItemChanged:
+                                      controller.onDayChanged,
+                                  children: v.pickerModel.days
+                                      .map((d) => BirthdayPickerCell(
+                                            text: d < 10 ? '0$d' : '$d',
+                                            selected: d == selectedDay,
+                                          ))
+                                      .toList(),
+                                ),
                               ),
-                            ),
-                          ],
-                        );
-                      }),
+                            ],
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

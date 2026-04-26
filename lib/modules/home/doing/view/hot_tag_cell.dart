@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 /// FileName: hot_tag_cell
@@ -24,6 +26,7 @@ class HotTagCell extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        constraints: const BoxConstraints(minHeight: 40),
         padding: EdgeInsets.only(left: 6, right: 6),
         alignment: Alignment.center,
         decoration: BoxDecoration(
