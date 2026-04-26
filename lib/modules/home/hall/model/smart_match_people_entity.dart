@@ -32,6 +32,7 @@ class SmartMatchPeopleList {
   String? nickname;
   int? gender;
   int? age;
+  String? avatar;
   String? city;
   List<dynamic>? tags;
   double? matchScore;

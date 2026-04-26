@@ -248,7 +248,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
               child: Container(
                 color: Colors.red,
                 child: Image.network(
-                  'https://picsum.photos/400/600?random=$seed',
+                  item.avatar ?? '',
                   fit: BoxFit.fill,
                 ),
               ),

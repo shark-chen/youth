@@ -221,4 +221,10 @@ class ThemeColor {
   static const Color violetColor = Color(0xFFBA66FF);
   static Color white6Color = Color(0xFFFFFFFF)..withOpacity(0.6);
   static Color black6Color = Color(0xFF000000)..withOpacity(0.6);
+  static Color dialogGraynessBgColor = Color(0xFF1C1C1E);
+  static Color dialogRedBgColor = Color(0xFFFF1B5B);
+
+  static Color dialogRedConfirmBgColor = Color(0xFFEB345A);
+
+
 }

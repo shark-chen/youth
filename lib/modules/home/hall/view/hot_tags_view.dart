@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:youth/utils/extension/lists/lists.dart';
 import 'package:youth/utils/marco/marco.dart';
-import 'package:youth/utils/utils/theme_color.dart';
-import '../model/card_item.dart';
 
-/// FileName: card_stack_view
+/// FileName: hot_tags_widget
 ///
 /// @Author 谌文
 /// @Date 2026/3/28 23:51
 ///
-/// @Description
-class CardStackPage extends StatefulWidget {
-  CardStackPage({
+/// @Description Ai找人-热度标签- view
+class HotTagsWidget extends StatefulWidget {
+  HotTagsWidget({
     this.items,
     this.emptyHintWhenNoData,
     this.emptyHintWhenNoMore,
@@ -31,10 +29,10 @@ class CardStackPage extends StatefulWidget {
   final ValueChanged<String>? findTap;
 
   @override
-  _CardStackPageState createState() => _CardStackPageState();
+  _HotTagsWidgetState createState() => _HotTagsWidgetState();
 }
 
-class _CardStackPageState extends State<CardStackPage> {
+class _HotTagsWidgetState extends State<HotTagsWidget> {
   late List<String> _stack;
 
   Offset position = Offset.zero;
@@ -47,7 +45,7 @@ class _CardStackPageState extends State<CardStackPage> {
   }
 
   @override
-  void didUpdateWidget(CardStackPage oldWidget) {
+  void didUpdateWidget(HotTagsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     setState(() {
       _stack = widget.items ?? [];
@@ -125,13 +123,12 @@ class _CardStackPageState extends State<CardStackPage> {
                     double rotate = 0;
 
                     if (index == 1) {
-                      offsetX = -(screenWidth * 0.25 - 20); // 左边卡
+                      offsetX = -(screenWidth * 0.25 - 30); 
                       rotate = -0.2;
                     } else if (index == 2) {
-                      offsetX = (screenWidth * 0.25 - 20); // 右边卡
+                      offsetX = (screenWidth * 0.25 - 30); 
                       rotate = 0.2;
                     }
-
                     return MapEntry(
                       index,
                       Transform.translate(
@@ -147,7 +144,10 @@ class _CardStackPageState extends State<CardStackPage> {
                                     onPanEnd: onPanEnd,
                                     child: buildCard(item),
                                   )
-                                : buildCard(item),
+                                : Opacity(
+                                    opacity: 0.45,
+                                    child: buildCard(item),
+                                  ),
                           ),
                         ),
                       ),
@@ -167,8 +167,19 @@ class _CardStackPageState extends State<CardStackPage> {
       height: screenWidth * 0.5 * 1.2,
       padding: EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: ThemeColor.cardBgColor,
+        color: const Color(0xFF292929),
+        border: Border.all(
+          width: 1,
+          color: const Color(0xFF3C3C3C),
+        ),
         borderRadius: BorderRadius.circular(24),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.25),
+            offset: Offset(0, 6),
+            blurRadius: 10,
+          ),
+        ],
       ),
       child: Stack(
         children: [

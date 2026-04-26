@@ -77,6 +77,10 @@ SmartMatchPeopleList $SmartMatchPeopleListFromJson(Map<String, dynamic> json) {
   if (age != null) {
     smartMatchPeopleList.age = age;
   }
+  final String? avatar = jsonConvert.convert<String>(json['avatar']);
+  if (avatar != null) {
+    smartMatchPeopleList.avatar = avatar;
+  }
   final String? city = jsonConvert.convert<String>(json['city']);
   if (city != null) {
     smartMatchPeopleList.city = city;
@@ -102,6 +106,7 @@ Map<String, dynamic> $SmartMatchPeopleListToJson(SmartMatchPeopleList entity) {
   data['city'] = entity.city;
   data['tags'] = entity.tags;
   data['matchScore'] = entity.matchScore;
+  data['avatar'] = entity.avatar;
   return data;
 }
 
@@ -112,6 +117,7 @@ extension SmartMatchPeopleListExtension on SmartMatchPeopleList {
     int? gender,
     int? age,
     String? city,
+    String? avatar,
     List<dynamic>? tags,
     double? matchScore,
   }) {
@@ -120,6 +126,7 @@ extension SmartMatchPeopleListExtension on SmartMatchPeopleList {
       ..nickname = nickname ?? this.nickname
       ..gender = gender ?? this.gender
       ..age = age ?? this.age
+      ..avatar = city ?? this.avatar
       ..city = city ?? this.city
       ..tags = tags ?? this.tags
       ..matchScore = matchScore ?? this.matchScore;

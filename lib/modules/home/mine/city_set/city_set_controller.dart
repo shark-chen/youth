@@ -129,6 +129,7 @@ class CitySetController extends BaseController {
             if (Strings.isNotEmpty(vm.value.selectRegion?.district)) {
               Get.back();
             }
+            vm.refresh();
           },
         );
       },

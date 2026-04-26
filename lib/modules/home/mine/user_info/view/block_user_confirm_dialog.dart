@@ -21,10 +21,6 @@ class BlockUserConfirmDialog extends BaseStatelessWidget {
   final VoidCallback? onCancel;
   final VoidCallback? onConfirm;
 
-  static const Color _dialogBg = Color(0xFF1C1C1E);
-  static const Color _cancelBg = Color(0xFF3A3A3C);
-  static const Color _confirmBg = Color(0xFFFF1B5B);
-
   @override
   Widget build(BuildContext context) {
     final name = targetName.trim().isEmpty ? '对方' : targetName.trim();
@@ -36,7 +32,7 @@ class BlockUserConfirmDialog extends BaseStatelessWidget {
           child: Container(
             constraints: const BoxConstraints(maxWidth: 340),
             decoration: BoxDecoration(
-              color: _dialogBg,
+              color: ThemeColor.dialogGraynessBgColor,
               borderRadius: BorderRadius.circular(26),
             ),
             padding: const EdgeInsets.fromLTRB(22, 24, 22, 18),
@@ -84,7 +80,7 @@ class BlockUserConfirmDialog extends BaseStatelessWidget {
                     Expanded(
                       child: _BlockPillButton(
                         label: '取消',
-                        backgroundColor: _cancelBg,
+                        backgroundColor: ThemeColor.doingListTogetherBgColor,
                         textColor: ThemeColor.whiteColor,
                         onTap: onCancel,
                       ),
@@ -93,7 +89,7 @@ class BlockUserConfirmDialog extends BaseStatelessWidget {
                     Expanded(
                       child: _BlockPillButton(
                         label: true == blocked ? '取消拉黑' : '拉黑',
-                        backgroundColor: _confirmBg,
+                        backgroundColor: ThemeColor.dialogRedBgColor,
                         textColor: ThemeColor.whiteColor,
                         onTap: onConfirm,
                       ),

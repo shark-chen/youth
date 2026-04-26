@@ -134,7 +134,9 @@ class SexSelectPage extends BasePage<SexSelectController> {
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(left: 45, right: 45),
                   decoration: BoxDecoration(
-                    color: ThemeColor.themeGreenColor,
+                    color: controller.vm.value.sex != null
+                        ? ThemeColor.themeGreenColor
+                        : ThemeColor.doingListCellBgColor,
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Text(

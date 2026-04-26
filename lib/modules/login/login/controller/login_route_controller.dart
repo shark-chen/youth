@@ -13,20 +13,10 @@ extension LoginRouteController on LoginController {
   /// MARK - PUSH
   /// push-打开意思协议弹框
   Future pushPrivacyPop() async {
-    await BottomAlert.alerts(
-      Get.context!,
-      showCloseBtn: false,
-      isDismissible: true,
-      leftTitle: LocaleKeys.disagree.tr,
-      rightTitle: LocaleKeys.agreement.tr,
-      leftTap: Get.back,
-      rightTap: () {
-        vm.value.loginModel.agreeProtocol = true;
-        Get.back();
-        vm.refresh();
-      },
-      customWidget: Padding(
-        padding: EdgeInsets.only(left: 24, right: 24, top: 20),
+    var result = false;
+    await pushDialogAlert(
+      customContentWidget: Padding(
+        padding: EdgeInsets.only(left: 12, right: 12, top: 15),
         child: RichText(
           text: TextSpan(
             text: LocaleKeys.ReadAndAgree.tr,
@@ -37,8 +27,8 @@ extension LoginRouteController on LoginController {
             children: <TextSpan>[
               TextSpan(
                 text: " ${'《用户协议》、《隐私政策》、《未成年人个人信息保护规则》'.tr}",
-                style:
-                    const TextStyle(fontSize: 16, color: ThemeColor.blueColor),
+                style: const TextStyle(
+                    fontSize: 16, color: ThemeColor.themeGreenColor),
                 recognizer: TapGestureRecognizer()
                   ..onTap = pushPrivacyAgreement,
               ),
@@ -46,7 +36,18 @@ extension LoginRouteController on LoginController {
           ),
         ),
       ),
+      leftTitle: '不同意',
+      rightTitle: '同意',
+      rightTitleColor: ThemeColor.black6Color,
+      rightTitleBgColor: ThemeColor.themeGreenColor,
+      rightTap: () {
+        vm.value.loginModel.agreeProtocol = true;
+        result = true;
+        Get.back();
+        vm.refresh();
+      },
     );
+    return result;
   }
 
   /// push -跳转隐私协议

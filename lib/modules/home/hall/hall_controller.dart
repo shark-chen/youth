@@ -1,15 +1,12 @@
 import 'dart:async';
-
-import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:youth/modules/home/hall/controller/hall_request_controller.dart';
-import 'package:youth/network/net/entry/doing/doing.dart';
-import 'package:youth/utils/authority/photos_authority.dart';
-import '../../../base/base_controller.dart';
+import 'package:youth/base/base_controller.dart';
 import 'model/smart_match_people_entity.dart';
 import 'view_model/hall_vm.dart';
-
+import 'controller/hall_request_controller.dart';
 export 'controller/hall_request_controller.dart';
+import 'controller/hall_route_controller.dart';
+export 'controller/hall_route_controller.dart';
 
 /// FileName hall_controller
 ///
@@ -84,24 +81,5 @@ class HallController extends BaseController
   Future clickLookUserInfo(SmartMatchPeopleList? item) async {
     if (item?.userId == null) return;
     await pushProfile(userId: '${item?.userId}');
-  }
-
-  /// mark - push
-  ///
-  /// 个人信息页面
-  Future pushUserInfoPage() async {
-    await Get.toNamed(Routes.minePage);
-  }
-
-  /// push - 个人信息页面
-  Future<void> pushProfile({required String userId}) async {
-    await Get.toNamed(Routes.userInfoPage, parameters: {
-      'userId': userId,
-    });
-  }
-
-  /// push - 实际聊天窗口-page-页面
-  Future pushChatPage(SmartMatchPeopleList friend) async {
-    await Get.toNamed(Routes.chatPage);
   }
 }

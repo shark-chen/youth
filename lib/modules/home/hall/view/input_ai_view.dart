@@ -72,7 +72,7 @@ class InputAiWidget extends BaseStatelessWidget {
               controller: controller,
               focusNode: focusNode,
               keyboardType: TextInputType.visiblePassword,
-              maxLength: 50,
+              maxLength: 300,
               onTap: inputTap,
               decoration: InputDecoration(
                 isDense: true,

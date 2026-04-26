@@ -3,19 +3,50 @@ import 'package:youth/base/base_stateless_widget.dart';
 /// 重置私密密码确认（居中弹框）
 ///
 /// 文案：重置密码将清空全部私密信息；取消 / 确定重置
-class EditResetPrivatePasswordConfirmDialog extends BaseStatelessWidget {
-  const EditResetPrivatePasswordConfirmDialog({
+class DialogAlertWidget extends BaseStatelessWidget {
+  const DialogAlertWidget({
     super.key,
-    this.onCancel,
-    this.onConfirm,
+    this.content,
+    this.leftTitle,
+    this.leftTitleColor,
+    this.leftTitleBgColor,
+    this.rightTitle,
+    this.rightTitleColor,
+    this.rightTitleBgColor,
+    this.customContentWidget,
+    this.leftTap,
+    this.rightTap,
   });
 
-  final VoidCallback? onCancel;
-  final VoidCallback? onConfirm;
+  /// 内容
+  final String? content;
 
-  static const Color _dialogBg = Color(0xFF1C1C1E);
-  static const Color _cancelBg = Color(0xFF3A3A3C);
-  static const Color _confirmBg = Color(0xFFEB345A);
+  /// 左侧按钮标题
+  final String? leftTitle;
+
+  /// 左边侧按钮标题颜色
+  final Color? leftTitleColor;
+
+  /// 左边侧按钮背景颜色
+  final Color? leftTitleBgColor;
+
+  /// 右侧按钮标题
+  final String? rightTitle;
+
+  /// 右侧侧按钮标题颜色
+  final Color? rightTitleColor;
+
+  /// 右侧按钮背景颜色
+  final Color? rightTitleBgColor;
+
+  /// 自定义内容widget
+  final Widget? customContentWidget;
+
+  /// 左边点击事件
+  final VoidCallback? leftTap;
+
+  /// 右边点击事件
+  final VoidCallback? rightTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +58,7 @@ class EditResetPrivatePasswordConfirmDialog extends BaseStatelessWidget {
           child: Container(
             constraints: const BoxConstraints(maxWidth: 340),
             decoration: BoxDecoration(
-              color: _dialogBg,
+              color: ThemeColor.dialogGraynessBgColor,
               borderRadius: BorderRadius.circular(26),
             ),
             padding: const EdgeInsets.fromLTRB(22, 22, 22, 18),
@@ -43,33 +74,36 @@ class EditResetPrivatePasswordConfirmDialog extends BaseStatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 14),
-                Text(
-                  '重置密码将清空你输入的全部私密信息。确定重置吗？',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: ThemeColor.whiteColor.withOpacity(0.92),
-                    fontSize: 14,
-                    height: 1.45,
-                  ),
-                ),
+                customContentWidget ??
+                    Text(
+                      content ?? '重置密码将清空你输入的全部私密信息。确定重置吗？',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: ThemeColor.whiteColor.withOpacity(0.92),
+                        fontSize: 14,
+                        height: 1.45,
+                      ),
+                    ),
                 const SizedBox(height: 22),
                 Row(
                   children: [
                     Expanded(
                       child: _PillButton(
-                        label: '取消',
-                        backgroundColor: _cancelBg,
-                        textColor: ThemeColor.whiteColor,
-                        onTap: onCancel,
+                        label: leftTitle ?? '取消',
+                        backgroundColor: leftTitleBgColor ??
+                            ThemeColor.doingListTogetherBgColor,
+                        textColor: leftTitleColor ?? ThemeColor.whiteColor,
+                        onTap: leftTap,
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: _PillButton(
-                        label: '确定重置',
-                        backgroundColor: _confirmBg,
-                        textColor: ThemeColor.whiteColor,
-                        onTap: onConfirm,
+                        label: rightTitle ?? '确定重置',
+                        backgroundColor: rightTitleBgColor ??
+                            ThemeColor.dialogRedConfirmBgColor,
+                        textColor: rightTitleColor ?? ThemeColor.whiteColor,
+                        onTap: rightTap,
                       ),
                     ),
                   ],

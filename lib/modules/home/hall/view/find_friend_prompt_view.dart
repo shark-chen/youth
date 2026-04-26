@@ -1,5 +1,4 @@
 import 'package:youth/base/base_stateless_widget.dart';
-import 'card_stack_view.dart';
 
 /// FileName: find_friend_prompt_view
 ///
@@ -8,7 +7,13 @@ import 'card_stack_view.dart';
 ///
 /// @Description 找朋友提示语-view
 class FindFriendPromptWidget extends BaseStatelessWidget {
-  const FindFriendPromptWidget({Key? key}) : super(key: key);
+  const FindFriendPromptWidget({
+    Key? key,
+    this.niceName,
+  }) : super(key: key);
+
+  /// 昵称
+  final String? niceName;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,7 @@ class FindFriendPromptWidget extends BaseStatelessWidget {
         ),
         SizedBox(height: 25),
         Text(
-          'Hi,中午好',
+          'Hi,${niceName ?? ''}',
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w700,
@@ -33,7 +38,7 @@ class FindFriendPromptWidget extends BaseStatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          '输入想找的人，AI智能匹配～',
+          '描述你想找的人，AI智能匹配～',
           style: TextStyle(
             fontSize: 14,
             color: Colors.white.withOpacity(0.6),

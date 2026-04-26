@@ -3,6 +3,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:youth/modules/home/mine/edit_mine_info/view/edit_reset_private_password_confirm_dialog.dart';
 import 'base_controller.dart';
 export 'base_model_entity.dart';
 export 'package:get/get.dart';
@@ -66,7 +67,6 @@ abstract class BaseController extends GetxController
   /// 是相机还是PDA
   bool isCamera = UserCenter().isCamera;
   bool hiddenKeyboard = true; // PDA会自动聚焦键盘,但不弹出键盘，如果点击输入框时需要弹起键盘，使用此字段
-
 
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
@@ -277,16 +277,45 @@ abstract class BaseController extends GetxController
     Get.back();
   }
 
-  /// push - 任务操作结果 任务
-  Future pusResultAlertPage({
-    List<String>? failReasons,
-    VoidCallback? confirmTap,
+  /// push - 左右按钮是弹框提示
+  /// content: 内容
+  /// leftTitle: 左侧按钮标题
+  /// leftTitleColor: 左边侧按钮标题颜色
+  /// leftTitleBgColor: 左边侧按钮背景颜色
+  /// rightTitle: 右侧按钮标题
+  /// rightTitleColor: 右边侧按钮标题颜色
+  /// rightTitleBgColor: 右边侧按钮背景颜色
+  /// customContentWidget: 自定义内容widget
+  Future<T?> pushDialogAlert<T>({
+    String? content,
+    String? leftTitle,
+    Color? leftTitleColor,
+    Color? leftTitleBgColor,
+    String? rightTitle,
+    Color? rightTitleColor,
+    Color? rightTitleBgColor,
+    Widget? customContentWidget,
+    VoidCallback? leftTap,
+    VoidCallback? rightTap,
   }) async {
-    if (Lists.isEmpty(failReasons)) return;
-    await BottomAlert.failAlert(
-      Get.context!,
-      failReasons: failReasons,
-      confirmTap: confirmTap,
+    final ctx = Get.context;
+    if (ctx == null) return null;
+    return await showDialog<T>(
+      context: ctx,
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => DialogAlertWidget(
+        content: content,
+        leftTitle: leftTitle,
+        leftTitleColor: leftTitleColor,
+        leftTitleBgColor: leftTitleBgColor,
+        rightTitle: rightTitle,
+        rightTitleColor: rightTitleColor,
+        rightTitleBgColor: rightTitleBgColor,
+        customContentWidget: customContentWidget,
+        leftTap: leftTap ?? Get.back,
+        rightTap: rightTap ?? Get.back,
+      ),
     );
   }
 }

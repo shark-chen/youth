@@ -17,48 +17,50 @@ class CitySetPage extends BasePage<CitySetController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 70),
-            Text(
-              '你在哪里',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+      body: Obx(
+        () => SafeArea(
+          child: Column(
+            children: [
+              SizedBox(height: 70),
+              Text(
+                '你在哪里',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              '完善性别、生日、地区信息后，即可开始使用',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white.withOpacity(0.6),
+              const SizedBox(height: 10),
+              Text(
+                '完善性别、生日、地区信息后，即可开始使用',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white.withOpacity(0.6),
+                ),
               ),
-            ),
-            const SizedBox(height: 28),
+              const SizedBox(height: 28),
 
-            /// 选择城市
-            InputLocationWidget(
-              hint: '选择城市'.tr,
-              content: controller.vm.value.selectLocation,
-              selectTap: controller.pushRegionPickerPage,
-              locationTap: controller.clickGetLocation,
-            ),
-            Expanded(child: Container()),
-
-            /// 上一个，完成
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 45),
-              child: BottomDoubleBtnWidget(
-                leftTitle: '上一个',
-                leftTap: controller.closePage,
-                rightTitle: '完成',
-                rightTap: controller.clickFinish,
+              /// 选择城市
+              InputLocationWidget(
+                hint: '选择城市'.tr,
+                content: controller.vm.value.selectLocation,
+                selectTap: controller.pushRegionPickerPage,
+                locationTap: controller.clickGetLocation,
               ),
-            ),
-          ],
+              Expanded(child: Container()),
+
+              /// 上一个，完成
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 45),
+                child: BottomDoubleBtnWidget(
+                  leftTitle: '上一个',
+                  leftTap: controller.closePage,
+                  rightTitle: '完成',
+                  rightTap: controller.clickFinish,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

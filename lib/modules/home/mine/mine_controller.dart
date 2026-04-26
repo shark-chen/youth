@@ -28,7 +28,6 @@ class MineController extends BaseController {
     return vm.value.userProfile;
   }
 
-
   /// mark - push
   ///
   /// 进入「编辑资料」
@@ -44,36 +43,16 @@ class MineController extends BaseController {
 
   /// 退出登录
   Future<void> confirmLogout() async {
-    final ok = await showDialog<bool>(
-      context: Get.context!,
-      builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: ThemeColor.inputBgColor,
-          title: Text(
-            '提示',
-            style: TextStyle(color: ThemeColor.whiteColor),
-          ),
-          content: Text(
-            LocaleKeys.LoginOutConfirm.tr,
-            style: TextStyle(color: ThemeColor.whiteColor.withOpacity(0.85)),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: Text(
-                '取消',
-                style: TextStyle(color: ThemeColor.themeA2Color),
-              ),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(ctx, true),
-              child: Text(
-                '确定',
-                style: TextStyle(color: ThemeColor.themeGreenColor),
-              ),
-            ),
-          ],
-        );
+    var ok = false;
+    await pushDialogAlert(
+      content: '确定要退出应用吗',
+      leftTitleColor: ThemeColor.theme7FColor,
+      rightTitle: '确定',
+      rightTitleColor: ThemeColor.themeGreenColor,
+      rightTitleBgColor: ThemeColor.doingListTogetherBgColor,
+      rightTap: () {
+        ok = true;
+        Get.back();
       },
     );
     if (ok != true) return;

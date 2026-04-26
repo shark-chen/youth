@@ -12,7 +12,7 @@ import '../model/smart_match_people_entity.dart';
 /// @Author 谌文
 /// @Date 2026/4/16 19:12
 ///
-/// @Description 首页控制器
+/// @Description 首页-request-控制器-controller
 extension HallRequestController on HallController {
   /// mark - request
   ///

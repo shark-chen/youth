@@ -84,9 +84,9 @@ extension EditMineInfoRouteController on EditMineInfoController {
       context: ctx,
       barrierDismissible: true,
       barrierColor: Colors.black54,
-      builder: (dialogContext) => EditResetPrivatePasswordConfirmDialog(
-        onCancel: () => Navigator.pop(dialogContext),
-        onConfirm: () async {
+      builder: (dialogContext) => DialogAlertWidget(
+        leftTap: () => Navigator.pop(dialogContext),
+        rightTap: () async {
           Navigator.pop(dialogContext);
           await requestUserPrivateResetPassword();
         },
