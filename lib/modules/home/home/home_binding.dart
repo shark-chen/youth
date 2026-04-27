@@ -3,6 +3,7 @@ import '../doing/doing_controller.dart';
 import '../hall/hall_controller.dart';
 import '../message/message_controller.dart';
 import 'home_controller.dart';
+import 'package:youth/network/im/im_service.dart';
 
 /// FileName home_binding
 ///
@@ -17,5 +18,6 @@ class HomeBinding extends BaseBindings {
     Get.put<HallController>(HallController());
     Get.put<DoingController>(DoingController());
     Get.put<MessageController>(MessageController());
+    Get.put<ImService>(ImService(), permanent: true);
   }
 }

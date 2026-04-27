@@ -29,6 +29,29 @@ class AppConfig {
     return config.apiHost().trim();
   }
 
+  /// IM SockJS/STOMP endpoint path（对齐 `websocket-test.html`）
+  static String get imWsPath => '/ws/chat';
+
+  /// 构建 IM SockJS URL（SockJS 连接使用 http/https，不是 ws/wss）
+  static String buildImSockJsUrl({
+    required String token,
+    String tokenKey = 'token',
+    String? path,
+    Map<String, String>? extraQuery,
+  }) {
+    final base = Uri.parse(apiHost);
+    final query = <String, String>{
+      tokenKey: token,
+      ...?extraQuery,
+    };
+    return base
+        .replace(
+          path: (path ?? imWsPath),
+          queryParameters: query,
+        )
+        .toString();
+  }
+
   static String get clientHost {
     return config.clientHost().trim();
   }

@@ -127,6 +127,7 @@ dependencies:
   decimal: 2.3.3
   # 数据监控
   rxdart: 0.27.7
+  stomp_dart_client: ^2.0.0
   # 设备唯一码，卸载安装也是唯一的
 #  flutter_udid: 4.0.0
 #  flutter_chat_core: 0.0.2

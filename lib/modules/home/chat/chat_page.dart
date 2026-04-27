@@ -1,8 +1,7 @@
-import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:youth/base/base_page.dart';
 import 'chat_controller.dart';
-import 'package:youth/tripartite_library/tripartite_library.dart';
+import 'package:youth/modules/user/user_center/user_center.dart';
 
 /// FileName: chat_page
 ///
@@ -13,84 +12,51 @@ import 'package:youth/tripartite_library/tripartite_library.dart';
 class ChatPage extends BasePage<ChatController> {
   ChatPage({Key? key}) : super(key: key);
 
-  Duration duration = new Duration();
-  Duration position = new Duration();
-  bool isPlaying = false;
-  bool isLoading = false;
-  bool isPause = false;
-
   @override
   Widget build(BuildContext context) {
-    final now = new DateTime.now();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-
-                BubbleNormalAudio(
-                  color: Color(0xFFE8E8EE),
-                  duration: duration.inSeconds.toDouble(),
-                  position: position.inSeconds.toDouble(),
-                  isPlaying: isPlaying,
-                  isLoading: isLoading,
-                  isPause: isPause,
-                  onSeekChanged: (_) {},
-                  onPlayPauseButtonClick: () {},
-                  sent: true,
-                ),
-
-                ChatBaseWidget(
-                  text: 'bubble normalailnormalailnormalailnormalail',
-                  isSender: true,
-                  tail: true,
-                  sent: true,
-                ),
-                ChatBaseWidget(
-                  text:
-                      'bubble normal with tailnormalailnormalailnormalailnormalailnormalailnormalail',
-                  isSender: true,
-                  showPortrait: false,
-                  // tail: true,
-
-                ),
-                DateChip(
-                  date: new DateTime(now.year, now.month, now.day - 2),
-                ),
-                ChatBaseWidget(
-                  text: 'bubble normal without tail',
-                  isSender: false,
-                  tail: false,
-
-                ),
-                ChatBaseWidget(
-                  text: 'bubble normal without tail',
-                  tail: false,
-                  sent: true,
-                  seen: true,
-                  delivered: true,
-
-                ),
-                ChatBaseWidget(
-                  text: 'bubble special one with tail',
-                  isSender: false,
-
-                ),
-
-
-                DateChip(
-                  date: now,
-                ),
-
-              ],
-            ),
-          ),
+          Obx(() {
+            final myId = UserCenter().user?.id ?? 0;
+            final list = controller.messages;
+            return ListView.builder(
+              padding: const EdgeInsets.only(bottom: 80),
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                final m = list[index];
+                final from = m.fromUserId ?? 0;
+                final isSender = from == myId && myId != 0;
+                final content = m.content ?? '';
+                final createdAt = m.createdAtText;
+                return Column(
+                  children: [
+                    if (createdAt.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Text(
+                          createdAt,
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Colors.black54,
+                                  ),
+                        ),
+                      ),
+                    ChatBaseWidget(
+                      text: content,
+                      isSender: isSender,
+                      tail: true,
+                    ),
+                  ],
+                );
+              },
+            );
+          }),
           MessageBar(
-            onSend: (_) => print(_),
+            onSend: (text) => controller.sendText(text),
             actions: [
               InkWell(
                 child: Icon(

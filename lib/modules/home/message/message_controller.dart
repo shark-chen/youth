@@ -3,6 +3,7 @@ import 'view_model/message_vm.dart';
 export 'controller/message_route_controller.dart';
 import 'controller/message_request_controller.dart';
 export 'controller/message_request_controller.dart';
+import 'package:youth/network/im/im_service.dart';
 
 /// FileName: message_controller
 ///
@@ -20,6 +21,11 @@ class MessageController extends BaseController {
   void onInit() async {
     super.onInit();
     title = '消息';
+
+    /// IM 长连接（SockJS + STOMP）
+    try {
+      await Get.find<ImService>().connectIfNeeded();
+    } catch (_) {}
 
     /// mark - request
     ///

@@ -138,7 +138,7 @@ class HallPage extends BasePage<HallController> {
                     ),
 
                     /// 保持主体布局占位，不随键盘挤压改变
-                    // Spacer(),
+                    Spacer(),
                   ],
                 ),
 
