@@ -1,7 +1,7 @@
-import 'package:youth/generated/json/succeed/image_links_entity.g.dart';
+import 'package:kellychat/generated/json/succeed/image_links_entity.g.dart';
 import 'dart:convert';
-import 'package:youth/utils/extension/maps/maps.dart';
-export 'package:youth/generated/json/succeed/image_links_entity.g.dart';
+import 'package:kellychat/utils/extension/maps/maps.dart';
+export 'package:kellychat/generated/json/succeed/image_links_entity.g.dart';
 
 class ImageLinksEntity {
 	String? url;

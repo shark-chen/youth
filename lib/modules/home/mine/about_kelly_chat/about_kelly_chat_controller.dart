@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/config/environment_config/app_config.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
 
 /// FileName: about_kelly_chat_controller
 ///

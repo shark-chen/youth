@@ -1,6 +1,6 @@
-import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
-import 'package:youth/network/net/entry/user/user.dart';
-import 'package:youth/network/net/net.dart';
+import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
+import 'package:kellychat/network/net/net.dart';
 import '../user_mixin/user_mixin.dart';
 
 /// FileName user_info_center

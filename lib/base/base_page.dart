@@ -8,10 +8,10 @@ export '../../../../widget/appbar/appbar_kit.dart';
 export '../utils/marco/marco.dart';
 export '../../../../../tripartite_library/tripartite_library.dart';
 export '../../../../../widget/widgets.dart';
-export 'package:youth/utils/extension/text_styles.dart';
-export 'package:youth/widget/space_widget/default_space_view.dart';
-export 'package:youth/widget/button/icon_button/icon_button.dart';
-export 'package:youth/widget/line_view/line_view.dart';
+export 'package:kellychat/utils/extension/text_styles.dart';
+export 'package:kellychat/widget/space_widget/default_space_view.dart';
+export 'package:kellychat/widget/button/icon_button/icon_button.dart';
+export 'package:kellychat/widget/line_view/line_view.dart';
 
 /// FileName base_page
 ///

@@ -1,4 +1,4 @@
-import 'package:youth/network/net/request.dart';
+import 'package:kellychat/network/net/request.dart';
 import 'package:dio/dio.dart';
 import 'entry/net_entry.dart';
 import 'net_result.dart';

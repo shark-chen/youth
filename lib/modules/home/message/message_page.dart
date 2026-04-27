@@ -1,7 +1,7 @@
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/base/base_page.dart';
-import 'package:youth/modules/home/doing/doing_list/view/doing_list_header_view.dart';
-import 'package:youth/utils/extension/lists/lists.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/modules/home/doing/doing_list/view/doing_list_header_view.dart';
+import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'message_controller.dart';
 import 'view/chat_list_cell.dart';
 import 'view/input_search_view.dart';

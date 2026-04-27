@@ -1,7 +1,7 @@
-import 'package:youth/network/net/entry/doing/doing.dart';
+import 'package:kellychat/network/net/entry/doing/doing.dart';
 
 import '../beat_record_controller.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 
 import '../model/beat_item_entity.dart';
 

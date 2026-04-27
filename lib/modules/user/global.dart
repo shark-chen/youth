@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:youth/config/environment_config/app_config.dart';
-import 'package:youth/utils/stores/stores.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
+import 'package:kellychat/utils/stores/stores.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:get/get.dart';
-import 'package:youth/widget/alert/alert.dart';
+import 'package:kellychat/widget/alert/alert.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../generated/locales.g.dart';
 

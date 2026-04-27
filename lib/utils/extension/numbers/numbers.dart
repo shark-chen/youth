@@ -1,4 +1,4 @@
-import "package:youth/utils/extension/strings/strings.dart";
+import "package:kellychat/utils/extension/strings/strings.dart";
 import "package:intl/intl.dart";
 
 /// FileName number

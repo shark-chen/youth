@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:youth/utils/stores/stores.dart';
+import 'package:kellychat/utils/stores/stores.dart';
 
 import '../../../../base/base_vm.dart';
 import '../../../../utils/utils/aes_cbc_util.dart';

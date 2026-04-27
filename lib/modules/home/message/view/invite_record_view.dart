@@ -2,11 +2,11 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/base/base_page.dart';
-import 'package:youth/base/base_stateless_widget.dart';
-import 'package:youth/modules/modules.dart';
-import 'package:youth/widget/bottom_dialog/bottom_dialog.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/base/base_stateless_widget.dart';
+import 'package:kellychat/modules/modules.dart';
+import 'package:kellychat/widget/bottom_dialog/bottom_dialog.dart';
 
 /// FileName: invite_record_view
 ///

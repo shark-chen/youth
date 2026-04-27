@@ -1,4 +1,4 @@
-import 'package:youth/config/environment_config/config.dart';
+import 'package:kellychat/config/environment_config/config.dart';
 import 'config_model.dart';
 
 class ProdConfig extends Config {

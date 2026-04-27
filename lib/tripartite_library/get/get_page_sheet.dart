@@ -1,5 +1,5 @@
-import 'package:youth/base/base_bindings.dart';
-import 'package:youth/utils/utils/click_utils.dart';
+import 'package:kellychat/base/base_bindings.dart';
+import 'package:kellychat/utils/utils/click_utils.dart';
 import 'package:flutter/material.dart';
 
 /// FileName: drawer_get_page

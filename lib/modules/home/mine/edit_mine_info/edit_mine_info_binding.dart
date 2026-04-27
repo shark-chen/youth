@@ -1,4 +1,4 @@
-import 'package:youth/base/base_bindings.dart';
+import 'package:kellychat/base/base_bindings.dart';
 import 'edit_mine_info_controller.dart';
 
 /// FileName: edit_mine_info_binding

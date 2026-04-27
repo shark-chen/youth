@@ -1,5 +1,5 @@
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/network/net/entry/user/user.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
 import 'model/user_info_entity.dart';
 import 'view_model/user_info_vm.dart';
 export 'controller/user_info_route_controller.dart';

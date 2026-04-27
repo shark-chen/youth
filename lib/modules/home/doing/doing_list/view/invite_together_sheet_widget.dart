@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:youth/base/base_stateless_widget.dart';
+import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// 邀请好友一起做 — 底部弹层内容（与 [showModalBottomSheet] / [BottomAlert.alerts] 搭配）
 ///

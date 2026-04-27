@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:youth/config/environment_config/app_config.dart';
-import 'package:youth/modules/user/global.dart';
-import 'package:youth/tripartite_library/documents/documents.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
+import 'package:kellychat/modules/user/global.dart';
+import 'package:kellychat/tripartite_library/documents/documents.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/cupertino.dart';

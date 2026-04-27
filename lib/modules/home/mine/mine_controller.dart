@@ -1,5 +1,5 @@
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/modules/user/global.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/user/global.dart';
 import 'user_info/model/user_info_entity.dart';
 import 'view_model/mine_vm.dart';
 import 'controller/mine_request_controller.dart';

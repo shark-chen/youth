@@ -1,7 +1,7 @@
-import 'package:youth/network/net/entry/doing/doing.dart';
+import 'package:kellychat/network/net/entry/doing/doing.dart';
 import '../../model/publish_doing_entity.dart';
 import '../doing_list_controller.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 import '../model/doing_list_entity.dart';
 
 /// FileName: doing_list_request_controller

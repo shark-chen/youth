@@ -1,5 +1,5 @@
 import '../hall_controller.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 import '../model/smart_match_people_entity.dart';
 
 /// FileName: hall_route_controller

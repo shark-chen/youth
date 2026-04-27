@@ -1,8 +1,8 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
-import 'package:youth/network/net/entry/user/user.dart';
-import 'package:youth/utils/authority/photos_authority.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
+import 'package:kellychat/utils/authority/photos_authority.dart';
 
 import '../model/report_reason_data.dart';
 

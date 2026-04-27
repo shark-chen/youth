@@ -98,7 +98,7 @@ python3 scripts/json_entity.py <type> <out> [name]
 在文件顶部增加实体文件的 package import，例如：
 
 ```dart
-import 'package:youth/modules/home/hall/model/sample_widget_entity.dart';
+import 'package:kellychat/modules/home/hall/model/sample_widget_entity.dart';
 ```
 
 ### 6.2 `convertFuncMap`

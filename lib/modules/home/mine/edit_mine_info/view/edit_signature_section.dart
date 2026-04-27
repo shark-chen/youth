@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youth/utils/utils/theme_color.dart';
+import 'package:kellychat/utils/utils/theme_color.dart';
 
 import '../model/edit_profile_draft.dart';
 import 'edit_mine_card.dart';

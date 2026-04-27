@@ -1,4 +1,4 @@
-import 'package:youth/base/base_bindings.dart';
+import 'package:kellychat/base/base_bindings.dart';
 import 'user_info_controller.dart';
 
 /// FileName: user_info_binding

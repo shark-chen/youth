@@ -1,4 +1,4 @@
-import 'package:youth/base/base_page.dart';
+import 'package:kellychat/base/base_page.dart';
 import 'model/gender.dart';
 import 'sex_select_controller.dart';
 import 'view_model/sex_select_vm.dart';

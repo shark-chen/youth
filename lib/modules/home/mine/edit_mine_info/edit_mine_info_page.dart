@@ -1,4 +1,4 @@
-import 'package:youth/base/base_page.dart';
+import 'package:kellychat/base/base_page.dart';
 import 'edit_mine_info_controller.dart';
 import 'model/edit_profile_draft.dart';
 import 'view/edit_basic_info_section.dart';

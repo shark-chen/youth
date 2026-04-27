@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:get/get.dart';
-import 'package:youth/generated/locales.g.dart';
-import 'package:youth/tripartite_library/pull_to_refresh/refresher_header.dart';
+import 'package:kellychat/generated/locales.g.dart';
+import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
 
 /// FileName: refresher_footer
 ///

@@ -1,7 +1,7 @@
 // import 'package:gd_sphere/impl/sphere_impl.dart';
 import 'dart:math';
 
-import 'package:youth/base/base_page.dart';
+import 'package:kellychat/base/base_page.dart';
 import '../hall/view/input_ai_view.dart';
 import 'doing_controller.dart';
 import 'view/hot_tag_cell.dart';

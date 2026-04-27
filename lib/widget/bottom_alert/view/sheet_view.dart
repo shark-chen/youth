@@ -1,6 +1,6 @@
-import 'package:youth/generated/locales.g.dart';
-import 'package:youth/utils/marco/marco.dart';
-import 'package:youth/widget/button/bottom_button/bottom_button.dart';
+import 'package:kellychat/generated/locales.g.dart';
+import 'package:kellychat/utils/marco/marco.dart';
+import 'package:kellychat/widget/button/bottom_button/bottom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

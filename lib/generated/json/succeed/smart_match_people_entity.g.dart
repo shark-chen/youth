@@ -1,5 +1,5 @@
-import 'package:youth/generated/json/convert/json_convert_content.dart';
-import 'package:youth/modules/home/hall/model/smart_match_people_entity.dart';
+import 'package:kellychat/generated/json/convert/json_convert_content.dart';
+import 'package:kellychat/modules/home/hall/model/smart_match_people_entity.dart';
 
 SmartMatchPeopleEntity $SmartMatchPeopleEntityFromJson(
     Map<String, dynamic> json) {

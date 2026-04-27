@@ -1,8 +1,8 @@
-import 'package:youth/network/net/entry/doing/doing.dart';
+import 'package:kellychat/network/net/entry/doing/doing.dart';
 
 import '../../model/message_person_list_entity.dart';
 import '../invite_record_controller.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 
 import '../model/together_list_entity.dart';
 

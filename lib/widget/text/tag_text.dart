@@ -1,5 +1,5 @@
-import 'package:youth/utils/extension/text_styles.dart';
-import 'package:youth/utils/utils/theme_color.dart';
+import 'package:kellychat/utils/extension/text_styles.dart';
+import 'package:kellychat/utils/utils/theme_color.dart';
 import 'package:flutter/material.dart';
 
 /// FileName: tag_text

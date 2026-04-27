@@ -1,5 +1,5 @@
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:youth/utils/stores/stores.dart';
+import 'package:kellychat/utils/stores/stores.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'model/upgrade_config.dart';

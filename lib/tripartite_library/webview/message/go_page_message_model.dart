@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-import 'package:youth/modules/routes/app_pages.dart';
+import 'package:kellychat/modules/routes/app_pages.dart';
 import '../../../utils/utils/model_utils.dart';
 
 class GoPageMessageModel {

@@ -1,4 +1,4 @@
-import 'package:youth/tripartite_library/documents/documents.dart';
+import 'package:kellychat/tripartite_library/documents/documents.dart';
 import '../../modules/user/user_center/user_center.dart';
 import '../../tripartite_library/store/hive/hive_store.dart';
 

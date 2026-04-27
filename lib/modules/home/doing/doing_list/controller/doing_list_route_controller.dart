@@ -1,5 +1,5 @@
-import 'package:youth/widget/bottom_alert/bottom_alert.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
+import 'package:kellychat/base/base_controller.dart';
 import '../doing_list_controller.dart';
 import '../view/invite_together_sheet_widget.dart';
 

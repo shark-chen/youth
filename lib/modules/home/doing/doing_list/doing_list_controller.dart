@@ -1,5 +1,5 @@
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/network/net/entry/doing/doing.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/network/net/entry/doing/doing.dart';
 
 import '../model/doing_hot_tags_entity.dart';
 import '../model/publish_doing_entity.dart';

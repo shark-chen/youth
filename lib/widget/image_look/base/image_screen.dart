@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:app_settings/app_settings.dart';
-import 'package:youth/utils/extension/system_chromes/system_chromes.dart';
+import 'package:kellychat/utils/extension/system_chromes/system_chromes.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/services.dart';
 import '../../../generated/locales.g.dart';

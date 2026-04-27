@@ -1,4 +1,4 @@
-import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
+import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
 
 /// FileName: edit_profile_draft
 ///

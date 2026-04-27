@@ -1,4 +1,4 @@
-import 'package:youth/utils/stores/stores.dart';
+import 'package:kellychat/utils/stores/stores.dart';
 import '../../../config/environment_config/app_config.dart';
 import '../../../network/net/entry/user/user.dart';
 import '../../../network/net/net.dart';

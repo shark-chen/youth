@@ -1,7 +1,7 @@
-import 'package:youth/tripartite_library/tripartite_library.dart';
+import 'package:kellychat/tripartite_library/tripartite_library.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:youth/utils/extension/strings/strings.dart';
-import 'package:youth/utils/utils/theme_color.dart';
+import 'package:kellychat/utils/extension/strings/strings.dart';
+import 'package:kellychat/utils/utils/theme_color.dart';
 
 import 'base/image_screen.dart';
 

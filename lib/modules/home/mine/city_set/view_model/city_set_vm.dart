@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:youth/base/base_vm.dart';
-import 'package:youth/widget/region_picker/region_picker_data.dart';
-import 'package:youth/widget/region_picker/region_picker_sheet.dart';
+import 'package:kellychat/base/base_vm.dart';
+import 'package:kellychat/widget/region_picker/region_picker_data.dart';
+import 'package:kellychat/widget/region_picker/region_picker_sheet.dart';
 import '../../sex_select/model/user_info_param.dart';
 
 /// FileName: city_set_vm

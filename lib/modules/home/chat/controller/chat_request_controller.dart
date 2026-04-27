@@ -1,6 +1,6 @@
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/network/net/entry/message/message.dart';
-import 'package:youth/network/net/net_result.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/network/net/entry/message/message.dart';
+import 'package:kellychat/network/net/net_result.dart';
 
 import '../chat_controller.dart';
 

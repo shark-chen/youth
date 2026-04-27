@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot_callback/screenshot_callback.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 import '../../network/net/entry/auxiliary/wechat.dart';
 import '../../utils/authority/camera_authority.dart';
 import 'package:crypto/crypto.dart';

@@ -1,5 +1,5 @@
-import 'package:youth/generated/json/convert/json_convert_content.dart';
-import 'package:youth/modules/home/doing/model/publish_doing_entity.dart';
+import 'package:kellychat/generated/json/convert/json_convert_content.dart';
+import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
 
 PublishDoingEntity $PublishDoingEntityFromJson(Map<String, dynamic> json) {
   final PublishDoingEntity publishDoingEntity = PublishDoingEntity();

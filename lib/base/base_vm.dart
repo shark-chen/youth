@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'package:youth/modules/user/user_center/user_center.dart';
+import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:flutter/material.dart';
 import '../generated/locales.g.dart';
 import 'package:get/get.dart';
 export 'package:get/get.dart';
 export '../../../../utils/utils.dart';
 export '../../../../../../generated/locales.g.dart';
-export 'package:youth/widget/bubble/model/bubble_model.dart';
-export 'package:youth/modules/user/user_center/user_center.dart';
-export 'package:youth/tripartite_library/tripartite_library.dart';
+export 'package:kellychat/widget/bubble/model/bubble_model.dart';
+export 'package:kellychat/modules/user/user_center/user_center.dart';
+export 'package:kellychat/tripartite_library/tripartite_library.dart';
 
 /// FileName base_vm
 ///

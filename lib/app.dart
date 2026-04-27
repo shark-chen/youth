@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:youth/modules/routes/app_pages.dart';
-import 'package:youth/utils/marco/debug_print.dart';
-import 'package:youth/utils/marco/marco.dart';
+import 'package:kellychat/modules/routes/app_pages.dart';
+import 'package:kellychat/utils/marco/debug_print.dart';
+import 'package:kellychat/utils/marco/marco.dart';
 import 'modules/auxiliary/network_look/view/draggable_net_view.dart';
 import 'modules/home/home/utils/tab_switch_utils.dart';
 import 'modules/home/home/view/tabs.dart';
@@ -21,7 +21,7 @@ class App extends StatelessWidget with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'BigSeller',
+      title: 'KellyChat',
       debugShowCheckedModeBanner: getEnableLog,
       enableLog: getEnableLog,
       defaultTransition: Transition.fade,
@@ -51,10 +51,11 @@ class App extends StatelessWidget with WidgetsBindingObserver {
 
   void testPush(AppLifecycleState state) async {
     try {
-      var map = {
+      final map = {
         'data':
             '{\"home\":\"order\",\"params\":{\"tab\":\"new\",\"shipProvider\":-2}}'
       };
+      if (map.isEmpty) return;
       if (state == AppLifecycleState.resumed) {
         /// 切换到tab页面
         TabSwitchUtils.switchTab(HomeTabs.hall);

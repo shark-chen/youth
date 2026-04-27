@@ -1,8 +1,8 @@
-import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
-import 'package:youth/network/net/entry/doing/doing.dart';
-import 'package:youth/network/net/entry/user/user.dart';
+import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
+import 'package:kellychat/network/net/entry/doing/doing.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
 import '../doing_controller.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 import '../model/doing_hot_tags_entity.dart';
 import '../model/publish_doing_entity.dart';
 

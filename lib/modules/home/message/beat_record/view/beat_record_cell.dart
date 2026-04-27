@@ -1,5 +1,5 @@
-import 'package:youth/base/base_stateless_widget.dart';
-import 'package:youth/tripartite_library/tripartite_library.dart';
+import 'package:kellychat/base/base_stateless_widget.dart';
+import 'package:kellychat/tripartite_library/tripartite_library.dart';
 
 /// FileName: beat_record_cell
 ///

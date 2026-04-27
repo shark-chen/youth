@@ -17,7 +17,7 @@ alwaysApply: true
 
 - 业务放在 **`lib/modules/`** 对应子域；典型：**`*Page` + `*Controller` + `*Binding`**，可选 **`view_model/`**。
 - 新路由：在 **`lib/modules/routes/app_routes.dart`** 增加 **`Routes`** 常量，在 **`app_pages.dart`** 注册 **`GetPage`** + **Binding**。
-- 包名 **`youth`**；import 使用 **`package:youth/...`**。
+- 包名 **`youth`**；import 使用 **`package:kellychat/...`**。
 
 ## UI
 

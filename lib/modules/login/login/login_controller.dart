@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:youth/modules/user/global.dart';
-import 'package:youth/network/net/entry/user/user.dart';
+import 'package:kellychat/modules/user/global.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
 import '../../../base/base_controller.dart';
 import 'view_model/login_vm.dart';
 import 'controller/login_route_controller.dart';

@@ -1,4 +1,4 @@
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 
 class DialogMessageModel {
   DialogMessageModel({

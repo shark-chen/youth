@@ -1,10 +1,10 @@
-import 'package:youth/network/net/entry/user/user.dart';
-import 'package:youth/network/net/net_result.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
+import 'package:kellychat/network/net/net_result.dart';
 import '../../user_info/model/user_info_entity.dart';
 import '../edit_mine_info_controller.dart';
 import '../model/image_links_entity.dart';
 import '../model/user_private_info_entity.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 
 /// FileName: edit_mine_info_request_controller
 ///

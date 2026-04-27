@@ -1,4 +1,4 @@
-import 'package:youth/base/base_vm.dart';
+import 'package:kellychat/base/base_vm.dart';
 
 import '../user_info/model/user_info_entity.dart';
 

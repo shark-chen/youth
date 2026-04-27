@@ -1,6 +1,6 @@
-import 'package:youth/network/net/net_config/net_config.dart';
-import 'package:youth/tripartite_library/documents/documents.dart';
-import 'package:youth/utils/utils/language/language_utils.dart';
+import 'package:kellychat/network/net/net_config/net_config.dart';
+import 'package:kellychat/tripartite_library/documents/documents.dart';
+import 'package:kellychat/utils/utils/language/language_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get_utils/src/platform/platform.dart';
 import '../../../../config/environment_config/app_config.dart';

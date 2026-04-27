@@ -1,5 +1,5 @@
-import 'package:youth/config/environment_config/app_config.dart';
-import 'package:youth/tripartite_library/webview/webview_page/base_webview_binding.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
+import 'package:kellychat/tripartite_library/webview/webview_page/base_webview_binding.dart';
 import '../../base/base_stateless_widget.dart';
 import '../../tripartite_library/webview/webview_page/base_webview_page.dart';
 import '../modules.dart';

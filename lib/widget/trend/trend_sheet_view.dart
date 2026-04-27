@@ -1,5 +1,5 @@
-import 'package:youth/tripartite_library/tripartite_library.dart';
-import 'package:youth/utils/extension/lists/lists.dart';
+import 'package:kellychat/tripartite_library/tripartite_library.dart';
+import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'trend_sheet_cell.dart';
 
 /// FileName trend_sheet_view

@@ -1,5 +1,5 @@
-import 'package:youth/generated/json/convert/json_convert_content.dart';
-import 'package:youth/modules/home/message/beat_record/model/beat_item_entity.dart';
+import 'package:kellychat/generated/json/convert/json_convert_content.dart';
+import 'package:kellychat/modules/home/message/beat_record/model/beat_item_entity.dart';
 
 BeatItemEntity $BeatItemEntityFromJson(Map<String, dynamic> json) {
   final BeatItemEntity beatItemEntity = BeatItemEntity();

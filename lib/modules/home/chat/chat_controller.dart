@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/network/im/im_service.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/network/im/im_service.dart';
 import 'controller/chat_request_controller.dart';
 import 'model/chat_message_entity.dart';
 

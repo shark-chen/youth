@@ -1,5 +1,5 @@
-import 'package:youth/base/base_vm.dart';
-import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
+import 'package:kellychat/base/base_vm.dart';
+import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
 import '../model/doing_hot_tags_entity.dart';
 
 /// FileName: doing_vm

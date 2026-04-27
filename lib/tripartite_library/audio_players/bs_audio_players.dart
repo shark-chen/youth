@@ -1,5 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:youth/utils/extension/strings/strings.dart';
+import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'package:flutter/foundation.dart';
 
 /// FileName: bs_audio_players

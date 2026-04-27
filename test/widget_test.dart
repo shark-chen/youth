@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:youth/main.dart';
+import 'package:kellychat/main.dart';
 
 void main() {
 

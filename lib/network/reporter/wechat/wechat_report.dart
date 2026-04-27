@@ -1,4 +1,4 @@
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 import 'package:dio/dio.dart' as Api;
 import '../../net/entry/auxiliary/wechat.dart';
 import '../config/report_config.dart';

@@ -1,7 +1,7 @@
-import 'package:youth/generated/json/succeed/message_person_list_entity.g.dart';
+import 'package:kellychat/generated/json/succeed/message_person_list_entity.g.dart';
 import 'dart:convert';
-import 'package:youth/utils/extension/maps/maps.dart';
-export 'package:youth/generated/json/succeed/message_person_list_entity.g.dart';
+import 'package:kellychat/utils/extension/maps/maps.dart';
+export 'package:kellychat/generated/json/succeed/message_person_list_entity.g.dart';
 
 class MessagePersonListEntity {
   int? conversationId;

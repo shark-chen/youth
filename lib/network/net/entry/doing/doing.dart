@@ -1,6 +1,6 @@
-import 'package:youth/config/environment_config/app_config.dart';
-import 'package:youth/network/net/net_mixin.dart';
-import 'package:youth/network/net/net_result.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
+import 'package:kellychat/network/net/net_mixin.dart';
+import 'package:kellychat/network/net/net_result.dart';
 
 /// FileName: doing
 ///

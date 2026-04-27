@@ -1,4 +1,4 @@
-import 'package:youth/base/base_stateless_widget.dart';
+import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// 重置私密密码确认（居中弹框）
 ///

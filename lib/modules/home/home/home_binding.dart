@@ -3,7 +3,7 @@ import '../doing/doing_controller.dart';
 import '../hall/hall_controller.dart';
 import '../message/message_controller.dart';
 import 'home_controller.dart';
-import 'package:youth/network/im/im_service.dart';
+import 'package:kellychat/network/im/im_service.dart';
 
 /// FileName home_binding
 ///

@@ -1,4 +1,4 @@
-import 'package:youth/modules/modules.dart';
+import 'package:kellychat/modules/modules.dart';
 import '../../../base/base_page.dart';
 
 /// FileName splash_page

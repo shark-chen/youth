@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:stomp_dart_client/stomp_dart_client.dart';
-import 'package:youth/config/environment_config/app_config.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
 
 import 'im_models.dart';
 

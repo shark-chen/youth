@@ -1,5 +1,5 @@
 import 'package:chat_bubbles/chat_bubbles.dart';
-import 'package:youth/base/base_stateless_widget.dart';
+import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// FileName: chat_base
 ///

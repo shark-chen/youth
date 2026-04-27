@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:youth/modules/user/global.dart';
-import 'package:youth/network/net/net_config/net_config.dart';
-import 'package:youth/network/reporter/report_util.dart';
+import 'package:kellychat/modules/user/global.dart';
+import 'package:kellychat/network/net/net_config/net_config.dart';
+import 'package:kellychat/network/reporter/report_util.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../base/base_controller.dart';
 import '../../../utils/marco/debug_print.dart';

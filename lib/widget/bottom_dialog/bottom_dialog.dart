@@ -1,6 +1,6 @@
 export 'package:flutter/material.dart';
-import 'package:youth/base/base_page.dart';
-import 'package:youth/widget/bottom_alert/view/sheet_view.dart';
+import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/widget/bottom_alert/view/sheet_view.dart';
 import 'view/dialog_view.dart';
 
 /// FileName bottom_dialog

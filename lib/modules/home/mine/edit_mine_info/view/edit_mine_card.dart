@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youth/utils/utils/theme_color.dart';
+import 'package:kellychat/utils/utils/theme_color.dart';
 
 /// 编辑资料页统一圆角卡片容器
 class EditMineCard extends StatelessWidget {

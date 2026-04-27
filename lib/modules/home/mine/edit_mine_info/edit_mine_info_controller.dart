@@ -1,4 +1,4 @@
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 import 'view_model/edit_mine_info_vm.dart';
 export 'controller/edit_mine_info_route_controller.dart';
 import 'controller/edit_mine_info_request_controller.dart';

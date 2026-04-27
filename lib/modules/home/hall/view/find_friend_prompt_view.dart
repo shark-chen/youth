@@ -1,4 +1,4 @@
-import 'package:youth/base/base_stateless_widget.dart';
+import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// FileName: find_friend_prompt_view
 ///

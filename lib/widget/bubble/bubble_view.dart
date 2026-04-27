@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:youth/widget/bubble/model/bubble_model.dart';
+import 'package:kellychat/widget/bubble/model/bubble_model.dart';
 import '../../base/base_stateless_widget.dart';
 import '../triangle/triangle_painter.dart';
 

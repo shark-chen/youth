@@ -1,5 +1,5 @@
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/utils/utils/language/lang_value.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/utils/utils/language/lang_value.dart';
 import '../../functions/load_item/load_item.dart';
 import 'view/tabs.dart';
 import 'view_model/home_vm.dart';

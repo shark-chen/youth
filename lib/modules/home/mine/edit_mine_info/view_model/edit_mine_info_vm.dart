@@ -4,12 +4,12 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:youth/base/base_vm.dart';
-import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
-import 'package:youth/network/net/entry/user/user.dart';
-import 'package:youth/utils/authority/photos_authority.dart';
-import 'package:youth/widget/region_picker/region_picker_data.dart';
-import 'package:youth/widget/region_picker/region_picker_sheet.dart';
+import 'package:kellychat/base/base_vm.dart';
+import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
+import 'package:kellychat/utils/authority/photos_authority.dart';
+import 'package:kellychat/widget/region_picker/region_picker_data.dart';
+import 'package:kellychat/widget/region_picker/region_picker_sheet.dart';
 
 import '../../sex_select/model/gender.dart';
 import '../model/edit_profile_draft.dart';

@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:youth/base/base_stateless_widget.dart';
+import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// FileName: msg_clout_view
 ///

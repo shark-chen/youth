@@ -1,5 +1,5 @@
-import 'package:youth/generated/json/convert/json_convert_content.dart';
-import 'package:youth/modules/home/mine/user_info/model/user_info_entity.dart';
+import 'package:kellychat/generated/json/convert/json_convert_content.dart';
+import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
 
 UserInfoEntity $UserInfoEntityFromJson(Map<String, dynamic> json) {
   final UserInfoEntity userInfoEntity = UserInfoEntity();

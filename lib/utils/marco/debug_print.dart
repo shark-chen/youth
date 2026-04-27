@@ -1,4 +1,4 @@
-import 'package:youth/config/environment_config/app_config.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 
 /// FileName debug_print

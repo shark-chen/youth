@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:youth/utils/utils/theme_color.dart';
-import 'package:youth/widget/image_look/image_look.dart';
+import 'package:kellychat/utils/utils/theme_color.dart';
+import 'package:kellychat/widget/image_look/image_look.dart';
 
 import 'edit_mine_card.dart';
 

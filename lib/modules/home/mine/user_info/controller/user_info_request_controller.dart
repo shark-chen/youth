@@ -1,8 +1,8 @@
-import 'package:youth/network/net/entry/user/user.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
 
 import '../model/user_info_entity.dart';
 import '../user_info_controller.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 
 /// FileName: user_info_request_controller
 ///

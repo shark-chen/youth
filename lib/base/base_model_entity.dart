@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:youth/generated/json/succeed/base_model_entity.g.dart';
+import 'package:kellychat/generated/json/succeed/base_model_entity.g.dart';
 import '../utils/extension/maps/maps.dart';
 
 class BaseModelEntity {

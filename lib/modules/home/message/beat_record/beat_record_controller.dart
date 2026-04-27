@@ -1,4 +1,4 @@
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 
 import 'controller/beat_record_request_controller.dart';
 export 'controller/beat_record_request_controller.dart';

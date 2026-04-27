@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/network/net/entry/auxiliary/auxiliary.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/network/net/entry/auxiliary/auxiliary.dart';
 
 /// FileName: feedback_controller
 ///

@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:youth/utils/extension/lists/lists.dart';
-import 'package:youth/utils/extension/strings/strings.dart';
-import 'package:youth/widget/bottom_alert/bottom_alert.dart';
-import 'package:youth/widget/region_picker/region_picker_sheet.dart';
+import 'package:kellychat/utils/extension/lists/lists.dart';
+import 'package:kellychat/utils/extension/strings/strings.dart';
+import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
+import 'package:kellychat/widget/region_picker/region_picker_sheet.dart';
 import '../edit_mine_info_controller.dart';
 import 'edit_mine_info_request_controller.dart';
 import '../view/edit_change_password_sheet_widget.dart';

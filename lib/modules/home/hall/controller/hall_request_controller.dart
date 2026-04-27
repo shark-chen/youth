@@ -1,7 +1,7 @@
-import 'package:youth/network/net/entry/doing/doing.dart';
-import 'package:youth/network/net/entry/user/user.dart';
-import 'package:youth/network/net/net.dart';
-import 'package:youth/utils/extension/lists/lists.dart';
+import 'package:kellychat/network/net/entry/doing/doing.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
+import 'package:kellychat/network/net/net.dart';
+import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../mine/user_info/model/user_info_entity.dart';
 import '../hall_controller.dart';

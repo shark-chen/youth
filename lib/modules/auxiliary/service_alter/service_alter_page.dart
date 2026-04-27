@@ -1,4 +1,4 @@
-import 'package:youth/modules/login/login/view/input_verify_view.dart';
+import 'package:kellychat/modules/login/login/view/input_verify_view.dart';
 import '../../../base/base_page.dart';
 import '../../login/login/view/accounts_view.dart';
 import '../../login/view/login_button.dart';

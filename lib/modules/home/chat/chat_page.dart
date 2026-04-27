@@ -1,7 +1,7 @@
 import 'package:chat_bubbles/chat_bubbles.dart';
-import 'package:youth/base/base_page.dart';
+import 'package:kellychat/base/base_page.dart';
 import 'chat_controller.dart';
-import 'package:youth/modules/user/user_center/user_center.dart';
+import 'package:kellychat/modules/user/user_center/user_center.dart';
 
 /// FileName: chat_page
 ///

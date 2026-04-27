@@ -1,7 +1,7 @@
-import 'package:youth/network/net/entry/user/user.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
 import '../mine_controller.dart';
 import '../user_info/model/user_info_entity.dart';
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 
 /// FileName: mine_request_controller
 ///

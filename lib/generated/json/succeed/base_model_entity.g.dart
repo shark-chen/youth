@@ -1,5 +1,5 @@
-import 'package:youth/base/base_model_entity.dart';
-import 'package:youth/generated/json/convert/json_convert_content.dart';
+import 'package:kellychat/base/base_model_entity.dart';
+import 'package:kellychat/generated/json/convert/json_convert_content.dart';
 
 BaseModelEntity $BaseModelEntityFromJson(Map<String, dynamic> json) {
 	final BaseModelEntity baseModelEntity = BaseModelEntity();

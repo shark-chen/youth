@@ -1,9 +1,9 @@
-import 'package:youth/base/base_controller.dart';
+import 'package:kellychat/base/base_controller.dart';
 import 'view_model/message_vm.dart';
 export 'controller/message_route_controller.dart';
 import 'controller/message_request_controller.dart';
 export 'controller/message_request_controller.dart';
-import 'package:youth/network/im/im_service.dart';
+import 'package:kellychat/network/im/im_service.dart';
 
 /// FileName: message_controller
 ///

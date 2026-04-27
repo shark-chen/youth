@@ -1,11 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:youth/tripartite_library/tripartite_library.dart';
-import 'package:youth/utils/extension/strings/strings.dart';
-import 'package:youth/utils/extension/text_styles.dart';
-import 'package:youth/utils/utils/theme_color.dart';
-import 'package:youth/widget/bottom_alert/bottom_alert.dart';
+import 'package:kellychat/tripartite_library/tripartite_library.dart';
+import 'package:kellychat/utils/extension/strings/strings.dart';
+import 'package:kellychat/utils/extension/text_styles.dart';
+import 'package:kellychat/utils/utils/theme_color.dart';
+import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 
 /// 非公开内容：AI 说明区 + 密码行
 class EditPrivateSection extends StatelessWidget {

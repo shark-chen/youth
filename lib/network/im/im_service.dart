@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:youth/modules/user/global.dart';
+import 'package:kellychat/modules/user/global.dart';
 
 import 'im_models.dart';
 import 'stomp_im_client.dart';

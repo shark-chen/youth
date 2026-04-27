@@ -1,5 +1,5 @@
-import 'package:youth/base/base_controller.dart';
-import 'package:youth/config/environment_config/app_config.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import '../reporter/report_util.dart';
 import 'model/network_status_model.dart';

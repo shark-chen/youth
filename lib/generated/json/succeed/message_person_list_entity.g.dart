@@ -1,5 +1,5 @@
-import 'package:youth/generated/json/convert/json_convert_content.dart';
-import 'package:youth/modules/home/message/model/message_person_list_entity.dart';
+import 'package:kellychat/generated/json/convert/json_convert_content.dart';
+import 'package:kellychat/modules/home/message/model/message_person_list_entity.dart';
 
 MessagePersonListEntity $MessagePersonListEntityFromJson(
     Map<String, dynamic> json) {

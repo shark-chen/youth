@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:isolate';
 import 'dart:ui';
-import 'package:youth/app.dart';
-import 'package:youth/utils/utils/language/language_utils.dart';
+import 'package:kellychat/app.dart';
+import 'package:kellychat/utils/utils/language/language_utils.dart';
 import 'base/base_stateless_widget.dart';
 import 'config/environment_config/app_config.dart';
 import 'network/reporter/report_util.dart';

@@ -1,4 +1,4 @@
-import 'package:youth/base/base_bindings.dart';
+import 'package:kellychat/base/base_bindings.dart';
 import '../sex_select/model/user_info_param.dart';
 import 'birthday_select_controller.dart';
 

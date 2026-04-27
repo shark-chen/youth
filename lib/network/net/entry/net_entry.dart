@@ -1,5 +1,5 @@
-import 'package:youth/config/environment_config/config.dart';
-import 'package:youth/network/net/entry/auxiliary/wechat.dart';
+import 'package:kellychat/config/environment_config/config.dart';
+import 'package:kellychat/network/net/entry/auxiliary/wechat.dart';
 import 'auxiliary/auxiliary.dart';
 import 'doing/doing.dart';
 import 'message/message.dart';

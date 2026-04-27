@@ -1,4 +1,4 @@
-import 'package:youth/base/base_bindings.dart';
+import 'package:kellychat/base/base_bindings.dart';
 import 'doing_list_controller.dart';
 
 /// FileName: doing_list_binding

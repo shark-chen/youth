@@ -1,5 +1,5 @@
-import 'package:youth/base/base_stateless_widget.dart';
-import 'package:youth/modules/login/view/verify_error_view.dart';
+import 'package:kellychat/base/base_stateless_widget.dart';
+import 'package:kellychat/modules/login/view/verify_error_view.dart';
 
 /// FileName: input_location_view
 ///

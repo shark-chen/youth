@@ -1,5 +1,5 @@
-import 'package:youth/generated/json/convert/json_convert_content.dart';
-import 'package:youth/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
+import 'package:kellychat/generated/json/convert/json_convert_content.dart';
+import 'package:kellychat/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
 
 ImageLinksEntity $ImageLinksEntityFromJson(Map<String, dynamic> json) {
   final ImageLinksEntity imageLinksEntity = ImageLinksEntity();

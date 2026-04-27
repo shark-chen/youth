@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:youth/modules/modules.dart';
-import 'package:youth/utils/utils/theme_color.dart';
+import 'package:kellychat/modules/modules.dart';
+import 'package:kellychat/utils/utils/theme_color.dart';
 
 /// 更改密码底部弹层：6 位数字密码 +「修改密码」入口 + 确定（风格对齐 [EditGenderSheetWidget] / [EditNickNameSheetWidget]）
 class EditChangePasswordSheetWidget extends StatefulWidget {

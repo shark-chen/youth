@@ -1,9 +1,9 @@
-import 'package:youth/utils/extension/strings/strings.dart';
-import 'package:youth/utils/stores/stores.dart';
-import 'package:youth/utils/utils/language/lang_value.dart';
+import 'package:kellychat/utils/extension/strings/strings.dart';
+import 'package:kellychat/utils/stores/stores.dart';
+import 'package:kellychat/utils/utils/language/lang_value.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-export 'package:youth/utils/utils/language/lang_value.dart';
+export 'package:kellychat/utils/utils/language/lang_value.dart';
 
 /// FileName: language_utils
 ///
