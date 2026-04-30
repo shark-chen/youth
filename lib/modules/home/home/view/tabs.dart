@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../../../../generated/locales.g.dart';
-import '../../doing/doing_page.dart';
+import '../../doing/doing_tab_host.dart';
 import '../../hall/hall_page.dart';
 import '../../message/message_page.dart';
 import '../model/tab_model.dart';
@@ -63,7 +63,7 @@ List<HomePageModel> buildHomePages() {
       introduceContent: LocaleKeys.easilyHandleBusiness.tr,
     ),
     HomePageModel(
-      page: DoingPage(),
+      page: DoingTabHost(),
       activeLogo: "assets/image/common/being@3x.png",
       logo: "assets/image/common/being@3x.png",
       name: '正在'.tr,

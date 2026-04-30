@@ -65,8 +65,13 @@ class AboutKellyChatPage extends BasePage<AboutKellyChatController> {
                             ),
                             _aboutDivider(),
                             _AboutTile(
-                              title: LocaleKeys.privacyPolicy.tr,
+                              title: '隐私政策',
                               onTap: controller.openPrivacyPolicy,
+                            ),
+                            _aboutDivider(),
+                               _AboutTile(
+                              title: '未成年人个人信息保护规则',
+                              onTap: controller.pushMessageProtection,
                             ),
                             _aboutDivider(),
                             _AboutTile(

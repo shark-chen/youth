@@ -33,6 +33,7 @@ class DoingListPage extends BasePage<DoingListController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            SizedBox(height: 12),
             Obx(() {
               return GestureDetector(
                 onTap: controller.clickDeleteStatusDoing,

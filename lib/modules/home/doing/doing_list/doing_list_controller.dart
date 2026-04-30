@@ -1,14 +1,13 @@
 import 'package:kellychat/base/base_controller.dart';
-import 'package:kellychat/network/net/entry/doing/doing.dart';
 
 import '../model/doing_hot_tags_entity.dart';
-import '../model/publish_doing_entity.dart';
 import 'model/doing_list_entity.dart';
 import 'view_model/doing_list_vm.dart';
 import 'controller/doing_list_request_controller.dart';
 export 'controller/doing_list_request_controller.dart';
 import 'controller/doing_list_route_controller.dart';
 export 'controller/doing_list_route_controller.dart';
+import '../doing_nav_ids.dart';
 
 /// FileName: doing_list_controller
 ///
@@ -19,6 +18,11 @@ export 'controller/doing_list_route_controller.dart';
 class DoingListController extends BaseController {
   /// vm
   Rx<DoingListVM> vm = DoingListVM().obs;
+
+  @override
+  void closePage() {
+    Get.back(id: doingNavigatorId);
+  }
 
   @override
   void onInit() async {

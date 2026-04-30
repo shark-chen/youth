@@ -3,6 +3,12 @@ import 'package:kellychat/tripartite_library/webview/webview_page/base_webview_b
 import '../../base/base_stateless_widget.dart';
 import '../../tripartite_library/webview/webview_page/base_webview_page.dart';
 import '../modules.dart';
+import '../home/mine/user_agreement/user_agreement_binding.dart';
+import '../home/mine/user_agreement/user_agreement_page.dart';
+import '../home/mine/privacy_policy/privacy_policy_binding.dart';
+import '../home/mine/privacy_policy/privacy_policy_page.dart';
+import '../home/mine/minor_protection/minor_protection_binding.dart';
+import '../home/mine/minor_protection/minor_protection_page.dart';
 import 'package:get/get.dart';
 part 'app_routes.dart';
 
@@ -73,7 +79,7 @@ class AppPages {
       name: Routes.doingListPage,
       page: () => DoingListPage(),
       binding: DoingListBinding(),
-      transition: Transition.rightToLeft,
+      transition: Transition.downToUp,
     ),
 
     /// 邀约记录-页面
@@ -145,6 +151,30 @@ class AppPages {
       name: Routes.aboutKellyChatPage,
       page: () => const AboutKellyChatPage(),
       binding: AboutKellyChatBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 用户协议（本地 HTML）
+    GetPage(
+      name: Routes.userAgreementPage,
+      page: () => const UserAgreementPage(),
+      binding: UserAgreementBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 隐私政策（本地 HTML）
+    GetPage(
+      name: Routes.privacyPolicyPage,
+      page: () => const PrivacyPolicyPage(),
+      binding: PrivacyPolicyBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 未成年人个人信息保护规则（本地 HTML）
+    GetPage(
+      name: Routes.minorProtectionPage,
+      page: () => const MinorProtectionPage(),
+      binding: MinorProtectionBinding(),
       transition: Transition.rightToLeft,
     ),
 

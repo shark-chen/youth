@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:kellychat/base/base_controller.dart';
-import 'package:kellychat/network/net/entry/doing/doing.dart';
 
 import 'model/doing_hot_tags_entity.dart';
-import 'model/publish_doing_entity.dart';
 import 'view_model/doing_vm.dart';
 import 'controller/doing_request_controller.dart';
 export 'controller/doing_request_controller.dart';
+import 'doing_nav_ids.dart';
 
 /// FileName doing_controller
 ///
@@ -51,7 +50,11 @@ class DoingController extends BaseController {
   ///
   /// push-正在做的清单-页面
   Future pushDoingListPage(DoingHotTagsEntity tag) async {
-    await Get.toNamed(Routes.doingListPage, arguments: tag);
+    await Get.toNamed(
+      Routes.doingListPage,
+      id: doingNavigatorId,
+      arguments: tag,
+    );
   }
 
   /// 个人信息页面

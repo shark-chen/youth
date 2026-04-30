@@ -1,8 +1,7 @@
-import 'dart:io';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kellychat/base/base_controller.dart';
-import 'package:kellychat/config/environment_config/app_config.dart';
+import 'dart:io';
 
 /// FileName: about_kelly_chat_controller
 ///
@@ -15,8 +14,7 @@ class AboutKellyChatController extends BaseController {
   final RxString appVersion = '1.0.0'.obs;
 
   /// App Store / 应用市场（按需替换为实际上架地址）
-  static const String _iosStoreUrl =
-      'https://apps.apple.com/app/id0000000000';
+  static const String _iosStoreUrl = 'https://apps.apple.com/app/id0000000000';
   static const String _androidMarketUrl =
       'https://play.google.com/store/apps/details?id=com.example.youth';
 
@@ -36,20 +34,17 @@ class AboutKellyChatController extends BaseController {
 
   /// 用户协议（H5，与配置 type=1 对齐）
   Future<void> openUserAgreement() async {
-    await Get.toNamed(Routes.webView, parameters: {
-      'url': AppConfig.aboutBigSellerUrl,
-      'title': '用户协议',
-      'showTitle': 'true',
-    });
+    await Get.toNamed(Routes.userAgreementPage);
   }
 
   /// 隐私政策（H5，与配置 type=2 对齐）
   Future<void> openPrivacyPolicy() async {
-    await Get.toNamed(Routes.webView, parameters: {
-      'url': AppConfig.aboutUrl,
-      'title': '隐私政策',
-      'showTitle': 'true',
-    });
+    await Get.toNamed(Routes.privacyPolicyPage);
+  }
+
+  /// 未成年人信息保护规则（H5，与配置 type=2 对齐）
+  Future<void> pushMessageProtection() async {
+    await Get.toNamed(Routes.minorProtectionPage);
   }
 
   /// 版本更新：跳转应用商店
@@ -66,6 +61,6 @@ class AboutKellyChatController extends BaseController {
 
   /// 反馈：进入反馈页
   Future pushFeedback() async {
-   await Get.toNamed(Routes.feedbackPage);
+    await Get.toNamed(Routes.feedbackPage);
   }
 }

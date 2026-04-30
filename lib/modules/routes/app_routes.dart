@@ -34,6 +34,9 @@ abstract class Routes {
   static const citySetPage = '/citySetPage';
   static const minePage = '/minePage';
   static const aboutKellyChatPage = '/aboutKellyChatPage';
+  static const userAgreementPage = '/userAgreementPage';
+  static const privacyPolicyPage = '/privacyPolicyPage';
+  static const minorProtectionPage = '/minorProtectionPage';
   static const feedbackPage = '/feedbackPage';
   static const editMineInfoPage = '/editMineInfoPage';
   static const reportPage = '/reportPage';
