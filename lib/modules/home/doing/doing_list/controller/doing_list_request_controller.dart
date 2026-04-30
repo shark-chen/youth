@@ -76,7 +76,7 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
-  /// 发送邀约 · POST /api/invitation/send
+  /// 发送邀约-  · POST /api/invitation/send
   Future<void> requestInvitationSend({
     required int toUserId,
     int invitationType = 1,

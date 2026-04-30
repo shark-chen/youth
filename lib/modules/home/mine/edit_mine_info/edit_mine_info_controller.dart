@@ -81,26 +81,19 @@ class EditMineInfoController extends BaseController {
 
   /// 点击添加秘密
   Future clickAddPrivacyMessage() async {
-    if (true == vm.value.draft?.hasPrivateContent) {
+    if (true == vm.value.draft.hasPrivateContent) {
       await pushPasswordAlert(
         title: '验证密码',
         onConfirm: (password) async {
           /// 验证私密信息密码
           final check = await requestUserPrivateVerify(password: password);
           if (check) {
-            await pushEditNiceNameAlert(
-              title: '更新私密内容',
-              sureCall: (content) async {
-                final result = await requestUpdateUserPrivate(
-                  wishDescription: content,
-                  oldPassword: password,
-                );
-                if (result) {
-                  vm.value.userPrivateInfoEntity?.wishDescription = content;
-                  vm.refresh();
-                }
-                Get.back();
-              },
+            Get.back();
+
+            /// push - 私密语言-页面
+            await pushPrivateMessagePage(
+              content: vm.value.userPrivateInfoEntity?.wishDescription,
+              oldPassword: password,
             );
           }
         },
@@ -112,17 +105,13 @@ class EditMineInfoController extends BaseController {
           await pushEditNiceNameAlert(
             title: '设置私密内容',
             sureCall: (content) async {
-              /// 第一次设置私密
-              final result = await requestUpdateUserPrivate(
-                wishDescription: content,
+              Get.back();
+
+              /// push - 私密语言-页面
+              await pushPrivateMessagePage(
+                content: vm.value.userPrivateInfoEntity?.wishDescription,
                 password: password,
               );
-              if (result) {
-                vm.value.userPrivateInfoEntity?.wishDescription = content;
-                vm.refresh();
-              }
-              await requestUserInfo();
-              Get.back();
             },
           );
         },

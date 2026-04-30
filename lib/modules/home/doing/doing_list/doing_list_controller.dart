@@ -16,6 +16,11 @@ import '../doing_nav_ids.dart';
 ///
 /// @Description 正在做的清单-controller
 class DoingListController extends BaseController {
+  DoingListController({this.initialArg});
+
+  /// 来自 nested Navigator 的 RouteSettings.arguments（优先使用）
+  final dynamic initialArg;
+
   /// vm
   Rx<DoingListVM> vm = DoingListVM().obs;
 
@@ -29,7 +34,7 @@ class DoingListController extends BaseController {
     super.onInit();
     title = '我正在';
     requestMyDoing();
-    final arg = Get.arguments;
+    final arg = initialArg ?? Get.arguments;
     if (arg is DoingHotTagsEntity) {
       vm.value.doingHotTagsEntity = arg;
       final name = arg.tagName;
@@ -64,18 +69,23 @@ class DoingListController extends BaseController {
     vm.refresh();
   }
 
-  /// 点击加入一起
+  /// 点击加入一起 一起做
   Future clickJoinTogether(DoingListList? item) async {
-    if (item?.togetherId == null) {
+    if (item == null) return;
+
+    /// push - 一起做 弹框确认alert
+    final result = await pushTogetherDoAlert(item);
+    if (true != result) return;
+    if (item.togetherId == null) {
       /// 发送邀约 · POST /api/invitation/send
       await requestInvitationSend(
-        toUserId: item?.userId ?? 0,
+        toUserId: item.userId ?? 0,
         invitationType: 1,
         tagId: vm.value.doingHotTagsEntity?.tagId ?? 0,
       );
       return;
     }
-    await requestTogetherJoin(item?.togetherId ?? '0');
+    await requestTogetherJoin(item.togetherId ?? '0');
     vm.refresh();
   }
 

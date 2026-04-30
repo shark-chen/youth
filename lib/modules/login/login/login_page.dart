@@ -93,14 +93,19 @@ class LoginPage extends BasePage<LoginController> {
                             /// 登录
                             LoginButton(
                               title: '登录'.tr,
-                              onTap: controller.clickLogin,
+                              onTap: controller.pushPrivacyPop,
                             ),
                             const SizedBox(height: 16),
 
                             ///  隐私协议view
                             PrivacyProtocolWidget(
                               selectTap: controller.checkReadProtocol,
-                              onTap: controller.pushPrivacyAgreement,
+                              onTapUserAgreement:
+                                  controller.openUserAgreementFromLogin,
+                              onTapPrivacyPolicy:
+                                  controller.openPrivacyPolicyFromLogin,
+                              onTapMinorProtection:
+                                  controller.openMinorProtectionFromLogin,
                               selected:
                                   controller.vm.value.loginModel.agreeProtocol,
                             ),

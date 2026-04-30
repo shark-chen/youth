@@ -1,4 +1,6 @@
 import 'package:kellychat/config/environment_config/app_config.dart';
+import 'package:kellychat/modules/home/mine/edit_mine_info/edit_private_message/edit_private_message_binding.dart';
+import 'package:kellychat/modules/home/mine/edit_mine_info/edit_private_message/edit_private_message_page.dart';
 import 'package:kellychat/tripartite_library/webview/webview_page/base_webview_binding.dart';
 import '../../base/base_stateless_widget.dart';
 import '../../tripartite_library/webview/webview_page/base_webview_page.dart';
@@ -191,6 +193,14 @@ class AppPages {
       name: Routes.editMineInfoPage,
       page: () => const EditMineInfoPage(),
       binding: EditMineInfoBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
+    /// 说两句（私密内容）
+    GetPage(
+      name: Routes.editPrivateMessagePage,
+      page: () => const EditPrivateMessagePage(),
+      binding: EditPrivateMessageBinding(),
       transition: Transition.rightToLeft,
     ),
 

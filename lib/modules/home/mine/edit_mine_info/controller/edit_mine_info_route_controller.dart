@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kellychat/modules/routes/app_pages.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
@@ -58,20 +59,22 @@ extension EditMineInfoRouteController on EditMineInfoController {
     await BottomAlert.alerts(
       ctx,
       isDismissible: true,
-      wholeCustomWidget: EditChangePasswordSheetWidget(
-        title: title,
-        closeTap: Get.back,
-        showResetPassword: vm.value.draft?.hasPrivateContent ,
-        onConfirm: (password) {
-          Get.back();
-          onConfirm.call(password);
-        },
-        onModifyPasswordTap: () {
-          Get.back();
-          Future<void>.microtask(() async {
-            await showResetPrivatePasswordConfirmDialog();
-          });
-        },
+      wholeCustomWidget: SafeArea(
+        child: EditChangePasswordSheetWidget(
+          title: title,
+          closeTap: Get.back,
+          showResetPassword: vm.value.draft.hasPrivateContent,
+          onConfirm: (password) {
+            Get.back();
+            onConfirm.call(password);
+          },
+          onModifyPasswordTap: () {
+            Get.back();
+            Future<void>.microtask(() async {
+              await showResetPrivatePasswordConfirmDialog();
+            });
+          },
+        ),
       ),
     );
   }
@@ -138,5 +141,18 @@ extension EditMineInfoRouteController on EditMineInfoController {
         );
       },
     );
+  }
+
+  /// push - 私密语言-页面
+  Future<void> pushPrivateMessagePage({
+    String? content,
+    String? password,
+    String? oldPassword,
+  }) async {
+    await Get.toNamed(Routes.editPrivateMessagePage, parameters: {
+      'content': content ?? '',
+      'password': password ?? '',
+      'oldPassword': oldPassword ?? '',
+    });
   }
 }

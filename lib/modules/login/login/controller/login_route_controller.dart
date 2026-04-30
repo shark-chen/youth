@@ -1,7 +1,8 @@
-import 'package:flutter/gestures.dart';
-import 'package:kellychat/config/environment_config/app_config.dart';
+import 'dart:async';
 import '../../../../base/base_controller.dart';
 import '../login_controller.dart';
+import 'package:kellychat/config/environment_config/app_config.dart';
+import '../view/privacy_protocol_bottom_sheet.dart';
 
 /// FileName: login_route_controller
 ///
@@ -10,53 +11,26 @@ import '../login_controller.dart';
 ///
 /// @Description 登录控制器-路由-controller
 extension LoginRouteController on LoginController {
+  /// 登录页 - 打开用户协议
+  Future<void> openUserAgreementFromLogin() async {
+    await Get.toNamed(Routes.userAgreementPage);
+  }
+
+  /// 登录页 - 打开隐私政策
+  Future<void> openPrivacyPolicyFromLogin() async {
+    await Get.toNamed(Routes.privacyPolicyPage);
+  }
+
+  /// 登录页 - 打开未成年人个人信息保护规则
+  Future<void> openMinorProtectionFromLogin() async {
+    await Get.toNamed(Routes.minorProtectionPage);
+  }
+
   /// MARK - PUSH
   /// push-打开意思协议弹框
   Future pushPrivacyPop() async {
-    var result = false;
-    await pushDialogAlert(
-      customContentWidget: Padding(
-        padding: EdgeInsets.only(left: 12, right: 12, top: 15),
-        child: RichText(
-          text: TextSpan(
-            text: LocaleKeys.ReadAndAgree.tr,
-            style: TextStyle(
-                fontSize: 16,
-                color: ThemeColor.themeA2Color,
-                fontWeight: FontWeight.w600),
-            children: <TextSpan>[
-              TextSpan(
-                text: " ${'《用户协议》、《隐私政策》、《未成年人个人信息保护规则》'.tr}",
-                style: const TextStyle(
-                    fontSize: 16, color: ThemeColor.themeGreenColor),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = pushPrivacyAgreement,
-              ),
-            ],
-          ),
-        ),
-      ),
-      leftTitle: '不同意',
-      rightTitle: '同意',
-      rightTitleColor: ThemeColor.black6Color,
-      rightTitleBgColor: ThemeColor.themeGreenColor,
-      rightTap: () {
-        vm.value.loginModel.agreeProtocol = true;
-        result = true;
-        Get.back();
-        vm.refresh();
-      },
-    );
+    final result = await _showPrivacyBottomSheet();
     return result;
-  }
-
-  /// push -跳转隐私协议
-  Future pushPrivacyAgreement() async {
-    await Get.toNamed(Routes.webView, parameters: {
-      'url': AppConfig.aboutUrl,
-      'title': LocaleKeys.privacyPolicy.tr,
-      'showTitle': "true",
-    });
   }
 
   /// push-性别选择-页面-page
@@ -68,5 +42,33 @@ extension LoginRouteController on LoginController {
   Future pushServiceAlterPage() async {
     if (environment == Environment.prod) return;
     await Get.toNamed(Routes.serviceAlterPage);
+  }
+
+  /// push-打开意思协议弹框
+  Future<bool> _showPrivacyBottomSheet() async {
+    final completer = Completer<bool>();
+    await Get.bottomSheet(
+      PrivacyProtocolBottomSheet(
+        onTapUserAgreement: openUserAgreementFromLogin,
+        onTapPrivacyPolicy: openPrivacyPolicyFromLogin,
+        onTapMinorProtection: openMinorProtectionFromLogin,
+        onDisagree: () {
+          if (!completer.isCompleted) completer.complete(false);
+          Get.back();
+        },
+        onAgree: () {
+          vm.value.loginModel.agreeProtocol = true;
+          vm.refresh();
+          if (!completer.isCompleted) completer.complete(true);
+          Get.back();
+        },
+      ),
+      enableDrag: false,
+      backgroundColor: Colors.transparent,
+    );
+    if (!completer.isCompleted) {
+      completer.complete(false);
+    }
+    return completer.future;
   }
 }

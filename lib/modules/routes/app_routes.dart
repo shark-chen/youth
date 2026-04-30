@@ -39,6 +39,7 @@ abstract class Routes {
   static const minorProtectionPage = '/minorProtectionPage';
   static const feedbackPage = '/feedbackPage';
   static const editMineInfoPage = '/editMineInfoPage';
+  static const editPrivateMessagePage = '/editPrivateMessagePage';
   static const reportPage = '/reportPage';
   static const reportSubmitPage = '/reportSubmitPage';
 }

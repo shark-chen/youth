@@ -12,10 +12,10 @@ import '../model/doing_list_entity.dart';
 /// @Description 正在做的清单-vm
 class DoingListVM extends BaseVM {
   /// 当前正在做的事（展示在渐变头、统计文案里）
-  String activityTitle = '看电影';
+  String activityTitle = '--';
 
   /// 「有 N 人也在」
-  int samePeopleCount = 318;
+  int samePeopleCount = 0;
 
   /// 正在做的人列表数据
   DoingListEntity? doingListEntity;

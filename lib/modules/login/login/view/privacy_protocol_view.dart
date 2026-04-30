@@ -15,7 +15,9 @@ class PrivacyProtocolWidget extends StatelessWidget {
     Key? key,
     this.selected = false,
     this.selectTap,
-    this.onTap,
+    this.onTapUserAgreement,
+    this.onTapPrivacyPolicy,
+    this.onTapMinorProtection,
   }) : super(key: key);
 
   /// 是否同意
@@ -25,7 +27,9 @@ class PrivacyProtocolWidget extends StatelessWidget {
   final ValueChanged<bool?>? selectTap;
 
   /// 点击协议
-  final VoidCallback? onTap;
+  final VoidCallback? onTapUserAgreement;
+  final VoidCallback? onTapPrivacyPolicy;
+  final VoidCallback? onTapMinorProtection;
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +60,45 @@ class PrivacyProtocolWidget extends StatelessWidget {
                     fontSize: 12, color: ThemeColor.themeA2Color),
                 children: <TextSpan>[
                   TextSpan(
-                    text: " ${'《用户协议》、《隐私政策》、《未成年人个人信息保护规则》'.tr}",
+                    text: " ${'《用户协议》'.tr}",
                     style: const TextStyle(
                       fontSize: 13,
                       color: ThemeColor.themeGreenColor,
                     ),
-                    recognizer: TapGestureRecognizer()..onTap = onTap,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = onTapUserAgreement,
+                  ),
+                  const TextSpan(
+                    text: '、',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: ThemeColor.themeA2Color,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '《隐私政策》'.tr,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: ThemeColor.themeGreenColor,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = onTapPrivacyPolicy,
+                  ),
+                  const TextSpan(
+                    text: '、',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: ThemeColor.themeA2Color,
+                    ),
+                  ),
+                  TextSpan(
+                    text: '《未成年人个人信息保护规则》'.tr,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: ThemeColor.themeGreenColor,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = onTapMinorProtection,
                   ),
                 ],
               ),

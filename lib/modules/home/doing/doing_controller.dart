@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:kellychat/base/base_controller.dart';
-
 import 'model/doing_hot_tags_entity.dart';
 import 'view_model/doing_vm.dart';
 import 'controller/doing_request_controller.dart';
@@ -35,7 +33,7 @@ class DoingController extends BaseController {
     if (Strings.isEmpty(tag.tagName)) return;
     await requestPostStatusDoing(tagName: tag.tagName ?? '');
     await pushDoingListPage(tag);
-    }
+  }
 
   /// 点击发布正在做的事
   Future clickPublishDoing(String content) async {
@@ -52,8 +50,8 @@ class DoingController extends BaseController {
   Future pushDoingListPage(DoingHotTagsEntity tag) async {
     await Get.toNamed(
       Routes.doingListPage,
-      id: doingNavigatorId,
       arguments: tag,
+      id: doingNavigatorId,
     );
   }
 

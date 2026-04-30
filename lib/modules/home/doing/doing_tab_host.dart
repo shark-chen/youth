@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kellychat/modules/home/doing/doing_nav_ids.dart';
 import 'package:kellychat/modules/home/doing/doing_page.dart';
-import 'package:kellychat/modules/home/doing/doing_list/doing_list_binding.dart';
+import 'package:kellychat/modules/home/doing/doing_list/doing_list_controller.dart';
 import 'package:kellychat/modules/home/doing/doing_list/doing_list_page.dart';
 import 'package:kellychat/modules/routes/app_pages.dart';
 
@@ -46,7 +46,11 @@ class _DoingTabHostState extends State<DoingTabHost>
             return GetPageRoute(
               settings: settings,
               page: () => const DoingListPage(),
-              binding: DoingListBinding(),
+              binding: BindingsBuilder(() {
+                Get.lazyPut<DoingListController>(
+                  () => DoingListController(initialArg: settings.arguments),
+                );
+              }),
               transition: Transition.rightToLeft,
             );
           default:
