@@ -15,6 +15,21 @@ import '../model/publish_doing_entity.dart';
 extension DoingRequestController on DoingController {
   /// mark - request
   ///
+  /// GET /api/status/my-doing
+  Future<void> requestMyDoing() async {
+    EasyLoading.show();
+    final response =
+    await Net.value<Doing>().cache<PublishDoingEntity>((value) {
+      if (value == null) return;
+    }).requestMyDoing<PublishDoingEntity>();
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
   /// 获取当前热门的正在做标签列表
   /// /api/status/hot-tags
   Future requestHotTags() async {

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/home/home/view/tabs.dart';
+import '../../user/user_center/my_doing/my_doing.dart';
 import 'model/doing_hot_tags_entity.dart';
 import 'view_model/doing_vm.dart';
 import 'controller/doing_request_controller.dart';
@@ -21,11 +23,31 @@ class DoingController extends BaseController {
     super.onInit();
     buildEditingManage();
 
+    EventBusManager().listen<HomeTabs>(this, (event) async {
+      if(HomeTabs.doing == event) {
+        final doing = await MyDoing().doing;
+        if (doing != null) {
+          await pushDoingListPage(
+            DoingHotTagsEntity()
+              ..tagId = doing.tagId
+              ..tagName = doing.tagName,
+          );
+        }
+      }
+    });
+
     /// 获取个人信息 · GET /api/user/profile
     requestUserProfile();
 
     /// 获取当前热门的正在做标签列表
     await requestHotTags();
+  }
+
+
+  /// 刷新数据
+  Future refreshData() async {
+    /// request - 敲一下收件箱
+    await requestMyDoing();
   }
 
   /// 点击选择你想发布的事情

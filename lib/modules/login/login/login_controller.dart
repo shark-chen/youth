@@ -58,6 +58,7 @@ class LoginController extends BaseController {
       /// push-个人信息补充模块页面
       await pushSexSelectPage();
     } else {
+      await UserCenter().init();
       await Get.offAllNamed(Routes.homePage);
     }
   }
@@ -91,7 +92,8 @@ class LoginController extends BaseController {
     required String phone,
     required String code,
   }) async {
-    var response = await Net.value<User>().requestAuthLogin<LoginUserInfoEntity>(
+    var response =
+        await Net.value<User>().requestAuthLogin<LoginUserInfoEntity>(
       phone: phone,
       code: code,
     );

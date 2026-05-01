@@ -3,6 +3,7 @@ import 'package:kellychat/base/base_vm.dart';
 import '../../doing/model/publish_doing_entity.dart';
 import '../beat_record/model/beat_item_entity.dart';
 import '../invite_record/model/together_list_entity.dart';
+import '../model/knock_record_entity.dart';
 import '../model/message_person_list_entity.dart';
 
 /// FileName: message_vm
@@ -23,6 +24,9 @@ class MessageVM extends BaseVM {
 
   /// 敲一下列表
   List<BeatItemEntity> beatList = [];
+
+  /// 敲一下记录
+  KnockRecordEntity? knockRecordEntity;
 
   @override
   void onInit() {

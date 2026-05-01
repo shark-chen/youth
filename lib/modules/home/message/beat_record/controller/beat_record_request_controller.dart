@@ -1,5 +1,6 @@
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 
+import '../../model/knock_record_entity.dart';
 import '../beat_record_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
 
@@ -22,6 +23,24 @@ extension BeatRecordRequestController on BeatRecordController {
     EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configBeatItemList(response.values);
+      vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
+  /// request - 敲一下收件箱
+  /// 敲一下 inbox · GET /api/knock/inbox
+  Future<void> requestKnockInbox() async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>().cache<KnockRecordEntity>((value) {
+      if (value == null) return;
+      vm.value.knockRecordEntity = value;
+      vm.refresh();
+    }).requestKnockInbox<KnockRecordEntity>();
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      vm.value.knockRecordEntity = response.value;
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');

@@ -24,6 +24,7 @@ class HallController extends BaseController
   @override
   Future onInit() async {
     super.onInit();
+    UserCenter().init();
     buildEditingManage();
 
     /// 获取个人信息 · GET /api/user/profile

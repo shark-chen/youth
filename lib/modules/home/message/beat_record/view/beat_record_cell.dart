@@ -94,7 +94,7 @@ class BeatRecordCell extends BaseStatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: ' [${tagName ?? ''} 状态]',
+                        text: ' [${tagName ?? ''}] 状态',
                         style: TextStyles(
                           fontSize: 12,
                           color: ThemeColor.themeGreenColor,
@@ -109,8 +109,11 @@ class BeatRecordCell extends BaseStatelessWidget {
             Expanded(child: Container()),
             GestureDetector(
               onTap: chatTap,
-              child: Icon(
-                Icons.chat,
+              child: Image.asset(
+                'assets/image/common/message@3x.png',
+                fit: BoxFit.fill,
+                width: 24,
+                height: 24,
                 color: ThemeColor.themeGreenColor,
               ),
             ),

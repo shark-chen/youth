@@ -1,5 +1,6 @@
 import 'package:kellychat/base/base_controller.dart';
 
+import '../model/knock_record_entity.dart';
 import 'controller/beat_record_request_controller.dart';
 export 'controller/beat_record_request_controller.dart';
 import 'model/beat_item_entity.dart';
@@ -19,11 +20,13 @@ class BeatRecordController extends BaseController {
   void onInit() async {
     super.onInit();
     title = '敲一下';
-    requestKnockReceived();
+
+    /// request - 敲一下收件箱
+    /// 敲一下 inbox · GET /api/knock/inbox
+    requestKnockInbox();
   }
 
-
-  List<BeatItemEntity> get rows => vm.value.rows;
+  List<KnockRecordItems> get rows => vm.value.knockRecordEntity?.items ?? [];
 
   /// push - 跳转到用户信息页面-page
   Future pushUserInfoPage() async {
@@ -34,5 +37,4 @@ class BeatRecordController extends BaseController {
   Future pushChatPage() async {
     await Get.toNamed(Routes.chatPage);
   }
-
 }

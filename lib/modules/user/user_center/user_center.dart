@@ -4,6 +4,7 @@ import 'package:kellychat/utils/marco/debug_print.dart';
 import '../../../network/net/request/dio/dio_net.dart';
 import '../../../network/reporter/report_util.dart';
 export 'user_info/user_info_center.dart';
+import 'my_doing/my_doing.dart';
 import 'user_mixin/user_mixin.dart';
 export 'user_options/user_options.dart';
 export 'user_info/model/user_info_entity.dart';
@@ -51,9 +52,12 @@ class UserCenter extends BaseUser {
       ReportUtil().record('Stores.init()$e');
     }
 
-
-
-
+    /// 正在做的事情
+    try {
+      await MyDoing().init();
+    } catch (e) {
+      ReportUtil().record('MyDoing.init()$e');
+    }
 
     /// 存在本地的一些用户配置
     try {
@@ -61,7 +65,6 @@ class UserCenter extends BaseUser {
     } catch (e) {
       ReportUtil().record('UserOptions.init()$e');
     }
-
 
     /// request-获取用户信息接口
     requestUserInfo(update: true);

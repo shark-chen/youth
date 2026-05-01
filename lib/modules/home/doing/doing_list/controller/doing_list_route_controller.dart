@@ -13,8 +13,14 @@ import '../view/invite_together_sheet_widget.dart';
 ///
 /// @Description
 extension DoingListRouteController on DoingListController {
+
   /// mark - push
   ///
+  /// 个人信息页面
+  Future pushUserInfoPage() async {
+    await Get.toNamed(Routes.minePage);
+  }
+
   /// push - 邀请
   Future<void> pushInviteAlert(InviteFriendEntity? entity) async {
     if (entity == null) return;

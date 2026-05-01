@@ -10,6 +10,7 @@ import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:kellychat/modules/home/hall/model/smart_match_people_entity.dart';
 import 'package:kellychat/modules/home/message/beat_record/model/beat_item_entity.dart';
 import 'package:kellychat/modules/home/message/invite_record/model/together_list_entity.dart';
+import 'package:kellychat/modules/home/message/model/knock_record_entity.dart';
 import 'package:kellychat/modules/home/message/model/message_person_list_entity.dart';
 import 'package:kellychat/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
 import 'package:kellychat/modules/home/mine/edit_mine_info/model/user_private_info_entity.dart';
@@ -43,6 +44,8 @@ class JsonConvert {
     (ChatMsgEntity).toString(): ChatMsgEntity.fromJson,
     (ChatMsgList).toString(): ChatMsgList.fromJson,
     (InviteFriendEntity).toString(): InviteFriendEntity.fromJson,
+    (KnockRecordEntity).toString(): KnockRecordEntity.fromJson,
+    (KnockRecordItems).toString(): KnockRecordItems.fromJson,
   };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -207,6 +210,14 @@ class JsonConvert {
           .map<InviteFriendEntity>(
               (Map<String, dynamic> e) => InviteFriendEntity.fromJson(e))
           .toList() as M;
+    }
+    if (<KnockRecordEntity>[] is M) {
+      return data.map<KnockRecordEntity>((Map<String, dynamic> e) =>
+          KnockRecordEntity.fromJson(e)).toList() as M;
+    }
+    if (<KnockRecordItems>[] is M) {
+      return data.map<KnockRecordItems>((Map<String, dynamic> e) =>
+          KnockRecordItems.fromJson(e)).toList() as M;
     }
     debugPrint("${M.toString()} not found");
     return null;

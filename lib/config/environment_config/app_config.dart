@@ -218,6 +218,11 @@ class AppConfig {
     return '/api/knock/received';
   }
 
+  /// 敲一下 inbox（GET）
+  static String get getKnockInboxUrl {
+    return '/api/knock/inbox';
+  }
+
   /// 发送邀约（POST body: toUserId, invitationType, tagId, message）
   static String get postInvitationSendUrl {
     return '/api/invitation/send';

@@ -226,5 +226,9 @@ class ThemeColor {
 
   static Color dialogRedConfirmBgColor = Color(0xFFEB345A);
 
+  static const Color btnBlueColor = Color(0xFFB0FFCA);
+
+
+
 
 }

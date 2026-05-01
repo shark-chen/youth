@@ -26,9 +26,9 @@ class BeatRecordPage extends BasePage<BeatRecordController> {
                 itemBuilder: (BuildContext context, int index) {
                   final item = controller.rows[index];
                   return BeatRecordCell(
-                    headPortraitUrl: item.fromAvatar,
-                    name: item.fromNickname,
-                    time: item.createdAt,
+                    headPortraitUrl: item.targetAvatar,
+                    name: item.targetNickname,
+                    time: item.timeAgo,
                     tagName: item.tagName,
                     userInfoTap: controller.pushUserInfoPage,
                     chatTap: controller.pushChatPage,

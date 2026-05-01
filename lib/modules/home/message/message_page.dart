@@ -19,6 +19,8 @@ class MessagePage extends BasePage<MessageController> {
 
   @override
   Widget build(BuildContext context) {
+    /// 刷新数据
+    controller.refreshData();
     return GestureDetector(
       onTap: controller.hideKeyboard,
       child: Scaffold(
@@ -100,12 +102,21 @@ class MessagePage extends BasePage<MessageController> {
                     );
                   } else if (index == 2) {
                     /// 敲一下记录列表
-                    if (Lists.isNotEmpty(controller.vm.value.beatList)) {
+                    if (Lists.isNotEmpty(
+                        controller.vm.value.knockRecordEntity?.items)) {
+                      final item =
+                          controller.vm.value.knockRecordEntity?.items?.first;
+                      final unreadCount =
+                          controller.vm.value.knockRecordEntity?.unreadCount;
                       return MsgCloutWidget(
                         onTap: controller.pushBeatRecordPage,
-                        name: controller.vm.value.beatList.first.fromNickname,
-                        cloutNum: '${controller.vm.value.beatList.length}',
-                        time: controller.vm.value.beatList.first.timeAgo,
+                        headPortraitUrl: item?.targetAvatar,
+                        name: item?.targetNickname,
+                        interactionDesc: item?.interactionDesc,
+                        time: item?.timeAgo,
+                        cloutNum: (unreadCount ?? 0) > 99
+                            ? '99+'
+                            : '${unreadCount ?? ''}',
                       );
                     }
                     return Container();

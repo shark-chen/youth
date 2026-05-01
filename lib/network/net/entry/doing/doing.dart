@@ -65,6 +65,12 @@ class Doing extends NetMixin<Doing> {
     return await get<T>(AppConfig.getKnockReceivedUrl);
   }
 
+  /// 敲一下收件箱
+  /// GET /api/knock/inbox
+  Future<NetResult<T>> requestKnockInbox<T>() async {
+    return await get<T>(AppConfig.getKnockInboxUrl);
+  }
+
   /// POST /api/invitation/send
   Future<NetResult<T>> requestInvitationSend<T>({
     required int toUserId,

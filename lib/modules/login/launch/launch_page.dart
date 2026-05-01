@@ -16,7 +16,7 @@ class LaunchPage extends BasePage<LaunchController> {
       resizeToAvoidBottomInset: true,
       backgroundColor: ThemeColor.themeColor,
       body: Container(
-        color: Colors.white,
+        color: ThemeColor.themeColor,
         child: Column(
           children: [
             const SizedBox(height: 256),

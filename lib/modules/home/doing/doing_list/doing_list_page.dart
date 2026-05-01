@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'doing_list_controller.dart';
 import 'view/doing_list_cell.dart';
@@ -27,7 +28,33 @@ class DoingListPage extends BasePage<DoingListController> {
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(
         controller.title ?? '我正在',
-        backTap: controller.closePage,
+        leading: Container(
+          color: Colors.transparent,
+          child: Row(
+            children: [
+              SizedBox(width: 14),
+              GestureDetector(
+                onTap: controller.pushUserInfoPage,
+                child: Container(
+                  height: 32,
+                  width: 32,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: ThemeColor.whiteColor,
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                  child: ImageLookWidget(
+                    imgUrl: UserCenter().user?.avatar ?? '',
+                    width: 32,
+                    height: 23,
+                    enlargeLook: false,
+                    imgBorderRadius: BorderRadius.circular(32),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: SafeArea(
         child: Column(
@@ -35,12 +62,10 @@ class DoingListPage extends BasePage<DoingListController> {
           children: [
             SizedBox(height: 12),
             Obx(() {
-              return GestureDetector(
-                onTap: controller.clickDeleteStatusDoing,
-                child: DoingListHeaderWidget(
-                  title: controller.vm.value.myDoing?.tagName ?? '--',
-                  inviteTap: controller.clickInvitationFriend,
-                ),
+              return DoingListHeaderWidget(
+                title: controller.vm.value.myDoing?.tagName ?? '--',
+                inviteTap: controller.clickInvitationFriend,
+                closeTap: controller.clickDeleteStatusDoing,
               );
             }),
             Obx(() {

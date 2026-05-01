@@ -17,6 +17,8 @@ class DoingPage extends BasePage<DoingController> {
 
   @override
   Widget build(BuildContext context) {
+    /// 刷新数据
+    controller.refreshData();
     return GestureDetector(
       onTap: controller.hideKeyboard,
       child: Scaffold(
@@ -140,26 +142,24 @@ class DoingPage extends BasePage<DoingController> {
                             mainAxisSpacing: 14,
                             crossAxisSpacing: 12,
                             childAspectRatio: 2.5,
-                            children: tags
-                                .map(
-                                  (e) {
-                                    final tag = e.tagName ?? '';
-                                    final dy = (tag.hashCode.abs() % 10)
-                                        .toDouble(); // 0~6，稳定不跳动
-                                    return Transform.translate(
-                                      offset: Offset(0, dy),
-                                      child: HotTagCell(
-                                        text: tag,
-                                        onTap: () async {
-                                          /// push-正在做的清单-页面
-                                          await controller
-                                              .clickSelectPublishDoing(e);
-                                        },
-                                      ),
-                                    );
-                                  },
-                                )
-                                .toList(),
+                            children: tags.map(
+                              (e) {
+                                final tag = e.tagName ?? '';
+                                final dy = (tag.hashCode.abs() % 10)
+                                    .toDouble(); // 0~6，稳定不跳动
+                                return Transform.translate(
+                                  offset: Offset(0, dy),
+                                  child: HotTagCell(
+                                    text: tag,
+                                    onTap: () async {
+                                      /// push-正在做的清单-页面
+                                      await controller
+                                          .clickSelectPublishDoing(e);
+                                    },
+                                  ),
+                                );
+                              },
+                            ).toList(),
                           );
                         },
                       ),

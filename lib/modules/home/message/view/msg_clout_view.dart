@@ -11,23 +11,27 @@ class MsgCloutWidget extends BaseStatelessWidget {
   const MsgCloutWidget({
     Key? key,
     this.headPortraitUrl,
-    this.cloutNum,
     this.name,
+    this.interactionDesc,
     this.time,
+    this.cloutNum,
     this.onTap,
   }) : super(key: key);
 
   /// 头像
   final String? headPortraitUrl;
 
-  /// 敲一下数量
-  final String? cloutNum;
-
   /// 名称
   final String? name;
 
+  /// 互动描述，如：我敲了她、他敲了我
+  final String? interactionDesc;
+
   /// 时间
   final String? time;
+
+  /// 敲一下数量
+  final String? cloutNum;
 
   /// 点击
   final VoidCallback? onTap;
@@ -60,7 +64,7 @@ class MsgCloutWidget extends BaseStatelessWidget {
                       Row(
                         children: [
                           ImageLookWidget(
-                            imgUrl: 'dsad',
+                            imgUrl: headPortraitUrl ?? '',
                             height: 42,
                             width: 42,
                             imgBorderRadius: BorderRadius.circular(26),
@@ -85,7 +89,7 @@ class MsgCloutWidget extends BaseStatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: '（我敲了她）',
+                                      text: ' (${interactionDesc ?? ''})',
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: ThemeColor.whiteColor
@@ -123,7 +127,7 @@ class MsgCloutWidget extends BaseStatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              '12',
+                              cloutNum ?? '',
                               style: TextStyles(
                                   color: ThemeColor.themeGreenColor,
                                   fontSize: 12),

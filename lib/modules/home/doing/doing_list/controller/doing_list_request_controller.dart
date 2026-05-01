@@ -18,7 +18,10 @@ extension DoingListRequestController on DoingListController {
   Future<void> requestMyDoing() async {
     EasyLoading.show();
     final response =
-        await Net.value<Doing>().requestMyDoing<PublishDoingEntity>();
+        await Net.value<Doing>().cache<PublishDoingEntity>((value) {
+      if (value == null) return;
+      vm.value.configMyDoing(value);
+    }).requestMyDoing<PublishDoingEntity>();
     EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configMyDoing(response.value);
@@ -30,15 +33,17 @@ extension DoingListRequestController on DoingListController {
 
   /// DELETE /api/status/doing/{statusId}
   /// request - 取消一个正在做的状态
-  Future<void> requestDeleteStatusDoing(int statusId) async {
+  Future<bool> requestDeleteStatusDoing(int statusId) async {
     EasyLoading.show();
     final response = await Net.value<Doing>()
         .requestDeleteStatusDoing<dynamic>(statusId: statusId);
     EasyLoading.dismiss();
     if (response.succeed) {
       EasyLoading.showToast('已删除');
+      return true;
     } else {
       EasyLoading.showToast(response.msg ?? '');
+      return false;
     }
   }
 

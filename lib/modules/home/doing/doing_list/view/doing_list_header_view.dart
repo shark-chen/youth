@@ -10,15 +10,17 @@ class DoingListHeaderWidget extends BaseStatelessWidget {
   const DoingListHeaderWidget({
     Key? key,
     this.title,
-    this.leadingEmoji = '🎬',
+    this.closeTap,
     this.inviteTap,
   }) : super(key: key);
 
+  /// 标题
   final String? title;
 
-  /// 左侧图标（设计稿为场记板，可用 emoji）
-  final String leadingEmoji;
+  /// 关闭点击
+  final VoidCallback? closeTap;
 
+  /// 邀请点击
   final VoidCallback? inviteTap;
 
   static const Color _mint = Color(0xFFB8F5D0);
@@ -41,21 +43,26 @@ class DoingListHeaderWidget extends BaseStatelessWidget {
       ),
       child: Row(
         children: [
-          Text(leadingEmoji, style: const TextStyle(fontSize: 28)),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              title ?? '',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF1A1A1A),
-              ),
+          Text(
+            title ?? '',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: ThemeColor.blackColor,
             ),
           ),
           const SizedBox(width: 8),
+          GestureDetector(
+            onTap: closeTap,
+            child: Image.asset(
+              'assets/image/common/circle_close@3x.png',
+              width: 24,
+              height: 24,
+            ),
+          ),
+          Expanded(child: Container()),
           Material(
             color: Colors.transparent,
             child: InkWell(
@@ -71,7 +78,7 @@ class DoingListHeaderWidget extends BaseStatelessWidget {
                 child: const Text(
                   '邀请好友',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: ThemeColor.btnBlueColor,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),

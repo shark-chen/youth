@@ -44,4 +44,10 @@ class MessageController extends BaseController {
     await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
     vm.refresh();
   }
+
+  /// 刷新数据
+  Future refreshData() async {
+    /// request - 敲一下收件箱
+    await requestKnockInbox();
+  }
 }

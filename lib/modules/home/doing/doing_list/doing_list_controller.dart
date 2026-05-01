@@ -55,8 +55,12 @@ class DoingListController extends BaseController {
 
   /// 点击删除我正在做的事
   Future clickDeleteStatusDoing() async {
-    await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
+    final result =
+        await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
     vm.refresh();
+    if (result) {
+      Future.delayed(Duration(microseconds: 1500), Get.back);
+    }
   }
 
   /// 点击敲一下
