@@ -14,6 +14,7 @@ class EditNickNameSheetWidget extends BaseStatelessWidget {
     this.maxLength,
     this.controller,
     this.focusNode,
+    this.hintText,
     this.closeTap,
     this.sureTap,
   }) : super(key: key);
@@ -30,6 +31,7 @@ class EditNickNameSheetWidget extends BaseStatelessWidget {
   /// 输入框控制
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final String? hintText;
 
   /// 关闭按钮点击
   final VoidCallback? closeTap;
@@ -47,7 +49,8 @@ class EditNickNameSheetWidget extends BaseStatelessWidget {
         AnimatedPadding(
           duration: const Duration(milliseconds: 120),
           curve: Curves.easeOutCubic,
-          padding: EdgeInsets.only(bottom: bottomInset > 500? 500: bottomInset),
+          padding:
+              EdgeInsets.only(bottom: bottomInset > 500 ? 500 : bottomInset),
           child: Container(
             alignment: Alignment.bottomCenter,
             width: Get.width,
@@ -102,7 +105,7 @@ class EditNickNameSheetWidget extends BaseStatelessWidget {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: ThemeColor.doingListCellBgColor,
-                    hintText: '请输入昵称...',
+                    hintText: hintText ?? '请输入昵称...',
                     hintStyle: TextStyle(
                       color: ThemeColor.secondaryTextColor,
                       fontSize: 16,

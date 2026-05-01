@@ -67,8 +67,13 @@ class EditMineInfoController extends BaseController {
   /// 点击添加标签
   Future<void> clickAddTags() async {
     await pushEditNiceNameAlert(
-      title: '添加标签',
+      title: '编辑标签',
+      hintText: '请输入标签',
       sureCall: (value) async {
+        if (Strings.isEmpty(value)) {
+          EasyLoading.showToast('请输入标签');
+          return;
+        }
         vm.value.addTag(value);
 
         /// 更新用户标签（最多10个）
@@ -170,56 +175,6 @@ class EditMineInfoController extends BaseController {
   void onTagReorder(int oldIndex, int newIndex) {
     vm.value.reorderTags(oldIndex, newIndex);
     vm.refresh();
-  }
-
-  Future<void> onAddTagTap() async {
-    final ctx = Get.context;
-    if (ctx == null) return;
-    final tec = TextEditingController();
-    final result = await showDialog<String>(
-      context: ctx,
-      builder: (c) {
-        return AlertDialog(
-          backgroundColor: ThemeColor.inputBgColor,
-          title: Text(
-            '添加标签',
-            style: TextStyle(color: ThemeColor.whiteColor),
-          ),
-          content: TextField(
-            controller: tec,
-            autofocus: true,
-            style: TextStyle(color: ThemeColor.whiteColor),
-            decoration: InputDecoration(
-              hintText: '例如：🎬 看电影',
-              hintStyle: TextStyle(
-                color: ThemeColor.whiteColor.withOpacity(0.45),
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(c),
-              child: Text(
-                '取消',
-                style: TextStyle(color: ThemeColor.themeA2Color),
-              ),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(c, tec.text),
-              child: Text(
-                '确定',
-                style: TextStyle(color: ThemeColor.themeGreenColor),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-    tec.dispose();
-    if (result != null) {
-      vm.value.addTag(result);
-      vm.refresh();
-    }
   }
 
   /// 点击添加图片

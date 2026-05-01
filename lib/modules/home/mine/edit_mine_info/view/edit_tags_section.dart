@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/utils/utils/theme_color.dart';
 
 import 'edit_mine_card.dart';
@@ -40,17 +41,22 @@ class EditTagsSection extends StatelessWidget {
                 ),
                 const Spacer(),
                 if (tags.length < maxTags)
-                  TextButton(
-                    onPressed: onAdd,
-                    child: Text(
-                      '+ 添加',
-                      style: TextStyle(
-                        color: ThemeColor.themeGreenColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  Container(
+                    alignment: Alignment.center,
+                    padding:
+                        EdgeInsets.only(left: 12, right: 14, top: 5, bottom: 5),
+                    decoration: BoxDecoration(
+                      color: ThemeColor.whiteColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(999),
                     ),
-                  ),
+                    child: ButtonIcon(
+                      onTap: onAdd,
+                      title: '添加',
+                      style: TextStyles(color: ThemeColor.white6Color),
+                      path: 'assets/image/common/add@3x.png',
+                      iconSize: Size(16, 16),
+                    ),
+                  )
               ],
             ),
             const SizedBox(height: 6),
@@ -108,6 +114,34 @@ class _TagRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 6, bottom: 6, left: 12, right: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: ThemeColor.whiteColor.withOpacity(0.05),
+        ),
+      ),
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: ThemeColor.whiteColor,
+              fontSize: 15,
+            ),
+          ),
+          SizedBox(width: 6),
+          Icon(
+            Icons.close,
+            color: ThemeColor.whiteColor,
+            size: 14,
+          ),
+        ],
+      ),
+    );
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Material(
