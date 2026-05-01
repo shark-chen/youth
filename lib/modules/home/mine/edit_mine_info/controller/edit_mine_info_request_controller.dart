@@ -102,32 +102,10 @@ extension EditMineInfoReuestController on EditMineInfoController {
   }) async {
     EasyLoading.show();
     final response =
-        await Net.value<User>().requestUserPrivateVerify(password: password);
+        await Net.value<User>().requestUserPrivateVerify<String>(password: password);
     EasyLoading.dismiss();
     if (response.success) {
-      return true;
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-      return false;
-    }
-  }
-
-  /// 第一次设置私密
-  /// 更新用户私密信息 · PUT /api/user/private
-  Future<bool> requestUpdateUserPrivate({
-    required String wishDescription,
-    String? password,
-    String? oldPassword,
-  }) async {
-    EasyLoading.show();
-    final response = await Net.value<User>().requestUpdateUserPrivate(
-      wishDescription: wishDescription,
-      password: password,
-      oldPassword: oldPassword,
-    );
-    EasyLoading.dismiss();
-    if (response.success) {
-      EasyLoading.showToast('设置成功');
+      vm.value.userPrivateInfoEntity?.wishDescription = response.value;
       return true;
     } else {
       EasyLoading.showToast(response.msg ?? '');

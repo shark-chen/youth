@@ -1,56 +1,77 @@
 import 'package:kellychat/base/base_controller.dart';
 import 'package:flutter/services.dart';
+import 'package:kellychat/network/net/entry/user/user.dart';
+
+import 'view_model/edit_private_message_vm.dart';
 
 /// FileName: edit_private_message_controller
 ///
 /// @Description 说两句（编辑私密内容）
 class EditPrivateMessageController extends BaseController {
-  static const int maxLength = 1000;
+  EditPrivateMessageController({
+    String? content,
+    String? password,
+    String? oldPassword,
+  }) {
+    vm.value.configEditPrivateModel(
+      content: content,
+      password: password,
+      oldPassword: oldPassword,
+    );
+  }
 
-  final TextEditingController textController = TextEditingController();
-  final RxInt currentLength = 0.obs;
+  /// vm
+  Rx<EditPrivateMessageVM> vm = EditPrivateMessageVM().obs;
 
   @override
   void onInit() {
     super.onInit();
     title = '说两句';
-
-    final init = _readInitialText();
-    textController.text = init;
-    currentLength.value = init.characters.length;
-
-    textController.addListener(() {
-      currentLength.value = textController.text.characters.length;
-    });
+    vm.value.refresh = vm.refresh;
   }
 
-  String _readInitialText() {
-    final arg = Get.arguments;
-    if (arg is String) return arg;
+  /// 点击保存
+  Future<void> clickSave() async {
+    if (!vm.value.saveEnable) return;
 
-    final p = Get.parameters['text'];
-    if (p != null) return p;
-
-    return '';
+    /// 已经有密码的时候
+    var result = false;
+    if (Strings.isNotEmpty(vm.value.editPrivateModel.oldPassword)) {
+      result = await requestUpdateUserPrivate(
+        wishDescription: vm.value.editingController?.text ?? '',
+        oldPassword: vm.value.editPrivateModel.oldPassword,
+      );
+    } else {
+      result = await requestUpdateUserPrivate(
+        wishDescription: vm.value.editingController?.text ?? '',
+        password: vm.value.editPrivateModel.password,
+      );
+    }
+    if (result) {
+      Future.delayed(const Duration(milliseconds: 2000), Get.back);
+    }
   }
 
-  List<TextInputFormatter> get inputFormatters => [
-        LengthLimitingTextInputFormatter(maxLength),
-      ];
-
-  void onCancel() {
-    Get.back();
-  }
-
-  void onSave() {
-    final v = textController.text.trimRight();
-    Get.back(result: v);
-  }
-
-  @override
-  void onClose() {
-    textController.dispose();
-    super.onClose();
+  /// 第一次设置私密
+  /// 更新用户私密信息 · PUT /api/user/private
+  Future<bool> requestUpdateUserPrivate({
+    required String wishDescription,
+    String? password,
+    String? oldPassword,
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<User>().requestUpdateUserPrivate(
+      wishDescription: wishDescription,
+      password: password,
+      oldPassword: oldPassword,
+    );
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast('设置成功');
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
+    }
   }
 }
-

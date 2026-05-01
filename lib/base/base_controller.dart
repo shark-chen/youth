@@ -113,6 +113,7 @@ abstract class BaseController extends GetxController
       keyboardSubscription?.cancel();
       EasyLoading.dismiss();
       EventBusManager().cancel(this);
+      editingController?.dispose();
     } catch (_) {}
   }
 

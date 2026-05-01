@@ -26,8 +26,8 @@ class CountInput extends StatefulWidget {
     this.controller,
     this.focusNode,
     this.onSubmitted,
-    this.radius = 5.0,
-    this.borderColor = ThemeColor.lineColor,
+    this.radius,
+    this.borderColor,
     this.borderWidth = 1,
   }) : super(key: key);
 
@@ -93,9 +93,6 @@ class _CountInput extends State<CountInput> {
 
   @override
   void dispose() {
-    // if (widget.maxLength != null) {
-    //   widget.controller?.dispose();
-    // }
     super.dispose();
   }
 
@@ -115,14 +112,17 @@ class _CountInput extends State<CountInput> {
         ),
         decoration: BoxDecoration(
           border: Border.all(
-            color: widget.borderColor ?? Colors.grey, // 使用指定的边框颜色或默认灰色
+            color: widget.borderColor ?? ThemeColor.whiteColor.withOpacity(0.3),
             width: widget.borderWidth ?? 1,
           ),
-          color: widget.color ?? Colors.white,
-          borderRadius: BorderRadius.circular(widget.radius ?? 5.0),
+          color: widget.color ?? ThemeColor.inputBgColor,
+          borderRadius: BorderRadius.circular(widget.radius ?? 8.0),
         ),
         padding: EdgeInsets.only(
-            left: 10, right: 6, bottom: (widget.maxLength != null ? 24 : 0)),
+          left: 10,
+          right: 6,
+          bottom: (widget.maxLength != null ? 24 : 0),
+        ),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,7 +133,7 @@ class _CountInput extends State<CountInput> {
                 style: widget.style ??
                     const TextStyle(
                         fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 14),
                 maxLength: widget.maxLength,
                 textAlign: widget.textAlign ?? TextAlign.left,
@@ -146,9 +146,9 @@ class _CountInput extends State<CountInput> {
                     labelStyle: widget.labelStyle,
                     hintText: widget.hint,
                     hintStyle: widget.hintStyle ??
-                        const TextStyle(
+                        TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: Colors.grey,
+                          color: ThemeColor.whiteColor.withOpacity(0.4),
                           fontSize: 14,
                         ),
                     counter: const Offstage()),

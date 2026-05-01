@@ -93,7 +93,7 @@ class LoginPage extends BasePage<LoginController> {
                             /// 登录
                             LoginButton(
                               title: '登录'.tr,
-                              onTap: controller.pushPrivacyPop,
+                              onTap: controller.clickLogin,
                             ),
                             const SizedBox(height: 16),
 

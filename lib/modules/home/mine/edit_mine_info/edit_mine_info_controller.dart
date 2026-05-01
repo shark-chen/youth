@@ -88,8 +88,6 @@ class EditMineInfoController extends BaseController {
           /// 验证私密信息密码
           final check = await requestUserPrivateVerify(password: password);
           if (check) {
-            Get.back();
-
             /// push - 私密语言-页面
             await pushPrivateMessagePage(
               content: vm.value.userPrivateInfoEntity?.wishDescription,
@@ -102,17 +100,10 @@ class EditMineInfoController extends BaseController {
       await pushPasswordAlert(
         title: '设置密码',
         onConfirm: (password) async {
-          await pushEditNiceNameAlert(
-            title: '设置私密内容',
-            sureCall: (content) async {
-              Get.back();
-
-              /// push - 私密语言-页面
-              await pushPrivateMessagePage(
-                content: vm.value.userPrivateInfoEntity?.wishDescription,
-                password: password,
-              );
-            },
+          /// push - 私密语言-页面
+          await pushPrivateMessagePage(
+            content: vm.value.userPrivateInfoEntity?.wishDescription,
+            password: password,
           );
         },
       );

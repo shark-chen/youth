@@ -22,10 +22,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: ThemeColor.themeColor,
-      appBar: AppBarKit.appBar(
-        controller.title ?? '',
-        backTap: controller.closePage,
-      ),
+      appBar: AppBarKit.appBar(controller.title ?? ''),
       body: Column(
         children: [
           Expanded(
@@ -104,7 +101,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
           ),
           Obx(
             () => EditBottomActions(
-              saving: controller.requesting.value,
+              saveEnable: controller.requesting.value,
               onCancel: controller.onCancel,
               onSave: controller.onSave,
             ),

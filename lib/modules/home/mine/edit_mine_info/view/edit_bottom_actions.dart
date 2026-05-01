@@ -7,12 +7,12 @@ class EditBottomActions extends StatelessWidget {
     super.key,
     required this.onCancel,
     required this.onSave,
-    this.saving = false,
+    this.saveEnable = false,
   });
 
   final VoidCallback onCancel;
   final VoidCallback onSave;
-  final bool saving;
+  final bool saveEnable;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class EditBottomActions extends StatelessWidget {
               child: SizedBox(
                 height: 48,
                 child: OutlinedButton(
-                  onPressed: saving ? null : onCancel,
+                  onPressed: onCancel,
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(
                       color: ThemeColor.whiteColor.withOpacity(0.2),
@@ -44,17 +44,16 @@ class EditBottomActions extends StatelessWidget {
               child: SizedBox(
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: saving ? null : onSave,
+                  onPressed: onSave,
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    backgroundColor: ThemeColor.themeGreenColor,
-                    disabledBackgroundColor:
-                        ThemeColor.themeGreenColor.withOpacity(0.45),
+                    backgroundColor: saveEnable
+                        ? ThemeColor.themeGreenColor
+                        : ThemeColor.themeGreenColor.withOpacity(0.4),
                     foregroundColor: ThemeColor.themeColor,
-                    shape: const StadiumBorder(),
                   ),
                   child: Text(
-                    saving ? '保存中…' : '保存',
+                    '保存',
                     style: TextStyle(
                       color: ThemeColor.themeColor,
                       fontSize: 16,

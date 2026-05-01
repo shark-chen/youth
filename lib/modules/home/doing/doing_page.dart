@@ -24,10 +24,13 @@ class DoingPage extends BasePage<DoingController> {
         body: Stack(
           children: [
             /// 背景图
-            Positioned.fill(
-              child: Image.network(
-                'https://images.unsplash.com/photo-1538370965046-79c0d6907d47',
-                fit: BoxFit.cover,
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Image.asset(
+                'assets/image/common/kelly_chat_bg@3x.png',
+                fit: BoxFit.fitWidth,
               ),
             ),
 
@@ -63,7 +66,8 @@ class DoingPage extends BasePage<DoingController> {
                             color: Colors.transparent,
                             child: ImageLookWidget(
                               enlargeLook: false,
-                              imgUrl: controller.vm.value.userInfo?.avatar ?? '',
+                              imgUrl:
+                                  controller.vm.value.userInfo?.avatar ?? '',
                               width: 32,
                               height: 32,
                               imgBorderRadius: BorderRadius.circular(32),
@@ -119,37 +123,40 @@ class DoingPage extends BasePage<DoingController> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Obx(() {
-                        final tags = controller.vm.value.hotTags;
-                        if (tags.isEmpty) {
-                          return const Center(
-                            child: Text(
-                              '暂无热门标签',
-                              style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 15,
-                              ),
-                            ),
-                          );
-                        }
-                        return GridView.count(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: 14,
-                          crossAxisSpacing: 12,
-                          childAspectRatio: 2.5,
-                          children: tags
-                              .map(
-                                (e) => HotTagCell(
-                                  text: e.tagName ?? '',
-                                  onTap: () async {
-                                    /// push-正在做的清单-页面
-                                    await controller.clickSelectPublishDoing(e);
-                                  },
+                      child: Obx(
+                        () {
+                          final tags = controller.vm.value.hotTags;
+                          if (tags.isEmpty) {
+                            return const Center(
+                              child: Text(
+                                '暂无热门标签',
+                                style: TextStyle(
+                                  color: Colors.white54,
+                                  fontSize: 15,
                                 ),
-                              )
-                              .toList(),
-                        );
-                      }),
+                              ),
+                            );
+                          }
+                          return GridView.count(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 14,
+                            crossAxisSpacing: 12,
+                            childAspectRatio: 2.5,
+                            children: tags
+                                .map(
+                                  (e) => HotTagCell(
+                                    text: e.tagName ?? '',
+                                    onTap: () async {
+                                      /// push-正在做的清单-页面
+                                      await controller
+                                          .clickSelectPublishDoing(e);
+                                    },
+                                  ),
+                                )
+                                .toList(),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(height: 12),
