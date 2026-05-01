@@ -30,10 +30,11 @@ class HotTagCell extends StatelessWidget {
         padding: EdgeInsets.only(left: 6, right: 6),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.08),
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withOpacity(0.1),
+            width: 2,
           ),
         ),
         child: Text(

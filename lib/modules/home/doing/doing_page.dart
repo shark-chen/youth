@@ -103,9 +103,7 @@ class DoingPage extends BasePage<DoingController> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 8),
-
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
@@ -144,14 +142,22 @@ class DoingPage extends BasePage<DoingController> {
                             childAspectRatio: 2.5,
                             children: tags
                                 .map(
-                                  (e) => HotTagCell(
-                                    text: e.tagName ?? '',
-                                    onTap: () async {
-                                      /// push-正在做的清单-页面
-                                      await controller
-                                          .clickSelectPublishDoing(e);
-                                    },
-                                  ),
+                                  (e) {
+                                    final tag = e.tagName ?? '';
+                                    final dy = (tag.hashCode.abs() % 10)
+                                        .toDouble(); // 0~6，稳定不跳动
+                                    return Transform.translate(
+                                      offset: Offset(0, dy),
+                                      child: HotTagCell(
+                                        text: tag,
+                                        onTap: () async {
+                                          /// push-正在做的清单-页面
+                                          await controller
+                                              .clickSelectPublishDoing(e);
+                                        },
+                                      ),
+                                    );
+                                  },
                                 )
                                 .toList(),
                           );

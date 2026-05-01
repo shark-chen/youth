@@ -51,7 +51,7 @@ class _DoingTabHostState extends State<DoingTabHost>
                   () => DoingListController(initialArg: settings.arguments),
                 );
               }),
-              transition: Transition.rightToLeft,
+              transition: Transition.downToUp,
             );
           default:
             return GetPageRoute(
