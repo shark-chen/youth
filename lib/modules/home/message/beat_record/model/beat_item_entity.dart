@@ -12,6 +12,7 @@ class BeatItemEntity {
   String? statusMessage;
   bool? isRead;
   String? createdAt;
+  String? timeAgo;
 
   BeatItemEntity();
 

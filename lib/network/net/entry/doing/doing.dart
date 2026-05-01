@@ -83,6 +83,25 @@ class Doing extends NetMixin<Doing> {
     );
   }
 
+  /// POST /api/invitation/generate-code
+  /// body: inviteChannel, invitationType, tagId, message
+  Future<NetResult<T>> requestInvitationGenerateCode<T>({
+    int inviteChannel = 0,
+    required int invitationType,
+    required int tagId,
+    String message = '',
+  }) async {
+    return await post<T>(
+      AppConfig.postInvitationGenerateCodeUrl,
+      data: <String, dynamic>{
+        'inviteChannel': inviteChannel,
+        'invitationType': invitationType,
+        'tagId': tagId,
+        'message': message,
+      },
+    );
+  }
+
   /// POST /api/together/create / 发起一起做活动
   Future<NetResult<T>> requestTogetherCreate<T>(
       {required String tagName}) async {

@@ -3,6 +3,7 @@ import '../../model/publish_doing_entity.dart';
 import '../doing_list_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
 import '../model/doing_list_entity.dart';
+import '../model/invite_friend_entity.dart';
 
 /// FileName: doing_list_request_controller
 ///
@@ -95,6 +96,32 @@ extension DoingListRequestController on DoingListController {
       EasyLoading.showToast('已发送');
     } else {
       EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
+  /// 生成邀约码 · POST /api/invitation/generate-code
+  /// request body: inviteChannel, invitationType(必传), tagId(必传), message
+  /// invitationType: 邀约类型：1-一起做某事
+  Future<InviteFriendEntity?> requestInvitationGenerateCode({
+    int inviteChannel = 0,
+    required int invitationType,
+    required int tagId,
+    String message = '',
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>()
+        .requestInvitationGenerateCode<InviteFriendEntity>(
+      inviteChannel: inviteChannel,
+      invitationType: invitationType,
+      tagId: tagId,
+      message: message,
+    );
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      return response.value;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return null;
     }
   }
 

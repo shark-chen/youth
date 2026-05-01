@@ -11,8 +11,8 @@ BeatItemEntity $BeatItemEntityFromJson(Map<String, dynamic> json) {
   if (fromUserId != null) {
     beatItemEntity.fromUserId = fromUserId;
   }
-  final String? fromNickname = jsonConvert.convert<String>(
-      json['fromNickname']);
+  final String? fromNickname =
+      jsonConvert.convert<String>(json['fromNickname']);
   if (fromNickname != null) {
     beatItemEntity.fromNickname = fromNickname;
   }
@@ -24,8 +24,8 @@ BeatItemEntity $BeatItemEntityFromJson(Map<String, dynamic> json) {
   if (tagName != null) {
     beatItemEntity.tagName = tagName;
   }
-  final String? statusMessage = jsonConvert.convert<String>(
-      json['statusMessage']);
+  final String? statusMessage =
+      jsonConvert.convert<String>(json['statusMessage']);
   if (statusMessage != null) {
     beatItemEntity.statusMessage = statusMessage;
   }
@@ -36,6 +36,10 @@ BeatItemEntity $BeatItemEntityFromJson(Map<String, dynamic> json) {
   final String? createdAt = jsonConvert.convert<String>(json['createdAt']);
   if (createdAt != null) {
     beatItemEntity.createdAt = createdAt;
+  }
+  final String? timeAgo = jsonConvert.convert<String>(json['timeAgo']);
+  if (timeAgo != null) {
+    beatItemEntity.timeAgo = timeAgo;
   }
   return beatItemEntity;
 }
@@ -50,6 +54,7 @@ Map<String, dynamic> $BeatItemEntityToJson(BeatItemEntity entity) {
   data['statusMessage'] = entity.statusMessage;
   data['isRead'] = entity.isRead;
   data['createdAt'] = entity.createdAt;
+  data['timeAgo'] = entity.timeAgo;
   return data;
 }
 
@@ -63,6 +68,7 @@ extension BeatItemEntityExtension on BeatItemEntity {
     String? statusMessage,
     bool? isRead,
     String? createdAt,
+    String? timeAgo,
   }) {
     return BeatItemEntity()
       ..knockId = knockId ?? this.knockId
@@ -72,6 +78,7 @@ extension BeatItemEntityExtension on BeatItemEntity {
       ..tagName = tagName ?? this.tagName
       ..statusMessage = statusMessage ?? this.statusMessage
       ..isRead = isRead ?? this.isRead
+      ..timeAgo = timeAgo ?? this.timeAgo
       ..createdAt = createdAt ?? this.createdAt;
   }
 }

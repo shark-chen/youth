@@ -9,7 +9,7 @@ import 'package:kellychat/base/base_stateless_widget.dart';
 class InviteTogetherSheetWidget extends BaseStatelessWidget {
   const InviteTogetherSheetWidget({
     super.key,
-    this.inviteCode = '666 999 333',
+    this.inviteCode,
     this.shareLink,
     this.closeTap,
     this.onCopyCode,
@@ -18,7 +18,7 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
   });
 
   /// 展示用口令文案（不含「口令：」前缀也可，内部会加前缀）
-  final String inviteCode;
+  final String? inviteCode;
 
   /// 复制链接用；为空时复制按钮仍可回调，由外部决定
   final String? shareLink;
@@ -36,7 +36,7 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
 
   Future<void> _defaultCopyCode() async {
     await Clipboard.setData(
-        ClipboardData(text: inviteCode.replaceAll(' ', '')));
+        ClipboardData(text: inviteCode?.replaceAll(' ', '') ?? ''));
     EasyLoading.showToast('复制成功');
   }
 
@@ -148,7 +148,7 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
           IconButton(
             onPressed: () {
               if (onCopyCode != null) {
-                onCopyCode!();
+                onCopyCode?.call();
               } else {
                 _defaultCopyCode();
               }

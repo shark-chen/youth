@@ -95,6 +95,19 @@ class DoingListController extends BaseController {
     await pushProfile(userId: '${item?.userId}');
   }
 
+  /// 点击邀请好友
+  Future clickInvitationFriend() async {
+    /// 生成邀约码 · POST /api/invitation/generate-code
+    final inviteFriendEntity = await requestInvitationGenerateCode(
+      invitationType: 1,
+      tagId: vm.value.myDoing?.tagId ?? 0,
+    );
+    if (inviteFriendEntity == null) return;
+
+    /// push - 邀请
+    await pushInviteAlert(inviteFriendEntity);
+  }
+
   /// mark - method
   ///
   /// 获取列表数据源

@@ -223,6 +223,11 @@ class AppConfig {
     return '/api/invitation/send';
   }
 
+  /// 生成邀约码（POST body: inviteChannel, invitationType, tagId, message）
+  static String get postInvitationGenerateCodeUrl {
+    return '/api/invitation/generate-code';
+  }
+
   /// 发起一起做活动（POST body: tagName）
   static String get getTogetherCreateUrl {
     return '/api/together/create';

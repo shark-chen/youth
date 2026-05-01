@@ -87,7 +87,6 @@ class MessagePage extends BasePage<MessageController> {
                         inviteTap: controller.pushInviteAlert,
                       ),
                     );
-                    ;
                   } else if (index == 1) {
                     /// 邀约中的任务view
                     return InviteRecordWidget(
@@ -100,12 +99,13 @@ class MessagePage extends BasePage<MessageController> {
                           .toList(),
                     );
                   } else if (index == 2) {
+                    /// 敲一下记录列表
                     if (Lists.isNotEmpty(controller.vm.value.beatList)) {
                       return MsgCloutWidget(
                         onTap: controller.pushBeatRecordPage,
                         name: controller.vm.value.beatList.first.fromNickname,
-                        cloutNum: '${controller.vm.value.beatList.length ?? 0}',
-                        time: controller.vm.value.beatList.first.createdAt,
+                        cloutNum: '${controller.vm.value.beatList.length}',
+                        time: controller.vm.value.beatList.first.timeAgo,
                       );
                     }
                     return Container();

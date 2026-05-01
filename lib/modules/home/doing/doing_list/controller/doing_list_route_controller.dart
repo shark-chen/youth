@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
 import '../doing_list_controller.dart';
 import '../model/doing_list_entity.dart';
+import '../model/invite_friend_entity.dart';
 import '../view/doing_together_confirm_widget.dart';
 import '../view/invite_together_sheet_widget.dart';
 
@@ -15,16 +16,19 @@ extension DoingListRouteController on DoingListController {
   /// mark - push
   ///
   /// push - 邀请
-  Future<void> pushInviteAlert() async {
+  Future<void> pushInviteAlert(InviteFriendEntity? entity) async {
+    if (entity == null) return;
     final ctx = Get.context;
     if (ctx == null) return;
     await BottomAlert.alerts(
       ctx,
       isDismissible: true,
       wholeCustomWidget: InviteTogetherSheetWidget(
-        inviteCode: '${vm.value.myDoing?.tagId ?? '--'}',
-        shareLink:
-            'https://images.unsplash.com/photo-1538370965046-79c0d6907d47',
+        inviteCode: entity.inviteCode ?? '',
+        shareLink: entity.link ?? '',
+        onWeChatTap: () {
+          EasyLoading.showToast('还打不开微信');
+        },
       ),
     );
   }

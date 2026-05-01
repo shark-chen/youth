@@ -39,7 +39,7 @@ class DoingListPage extends BasePage<DoingListController> {
                 onTap: controller.clickDeleteStatusDoing,
                 child: DoingListHeaderWidget(
                   title: controller.vm.value.myDoing?.tagName ?? '--',
-                  inviteTap: controller.pushInviteAlert,
+                  inviteTap: controller.clickInvitationFriend,
                 ),
               );
             }),
