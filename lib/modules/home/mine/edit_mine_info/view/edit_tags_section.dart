@@ -114,6 +114,34 @@ class _TagRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 6, bottom: 6, left: 12, right: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: ThemeColor.whiteColor.withOpacity(0.05),
+        ),
+      ),
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: ThemeColor.whiteColor,
+              fontSize: 15,
+            ),
+          ),
+          SizedBox(width: 6),
+          Icon(
+            Icons.close,
+            color: ThemeColor.whiteColor,
+            size: 14,
+          ),
+        ],
+      ),
+    );
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Align(
