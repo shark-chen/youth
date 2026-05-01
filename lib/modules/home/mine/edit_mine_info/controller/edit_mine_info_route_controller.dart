@@ -22,6 +22,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
   Future<void> pushEditNiceNameAlert({
     String? title,
     String? text,
+    String? hintText,
     ValueChanged<String>? sureCall,
   }) async {
     final ctx = Get.context;
@@ -39,6 +40,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
           maxLength: 100,
           controller: tec,
           focusNode: focusNode,
+          hintText: hintText,
           closeTap: Get.back,
           sureTap: () => sureCall?.call(tec.text.trim()),
         ),

@@ -22,15 +22,16 @@
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
                                 <rect key="frame" x="87" y="256" width="219" height="68"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="219" id="d5q-5M-xGq"/>
                                     <constraint firstAttribute="height" constant="68" id="jZG-l4-jXP"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.09019607843" green="0.09019607843" blue="0.09019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="0.092773444950000006" green="0.092773444950000006" blue="0.092773444950000006" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="top" secondItem="Ydg-fD-yQy" secondAttribute="bottom" constant="138" id="3FZ-Ca-aNn"/>
+                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="256" id="3FZ-Ca-aNn"/>
                         </constraints>
                     </view>
                 </viewController>

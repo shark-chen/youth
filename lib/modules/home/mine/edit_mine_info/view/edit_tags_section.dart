@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/utils/utils/theme_color.dart';
 
 import 'edit_mine_card.dart';
@@ -40,17 +41,22 @@ class EditTagsSection extends StatelessWidget {
                 ),
                 const Spacer(),
                 if (tags.length < maxTags)
-                  TextButton(
-                    onPressed: onAdd,
-                    child: Text(
-                      '+ 添加',
-                      style: TextStyle(
-                        color: ThemeColor.themeGreenColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
+                  Container(
+                    alignment: Alignment.center,
+                    padding:
+                        EdgeInsets.only(left: 12, right: 14, top: 5, bottom: 5),
+                    decoration: BoxDecoration(
+                      color: ThemeColor.whiteColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(999),
                     ),
-                  ),
+                    child: ButtonIcon(
+                      onTap: onAdd,
+                      title: '添加',
+                      style: TextStyles(color: ThemeColor.white6Color),
+                      path: 'assets/image/common/add@3x.png',
+                      iconSize: Size(16, 16),
+                    ),
+                  )
               ],
             ),
             const SizedBox(height: 6),
@@ -110,29 +116,44 @@ class _TagRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Material(
-        color: ThemeColor.themeColor.withOpacity(0.35),
-        borderRadius: BorderRadius.circular(22),
-        child: ReorderableDragStartListener(
-          index: index,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: IntrinsicWidth(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(999),
+              border: Border.all(
+                color: ThemeColor.whiteColor.withOpacity(0.05),
+              ),
+            ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.drag_handle,
-                  color: ThemeColor.whiteColor.withOpacity(0.35),
-                  size: 22,
+                ReorderableDragStartListener(
+                  index: index,
+                  child: Icon(
+                    Icons.drag_handle,
+                    color: ThemeColor.whiteColor.withOpacity(0.45),
+                    size: 18,
+                  ),
                 ),
                 const SizedBox(width: 6),
-                Expanded(
+                Flexible(
                   child: Text(
                     label,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: ThemeColor.whiteColor,
                       fontSize: 15,
                     ),
                   ),
+                ),
+                const SizedBox(width: 6),
+                Icon(
+                  Icons.close,
+                  color: ThemeColor.whiteColor.withOpacity(0.8),
+                  size: 14,
                 ),
               ],
             ),

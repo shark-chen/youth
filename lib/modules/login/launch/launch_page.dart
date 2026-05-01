@@ -17,23 +17,23 @@ class LaunchPage extends BasePage<LaunchController> {
       backgroundColor: ThemeColor.themeColor,
       body: Container(
         color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.only(top: 300, left: 12, right: 12),
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              Center(
-                child: Text(
-                  LocaleKeys.StartTips.tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: ThemeColor.defaultBlack,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16),
-                ),
-              )
-            ],
-          ),
+        child: Column(
+          children: [
+            const SizedBox(height: 256),
+            Image.asset(
+              "assets/image/common/launch_screen@3x.png",
+              width: screenWidth,
+              height: 68,
+            ),
+            Expanded(child: Container()),
+
+            /// 背景图
+            Image.asset(
+              "assets/image/common/login_bg@3x.png",
+              width: screenWidth,
+              height: 141,
+            ),
+          ],
         ),
       ),
     );

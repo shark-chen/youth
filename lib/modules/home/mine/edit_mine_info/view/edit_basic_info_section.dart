@@ -52,25 +52,21 @@ class EditBasicInfoSection extends StatelessWidget {
               ],
             ),
           ),
-          _divider(),
           _row(
             label: '昵称',
             value: nickname.isEmpty ? '未设置' : nickname,
             onTap: onNickname,
           ),
-          _divider(),
           _row(
             label: '性别',
             value: genderText,
             onTap: onGender,
           ),
-          _divider(),
           _row(
             label: '生日',
             value: birthdayText.isEmpty ? '未设置' : birthdayText,
             onTap: onBirthday,
           ),
-          _divider(),
           _row(
             label: '地区',
             value: regionText.isEmpty ? '未设置' : regionText,
@@ -105,8 +101,8 @@ class EditBasicInfoSection extends StatelessWidget {
   Widget _chevron() {
     return Icon(
       Icons.chevron_right,
-      color: ThemeColor.whiteColor.withOpacity(0.35),
-      size: 22,
+      color: ThemeColor.whiteColor.withOpacity(0.7),
+      size: 24,
     );
   }
 
@@ -129,8 +125,8 @@ class EditBasicInfoSection extends StatelessWidget {
                 child: Text(
                   label,
                   style: TextStyle(
-                    color: ThemeColor.whiteColor.withOpacity(0.85),
-                    fontSize: 16,
+                    color: ThemeColor.whiteColor,
+                    fontSize: 14
                   ),
                 ),
               ),
@@ -148,8 +144,8 @@ class EditBasicInfoSection extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: ThemeColor.whiteColor,
-                                fontSize: 16,
+                                color: ThemeColor.whiteColor.withOpacity(0.7),
+                                fontSize: 14,
                               ),
                             ),
                           ),
