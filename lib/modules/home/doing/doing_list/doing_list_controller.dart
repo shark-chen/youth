@@ -1,13 +1,13 @@
 import 'package:kellychat/base/base_controller.dart';
-
 import '../model/doing_hot_tags_entity.dart';
+import '../model/publish_doing_entity.dart';
 import 'model/doing_list_entity.dart';
 import 'view_model/doing_list_vm.dart';
 import 'controller/doing_list_request_controller.dart';
 export 'controller/doing_list_request_controller.dart';
 import 'controller/doing_list_route_controller.dart';
 export 'controller/doing_list_route_controller.dart';
-import '../doing_nav_ids.dart';
+import '../model/doing_nav_ids.dart';
 
 /// FileName: doing_list_controller
 ///
@@ -16,13 +16,16 @@ import '../doing_nav_ids.dart';
 ///
 /// @Description 正在做的清单-controller
 class DoingListController extends BaseController {
-  DoingListController({this.initialArg});
-
-  /// 来自 nested Navigator 的 RouteSettings.arguments（优先使用）
-  final dynamic initialArg;
+  DoingListController({DoingHotTagsEntity? value}) {
+    vm.value.doingHotTagsEntity = value;
+  }
 
   /// vm
   Rx<DoingListVM> vm = DoingListVM().obs;
+
+  /// 当前嵌套路由栈是否还能 pop（例如底层仍有 DoingPage）
+  bool get canClosePage =>
+      Get.nestedKey(doingNavigatorId)?.currentState?.canPop() ?? false;
 
   @override
   void closePage() {
@@ -33,23 +36,38 @@ class DoingListController extends BaseController {
   void onInit() async {
     super.onInit();
     title = '我正在';
+
+    /// 添加监听事件
+    addEventBusManager();
+
+    /// 刷新数据
+    refreshData();
+  }
+
+  /// 添加监听事件
+  void addEventBusManager() {
+    EventBusManager().listen<PublishDoingEntity>(this, (event) async {
+      /// 刷新数据
+      vm.value.doingHotTagsEntity = DoingHotTagsEntity()
+        ..tagId = event.tagId
+        ..tagName = event.tagName;
+      await refreshData();
+    });
+  }
+
+  /// 刷新数据
+  Future refreshData() async {
     requestMyDoing();
-    final arg = initialArg ?? Get.arguments;
-    if (arg is DoingHotTagsEntity) {
-      vm.value.doingHotTagsEntity = arg;
-      final name = arg.tagName;
-      if (name != null && name.isNotEmpty) {
-        vm.value.activityTitle = name;
-      }
-      final count = arg.userCount;
-      if (count != null) {
-        vm.value.samePeopleCount = count;
-      }
-      vm.refresh();
-      final id = arg.tagId;
-      if (id != null) {
-        await requestStatusDoingByTagId(id);
-      }
+    final value = vm.value.doingHotTagsEntity;
+    if (value == null) return;
+    final name = value.tagName;
+    if (name != null && name.isNotEmpty) {
+      vm.value.activityTitle = name;
+    }
+    vm.value.samePeopleCount = value.userCount ?? 0;
+    vm.refresh();
+    if (value.tagId != null) {
+      await requestStatusDoingByTagId(value.tagId ?? 0);
     }
   }
 
@@ -58,8 +76,11 @@ class DoingListController extends BaseController {
     final result =
         await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
     vm.refresh();
-    if (result) {
-      Future.delayed(Duration(microseconds: 1500), Get.back);
+    if (!result) return;
+    if (canClosePage) {
+      closePage();
+    } else {
+      await pushDoingPage();
     }
   }
 

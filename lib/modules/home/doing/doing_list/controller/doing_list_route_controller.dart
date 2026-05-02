@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
+import '../../model/doing_nav_ids.dart';
 import '../doing_list_controller.dart';
 import '../model/doing_list_entity.dart';
 import '../model/invite_friend_entity.dart';
@@ -13,12 +14,18 @@ import '../view/invite_together_sheet_widget.dart';
 ///
 /// @Description
 extension DoingListRouteController on DoingListController {
-
   /// mark - push
   ///
   /// 个人信息页面
   Future pushUserInfoPage() async {
     await Get.toNamed(Routes.minePage);
+  }
+
+  /// mark - push
+  ///
+  /// push-正在做的清单-页面
+  Future pushDoingPage() async {
+    await Get.toNamed(Routes.doingPage, id: doingNavigatorId);
   }
 
   /// push - 邀请

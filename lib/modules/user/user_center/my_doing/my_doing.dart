@@ -32,7 +32,11 @@ class MyDoing extends BaseUser {
     _doing = null;
   }
 
-  Future<PublishDoingEntity?> get doing async {
+  PublishDoingEntity? get doing  {
+    return _doing;
+  }
+
+  Future<PublishDoingEntity?> get doInfo async {
     _doing ??= await requestMyDoing();
     return _doing;
   }

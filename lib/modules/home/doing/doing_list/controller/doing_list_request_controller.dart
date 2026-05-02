@@ -38,8 +38,11 @@ extension DoingListRequestController on DoingListController {
     final response = await Net.value<Doing>()
         .requestDeleteStatusDoing<dynamic>(statusId: statusId);
     EasyLoading.dismiss();
-    if (response.succeed) {
+    if (response.code == 200) {
       EasyLoading.showToast('已删除');
+      return true;
+    } else if (response.code == 50000) {
+      EasyLoading.showToast(response.msg ?? '');
       return true;
     } else {
       EasyLoading.showToast(response.msg ?? '');

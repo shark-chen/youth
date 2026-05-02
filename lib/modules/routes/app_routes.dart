@@ -42,4 +42,5 @@ abstract class Routes {
   static const editPrivateMessagePage = '/editPrivateMessagePage';
   static const reportPage = '/reportPage';
   static const reportSubmitPage = '/reportSubmitPage';
+  static const doingPage = '/doingPage';
 }

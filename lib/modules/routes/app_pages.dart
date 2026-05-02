@@ -12,6 +12,7 @@ import '../home/mine/privacy_policy/privacy_policy_page.dart';
 import '../home/mine/minor_protection/minor_protection_binding.dart';
 import '../home/mine/minor_protection/minor_protection_page.dart';
 import 'package:get/get.dart';
+
 part 'app_routes.dart';
 
 /// 路由
@@ -81,6 +82,14 @@ class AppPages {
       name: Routes.doingListPage,
       page: () => DoingListPage(),
       binding: DoingListBinding(),
+      transition: Transition.downToUp,
+    ),
+
+    /// 正在做的清单 - 页面
+    GetPage(
+      name: Routes.doingPage,
+      page: () => DoingPage(),
+      binding: DoingBinding(),
       transition: Transition.downToUp,
     ),
 

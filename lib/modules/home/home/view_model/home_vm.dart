@@ -50,17 +50,4 @@ class HomeVm extends BaseVM {
     }
     return barItems;
   }
-
-  /// 获取首页截图
-  Future<ui.Image?> get getHomeScreenshotImage async {
-    ui.Image? screenshotImage;
-    try {
-      RenderRepaintBoundary boundary = screenshotKey.currentContext!
-          .findRenderObject() as RenderRepaintBoundary;
-      screenshotImage = await boundary.toImage(pixelRatio: 3.0);
-    } catch (_) {
-    } finally {
-      return screenshotImage;
-    }
-  }
 }

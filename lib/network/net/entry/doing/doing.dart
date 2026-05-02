@@ -34,7 +34,7 @@ class Doing extends NetMixin<Doing> {
     return await delete<T>(AppConfig.getStatusDoingUrl(statusId));
   }
 
-  /// GET /api/status/my-doing
+  /// request - 我正在做的事情GET /api/status/my-doing
   Future<NetResult<T>> requestMyDoing<T>() async {
     return await get<T>(AppConfig.getStatusMyDoingUrl);
   }

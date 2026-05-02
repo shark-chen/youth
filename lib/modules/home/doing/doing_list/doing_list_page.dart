@@ -23,6 +23,8 @@ class DoingListPage extends BasePage<DoingListController> {
 
   @override
   Widget build(BuildContext context) {
+    /// 刷新数据
+    controller.refreshData();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,

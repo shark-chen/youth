@@ -1,6 +1,3 @@
-// import 'package:gd_sphere/impl/sphere_impl.dart';
-import 'dart:math';
-
 import 'package:kellychat/base/base_page.dart';
 import '../hall/view/input_ai_view.dart';
 import 'doing_controller.dart';
@@ -11,7 +8,7 @@ import 'view/hot_tag_cell.dart';
 /// @Author 谌文
 /// @Date 2026/3/9 14:11
 ///
-/// @Description
+/// @Description 选择你正在做的事情-页面-page
 class DoingPage extends BasePage<DoingController> {
   const DoingPage({Key? key}) : super(key: key);
 
@@ -38,14 +35,16 @@ class DoingPage extends BasePage<DoingController> {
 
             /// 渐变遮罩（关键）
             Positioned.fill(
+              top: 260,
+              bottom: 0,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(0.8),
+                      ThemeColor.themeColor.withOpacity(0.0),
+                      ThemeColor.themeColor,
                     ],
                   ),
                 ),

@@ -15,7 +15,7 @@ import '../model/publish_doing_entity.dart';
 extension DoingRequestController on DoingController {
   /// mark - request
   ///
-  /// GET /api/status/my-doing
+  /// request - 我正在做的事情GET /api/status/my-doing
   Future<void> requestMyDoing() async {
     EasyLoading.show();
     final response =
@@ -58,6 +58,7 @@ extension DoingRequestController on DoingController {
     EasyLoading.dismiss();
     if (response.succeed) {
       vm.refresh();
+      EventBusManager().fire(response.value);
       EasyLoading.showToast('发布成功');
       return response.value;
     } else {
