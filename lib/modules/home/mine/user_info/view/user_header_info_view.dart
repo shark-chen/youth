@@ -1,4 +1,3 @@
-import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// FileName: user_header_info_view
@@ -76,16 +75,19 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  SizedBox(width: 4),
 
                   /// 性别图标
                   Icon(
                     1 == gender ? Icons.male : Icons.female,
-                    color: Colors.blue,
+                    color: 1 == gender
+                        ? ThemeColor.maleIconColor
+                        : ThemeColor.femaleIconColor,
                   ),
                 ],
               ),
               Text(
-                (age ?? '') +'·'+ (address ?? '') + '   IP:${province ?? ''}',
+                (age ?? '') + '·' + (address ?? '') + '   IP:${province ?? ''}',
                 style: TextStyles(
                   color: ThemeColor.whiteColor.withOpacity(0.6),
                 ),

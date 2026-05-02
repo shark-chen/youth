@@ -1,3 +1,5 @@
+import 'package:kellychat/modules/home/doing/doing_list/model/doing_list_entity.dart';
+import 'package:kellychat/modules/home/doing/doing_list/view/doing_together_confirm_widget.dart';
 import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'package:kellychat/base/base_controller.dart';
 
@@ -82,5 +84,30 @@ extension UserInfoRouteController on UserInfoController {
   /// 关于 KellyChat
   Future<void> pushEditMineInfoPage() async {
     await Get.toNamed(Routes.editMineInfoPage);
+  }
+
+  /// push - 一起做 弹框确认alert
+  Future<bool> pushTogetherDoAlert(DoingListList? item) async {
+    var result = false;
+    await Get.dialog(
+      Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: DoingTogetherConfirmWidget(
+            content:
+            '你向「${item?.nickname ?? '--'}」发起的「${item?.nickname ?? '-'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并建立新的一起做。',
+            onCancel: Get.back,
+            onContinue: () async {
+              result = true;
+              Get.back();
+            },
+          ),
+        ),
+      ),
+      barrierDismissible: true,
+    );
+    return result;
   }
 }

@@ -87,8 +87,11 @@ class UserInfoPage extends BasePage<UserInfoController> {
             Visibility(
               visible: controller.vm.value.userId != null,
               child: BottomButton(
-                rightTitle: '聊一聊',
                 leftTitle: '一起做',
+                leftTap: () {
+
+                },
+                rightTitle: '聊一聊',
               ),
             ),
           ],

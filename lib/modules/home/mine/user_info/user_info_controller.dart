@@ -26,10 +26,10 @@ class UserInfoController extends BaseController {
     final userId = vm.value.userId;
     if (userId != null) {
       /// request -他人信息
-      title = '用户资料';
+      title = '用户详情';
       await requestOtherUserProfile(userId);
     } else {
-      title = '我的资料';
+      title = '个人中心';
       await requestUserProfile();
     }
   }
