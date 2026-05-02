@@ -114,76 +114,42 @@ class _TagRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 6, bottom: 6, left: 12, right: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: ThemeColor.whiteColor.withOpacity(0.05),
-        ),
-      ),
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              color: ThemeColor.whiteColor,
-              fontSize: 15,
-            ),
-          ),
-          SizedBox(width: 6),
-          Icon(
-            Icons.close,
-            color: ThemeColor.whiteColor,
-            size: 14,
-          ),
-        ],
-      ),
-    );
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Align(
         alignment: Alignment.centerLeft,
         child: IntrinsicWidth(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(
-                color: ThemeColor.whiteColor.withOpacity(0.05),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ReorderableDragStartListener(
-                  index: index,
-                  child: Icon(
-                    Icons.drag_handle,
-                    color: ThemeColor.whiteColor.withOpacity(0.45),
-                    size: 18,
-                  ),
+          child: ReorderableDelayedDragStartListener(
+            index: index,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(
+                  color: ThemeColor.whiteColor.withOpacity(0.05),
                 ),
-                const SizedBox(width: 6),
-                Flexible(
-                  child: Text(
-                    label,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: ThemeColor.whiteColor,
-                      fontSize: 15,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: Text(
+                      label,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: ThemeColor.whiteColor,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 6),
-                Icon(
-                  Icons.close,
-                  color: ThemeColor.whiteColor.withOpacity(0.8),
-                  size: 14,
-                ),
-              ],
+                  const SizedBox(width: 6),
+                  Icon(
+                    Icons.close,
+                    color: ThemeColor.whiteColor.withOpacity(0.8),
+                    size: 14,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
