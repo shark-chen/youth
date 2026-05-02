@@ -1,6 +1,5 @@
 import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/modules/home/mine/edit_mine_info/view/edit_bottom_actions.dart';
-import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'package:kellychat/widget/input/count_input.dart';
 import 'edit_private_message_controller.dart';
 

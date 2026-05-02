@@ -134,17 +134,8 @@ class User extends NetMixin<User> {
     );
   }
 
-  /// 上传头像（multipart 字段 `file`）
-  Future<NetResult<T>> requestUploadUserAvatar<T>(MultipartFile file) async {
-    final formData = FormData.fromMap(<String, dynamic>{'file': file});
-    return await post<T>(
-      AppConfig.getUserAvatarUrl,
-      data: formData,
-    );
-  }
-
-  /// 使用本地文件路径上传头像
-  Future<NetResult<T>> requestUploadUserAvatarFromPath<T>(
+  /// request - 上传头像
+  Future<NetResult<T>> requestUploadUserAvatar<T>(
     String filePath, {
     String? filename,
   }) async {
@@ -156,28 +147,35 @@ class User extends NetMixin<User> {
         filename?.split('.').last ?? 'png',
       ),
     );
-    return requestUploadUserAvatar<T>(file);
+    return await post<T>(
+      AppConfig.getUserAvatarUrl,
+      data: {'file': file},
+      isFormData: true,
+    );
   }
 
   /// 更新当前登录用户的信息
+  /// avatar: 头像
+  /// nickname：昵称
   /// gender: 性别：0-未知，1-男，2-女
   /// birthday: 生日: 1995-06-15
   /// province: 省份: 广东省
   /// city: 城市
   /// district: 区，县
-  /// nickname / signature / tags / photos：按后端约定可选提交（空则不入参）
   Future<NetResult<T>> requestUpdateUserInfo<T>({
+    String? avatar,
+    String? nickname,
     int? gender,
     String? birthday,
     String? province,
     String? city,
     String? district,
-    String? nickname,
     String? signature,
     List<String>? tags,
     List<String>? photos,
   }) async {
     final Map<String, dynamic> params = <String, dynamic>{};
+    if (avatar != null) params['avatar'] = avatar;
     if (gender != null) params['gender'] = gender;
     if (birthday != null) params['birthday'] = birthday;
     if (province != null) params['province'] = province;
@@ -275,13 +273,17 @@ class User extends NetMixin<User> {
   }
 
   /// 上传图片 · POST /api/user/photo（multipart 字段 `file`）
-  Future<NetResult<T>> requestUploadPhoto<T>({
-    required String filePath,
+  Future<NetResult<T>> requestUploadPhoto<T>(
+    String filePath, {
     String? filename,
   }) async {
     final file = await MultipartFile.fromFile(
       filePath,
       filename: filename,
+      contentType: DioMediaType(
+        'image',
+        filename?.split('.').last ?? 'png',
+      ),
     );
     return await post<T>(
       AppConfig.getUploadPhotoUrl,

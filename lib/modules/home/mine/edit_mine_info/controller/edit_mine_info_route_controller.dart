@@ -73,7 +73,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
           onModifyPasswordTap: () {
             Get.back();
             Future<void>.microtask(() async {
-              await showResetPrivatePasswordConfirmDialog();
+              await pushResetPrivatePasswordConfirmDialog();
             });
           },
         ),
@@ -82,7 +82,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
   }
 
   /// 居中弹框：确认重置私密密码（清空私密信息）
-  Future<void> showResetPrivatePasswordConfirmDialog() async {
+  Future<void> pushResetPrivatePasswordConfirmDialog() async {
     final ctx = Get.context;
     if (ctx == null) return;
     await showDialog<void>(
@@ -93,7 +93,12 @@ extension EditMineInfoRouteController on EditMineInfoController {
         leftTap: () => Navigator.pop(dialogContext),
         rightTap: () async {
           Navigator.pop(dialogContext);
+
+          /// request-重置私密信息密码
           await requestUserPrivateResetPassword();
+
+          /// 请求个人信息数据
+          await requestData();
         },
       ),
     );

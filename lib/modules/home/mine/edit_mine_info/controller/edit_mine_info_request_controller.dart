@@ -14,24 +14,42 @@ import 'package:kellychat/base/base_controller.dart';
 /// @Description
 extension EditMineInfoReuestController on EditMineInfoController {
   /// request - 上传图片
-  Future<String?> requestUploadPhoto(String path) async {
+  Future<ImageLinksEntity?> requestUploadPhoto(String path) async {
     if (Strings.isEmpty(path)) return null;
     EasyLoading.show();
-    final response = await Net.value<User>()
-        .requestUploadUserAvatarFromPath<ImageLinksEntity>(
+    final response =
+        await Net.value<User>().requestUploadPhoto<ImageLinksEntity>(
       path,
       filename: path.split('/').last,
     );
     EasyLoading.dismiss();
     if (response.succeed) {
-      return response.value?.url ?? '';
+      return response.value;
     } else {
-      EasyLoading.showToast('头像上传失败');
+      EasyLoading.showToast('上传失败');
       return null;
     }
   }
 
-  /// 获取当前登录用户的信息
+  /// request - 上传头像
+  Future<ImageLinksEntity?> requestUploadUserAvatar(String path) async {
+    if (Strings.isEmpty(path)) return null;
+    EasyLoading.show();
+    final response =
+        await Net.value<User>().requestUploadUserAvatar<ImageLinksEntity>(
+      path,
+      filename: path.split('/').last,
+    );
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      return response.value;
+    } else {
+      EasyLoading.showToast('上传失败');
+      return null;
+    }
+  }
+
+  /// request - 获取用户信息
   Future requestUserInfo() async {
     EasyLoading.show();
     final response = await Net.value<User>().cache<UserInfoEntity>((value) {
@@ -101,8 +119,8 @@ extension EditMineInfoReuestController on EditMineInfoController {
     required String password,
   }) async {
     EasyLoading.show();
-    final response =
-        await Net.value<User>().requestUserPrivateVerify<String>(password: password);
+    final response = await Net.value<User>()
+        .requestUserPrivateVerify<String>(password: password);
     EasyLoading.dismiss();
     if (response.success) {
       vm.value.userPrivateInfoEntity?.wishDescription = response.value;
@@ -134,7 +152,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// 重置私密信息密码 · POST /api/user/private/reset-password（无参数）
+  /// request-重置私密信息密码
   Future<bool> requestUserPrivateResetPassword() async {
     EasyLoading.show();
     final response = await Net.value<User>().requestUserPrivateResetPassword();
@@ -153,24 +171,15 @@ extension EditMineInfoReuestController on EditMineInfoController {
 
   /// 落库：先头像再 PUT 资料
   Future<String?> requestSavePersistProfile() async {
-    vm.value.syncSignatureFromInput();
-    final url =
-        await requestUploadPhoto(vm.value.draft.pendingAvatarLocalPath ?? '');
-    if (Strings.isNotEmpty(url)) {
-      vm.value.draft.pendingAvatarLocalPath = null;
-      vm.value.draft.avatarUrl = url ?? '';
-    }
     final remotePhotos = vm.value.draft.remotePhotoUrls();
     final response = await Net.value<User>().requestUpdateUserInfo<dynamic>(
+      avatar: vm.value.draft.avatarUrl,
+      nickname: vm.value.draft.nickname,
       gender: vm.value.draft.gender,
       birthday: vm.value.draft.birthday,
       province: vm.value.draft.province,
       city: vm.value.draft.city,
       district: vm.value.draft.district,
-      nickname:
-          vm.value.draft.nickname.isEmpty ? null : vm.value.draft.nickname,
-      signature:
-          vm.value.draft.signature.isEmpty ? null : vm.value.draft.signature,
       photos: remotePhotos.isEmpty ? null : remotePhotos,
     );
     if (!response.success) {

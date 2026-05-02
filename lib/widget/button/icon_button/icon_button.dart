@@ -25,6 +25,7 @@ class ButtonIcon extends StatelessWidget {
     this.alignment = LayoutPattern.leftRight,
     this.textAlignment,
     this.path,
+    this.icon,
     this.iconSize,
     this.iconColor,
     this.space = 2,
@@ -48,6 +49,9 @@ class ButtonIcon extends StatelessWidget {
 
   /// 图片资源
   final String? path;
+
+  /// 系统图标
+  final Widget? icon;
 
   /// 点击事件
   final VoidCallback? onTap;
@@ -108,6 +112,7 @@ class ButtonIcon extends StatelessWidget {
             height: iconSize?.height ?? 12,
             color: iconColor),
       ),
+      if (icon != null) icon ?? SizedBox(),
       (alignment == LayoutPattern.leftRight ||
               alignment == LayoutPattern.rightLeft)
           ? SizedBox(width: space ?? 2)

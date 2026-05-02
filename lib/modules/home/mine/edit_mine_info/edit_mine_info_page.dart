@@ -43,7 +43,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                       genderText: v.genderDisplay(),
                       birthdayText: d.birthday ?? '',
                       regionText: v.regionDisplay(),
-                      onAvatar: controller.onAvatarTap,
+                      onAvatar: controller.clickUpdateAvatarTap,
                       onNickname: controller.clickEditNiceName,
                       onGender: controller.pushEditGenderAlert,
                       onBirthday: controller.onBirthdayTap,
@@ -80,17 +80,9 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
 
                     /// 密码设置
                     EditPrivateSection(
-                      privateContent: controller
-                          .vm.value.userPrivateInfoEntity?.wishDescription,
+                      hasPassword: controller
+                          .vm.value.draft.hasPrivateContent,
                       onAiTap: controller.clickAddPrivacyMessage,
-                      passwordHint:
-                          true == controller.vm.value.draft.hasPrivateContent
-                              ? ''
-                              : '未设置过密码',
-                      passwordBtnTitle:
-                          true == controller.vm.value.draft.hasPrivateContent
-                              ? '修改密码'
-                              : '设置密码',
                       onChangePasswordTap: controller.clickModifyPassword,
                     ),
                     const SizedBox(height: 80),
@@ -102,8 +94,8 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
           Obx(
             () => EditBottomActions(
               saveEnable: controller.requesting.value,
-              onCancel: controller.onCancel,
-              onSave: controller.onSave,
+              onCancel: controller.closePage,
+              onSave: controller.clickSave,
             ),
           ),
         ],

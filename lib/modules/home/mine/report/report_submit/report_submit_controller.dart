@@ -74,18 +74,18 @@ class ReportSubmitController extends BaseController {
     imagePaths.removeAt(index);
   }
 
-  /// 上传单张图片（与 [EditMineInfoReuestController.requestUploadPhoto] 一致，不在此重复 EasyLoading）
+  /// 上传单张图片（与 ] 一致，不在此重复 EasyLoading）
   Future<String?> _requestUploadPhoto(String path) async {
     if (Strings.isEmpty(path)) return null;
-    final response = await Net.value<User>()
-        .requestUploadUserAvatarFromPath<ImageLinksEntity>(
-      path,
-      filename: path.split('/').last,
-    );
-    if (response.succeed) {
-      return response.value?.url ?? '';
-    }
-    EasyLoading.showToast('图片上传失败');
+    // final response = await Net.value<User>()
+    //     .requestUploadUserAvatarFromPath<ImageLinksEntity>(
+    //   path,
+    //   filename: path.split('/').last,
+    // );
+    // if (response.succeed) {
+    //   return response.value?.url ?? '';
+    // }
+    // EasyLoading.showToast('图片上传失败');
     return null;
   }
 

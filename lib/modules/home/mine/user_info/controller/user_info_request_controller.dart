@@ -103,28 +103,4 @@ extension UserInfoRequestController on UserInfoController {
       EasyLoading.showToast(response.msg ?? '');
     }
   }
-
-  /// mark - request
-  ///
-  /// 上传头像 · POST /api/user/avatar（multipart 字段 `file`）
-  Future<void> requestUploadAvatar(String filePath, {String? filename}) async {
-    if (vm.value.userId != null) {
-      EasyLoading.showToast('仅可修改自己的头像');
-      return;
-    }
-    if (filePath.isEmpty) {
-      EasyLoading.showToast('请选择图片');
-      return;
-    }
-    EasyLoading.show();
-    final response = await Net.value<User>()
-        .requestUploadUserAvatarFromPath<dynamic>(filePath, filename: filename);
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      EasyLoading.showToast('上传成功');
-      await requestUserProfile();
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-    }
-  }
 }

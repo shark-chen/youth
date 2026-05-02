@@ -21,8 +21,7 @@ class EditPrivateMessageVM extends BaseVM {
     editingController
       ?..addListener(() {
         /// 修改了内容，可以保存啦
-        if (Strings.isNotEmpty(editingController?.text) &&
-            editingController?.text != editPrivateModel?.content) {
+        if (editingController?.text != editPrivateModel.content) {
           saveEnable = true;
         } else {
           saveEnable = false;

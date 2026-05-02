@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kellychat/base/base_vm.dart';
 import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
+import 'package:kellychat/tripartite_library/image_picker/images_picker.dart';
 import 'package:kellychat/utils/authority/photos_authority.dart';
 import 'package:kellychat/widget/region_picker/region_picker_data.dart';
 import 'package:kellychat/widget/region_picker/region_picker_sheet.dart';
@@ -16,6 +17,8 @@ import '../model/edit_profile_draft.dart';
 import '../model/edit_region_indices.dart';
 import '../model/image_links_entity.dart';
 import '../model/user_private_info_entity.dart';
+import 'edit_mine_info_image_vm.dart';
+export 'edit_mine_info_image_vm.dart';
 
 /// FileName: edit_mine_info_vm
 ///
@@ -31,23 +34,11 @@ class EditMineInfoVM extends BaseVM {
 
   List<RegionProvince>? _cachedProvinces;
 
-  final ImagePicker _imagePicker = ImagePicker();
+  /// 新上传的图片资源
+  final List<ImageLinksEntity> newImageLinks = [];
 
   /// 私密信息
   UserPrivateInfoEntity? userPrivateInfoEntity;
-
-  /// 相册选图：关闭 Loading、下一帧再调起，避免遮罩/重建与系统相册冲突；iOS 关闭全量元数据以减轻卡死
-  Future<XFile?> _pickImageFromGallery({
-    int imageQuality = 85,
-  }) async {
-    return await _imagePicker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 2048,
-      maxHeight: 2048,
-      imageQuality: imageQuality,
-      requestFullMetadata: false,
-    );
-  }
 
   @override
   void onInit() {
@@ -169,6 +160,7 @@ class EditMineInfoVM extends BaseVM {
     );
   }
 
+  /// 拖拽标签
   void reorderTags(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) newIndex -= 1;
     if (oldIndex < 0 ||
@@ -182,6 +174,7 @@ class EditMineInfoVM extends BaseVM {
     refresh?.call();
   }
 
+  /// 添加标签
   void addTag(String raw) {
     final t = raw.trim();
     if (t.isEmpty) return;
@@ -199,23 +192,25 @@ class EditMineInfoVM extends BaseVM {
     refresh?.call();
   }
 
-  Future<void> pickAvatarFile() async {
+  /// 添加头像
+  Future<XFile?> pickAvatarFile() async {
     try {
-      if (!await PhotosAuthority.request()) return;
-      final x = await _pickImageFromGallery(imageQuality: 90);
-      if (x == null) return;
+      final x = await ImagesPicker().pickImageFromGallery();
+      if (x == null) return null;
       draft.pendingAvatarLocalPath = x.path;
       refresh?.call();
+      return x;
     } catch (_) {
       EasyLoading.showToast('选择图片失败');
+      return null;
     }
   }
 
+  /// 添加图片墙
   Future<XFile?> pickPhotoFile() async {
     if (draft.photos.length >= EditProfileDraft.maxPhotos) return null;
     try {
-      if (!await PhotosAuthority.request()) return null;
-      final x = await _pickImageFromGallery(imageQuality: 88);
+      final x = await ImagesPicker().pickImageFromGallery();
       if (x == null) return null;
       return x;
     } catch (_) {
