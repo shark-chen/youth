@@ -130,7 +130,7 @@ class EditMineInfoController extends BaseController {
   Future<void> clickAddTags() async {
     await pushEditNiceNameAlert(
       title: '编辑标签',
-      hintText: '请输入标签',
+      hintText: '请输入标签...',
       sureCall: (value) async {
         if (Strings.isEmpty(value)) {
           EasyLoading.showToast('请输入标签');
