@@ -1235,10 +1235,9 @@ packages:
   stomp_dart_client:
     dependency: "direct main"
     description:
-      name: stomp_dart_client
-      sha256: "244a243c8d56dd1a64e5d27f599d7d6077866267aff506f9dd9e60630c41cba7"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "packages/stomp_dart_client"
+      relative: true
+    source: path
     version: "2.0.0"
   stream_channel:
     dependency: transitive

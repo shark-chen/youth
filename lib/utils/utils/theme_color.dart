@@ -213,6 +213,9 @@ class ThemeColor {
   /// 「一起做」等次级胶囊按钮底
   static const Color doingListTogetherBgColor = Color(0xFF3A3A3C);
   static const Color themeGreenColor = Color(0xFF10FF93);
+
+  /// 协议勾选等：选中态霓虹薄荷底（勾号用深色如 [themeBlackColor]）
+  static const Color neonMintCheckboxFillColor = Color(0xFF50FFAB);
   static const Color themeBlackColor = Color(0xFF030303);
   static const Color themeA2Color = Color(0xFFA2A2A2);
   static const Color poolBlueColor = Color(0xFFE1F7FF);

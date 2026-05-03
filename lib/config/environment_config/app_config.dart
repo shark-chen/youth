@@ -25,14 +25,35 @@ class AppConfig {
     return config.env();
   }
 
-  static String get apiHost {
-    return config.apiHost().trim();
+  /// 去掉非法显式端口（如 `:0`）。`stomp_dart_client` SockJS 会把 `Uri.port` 写进 `wss://…:port/…`，
+  /// `:0` 会导致「was not upgraded to websocket」；对完整 `https://host:0/ws/chat?…` 同样生效。
+  static String normalizeHttpOrHttpsUrl(String raw) {
+    final trimmed = raw.trim();
+    if (trimmed.isEmpty) return trimmed;
+    final uri = Uri.tryParse(trimmed);
+    if (uri == null || uri.host.isEmpty) return trimmed;
+    if (uri.scheme != 'http' && uri.scheme != 'https') return trimmed;
+    if (!uri.hasPort || uri.port != 0) return trimmed;
+    return Uri(
+      scheme: uri.scheme,
+      userInfo: uri.userInfo.isEmpty ? null : uri.userInfo,
+      host: uri.host,
+      path: uri.path,
+      query: uri.query.isEmpty ? null : uri.query,
+      fragment: uri.fragment.isEmpty ? null : uri.fragment,
+    ).toString();
   }
 
-  /// IM SockJS/STOMP endpoint path（对齐 `websocket-test.html`）
+  static String get apiHost {
+    return normalizeHttpOrHttpsUrl(config.apiHost().trim());
+  }
+
+  /// IM SockJS/STOMP endpoint path（与后端 `addEndpoint("/ws/chat").withSockJS()` 及
+  /// `tools/websocket-test.html` 默认 `http://…/ws/chat` 一致）
   static String get imWsPath => '/ws/chat';
 
-  /// 构建 IM SockJS URL（SockJS 连接使用 http/https，不是 ws/wss）
+  /// 构建 IM SockJS 入口 URL（**http/https**，与 `StompConfig.sockJS` 一致）。
+  /// 对外文档若写 `ws://…/ws/chat` 多指传输层口语；SockJS 客户端须用本 URL 形态，由库协商 ws/wss。
   static String buildImSockJsUrl({
     required String token,
     String tokenKey = 'token',
@@ -44,20 +65,22 @@ class AppConfig {
       tokenKey: token,
       ...?extraQuery,
     };
-    return base
-        .replace(
-          path: (path ?? imWsPath),
-          queryParameters: query,
-        )
-        .toString();
+    return normalizeHttpOrHttpsUrl(
+      base
+          .replace(
+            path: (path ?? imWsPath),
+            queryParameters: query,
+          )
+          .toString(),
+    );
   }
 
   static String get clientHost {
-    return config.clientHost().trim();
+    return normalizeHttpOrHttpsUrl(config.clientHost().trim());
   }
 
   static String get blogHost {
-    return config.blogHost().trim();
+    return normalizeHttpOrHttpsUrl(config.blogHost().trim());
   }
 
   static String get getAppNewVersion {

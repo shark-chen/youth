@@ -6,7 +6,8 @@ import 'package:kellychat/config/environment_config/app_config.dart';
 
 import 'im_models.dart';
 
-/// SockJS + STOMP IM 客户端（对齐 `tools/websocket-test.html`）
+/// SockJS + STOMP IM 客户端（对齐后端 `tools/websocket-test.html`：`http(s)://…/ws/chat?token=`，
+/// 勿将入口 URL 改成 `ws://`；与 [AppConfig.buildImSockJsUrl] 配套使用）
 class StompImClient {
   static final StompImClient _instance = StompImClient._();
 
@@ -59,13 +60,14 @@ class StompImClient {
 
   Future<void> connectSockJsUrl(String sockJsUrl) async {
     _manualDisconnect = false;
-    _lastSockJsUrl = sockJsUrl;
+    final url = AppConfig.normalizeHttpOrHttpsUrl(sockJsUrl.trim());
+    _lastSockJsUrl = url;
     _cancelReconnect();
     _setState(ImConnectionState.connecting);
 
     _client = StompClient(
       config: StompConfig.sockJS(
-        url: sockJsUrl,
+        url: url,
         onConnect: _onConnect,
         onWebSocketError: (dynamic err) {
           print(err);

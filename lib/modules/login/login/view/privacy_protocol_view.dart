@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../generated/locales.g.dart';
+import 'package:kellychat/base/base_controller.dart';
 import '../../../../utils/utils/theme_color.dart';
 
 /// FileName privacy_protocol_view
@@ -37,18 +37,34 @@ class PrivacyProtocolWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            child: Checkbox(
-              checkColor: ThemeColor.themeGreenColor,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(14)),
+          Padding(
+            padding: EdgeInsets.only(top: 0),
+            child: SizedBox(
+              width: 16,
+              height: 16,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: Checkbox(
+                  checkColor: ThemeColor.themeBlackColor,
+                  fillColor: MaterialStateProperty.resolveWith((states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return ThemeColor.neonMintCheckboxFillColor;
+                    }
+                    return Colors.transparent;
+                  }),
+                  shape: const CircleBorder(),
+                  side: const BorderSide(
+                    color: ThemeColor.themeA2Color,
+                    width: 1.2,
+                  ),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
+                  onChanged: selectTap,
+                  value: selected,
+                ),
               ),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              visualDensity: const VisualDensity(
-                  horizontal: VisualDensity.minimumDensity,
-                  vertical: VisualDensity.minimumDensity),
-              onChanged: selectTap,
-              value: selected,
             ),
           ),
           SizedBox(width: 4),
@@ -62,7 +78,7 @@ class PrivacyProtocolWidget extends StatelessWidget {
                   TextSpan(
                     text: " ${'《用户协议》'.tr}",
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       color: ThemeColor.themeGreenColor,
                     ),
                     recognizer: TapGestureRecognizer()
@@ -78,7 +94,7 @@ class PrivacyProtocolWidget extends StatelessWidget {
                   TextSpan(
                     text: '《隐私政策》'.tr,
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       color: ThemeColor.themeGreenColor,
                     ),
                     recognizer: TapGestureRecognizer()
@@ -94,7 +110,7 @@ class PrivacyProtocolWidget extends StatelessWidget {
                   TextSpan(
                     text: '《未成年人个人信息保护规则》'.tr,
                     style: const TextStyle(
-                      fontSize: 13,
+                      fontSize: 12,
                       color: ThemeColor.themeGreenColor,
                     ),
                     recognizer: TapGestureRecognizer()

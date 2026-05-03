@@ -20,8 +20,10 @@ class ServiceAlterController extends BaseController {
   /// 保存服务配置
   void saveServiceConfig() {
     if (AppConfig.env == Environment.prod) return;
-    AppConfig.config.configModel?.serverHost = vm.value.serverController.text;
-    AppConfig.config.configModel?.clientHost = vm.value.htmlController.text;
+    AppConfig.config.configModel?.serverHost =
+        AppConfig.normalizeHttpOrHttpsUrl(vm.value.serverController.text);
+    AppConfig.config.configModel?.clientHost =
+        AppConfig.normalizeHttpOrHttpsUrl(vm.value.htmlController.text);
     Get.back();
   }
 }
