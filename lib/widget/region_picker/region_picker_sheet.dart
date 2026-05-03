@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kellychat/utils/marco/marco.dart';
+import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/utils/utils.dart';
 import 'package:kellychat/utils/utils/theme_color.dart';
 import 'region_picker_data.dart';
-import 'package:get/get.dart';
 
 /// 当前选中的省 / 市 / 区（仅展示用快照）
 class RegionPickerSelection {
@@ -19,12 +19,13 @@ class RegionPickerSelection {
 
 /// 省市区底部选择面板（纯 UI，数据由 [provinces] 传入）
 ///
-/// 使用示例：
+/// 须由父级在 [showModalBottomSheet] 中配合 [isScrollControlled] 与固定高度包一层，
+/// 使本组件内 [Column] 获得有限高度，避免底部溢出。
 class RegionPickerSheet extends StatefulWidget {
   const RegionPickerSheet({
     super.key,
     required this.provinces,
-    this.title = '设置地区',
+    this.title = '选择地区',
     this.initialProvinceIndex = 0,
     this.initialCityIndex = 0,
     this.initialDistrictIndex,
@@ -37,11 +38,7 @@ class RegionPickerSheet extends StatefulWidget {
   final String title;
   final int initialProvinceIndex;
   final int initialCityIndex;
-
-  /// 为 `null` 时不预选任何区，需用户手动点选
   final int? initialDistrictIndex;
-
-  /// 0 省 / 1 市 / 2 区，与设计稿一致可传 2
   final int initialTabIndex;
   final VoidCallback onClose;
   final void Function(RegionPickerSelection selection)? onSelectionChanged;
@@ -58,8 +55,6 @@ class _RegionPickerSheetState extends State<RegionPickerSheet> {
   late int _tabIndex;
   late int _provinceIndex;
   late int _cityIndex;
-
-  /// `null` 表示尚未选择区，列表不显示勾选
   int? _districtIndex;
 
   @override
@@ -221,43 +216,53 @@ class _RegionPickerSheetState extends State<RegionPickerSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).padding.bottom;
     final options = _currentOptions();
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(child: Container()),
-        Container(
-          width: Get.width,
-          height: Get.height - (44 + topPadding + 20 + 200),
-          decoration: BoxDecoration(
-              // color: ThemeColor.themeBlackColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.0),
-                  topRight: Radius.circular(16.0))),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              _Header(
-                title: widget.title,
-                onClose: widget.onClose,
-              ),
-              Container(
-                width: double.infinity,
-                color: RegionPickerSheet._tabBarBg,
-                child: _TabBar(
-                  selection: _selection,
-                  tabIndex: _tabIndex,
-                  onTab: _setTab,
-                  accent: RegionPickerSheet._accent,
+    return Material(
+      color: Colors.transparent,
+      child: Container(
+        width: double.infinity,
+        clipBehavior: Clip.antiAlias,
+        decoration: const BoxDecoration(
+          color: ThemeColor.textBlackColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _Header(
+              title: widget.title,
+              onClose: widget.onClose,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 16, right: 16),
+              decoration: BoxDecoration(
+                color: ThemeColor.three2EColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
                 ),
               ),
-              Container(
-                height: 450,
+              child: _TabBar(
+                selection: _selection,
+                tabIndex: _tabIndex,
+                onTab: _setTab,
+                accent: RegionPickerSheet._accent,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                margin:
+                    EdgeInsets.only(left: 16, right: 16, bottom: bottomPadding),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: ThemeColor.three2EColor,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                ),
                 width: double.infinity,
-                color: RegionPickerSheet._listBg,
                 child: options.isEmpty
                     ? const Center(
                         child: Text(
@@ -269,7 +274,7 @@ class _RegionPickerSheetState extends State<RegionPickerSheet> {
                         ),
                       )
                     : ListView.builder(
-                        padding: EdgeInsets.only(bottom: bottom + 8),
+                        padding: const EdgeInsets.only(bottom: 8),
                         itemCount: options.length,
                         itemBuilder: (context, index) {
                           final label = options[index];
@@ -283,10 +288,10 @@ class _RegionPickerSheetState extends State<RegionPickerSheet> {
                         },
                       ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -303,7 +308,7 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 8, 12),
+      padding: const EdgeInsets.fromLTRB(20, 14, 8, 8),
       child: Row(
         children: [
           Expanded(
@@ -318,7 +323,11 @@ class _Header extends StatelessWidget {
           ),
           IconButton(
             onPressed: onClose,
-            icon: const Icon(Icons.close, color: Colors.white, size: 22),
+            icon: Icon(
+              Icons.close,
+              color: Colors.white.withOpacity(0.85),
+              size: 22,
+            ),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
           ),
@@ -441,14 +450,17 @@ class _RegionListTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         child: Row(
           children: [
-            SizedBox(
-              width: 28,
-              child: checked
-                  ? Icon(Icons.check_rounded, color: accent, size: 22)
-                  : const SizedBox.shrink(),
+            Visibility(
+              visible: checked,
+              child: SizedBox(
+                width: 28,
+                child: checked
+                    ? Icon(Icons.check_rounded, color: accent, size: 22)
+                    : const SizedBox.shrink(),
+              ),
             ),
             Expanded(
               child: Text(

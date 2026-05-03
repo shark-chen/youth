@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:kellychat/modules/routes/app_pages.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
@@ -149,22 +150,30 @@ extension EditMineInfoRouteController on EditMineInfoController {
     if (ctx == null) return;
     final provinces = await vm.value.loadProvinces();
     if (Lists.isEmpty(provinces)) return;
-    await showModalBottomSheet(
+    final h = MediaQuery.sizeOf(ctx).height;
+    await showModalBottomSheet<void>(
       context: ctx,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return RegionPickerSheet(
-          provinces: provinces ?? [],
-          onClose: Get.back,
-          onSelectionChanged: (s) async {
-            print(s);
-            if (Strings.isNotEmpty(s.district)) {
+        return SizedBox(
+          height: h * 0.65,
+          child: RegionPickerSheet(
+            title: '选择地区',
+            provinces: provinces ?? [],
+            onClose: Get.back,
+            onSelectionChanged: (s) {
+              if (!Strings.isNotEmpty(s.district)) {
+                EasyLoading.showToast('请选择区县');
+                return;
+              }
               vm.value.draft.province = s.province;
               vm.value.draft.city = s.city;
               vm.value.draft.district = s.district;
               vm.refresh();
               Get.back();
-            }
-          },
+            },
+          ),
         );
       },
     );

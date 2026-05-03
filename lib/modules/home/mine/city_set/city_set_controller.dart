@@ -117,20 +117,27 @@ class CitySetController extends BaseController {
     if (ctx == null) return;
     var provinces = await vm.value.cachedProvinces;
     if (Lists.isEmpty(provinces)) return;
-    await showDialog(
+    final h = MediaQuery.sizeOf(ctx).height;
+    await showModalBottomSheet<void>(
       context: ctx,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
-        return RegionPickerSheet(
-          provinces: provinces!,
-          onClose: Get.back,
-          onSelectionChanged: (s) async {
-            print(s);
-            vm.value.selectRegion = s;
-            if (Strings.isNotEmpty(vm.value.selectRegion?.district)) {
+        return SizedBox(
+          height: h * 0.85,
+          child: RegionPickerSheet(
+            title: '选择城市',
+            provinces: provinces!,
+            onClose: () => Get.back(),
+            onSelectionChanged: (s) {
+              if (!Strings.isNotEmpty(s.district)) {
+                return;
+              }
+              vm.value.selectRegion = s;
+              vm.refresh();
               Get.back();
-            }
-            vm.refresh();
-          },
+            },
+          ),
         );
       },
     );
