@@ -51,7 +51,7 @@ class EditProfileDraft {
 
   static const int maxTags = 10;
   static const int maxSignatureLength = 30;
-  static const int maxPhotos = 4;
+  static const int maxPhotos = 9;
   static const int profileCardTagCount = 3;
   static const int profileCardPhotoCount = 3;
 

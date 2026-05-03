@@ -29,7 +29,8 @@ require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelpe
 flutter_ios_podfile_setup
 
 target 'Runner' do
-  use_frameworks!
+  # 静态链接，避免 image_cropper → TOCropViewController 等与动态 use_frameworks! 的链接/头文件问题
+  use_frameworks! :linkage => :static
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
@@ -47,6 +48,8 @@ post_install do |installer|
     # Start of the permission_handler configuration
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+      # 第三方源码（如 libwebp）在新 Clang 下易产生告警；勿因告警当错误导致整工程失败
+      config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS'] = 'NO'
 
       # You can enable the permissions needed here. For example to enable camera
       # permission, just remove the `#` character in front so it looks like this:

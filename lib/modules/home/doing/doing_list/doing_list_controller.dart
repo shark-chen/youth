@@ -80,12 +80,14 @@ class DoingListController extends BaseController {
 
   /// 点击删除我正在做的事
   Future clickDeleteStatusDoing() async {
+    final confirm = await pushCancelDoingDialog();
+    if (!confirm) return;
     final result =
         await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
     vm.refresh();
     if (!result) return;
     if (canClosePage) {
-      closePage();
+      Future.delayed(Duration(microseconds: 1500), closePage);
     } else {
       await pushDoingPage();
     }

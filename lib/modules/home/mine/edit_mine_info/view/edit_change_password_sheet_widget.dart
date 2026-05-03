@@ -9,6 +9,7 @@ class EditChangePasswordSheetWidget extends StatefulWidget {
   const EditChangePasswordSheetWidget({
     super.key,
     this.title,
+    this.content,
     this.closeTap,
     this.onConfirm,
     this.showResetPassword,
@@ -17,6 +18,9 @@ class EditChangePasswordSheetWidget extends StatefulWidget {
 
   /// 标题
   final String? title;
+
+  /// 内容
+  final String? content;
 
   final VoidCallback? closeTap;
 
@@ -115,7 +119,7 @@ class _EditChangePasswordSheetWidgetState
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '请输入当前的6位 数字密码',
+                  widget.content ?? '请输入当前的6位 数字密码',
                   style: TextStyle(
                     color: ThemeColor.white6Color,
                     fontSize: 14,

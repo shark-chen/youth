@@ -71,6 +71,7 @@ class EditMineInfoController extends BaseController {
     final hasPrivateContent = true == vm.value.draft.hasPrivateContent;
     await pushPasswordAlert(
       title: hasPrivateContent ? '验证密码' : '设置密码',
+      content: hasPrivateContent ? '请输入当前的6位数字密码' : '使用前，请先设置6位数字密码',
       onConfirm: (password) async {
         if (hasPrivateContent) {
           /// 验证私密信息密码
@@ -100,12 +101,14 @@ class EditMineInfoController extends BaseController {
   Future clickModifyPassword() async {
     await pushPasswordAlert(
       title: '验证密码',
+      content: '请输入当前的6位数字密码',
       onConfirm: (oldPassword) async {
         /// 验证私密信息密码
         final check = await requestUserPrivateVerify(password: oldPassword);
         if (check) {
           await pushPasswordAlert(
-            title: '更新尼玛',
+            title: '更新密码',
+            content: '请输入新的6位数字密码',
             onConfirm: (newPassword) async {
               /// 第一次设置私密
               await requestUpdateUserPrivatePassword(

@@ -195,7 +195,7 @@ class EditMineInfoVM extends BaseVM {
   /// 添加头像
   Future<XFile?> pickAvatarFile() async {
     try {
-      final x = await ImagesPicker().pickImageFromGallery();
+      final x = await ImagesPicker().pickImageFromGalleryThenEdit(Get.context!);
       if (x == null) return null;
       draft.pendingAvatarLocalPath = x.path;
       refresh?.call();

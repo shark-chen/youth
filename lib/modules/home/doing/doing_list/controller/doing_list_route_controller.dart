@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/home/mine/edit_mine_info/view/edit_reset_private_password_confirm_dialog.dart';
 import '../../model/doing_nav_ids.dart';
 import '../doing_list_controller.dart';
 import '../model/doing_list_entity.dart';
@@ -74,6 +75,28 @@ extension DoingListRouteController on DoingListController {
         ),
       ),
       barrierDismissible: true,
+    );
+    return result;
+  }
+
+  /// push - 取消正在做的事情状态
+  Future<bool> pushCancelDoingDialog() async {
+    final ctx = Get.context;
+    if (ctx == null) return false;
+    var result = false;
+    await showDialog<void>(
+      context: ctx,
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => DialogAlertWidget(
+        content: '是否移除当前状态',
+        leftTap: Get.back,
+        rightTitle: '确定',
+        rightTap: () async {
+          result = true;
+          Get.back();
+        },
+      ),
     );
     return result;
   }

@@ -60,12 +60,14 @@ class MinePage extends BasePage<MineController> {
                                 if (controller.userProfile?.gender == 1) ...[
                                   const SizedBox(width: 4),
                                   const Icon(Icons.male,
-                                      size: 20, color: Color(0xFF5AC8FA)),
+                                      size: 20,
+                                      color: ThemeColor.maleIconColor),
                                 ] else if (controller.userProfile?.gender ==
                                     2) ...[
                                   const SizedBox(width: 4),
                                   const Icon(Icons.female,
-                                      size: 20, color: Color(0xFFFF2D55)),
+                                      size: 20,
+                                      color: ThemeColor.femaleIconColor),
                                 ],
                               ],
                             ),

@@ -56,6 +56,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
   /// push - 更改密码（6 位数字 + 修改密码入口）
   Future<void> pushPasswordAlert({
     required String title,
+    required String content,
     required ValueChanged<String> onConfirm,
   }) async {
     final ctx = Get.context;
@@ -66,6 +67,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
       wholeCustomWidget: SafeArea(
         child: EditChangePasswordSheetWidget(
           title: title,
+          content: content,
           closeTap: Get.back,
           showResetPassword: vm.value.draft.hasPrivateContent,
           onConfirm: (password) {
