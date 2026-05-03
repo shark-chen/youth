@@ -28,7 +28,7 @@ class DoingListController extends BaseController {
       Get.nestedKey(doingNavigatorId)?.currentState?.canPop() ?? false;
 
   @override
-  void closePage() {
+  void closePage<T>({T? result}) {
     Get.back(id: doingNavigatorId);
   }
 

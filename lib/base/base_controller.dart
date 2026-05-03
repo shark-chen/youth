@@ -274,8 +274,8 @@ abstract class BaseController extends GetxController
   }
 
   /// 关闭页面
-  void closePage() {
-    Get.back();
+  void closePage<T>({T? result}) {
+    Get.back<T>(result: result);
   }
 
   /// push - 左右按钮是弹框提示

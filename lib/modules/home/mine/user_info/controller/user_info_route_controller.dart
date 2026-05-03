@@ -82,8 +82,12 @@ extension UserInfoRouteController on UserInfoController {
   }
 
   /// 关于 KellyChat
-  Future<void> pushEditMineInfoPage() async {
-    await Get.toNamed(Routes.editMineInfoPage);
+  Future<bool> pushEditMineInfoPage() async {
+    final result = await Get.toNamed(Routes.editMineInfoPage);
+    if (true == result) {
+      return result;
+    }
+    return false;
   }
 
   /// push - 一起做 弹框确认alert
@@ -97,7 +101,7 @@ extension UserInfoRouteController on UserInfoController {
           constraints: const BoxConstraints(maxWidth: 420),
           child: DoingTogetherConfirmWidget(
             content:
-            '你向「${item?.nickname ?? '--'}」发起的「${item?.nickname ?? '-'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并建立新的一起做。',
+                '你向「${item?.nickname ?? '--'}」发起的「${item?.nickname ?? '-'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并建立新的一起做。',
             onCancel: Get.back,
             onContinue: () async {
               result = true;

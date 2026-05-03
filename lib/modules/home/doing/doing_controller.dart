@@ -35,7 +35,7 @@ class DoingController extends BaseController {
   }
 
   @override
-  void closePage() {
+  void closePage<T>({T? result}) {
     Get.back(id: doingNavigatorId);
   }
 

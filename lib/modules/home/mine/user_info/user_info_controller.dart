@@ -5,6 +5,8 @@ import 'view_model/user_info_vm.dart';
 export 'controller/user_info_route_controller.dart';
 export 'controller/user_info_request_controller.dart';
 import 'controller/user_info_request_controller.dart';
+export 'controller/user_info_route_controller.dart';
+import 'controller/user_info_route_controller.dart';
 
 /// FileName: user_info_controller
 ///
@@ -41,4 +43,12 @@ class UserInfoController extends BaseController {
     return vm.value.userInfo;
   }
 
+  /// 点击跳转到 编辑个人信息页面
+  void clickPushEditMineInfoPage() async {
+    final result = await pushEditMineInfoPage();
+    if (true != result) return;
+
+    /// 获取个人信息 · GET /api/user/profile
+    await requestUserProfile();
+  }
 }

@@ -80,8 +80,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
 
                     /// 密码设置
                     EditPrivateSection(
-                      hasPassword: controller
-                          .vm.value.draft.hasPrivateContent,
+                      hasPassword: controller.vm.value.draft.hasPrivateContent,
                       onAiTap: controller.clickAddPrivacyMessage,
                       onChangePasswordTap: controller.clickModifyPassword,
                     ),
@@ -91,12 +90,12 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
               );
             }),
           ),
-          Obx(
-            () => EditBottomActions(
-              saveEnable: controller.requesting.value,
-              onCancel: controller.closePage,
-              onSave: controller.clickSave,
-            ),
+
+          /// 底部保存按钮
+          EditBottomActions(
+            saveEnable: true,
+            onCancel: controller.closePage,
+            onSave: controller.clickSave,
           ),
         ],
       ),
