@@ -8,3 +8,4 @@ export 'chat_binding.dart';
 export 'chat_controller.dart';
 export 'controller/chat_request_controller.dart';
 export 'chat_page.dart';
+export 'view/chat_input_bar.dart';

@@ -68,15 +68,19 @@ class StompImClient {
         url: sockJsUrl,
         onConnect: _onConnect,
         onWebSocketError: (dynamic err) {
+          print(err);
           _handleDown();
         },
         onStompError: (StompFrame frame) {
+          print(frame);
           _errorController.add(ImIncomingMessage(frame.body));
         },
         onDisconnect: (StompFrame frame) {
+          print(frame);
           _handleDown();
         },
         onDebugMessage: (String msg) {
+          print(msg);
           // 可按需接入 DebugPrint；此处保持静默避免噪音
         },
       ),
@@ -90,7 +94,9 @@ class StompImClient {
     _cancelReconnect();
     try {
       _client?.deactivate();
-    } catch (_) {}
+    } catch (e) {
+      print(e);
+    }
     _client = null;
     _setState(ImConnectionState.disconnected);
   }

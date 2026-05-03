@@ -27,10 +27,12 @@ class ChatController extends BaseController {
     super.onInit();
     title = '小雨';
 
-    final arg = Get.arguments;
-    final argUserId = (arg is Map) ? (arg['userId'] ?? arg['toUserId']) : null;
-    toUserId = int.tryParse('${Get.parameters['userId'] ?? argUserId ?? ''}') ??
-        0;
+    final arg = Get.parameters;
+    final String? argUserId;
+    argUserId = (arg['userId'] ?? arg['toUserId']);
+
+    toUserId =
+        int.tryParse('${Get.parameters['userId'] ?? argUserId ?? ''}') ?? 0;
 
     /// 确保 IM 已连接
     try {

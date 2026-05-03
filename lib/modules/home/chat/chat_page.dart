@@ -1,7 +1,7 @@
-import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:kellychat/base/base_page.dart';
-import 'chat_controller.dart';
 import 'package:kellychat/modules/user/user_center/user_center.dart';
+import 'chat_controller.dart';
+import 'view/chat_input_bar.dart';
 
 /// FileName: chat_page
 ///
@@ -18,68 +18,70 @@ class ChatPage extends BasePage<ChatController> {
       resizeToAvoidBottomInset: true,
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
-      body: Stack(
-        children: [
-          Obx(() {
-            final myId = UserCenter().user?.id ?? 0;
-            final list = controller.messages;
-            return ListView.builder(
-              padding: const EdgeInsets.only(bottom: 80),
-              itemCount: list.length,
-              itemBuilder: (context, index) {
-                final m = list[index];
-                final from = m.fromUserId ?? 0;
-                final isSender = from == myId && myId != 0;
-                final content = m.content ?? '';
-                final createdAt = m.createdAtText;
-                return Column(
-                  children: [
-                    if (createdAt.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
-                        child: Text(
-                          createdAt,
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Colors.black54,
-                                  ),
-                        ),
-                      ),
-                    ChatBaseWidget(
-                      text: content,
-                      isSender: isSender,
-                      tail: true,
+      body: Builder(
+        builder: (context) {
+          final bottomInset = MediaQuery.paddingOf(context).bottom;
+          const inputReserve = 72.0;
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: Obx(() {
+                  final myId = UserCenter().user?.id ?? 0;
+                  final list = controller.messages;
+                  return ListView.builder(
+                    padding: EdgeInsets.only(
+                      bottom: bottomInset + inputReserve + 8,
                     ),
-                  ],
-                );
-              },
-            );
-          }),
-          MessageBar(
-            onSend: (text) => controller.sendText(text),
-            actions: [
-              InkWell(
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                  size: 24,
-                ),
-                onTap: () {},
+                    itemCount: list.length,
+                    itemBuilder: (context, index) {
+                      final m = list[index];
+                      final from = m.fromUserId ?? 0;
+                      final isSender = from == myId && myId != 0;
+                      final content = m.content ?? '';
+                      final createdAt = m.createdAtText;
+                      return Column(
+                        children: [
+                          if (createdAt.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              child: Text(
+                                createdAt,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: Colors.black54,
+                                    ),
+                              ),
+                            ),
+                          ChatBaseWidget(
+                            text: content,
+                            isSender: isSender,
+                            tail: true,
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 8, right: 8),
-                child: InkWell(
-                  child: Icon(
-                    Icons.camera_alt,
-                    color: Colors.green,
-                    size: 24,
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: SafeArea(
+                  top: false,
+                  child: ChatInputBar(
+                    onSend: (text) => controller.sendText(text),
+                    onAttach: () {
+                      // TODO: 相册 / 更多入口
+                    },
                   ),
-                  onTap: () {},
                 ),
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
