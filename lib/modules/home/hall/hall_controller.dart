@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 import 'package:kellychat/base/base_controller.dart';
+import '../mine/user_info/model/user_info_entity.dart';
 import 'model/smart_match_people_entity.dart';
 import 'view_model/hall_vm.dart';
 import 'controller/hall_request_controller.dart';
@@ -19,13 +20,14 @@ class HallController extends BaseController
   /// view_model
   Rx<HallVM> vm = HallVM().obs;
 
-  final ImagePicker _imagePicker = ImagePicker();
-
   @override
   Future onInit() async {
     super.onInit();
     UserCenter().init();
     buildEditingManage();
+
+    /// 添加通知
+    addEventBusManager();
 
     /// 获取个人信息 · GET /api/user/profile
     requestUserProfile();
@@ -44,20 +46,19 @@ class HallController extends BaseController
     super.onClose();
   }
 
-  @override
-  void changeMetricsUpdateUI() {
-    vm.refresh();
-  }
-
   /// MARK- APP生命状态
   @override
   void appLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.inactive) {}
   }
 
-  /// 下拉刷新
-  @override
-  Future onRefresh() async {}
+  /// 添加通知
+  void addEventBusManager() {
+    EventBusManager().listen<UserInfoEntity>(this, (event) async {
+      await UserCenter().init();
+      vm.refresh();
+    });
+  }
 
   /// MARK - method
   ///

@@ -10,6 +10,7 @@ import '../view/edit_change_password_sheet_widget.dart';
 import '../view/edit_gender_sheet_widget.dart';
 import '../view/edit_reset_private_password_confirm_dialog.dart';
 import '../view/edit_nickname_sheet_widget.dart';
+import '../birthday_sheet/view/edit_birthday_sheet_widget.dart';
 
 /// FileName: edit_mine_info_route_controller
 ///
@@ -121,6 +122,25 @@ extension EditMineInfoRouteController on EditMineInfoController {
         },
       ),
     );
+  }
+
+  /// 修改生日（全屏半透明遮罩 + 底部滚轮；点遮罩或 X 均采用当前滚轮日期）
+  Future<void> pushEditBirthdaySheet() async {
+    final ctx = Get.context;
+    if (ctx == null) return;
+    final now = DateTime.now();
+    final initial = vm.value.birthdayAsDate() ?? DateTime(now.year - 25);
+    final picked = await showDialog<DateTime>(
+      context: ctx,
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      builder: (dialogContext) =>
+          EditBirthdaySheetDialog(initialDate: initial),
+    );
+    if (picked != null) {
+      vm.value.setBirthday(picked);
+      vm.refresh();
+    }
   }
 
   /// 底部弹出省市区选择（加载 assets/data/china_regions.json）

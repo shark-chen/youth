@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
+import '../user_info/model/user_info_entity.dart';
 import 'view_model/edit_mine_info_vm.dart';
 export 'controller/edit_mine_info_route_controller.dart';
 import 'controller/edit_mine_info_request_controller.dart';
@@ -119,31 +120,7 @@ class EditMineInfoController extends BaseController {
   }
 
   Future<void> onBirthdayTap() async {
-    final ctx = Get.context;
-    if (ctx == null) return;
-    final now = DateTime.now();
-    final initial = vm.value.birthdayAsDate() ?? DateTime(now.year - 25);
-    final picked = await showDatePicker(
-      context: ctx,
-      initialDate: initial,
-      firstDate: DateTime(1900),
-      lastDate: now,
-      builder: (c, child) {
-        return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: ThemeColor.themeGreenColor,
-              surface: ThemeColor.doingListCellBgColor,
-            ),
-          ),
-          child: child ?? const SizedBox.shrink(),
-        );
-      },
-    );
-    if (picked != null) {
-      vm.value.setBirthday(picked);
-      vm.refresh();
-    }
+    await pushEditBirthdaySheet();
   }
 
   /// mark - 标签相关事件
@@ -216,6 +193,7 @@ class EditMineInfoController extends BaseController {
       return;
     }
     EasyLoading.showToast(LocaleKeys.submitSuccess.tr);
+    EventBusManager().fire(UserInfoEntity());
     Get.back(result: true);
   }
 }

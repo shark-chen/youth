@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
+import '../mine/user_info/model/user_info_entity.dart';
 import 'view_model/message_vm.dart';
 export 'controller/message_route_controller.dart';
 import 'controller/message_request_controller.dart';
@@ -22,6 +23,9 @@ class MessageController extends BaseController {
     super.onInit();
     title = '消息';
 
+    /// 添加通知
+    addEventBusManager();
+
     /// IM 长连接（SockJS + STOMP）
     try {
       await Get.find<ImService>().connectIfNeeded();
@@ -37,6 +41,14 @@ class MessageController extends BaseController {
 
     /// 收到的敲一下列表 · GET /api/knock/received
     requestKnockReceived();
+  }
+
+  /// 添加通知
+  void addEventBusManager() {
+    EventBusManager().listen<UserInfoEntity>(this, (event) async {
+      await UserCenter().init();
+      vm.refresh();
+    });
   }
 
   /// 点击删除我正在做的事

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
+import '../mine/user_info/model/user_info_entity.dart';
 import 'model/doing_nav_ids.dart';
 import 'model/doing_hot_tags_entity.dart';
 import 'view_model/doing_vm.dart';
@@ -27,6 +28,9 @@ class DoingController extends BaseController {
     super.onInit();
     buildEditingManage();
 
+    /// 添加通知
+    addEventBusManager();
+
     /// 获取个人信息 · GET /api/user/profile
     requestUserProfile();
 
@@ -37,6 +41,14 @@ class DoingController extends BaseController {
   @override
   void closePage<T>({T? result}) {
     Get.back(id: doingNavigatorId);
+  }
+
+  /// 添加通知
+  void addEventBusManager() {
+    EventBusManager().listen<UserInfoEntity>(this, (event) async {
+      await UserCenter().init();
+      vm.refresh();
+    });
   }
 
   /// 刷新数据

@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
+import '../../mine/user_info/model/user_info_entity.dart';
 import '../model/doing_hot_tags_entity.dart';
 import '../model/publish_doing_entity.dart';
 import 'model/doing_list_entity.dart';
@@ -52,6 +53,12 @@ class DoingListController extends BaseController {
         ..tagId = event.tagId
         ..tagName = event.tagName;
       await refreshData();
+    });
+
+    /// 个人资料改变
+    EventBusManager().listen<UserInfoEntity>(this, (event) async {
+      await UserCenter().init();
+      vm.refresh();
     });
   }
 
