@@ -19,6 +19,7 @@ class DoingPage extends BasePage<DoingController> {
     return GestureDetector(
       onTap: controller.hideKeyboard,
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: ThemeColor.themeColor,
         body: Stack(
           children: [
@@ -164,20 +165,27 @@ class DoingPage extends BasePage<DoingController> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
-                  InputAiWidget(
-                    hint: '输入你正在做的事…',
-                    controller: controller.editingController,
-                    focusNode: controller.focusNode,
-                    onSubmittedTap: (content) async {
-                      /// 点击发布正在做的事
-                      controller.clickPublishDoing(content);
-                    },
-                  ),
-                  SizedBox(height: 12)
                 ],
               ),
             ),
+
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: SafeArea(
+                top: false,
+                child: InputAiWidget(
+                  hint: '输入你正在做的事…',
+                  controller: controller.editingController,
+                  focusNode: controller.focusNode,
+                  onSubmittedTap: (content) async {
+                    /// 点击发布正在做的事
+                    controller.clickPublishDoing(content);
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),

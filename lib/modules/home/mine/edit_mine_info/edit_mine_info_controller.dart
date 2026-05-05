@@ -48,6 +48,7 @@ class EditMineInfoController extends BaseController {
 
     /// request - 上传头像
     final imageLinksEntity = await requestUploadUserAvatar(file.path);
+    // final imageLinksEntity = await requestUploadPhoto(file.path ?? '');
     if (imageLinksEntity == null) return;
     vm.value.draft.avatarUrl = imageLinksEntity.url ?? '';
     vm.refresh();

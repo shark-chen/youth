@@ -25,22 +25,34 @@ class AppConfig {
     return config.env();
   }
 
-  /// 去掉非法显式端口（如 `:0`）。`stomp_dart_client` SockJS 会把 `Uri.port` 写进 `wss://…:port/…`，
-  /// `:0` 会导致「was not upgraded to websocket」；对完整 `https://host:0/ws/chat?…` 同样生效。
+  /// 规范化 http(s) 主机 URL：
+  /// - 去掉非法显式端口（如 `:0`），避免拼进传输层 URL 后出现 `:0` 建连失败。
+  /// - 去掉 [Uri.fragment]（`#…` 不应进入 SockJS / WebSocket 拼装；误拼在整段 URL 末尾会破坏握手）。
   static String normalizeHttpOrHttpsUrl(String raw) {
     final trimmed = raw.trim();
     if (trimmed.isEmpty) return trimmed;
     final uri = Uri.tryParse(trimmed);
     if (uri == null || uri.host.isEmpty) return trimmed;
     if (uri.scheme != 'http' && uri.scheme != 'https') return trimmed;
-    if (!uri.hasPort || uri.port != 0) return trimmed;
+
+    final badPort = uri.hasPort && uri.port == 0;
+    final hasFragment = uri.hasFragment;
+    if (!badPort && !hasFragment) return trimmed;
+
+    final int? port;
+    if (uri.hasPort && uri.port != 0) {
+      port = uri.port;
+    } else {
+      port = null;
+    }
+
     return Uri(
       scheme: uri.scheme,
       userInfo: uri.userInfo.isEmpty ? null : uri.userInfo,
       host: uri.host,
+      port: port,
       path: uri.path,
       query: uri.query.isEmpty ? null : uri.query,
-      fragment: uri.fragment.isEmpty ? null : uri.fragment,
     ).toString();
   }
 

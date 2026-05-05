@@ -32,6 +32,8 @@ extension HallRouteController on HallController {
   Future pushChatPage(SmartMatchPeopleList friend) async {
     await Get.toNamed(Routes.chatPage, parameters: {
       'userId': friend.userId.toString(),
+      'niceName': friend.nickname ?? '',
+      'avatar': friend.avatar ?? '',
     });
   }
 }

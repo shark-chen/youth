@@ -104,10 +104,6 @@ class InputAiWidget extends BaseStatelessWidget {
             ),
           ),
           SizedBox(width: 16),
-          Visibility(
-            visible: Strings.isNotEmpty(error),
-            child: VerifyErrorWidget(title: error),
-          ),
         ],
       ),
     );

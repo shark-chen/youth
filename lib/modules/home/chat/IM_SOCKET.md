@@ -61,8 +61,8 @@
 
 ### 依赖
 
-- `stomp_dart_client: ^2.0.0`
-  - 使用 `2.0.0` 是为了避免与当前工程 `device_info_plus 10.1.0` 的 `web` 版本约束冲突。
+- `stomp_dart_client: ^2.0.0`（**pub.dev**，不再使用仓库内 `packages/` 路径 fork）
+  - 与当前工程 `web_socket_channel` 等约束对齐；IM 握手/升级问题以后端与网关配置为主。
 
 ### 连接层：`StompImClient`
 

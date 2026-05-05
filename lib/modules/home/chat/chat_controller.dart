@@ -1,9 +1,14 @@
 import 'dart:async';
-
 import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/home/chat/model/chat_param_model.dart';
+import 'package:kellychat/modules/home/chat/view_model/chat_ui_vm.dart';
 import 'package:kellychat/network/im/im_service.dart';
 import 'controller/chat_request_controller.dart';
+import 'model/chat_history_entity.dart';
+import 'model/chat_im_entity.dart';
 import 'model/chat_message_entity.dart';
+import 'view_model/chat_vm.dart';
+import 'controller/chat_im_controller.dart';
 
 /// FileName: chat_controller
 ///
@@ -12,99 +17,102 @@ import 'model/chat_message_entity.dart';
 ///
 /// @Description 实际聊天窗口 - controller
 class ChatController extends BaseController {
-  /// 对方用户 id（从路由参数/arguments 读取）
-  late final int toUserId;
+  /// userId: 用户ID
+  /// niceName: 用户昵称
+  ChatController({
+    required ChatParamModel chatParam,
+  }) {
+    /// 配置IM-参数
+    vm.value.configChatParam(value: chatParam);
+  }
 
-  /// 消息列表（对齐后端 push 字段）
-  final RxList<ChatMessageEntity> messages = <ChatMessageEntity>[].obs;
-
-  final Set<int> _dedupeMessageIds = <int>{};
-
-  StreamSubscription? _msgSub;
+  /// vm
+  Rx<ChatVM> vm = ChatVM().obs;
 
   @override
   void onInit() async {
     super.onInit();
-    title = '小雨';
-
-    final arg = Get.parameters;
-    final String? argUserId;
-    argUserId = (arg['userId'] ?? arg['toUserId']);
-
-    toUserId =
-        int.tryParse('${Get.parameters['userId'] ?? argUserId ?? ''}') ?? 0;
-
-    /// 确保 IM 已连接
-    try {
-      await Get.find<ImService>().connectIfNeeded();
-    } catch (_) {}
+    title = '${vm.value.chatParam.niceName ?? '--'}';
 
     /// 先拉一次历史（如果能拿到 toUserId）
-    if (toUserId > 0) {
-      await _loadHistory();
-    }
+    await _loadHistory();
 
-    /// 订阅实时消息
-    _msgSub = Get.find<ImService>().messageStream.listen((m) {
-      final map = m.tryAsJsonMap();
-      if (map == null || map.isEmpty) return;
-
-      final msg = ChatMessageEntity.fromJson(map);
-      if (_shouldIgnore(msg)) return;
-      _appendMessage(msg);
-    });
-  }
-
-  Future<void> _loadHistory() async {
-    final res = await requestMessageHistory(userId: toUserId.toString());
-    if (!res.succeed) return;
-    final data = res.data;
-    if (data is List) {
-      for (final item in data) {
-        if (item is Map) {
-          final msg = ChatMessageEntity.fromJson(item.cast<String, dynamic>());
-          if (_shouldIgnore(msg)) continue;
-          _appendMessage(msg);
-        }
-      }
-    }
-  }
-
-  Future<void> sendText(String text) async {
-    final t = text.trim();
-    if (t.isEmpty || toUserId <= 0) return;
-    await Get.find<ImService>().sendChatMessage(
-      toUserId: toUserId,
-      contentType: 1,
-      content: t,
-    );
-  }
-
-  bool _shouldIgnore(ChatMessageEntity msg) {
-    if ((msg.type ?? '').toUpperCase() != 'CHAT') return true;
-    if (toUserId <= 0) return false;
-    final from = msg.fromUserId ?? 0;
-    final to = msg.toUserId ?? 0;
-    // 过滤：只保留与当前会话相关的消息（from/to 任一为对方）
-    if (from == toUserId || to == toUserId) return false;
-    return true;
-  }
-
-  void _appendMessage(ChatMessageEntity msg) {
-    final id = msg.messageId;
-    if (id != null) {
-      if (_dedupeMessageIds.contains(id)) return;
-      _dedupeMessageIds.add(id);
-    }
-    messages.add(msg);
+    /// 构建IM
+    await buildIM();
   }
 
   @override
   void onClose() {
     try {
-      _msgSub?.cancel();
+      vm.value.msgSub?.cancel();
     } catch (_) {}
-    _msgSub = null;
+    vm.value.msgSub = null;
     super.onClose();
+  }
+
+  /// 构建IM
+  Future<void> buildIM() async {
+    /// IM - 链接
+    await connectIM();
+
+    /// 监听 - IM -消息
+    listenIM();
+  }
+
+  /// request -聊天历史 · GET /api/message/history/{userId}
+  Future<void> _loadHistory() async {
+    final res = await requestMessageHistory(
+        userId: vm.value.chatParam.userId.toString());
+    if (res == null) return;
+
+    /// 添加聊天信息-list
+    vm.value.addChatMsgList((res.list ?? []).reversed.toList());
+    vm.refresh();
+  }
+
+  /// 发送文本信息
+  Future<void> sendText(String text) async {
+    /// 发送文本信息
+    await sendChatMessage(contentType: 1, content: text);
+
+    /// IM - 发送消息，构建UI模型
+    final item = vm.value.buildIMSendMsgUIModel(
+      contentType: 1,
+      content: text,
+    );
+
+    /// 添加聊天信息
+    vm.value.addChatMsg(item);
+    vm.refresh();
+  }
+
+  /// 点击添加图片
+  Future<void> clickAddPhoto() async {
+    final file = await vm.value.pickPhotoFile();
+    final imageLinksEntity = await requestUploadPhoto(file?.path ?? '');
+    if (imageLinksEntity == null) return;
+
+    /// 发送文本信息
+    await sendChatMessage(contentType: 2, content: imageLinksEntity.url ?? '');
+
+    /// IM - 发送消息，构建UI模型
+    final item = vm.value.buildIMSendMsgUIModel(
+      contentType: 2,
+      content: imageLinksEntity.url ?? '',
+    );
+
+    /// 添加聊天信息
+    vm.value.addChatMsg(item);
+    vm.refresh();
+  }
+
+  /// 消息列表
+  List<ChatHistoryList> get messages {
+    return vm.value.messages;
+  }
+
+  /// 构建聊天信息- UI
+  Widget buildChatMsgUI(ChatHistoryList item) {
+    return vm.value.buildChatMsgUI(item);
   }
 }

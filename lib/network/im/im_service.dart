@@ -17,7 +17,7 @@ class ImService extends GetxService {
   bool get isConnected => _im.isConnected;
 
   /// 确保已连接（有 token 才会连接）
-  Future<void> connectIfNeeded() async {
+  Future<void> connect() async {
     if (isConnected) return;
     final token = (await Global.getAccessToken) ?? '';
     if (token.trim().isEmpty) return;
@@ -26,8 +26,10 @@ class ImService extends GetxService {
 
   Future<void> disconnect() => _im.disconnect();
 
+  /// contentType: 消息类型：1-文本，2-图片
+  /// content: 内容
   Future<void> sendChatMessage({
-    required int toUserId,
+    required String toUserId,
     required int contentType,
     required String content,
   }) =>

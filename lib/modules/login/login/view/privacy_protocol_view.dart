@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kellychat/base/base_controller.dart';
 import '../../../../utils/utils/theme_color.dart';
 
 /// FileName privacy_protocol_view
@@ -37,32 +36,46 @@ class PrivacyProtocolWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: SizedBox(
-              width: 16,
-              height: 16,
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Checkbox(
-                  checkColor: ThemeColor.themeBlackColor,
-                  fillColor: MaterialStateProperty.resolveWith((states) {
-                    if (states.contains(MaterialState.selected)) {
-                      return ThemeColor.neonMintCheckboxFillColor;
-                    }
-                    return Colors.transparent;
-                  }),
-                  shape: const CircleBorder(),
-                  side: const BorderSide(
-                    color: ThemeColor.themeA2Color,
-                    width: 1.2,
+          Semantics(
+            checked: selected == true,
+            child: Padding(
+              padding: EdgeInsets.only(top: 1),
+              child: SizedBox(
+                width: 14,
+                height: 14,
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: InkWell(
+                    onTap: selectTap == null
+                        ? null
+                        : () {
+                            selectTap!.call(!(selected == true));
+                          },
+                    customBorder: const CircleBorder(),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: selected == true
+                            ? ThemeColor.neonMintCheckboxFillColor
+                            : Colors.transparent,
+                        border: Border.all(
+                          color: selected == true
+                              ? Colors.transparent
+                              : ThemeColor.themeA2Color,
+                          width: 1.2,
+                        ),
+                      ),
+                      child: selected == true
+                          ? Center(
+                              child: Icon(
+                                Icons.check_rounded,
+                                size: 12,
+                                color: ThemeColor.themeBlackColor,
+                              ),
+                            )
+                          : null,
+                    ),
                   ),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: const VisualDensity(
-                      horizontal: VisualDensity.minimumDensity,
-                      vertical: VisualDensity.minimumDensity),
-                  onChanged: selectTap,
-                  value: selected,
                 ),
               ),
             ),

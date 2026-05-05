@@ -34,7 +34,11 @@ class BeatRecordController extends BaseController {
   }
 
   /// push - 实际聊天窗口-page-页面
-  Future pushChatPage() async {
-    await Get.toNamed(Routes.chatPage);
+  Future pushChatPage(KnockRecordItems item) async {
+    await Get.toNamed(Routes.chatPage, parameters: {
+    'userId': item.targetUserId.toString(),
+    'niceName': item.targetNickname ?? '',
+      // 'avatar': item.avatar ?? '',
+    });
   }
 }

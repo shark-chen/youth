@@ -28,7 +28,7 @@ class MessageController extends BaseController {
 
     /// IM 长连接（SockJS + STOMP）
     try {
-      await Get.find<ImService>().connectIfNeeded();
+      await Get.find<ImService>().connect();
     } catch (_) {}
 
     /// mark - request

@@ -135,7 +135,7 @@ class MessagePage extends BasePage<MessageController> {
                   }
                   final item = controller.vm.value.conversations[index - 4];
                   return ChatListCell(
-                    onTap: controller.pushChatPage,
+                    onTap: () => controller.pushChatPage(item),
                     headPortraitUrl: item.avatar,
                     name: item.nickname,
                     msg: item.lastMessage,

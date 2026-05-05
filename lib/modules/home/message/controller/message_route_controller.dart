@@ -3,6 +3,8 @@ import 'package:kellychat/modules/home/doing/doing_list/view/invite_together_she
 import '../message_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
 
+import '../model/message_person_list_entity.dart';
+
 /// FileName: message_route_controller
 ///
 /// @Author 谌文
@@ -28,8 +30,12 @@ extension MessageRouteController on MessageController {
   }
 
   /// push - 实际聊天窗口-page-页面
-  Future pushChatPage() async {
-    await Get.toNamed(Routes.chatPage);
+  Future pushChatPage(MessagePersonListEntity item) async {
+    await Get.toNamed(Routes.chatPage, parameters: {
+      'userId': item.userId.toString(),
+      'niceName': item.nickname ?? '',
+      'avatar': item.avatar ?? '',
+    });
   }
 
   /// push - 邀请
@@ -42,7 +48,7 @@ extension MessageRouteController on MessageController {
       wholeCustomWidget: InviteTogetherSheetWidget(
         inviteCode: '${vm.value.myDoing?.tagId ?? '--'}',
         shareLink:
-        'https://images.unsplash.com/photo-1538370965046-79c0d6907d47',
+            'https://images.unsplash.com/photo-1538370965046-79c0d6907d47',
       ),
     );
   }

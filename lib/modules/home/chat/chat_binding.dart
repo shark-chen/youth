@@ -1,5 +1,7 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kellychat/base/base_bindings.dart';
 import 'chat_controller.dart';
+import 'model/chat_param_model.dart';
 
 /// FileName: chat_binding
 ///
@@ -10,6 +12,7 @@ import 'chat_controller.dart';
 class ChatBinding extends BaseBindings {
   @override
   void dependencies() {
-    Get.lazyPut<ChatController>(() => ChatController());
+    final param = ChatParamModel.fromJson(Get.parameters);
+    Get.lazyPut<ChatController>(() => ChatController(chatParam: param));
   }
 }

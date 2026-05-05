@@ -3,8 +3,28 @@ import 'dart:convert';
 
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 import 'package:kellychat/config/environment_config/app_config.dart';
+import 'package:kellychat/utils/marco/debug_print.dart';
 
 import 'im_models.dart';
+
+String _imRedactSockJsUrlForLog(String url) {
+  final u = Uri.tryParse(url);
+  if (u == null || u.queryParameters.isEmpty) return url;
+  final p = Map<String, String>.from(u.queryParameters);
+  for (final key in p.keys.toList()) {
+    final lower = key.toLowerCase();
+    if (lower == 'token' ||
+        lower == 'access_token' ||
+        lower.endsWith('token')) {
+      p[key] = '***';
+    }
+  }
+  try {
+    return u.replace(queryParameters: p).toString();
+  } catch (_) {
+    return url;
+  }
+}
 
 /// SockJS + STOMP IM 客户端（对齐后端 `tools/websocket-test.html`：`http(s)://…/ws/chat?token=`，
 /// 勿将入口 URL 改成 `ws://`；与 [AppConfig.buildImSockJsUrl] 配套使用）
@@ -65,25 +85,27 @@ class StompImClient {
     _cancelReconnect();
     _setState(ImConnectionState.connecting);
 
+    DebugPrint('[IM] Stomp SockJS entry (secrets redacted): '
+        '${_imRedactSockJsUrlForLog(url)}');
+
     _client = StompClient(
       config: StompConfig.sockJS(
         url: url,
         onConnect: _onConnect,
         onWebSocketError: (dynamic err) {
-          print(err);
+          DebugPrint('[IM] Stomp WebSocket error: $err');
           _handleDown();
         },
         onStompError: (StompFrame frame) {
-          print(frame);
+          DebugPrint('[IM] Stomp error frame: $frame');
           _errorController.add(ImIncomingMessage(frame.body));
         },
         onDisconnect: (StompFrame frame) {
-          print(frame);
+          DebugPrint('[IM] Stomp disconnect: $frame');
           _handleDown();
         },
         onDebugMessage: (String msg) {
-          print(msg);
-          // 可按需接入 DebugPrint；此处保持静默避免噪音
+          DebugPrint('[IM] Stomp debug: $msg');
         },
       ),
     );
@@ -97,7 +119,7 @@ class StompImClient {
     try {
       _client?.deactivate();
     } catch (e) {
-      print(e);
+      DebugPrint('[IM] Stomp disconnect error: $e');
     }
     _client = null;
     _setState(ImConnectionState.disconnected);
@@ -105,7 +127,7 @@ class StompImClient {
 
   /// 发送消息（对齐 `stompClient.send("/app/chat.send", ...)`）
   Future<void> sendChatMessage({
-    required int toUserId,
+    required String toUserId,
     required int contentType,
     required String content,
   }) async {
