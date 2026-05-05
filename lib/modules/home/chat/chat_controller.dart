@@ -47,6 +47,7 @@ class ChatController extends BaseController {
       vm.value.msgSub?.cancel();
     } catch (_) {}
     vm.value.msgSub = null;
+    vm.value.listScrollController.dispose();
     super.onClose();
   }
 
@@ -68,6 +69,7 @@ class ChatController extends BaseController {
     /// 添加聊天信息-list
     vm.value.addChatMsgList((res.list ?? []).reversed.toList());
     vm.refresh();
+    vm.value.scheduleJumpToBottomAfterHistory();
   }
 
   /// 发送文本信息
@@ -84,6 +86,9 @@ class ChatController extends BaseController {
     /// 添加聊天信息
     vm.value.addChatMsg(item);
     vm.refresh();
+
+    /// 有动画滚动到底部
+    vm.value.animateToListToBottom();
   }
 
   /// 点击添加图片
@@ -104,6 +109,9 @@ class ChatController extends BaseController {
     /// 添加聊天信息
     vm.value.addChatMsg(item);
     vm.refresh();
+
+    /// 有动画滚动到底部
+    vm.value.animateToListToBottom();
   }
 
   /// 消息列表

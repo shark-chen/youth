@@ -1,5 +1,4 @@
 import 'package:kellychat/base/base_page.dart';
-import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'chat_controller.dart';
 import 'view/chat_input_bar.dart';
 
@@ -30,6 +29,7 @@ class ChatPage extends BasePage<ChatController> {
                   child: Obx(() {
                     return SafeArea(
                       child: ListView.builder(
+                        controller: controller.vm.value.listScrollController,
                         padding: EdgeInsets.only(
                           bottom: bottomInset + inputReserve + 8,
                         ),

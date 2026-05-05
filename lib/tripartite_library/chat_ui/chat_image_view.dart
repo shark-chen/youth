@@ -1,5 +1,6 @@
 import 'package:chat_bubbles/bubbles/bubble_normal_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kellychat/base/base_bindings.dart';
 import 'package:kellychat/widget/image_look/image_look.dart';
 
 /// FileName: chat_image_view
@@ -17,7 +18,7 @@ class ChatImageWidget extends BubbleNormalImage {
     this.avatar,
     super.bubbleRadius = BUBBLE_RADIUS_IMAGE,
     super.isSender = true,
-    super.color = Colors.white70,
+    super.color = ThemeColor.themeColor,
     super.tail = true,
     super.sent = false,
     super.delivered = false,

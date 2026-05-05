@@ -28,6 +28,9 @@ class ChatVM extends BaseVM {
   /// IM - 监听
   StreamSubscription? msgSub;
 
+  /// 消息列表滚动（历史加载后滚到底部等）
+  final ScrollController listScrollController = ScrollController();
+
   @override
   void onInit() {
     super.onInit();
