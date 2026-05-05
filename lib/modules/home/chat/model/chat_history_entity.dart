@@ -51,6 +51,9 @@ class ChatHistoryList {
   /// 位置索引
   String? index;
 
+  /// 时间标记
+  String? timeTag;
+
   ChatHistoryList();
 
   factory ChatHistoryList.fromJson(dynamic json) {
