@@ -68,16 +68,17 @@ extension EditMineInfoReuestController on EditMineInfoController {
   /// 更新用户标签（最多10个）
   Future<bool> requestUpdateUserTags({
     required List<String> tags,
+    bool? showLoad = true,
   }) async {
-    EasyLoading.show();
+    if (true == showLoad) EasyLoading.show();
     final response = await Net.value<User>().requestUpdateUserTags(tags: tags);
     EasyLoading.dismiss();
     if (response.success) {
-      EasyLoading.showToast('添加标签成功');
+      if (true == showLoad) EasyLoading.showToast('添加标签成功');
       vm.refresh();
       return true;
     } else {
-      EasyLoading.showToast('添加标签成功');
+      if (true == showLoad) EasyLoading.showToast('添加标签成功');
       return false;
     }
   }
@@ -85,18 +86,19 @@ extension EditMineInfoReuestController on EditMineInfoController {
   /// 更新照片墙 · PUT /api/user/photos
   Future<bool> requestUpdateUserPhotos({
     required List<String> photos,
+    bool? showLoad = true,
   }) async {
-    EasyLoading.show();
+    if (true == showLoad) EasyLoading.show();
     final response = await Net.value<User>().requestUpdateUserPhotos<dynamic>(
       photos: photos,
     );
-    EasyLoading.dismiss();
+    if (true == showLoad) EasyLoading.dismiss();
     if (response.success) {
-      EasyLoading.showToast('保存成功');
+      if (true == showLoad) EasyLoading.showToast('保存成功');
       vm.refresh();
       return true;
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
       return false;
     }
   }

@@ -1,5 +1,6 @@
 import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/modules/user/user_center/user_center.dart';
+import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'doing_list_controller.dart';
 import 'view/doing_list_cell.dart';
@@ -109,26 +110,38 @@ class DoingListPage extends BasePage<DoingListController> {
                     ),
                   );
                 }
-                return ListView.separated(
-                  padding: const EdgeInsets.only(top: 6, bottom: 24),
-                  itemCount: controller.rows?.length ?? 0,
-                  itemBuilder: (BuildContext context, int index) {
-                    final item = controller.rows?[index];
-                    return DoingListCell(
-                      headerIcon: item?.avatar,
-                      name: item?.nickname,
-                      sex: _sexFromGender(item?.gender),
-                      age: item?.age != null ? '${item?.age}' : null,
-                      address: item?.city,
-                      signature: item?.signature,
-                      isOnline: false,
-                      onKnockTap: () async => controller.clickKnock(item),
-                      onTogetherTap: () async =>
-                          controller.clickJoinTogether(item),
-                      onTap: () async => controller.clickLookUserInfo(item),
-                    );
-                  },
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                return SmartRefresher(
+                  controller: controller.refreshController,
+                  enablePullUp: true,
+                  onRefresh: controller.onRefresh,
+                  header: RefresherHeader.build(),
+                  footer: ClassicFooter(
+                    loadingText: LocaleKeys.Loading.tr,
+                    noDataText: LocaleKeys.NoMore.tr,
+                    height: 80.0,
+                    loadStyle: LoadStyle.ShowWhenLoading,
+                  ),
+                  child: ListView.separated(
+                    padding: const EdgeInsets.only(top: 6, bottom: 24),
+                    itemCount: controller.rows?.length ?? 0,
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = controller.rows?[index];
+                      return DoingListCell(
+                        headerIcon: item?.avatar,
+                        name: item?.nickname,
+                        sex: _sexFromGender(item?.gender),
+                        age: item?.age != null ? '${item?.age}' : null,
+                        address: item?.city,
+                        signature: item?.signature,
+                        isOnline: false,
+                        onKnockTap: () async => controller.clickKnock(item),
+                        onTogetherTap: () async =>
+                            controller.clickJoinTogether(item),
+                        onTap: () async => controller.clickLookUserInfo(item),
+                      );
+                    },
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  ),
                 );
               }),
             ),

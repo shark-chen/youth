@@ -34,7 +34,14 @@ class EditBottomActions extends StatelessWidget {
                     foregroundColor: ThemeColor.whiteColor,
                     shape: const StadiumBorder(),
                   ),
-                  child: const Text('取消'),
+                  child: Text(
+                    '取消',
+                    style: TextStyle(
+                      color: ThemeColor.whiteColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ),
             ),

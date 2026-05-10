@@ -78,6 +78,14 @@ class DoingListController extends BaseController {
     }
   }
 
+  /// 下拉刷新
+  ///
+  @override
+  Future onRefresh({bool? showLoading = false}) async {
+    await requestStatusDoingByTagId(vm.value.doingHotTagsEntity?.tagId ?? 0);
+    refreshController.refreshCompleted();
+  }
+
   /// 点击删除我正在做的事
   Future clickDeleteStatusDoing() async {
     final confirm = await pushCancelDoingDialog();

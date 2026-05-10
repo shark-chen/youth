@@ -34,8 +34,9 @@ class SmartMatchPeopleList {
   int? age;
   String? avatar;
   String? city;
-  List<dynamic>? tags;
+  List<String>? tags;
   double? matchScore;
+  List<String>? photos;
 
   SmartMatchPeopleList();
 

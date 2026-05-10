@@ -62,11 +62,7 @@ class DoingController extends BaseController {
     if (Strings.isEmpty(tag.tagName)) return;
     final result = await requestPostStatusDoing(tagName: tag.tagName ?? '');
     if (result == null) return;
-    if (canClosePage) {
-      closePage();
-    } else {
-      await pushDoingListPage(tag);
-    }
+    await pushDoingListPage(tag);
   }
 
   /// 点击发布正在做的事 - 输入框发布

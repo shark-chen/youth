@@ -12,17 +12,20 @@ import '../model/doing_hot_tags_entity.dart';
 extension DoingRouteController on DoingController {
   /// mark - push
   ///
-  /// push-正在做的清单-页面
+  /// push - 正在做的清单-页面
   Future pushDoingListPage(DoingHotTagsEntity tag) async {
-    await Get.toNamed(
-      Routes.doingListPage,
-      arguments: tag,
-      id: doingNavigatorId,
-    );
+    if (canClosePage) {
+      closePage();
+    } else {
+      await Get.toNamed(
+        Routes.doingListPage,
+        arguments: tag,
+        id: doingNavigatorId,
+      );
+    }
   }
 
-
-  /// 个人信息页面
+  /// push - 个人信息页面
   Future pushUserInfoPage() async {
     await Get.toNamed(Routes.minePage);
   }

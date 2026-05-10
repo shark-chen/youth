@@ -1,3 +1,4 @@
+import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/tripartite_library/tripartite_library.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'package:kellychat/utils/extension/text_styles.dart';
@@ -264,151 +265,150 @@ class _CardStackDemoState extends State<CardStackDemo> {
           color: ThemeColor.theme5FColor,
           child: Stack(
             children: [
-            Positioned.fill(
-              top: 0.0,
-              left: 0.0,
-              right: 0.0,
-              bottom: 88,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  item.avatar ?? '',
+              Positioned.fill(
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                bottom: 88,
+                child: ImageLookWidget(
+                  imgUrl: item.avatar ?? '',
+                  autoSize: true,
                   fit: BoxFit.fill,
                 ),
               ),
-            ),
-            Positioned.fill(
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(0.7),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Colors.black.withOpacity(0.7),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              left: 16,
-              right: 16,
-              bottom: 24,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  /// 昵称
-                  Flexible(
-                    child: Text(
-                      _displayName(item),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+              Positioned(
+                left: 16,
+                right: 16,
+                bottom: 24,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    /// 昵称
+                    Flexible(
+                      child: Text(
+                        _displayName(item),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
+                    ),
+                    const SizedBox(height: 6),
+
+                    /// 城市 + 性别
+                    Row(
+                      children: [
+                        Text(
+                          _ageCityLine(item),
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+
+                        SizedBox(width: 2),
+
+                        /// 性别图标
+                        Icon(
+                          1 == item.gender ? Icons.male : Icons.female,
+                          color: Colors.blue,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+
+                    /// 信息
+                    Text(
+                      _descLine(item),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: Colors.white60),
                     ),
-                  ),
-                  const SizedBox(height: 6),
+                    const SizedBox(height: 12),
 
-                  /// 城市 + 性别
-                  Row(
-                    children: [
-                      Text(
-                        _ageCityLine(item),
-                        style: const TextStyle(color: Colors.white70),
-                      ),
+                    /// 标签
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 6,
+                      children: _tagChips(item),
+                    ),
+                    const SizedBox(height: 36),
 
-                      SizedBox(width: 2),
-
-                      /// 性别图标
-                      Icon(
-                        1 == item.gender ? Icons.male : Icons.female,
-                        color: Colors.blue,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-
-                  /// 信息
-                  Text(
-                    _descLine(item),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white60),
-                  ),
-                  const SizedBox(height: 12),
-
-                  /// 标签
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 6,
-                    children: _tagChips(item),
-                  ),
-                  const SizedBox(height: 36),
-
-                  /// 聊一聊
-                  Row(
-                    children: [
-                      const SizedBox(width: 12),
-                      GestureDetector(
-                        onTap: () {
-                          Future.delayed(const Duration(milliseconds: 300), () {
-                            if (!mounted) return;
-                            setState(() {
-                              if (_stack.isNotEmpty) _stack.removeAt(0);
-                              position = Offset.zero;
-                              angle = 0;
-                              widget.removeFriendCall?.call(_stack.length);
+                    /// 聊一聊
+                    Row(
+                      children: [
+                        const SizedBox(width: 12),
+                        GestureDetector(
+                          onTap: () {
+                            Future.delayed(const Duration(milliseconds: 300),
+                                () {
+                              if (!mounted) return;
+                              setState(() {
+                                if (_stack.isNotEmpty) _stack.removeAt(0);
+                                position = Offset.zero;
+                                angle = 0;
+                                widget.removeFriendCall?.call(_stack.length);
+                              });
                             });
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            border: Border.all(
-                              width: 1,
-                              color: ThemeColor.whiteColor.withOpacity(0.4),
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              border: Border.all(
+                                width: 1,
+                                color: ThemeColor.whiteColor.withOpacity(0.4),
+                              ),
                             ),
-                          ),
-                          width: 40,
-                          height: 40,
-                          child: Icon(
-                            Icons.close,
-                            color: ThemeColor.whiteColor,
+                            width: 40,
+                            height: 40,
+                            child: Icon(
+                              Icons.close,
+                              color: ThemeColor.whiteColor,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 30),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => widget.chatTap?.call(_stack.first),
-                          child: Container(
-                            height: 44,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.greenAccent,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Text(
-                              '聊一聊',
-                              style: TextStyles(
-                                color: ThemeColor.themeColor,
-                                fontSize: 16,
+                        const SizedBox(width: 30),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => widget.chatTap?.call(_stack.first),
+                            child: Container(
+                              height: 44,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: Colors.greenAccent,
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              child: Text(
+                                '聊一聊',
+                                style: TextStyles(
+                                  color: ThemeColor.themeColor,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 24),
-                    ],
-                  ),
-                ],
-              ),
-            )
+                        const SizedBox(width: 24),
+                      ],
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

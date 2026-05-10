@@ -34,13 +34,14 @@ class EditSignatureSection extends StatelessWidget {
             const SizedBox(height: 10),
             Container(
               decoration: BoxDecoration(
-                color: ThemeColor.themeColor.withOpacity(0.45),
-                borderRadius: BorderRadius.circular(12),
-              ),
+                  color: ThemeColor.themeColor.withOpacity(0.45),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                      color: ThemeColor.whiteColor.withOpacity(0.3))),
               child: TextField(
                 controller: controller,
-                maxLines: 4,
-                minLines: 3,
+                maxLines: 100,
+                minLines: 2,
                 maxLength: maxLength,
                 style: TextStyle(
                   color: ThemeColor.whiteColor,
@@ -56,7 +57,6 @@ class EditSignatureSection extends StatelessWidget {
                     color: ThemeColor.secondaryTextColor,
                     fontSize: 15,
                   ),
-                  counterText: '',
                 ),
                 buildCounter: (
                   BuildContext context, {
@@ -64,13 +64,16 @@ class EditSignatureSection extends StatelessWidget {
                   required bool isFocused,
                   required int? maxLength,
                 }) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 12, 10),
-                    child: Text(
-                      '$currentLength/${maxLength ?? EditProfileDraft.maxSignatureLength}',
-                      style: TextStyle(
-                        color: ThemeColor.secondaryTextColor,
-                        fontSize: 12,
+                  return Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 12, 10),
+                      child: Text(
+                        '$currentLength/${maxLength ?? EditProfileDraft.maxSignatureLength}',
+                        style: TextStyle(
+                          color: ThemeColor.secondaryTextColor,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   );

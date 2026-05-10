@@ -155,7 +155,20 @@ class EditMineInfoController extends BaseController {
     vm.value.reorderTags(oldIndex, newIndex);
 
     /// 更新用户标签（最多10个）
-    await requestUpdateUserTags(tags: vm.value.draft.tags);
+    await requestUpdateUserTags(
+      tags: vm.value.draft.tags,
+      showLoad: false,
+    );
+    vm.refresh();
+  }
+
+  /// 拖拽照片墙排序
+  Future<void> onPhotoReorder(int oldIndex, int newIndex) async {
+    vm.value.reorderPhotos(oldIndex, newIndex);
+    await requestUpdateUserPhotos(
+      photos: vm.value.draft.photos,
+      showLoad: false,
+    );
     vm.refresh();
   }
 

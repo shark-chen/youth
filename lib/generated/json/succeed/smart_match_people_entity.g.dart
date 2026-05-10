@@ -3,15 +3,15 @@ import 'package:kellychat/modules/home/hall/model/smart_match_people_entity.dart
 
 SmartMatchPeopleEntity $SmartMatchPeopleEntityFromJson(
     Map<String, dynamic> json) {
-  final SmartMatchPeopleEntity smartMatchPeopleEntity = SmartMatchPeopleEntity();
+  final SmartMatchPeopleEntity smartMatchPeopleEntity =
+      SmartMatchPeopleEntity();
   final int? total = jsonConvert.convert<int>(json['total']);
   if (total != null) {
     smartMatchPeopleEntity.total = total;
   }
   final List<SmartMatchPeopleList>? list = (json['list'] as List<dynamic>?)
-      ?.map(
-          (e) =>
-      jsonConvert.convert<SmartMatchPeopleList>(e) as SmartMatchPeopleList)
+      ?.map((e) =>
+          jsonConvert.convert<SmartMatchPeopleList>(e) as SmartMatchPeopleList)
       .toList();
   if (list != null) {
     smartMatchPeopleEntity.list = list;
@@ -85,10 +85,17 @@ SmartMatchPeopleList $SmartMatchPeopleListFromJson(Map<String, dynamic> json) {
   if (city != null) {
     smartMatchPeopleList.city = city;
   }
-  final List<dynamic>? tags = (json['tags'] as List<dynamic>?)?.map(
-          (e) => e).toList();
+  final List<String>? tags = (json['tags'] as List<dynamic>?)
+      ?.map((e) => jsonConvert.convert<String>(e) as String)
+      .toList();
   if (tags != null) {
     smartMatchPeopleList.tags = tags;
+  }
+  final List<String>? photos = (json['photos'] as List<dynamic>?)
+      ?.map((e) => jsonConvert.convert<String>(e) as String)
+      .toList();
+  if (photos != null) {
+    smartMatchPeopleList.photos = photos;
   }
   final double? matchScore = jsonConvert.convert<double>(json['matchScore']);
   if (matchScore != null) {
@@ -105,6 +112,7 @@ Map<String, dynamic> $SmartMatchPeopleListToJson(SmartMatchPeopleList entity) {
   data['age'] = entity.age;
   data['city'] = entity.city;
   data['tags'] = entity.tags;
+  data['photos'] = entity.photos;
   data['matchScore'] = entity.matchScore;
   data['avatar'] = entity.avatar;
   return data;
@@ -118,7 +126,8 @@ extension SmartMatchPeopleListExtension on SmartMatchPeopleList {
     int? age,
     String? city,
     String? avatar,
-    List<dynamic>? tags,
+    List<String>? tags,
+    List<String>? photos,
     double? matchScore,
   }) {
     return SmartMatchPeopleList()
@@ -129,6 +138,7 @@ extension SmartMatchPeopleListExtension on SmartMatchPeopleList {
       ..avatar = city ?? this.avatar
       ..city = city ?? this.city
       ..tags = tags ?? this.tags
+      ..photos = photos ?? this.photos
       ..matchScore = matchScore ?? this.matchScore;
   }
 }

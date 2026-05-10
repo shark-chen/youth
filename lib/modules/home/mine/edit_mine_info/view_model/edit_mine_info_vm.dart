@@ -160,6 +160,21 @@ class EditMineInfoVM extends BaseVM {
     );
   }
 
+  /// 拖拽照片墙（顺序同步服务端）
+  void reorderPhotos(int oldIndex, int newIndex) {
+    if (newIndex > oldIndex) newIndex -= 1;
+    final list = draft.photos;
+    if (oldIndex < 0 ||
+        oldIndex >= list.length ||
+        newIndex < 0 ||
+        newIndex >= list.length) {
+      return;
+    }
+    final item = list.removeAt(oldIndex);
+    list.insert(newIndex, item);
+    refresh?.call();
+  }
+
   /// 拖拽标签
   void reorderTags(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) newIndex -= 1;

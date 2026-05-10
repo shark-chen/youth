@@ -293,8 +293,7 @@ class _ImageScreenState extends State<ImageScreen>
                     ),
                     alignment: Alignment.center,
                     height: 50,
-                    child: Text(LocaleKeys.Save.tr,
-                        style: TextStyles(fontSize: 15)),
+                    child: Text('保存', style: TextStyles(fontSize: 15)),
                   ),
                 ),
                 Container(
@@ -317,5 +316,4 @@ class _ImageScreenState extends State<ImageScreen>
         },
         context: context);
   }
-
 }

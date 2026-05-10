@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:kellychat/base/base_stateless_widget.dart';
+import 'package:reorderables/reorderables.dart';
 import '../model/edit_profile_draft.dart';
 
 /// 照片墙：2×2 宫格，「前3张展示在资料卡」说明
@@ -11,6 +12,7 @@ class EditPhotoWallSection extends BaseStatelessWidget {
     required this.spacing,
     required this.onAdd,
     required this.onRemove,
+    required this.onReorder,
   });
 
   /// 图片资源
@@ -27,6 +29,9 @@ class EditPhotoWallSection extends BaseStatelessWidget {
 
   /// 移除图片点击
   final ValueChanged<int> onRemove;
+
+  /// 长按拖动排序（仅照片；添加按钮放在 header，不参与重排）
+  final void Function(int oldIndex, int newIndex) onReorder;
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +61,28 @@ class EditPhotoWallSection extends BaseStatelessWidget {
         ),
         const SizedBox(height: 12),
 
-        /// 图片墙加+添加图片
-        Wrap(
+        /// 图片墙：`header` 为添加格；`children` 长按拖拽排序（与标签一致）
+        ReorderableWrap(
           spacing: spacing,
           runSpacing: spacing,
+          needsLongPressDraggable: true,
+          scrollPhysics: const NeverScrollableScrollPhysics(),
+          maxMainAxisCount: crossAxisCount,
+          minMainAxisCount: 1,
+          header: photos.length < EditProfileDraft.maxPhotos
+              ? [
+                  _AddCell(
+                    width: slot,
+                    height: slot * 1.33,
+                    onTap: onAdd,
+                  ),
+                ]
+              : null,
+          onReorder: onReorder,
           children: [
-            if (photos.length < EditProfileDraft.maxPhotos)
-              _AddCell(width: slot, height: slot * 1.33, onTap: onAdd),
             for (var i = 0; i < photos.length; i++)
               _PhotoCell(
+                key: ValueKey('edit_photo_${photos[i]}_$i'),
                 pathOrUrl: photos[i],
                 width: slot,
                 height: slot * 1.33,
@@ -79,6 +97,7 @@ class EditPhotoWallSection extends BaseStatelessWidget {
 
 class _PhotoCell extends StatelessWidget {
   const _PhotoCell({
+    super.key,
     required this.pathOrUrl,
     required this.width,
     required this.height,
@@ -123,21 +142,16 @@ class _PhotoCell extends StatelessWidget {
                 ),
         ),
         Positioned(
-          top: -5,
-          right: -5,
+          top: 3,
+          right: 3,
           child: GestureDetector(
             onTap: onRemove,
             child: Container(
               width: 22,
               height: 22,
-              decoration: BoxDecoration(
-                color: ThemeColor.brightRedColor,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.close,
-                size: 14,
-                color: Colors.white,
+              child: Image.asset(
+                'assets/image/common/black_close@3x.png',
+                fit: BoxFit.fill,
               ),
             ),
           ),

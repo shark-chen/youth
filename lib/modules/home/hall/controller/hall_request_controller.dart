@@ -1,3 +1,4 @@
+import 'package:kellychat/modules/user/user_center/user_info/user_info_center.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 import 'package:kellychat/network/net/net.dart';
@@ -56,17 +57,7 @@ extension HallRequestController on HallController {
 
   /// 获取个人信息 · GET /api/user/profile
   Future<void> requestUserProfile() async {
-    EasyLoading.show();
-    final response = await Net.value<User>().cache<UserInfoEntity>((value) {
-      vm.value.configUserInfo(value);
-      vm.refresh();
-    }).requestUserInfo<UserInfoEntity>();
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      vm.value.configUserInfo(response.value);
-      vm.refresh();
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-    }
+    vm.value.configUserInfo(await UserInfoCenter().userInfo);
+    vm.refresh();
   }
 }

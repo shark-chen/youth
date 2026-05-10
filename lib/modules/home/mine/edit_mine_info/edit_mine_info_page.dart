@@ -75,6 +75,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                       spacing: 10,
                       onAdd: controller.clickAddPhoto,
                       onRemove: controller.onRemovePhoto,
+                      onReorder: controller.onPhotoReorder,
                     ),
                     const SizedBox(height: 20),
 

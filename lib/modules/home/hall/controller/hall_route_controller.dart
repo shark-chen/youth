@@ -14,6 +14,8 @@ extension HallRouteController on HallController {
   /// 个人信息页面
   Future pushUserInfoPage() async {
     await Get.toNamed(Routes.minePage);
+    vm.value.configUserInfo(UserInfoCenter().userInfoEntity);
+    vm.refresh();
   }
 
   /// push - 个人信息页面

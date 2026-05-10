@@ -1,11 +1,9 @@
 import 'package:kellychat/base/base_controller.dart';
-import 'package:kellychat/network/net/entry/user/user.dart';
 import 'model/user_info_entity.dart';
 import 'view_model/user_info_vm.dart';
 export 'controller/user_info_route_controller.dart';
 export 'controller/user_info_request_controller.dart';
 import 'controller/user_info_request_controller.dart';
-export 'controller/user_info_route_controller.dart';
 import 'controller/user_info_route_controller.dart';
 
 /// FileName: user_info_controller
@@ -50,5 +48,6 @@ class UserInfoController extends BaseController {
 
     /// 获取个人信息 · GET /api/user/profile
     await requestUserProfile();
+    await UserInfoCenter().requestUserInfo(update: true);
   }
 }

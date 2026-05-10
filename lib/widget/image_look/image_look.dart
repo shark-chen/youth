@@ -1,5 +1,5 @@
-import 'package:kellychat/tripartite_library/tripartite_library.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:kellychat/tripartite_library/tripartite_library.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'package:kellychat/utils/utils/theme_color.dart';
 
@@ -65,38 +65,96 @@ class ImageLookWidget extends StatelessWidget {
   /// 自动适应宽高
   final bool? autoSize;
 
+  /// Hero / 大图预览共用：显式 tag 优先，否则用 URL 稳住 identity（避免 UniqueKey 每次 rebuild）
+  String get _effectiveHeroTag =>
+      (heroTag != null && heroTag!.isNotEmpty) ? heroTag! : imgUrl;
+
+  static Widget _errorPlaceholder() {
+    return Padding(
+      padding: const EdgeInsets.all(3),
+      child: Image.asset(
+        'assets/image/common/hello@3x.png',
+        fit: BoxFit.fill,
+      ),
+    );
+  }
+
+  /// 固定宽高：走 [Image] + [frameBuilder]，内存命中时可同步出图，显著减轻占位闪烁
+  Widget _fixedSizeImage({
+    required BuildContext context,
+    required double logicalW,
+    required double logicalH,
+    required int memW,
+    required int memH,
+  }) {
+    return Image(
+      image: ResizeImage(
+        CachedNetworkImageProvider(imgUrl),
+        width: memW,
+        height: memH,
+      ),
+      width: logicalW,
+      height: logicalH,
+      fit: fit ?? BoxFit.cover,
+      alignment: Alignment.center,
+      filterQuality: FilterQuality.medium,
+      gaplessPlayback: true,
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (wasSynchronouslyLoaded || frame != null) {
+          return child;
+        }
+        return SizedBox(
+          width: logicalW,
+          height: logicalH,
+          child: ColoredBox(
+            color: ThemeColor.graynessBgColor.withOpacity(0.06),
+          ),
+        );
+      },
+      errorBuilder: (_, __, ___) => _errorPlaceholder(),
+    );
+  }
+
+  /// autoSize：仍用 CachedNetworkImage；不传 placeholder，内部空占位，避免 Octo 与缺省图切换
+  Widget _autoSizeCachedImage() {
+    return CachedNetworkImage(
+      imageUrl: imgUrl,
+      fit: fit,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
+      fadeInCurve: Curves.linear,
+      fadeOutCurve: Curves.linear,
+      placeholderFadeInDuration: Duration.zero,
+      filterQuality: FilterQuality.medium,
+      errorWidget: (_, __, ___) => _errorPlaceholder(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final logicalW = width ?? 66.0;
+    final logicalH = height ?? 66.0;
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final memW =
+        autoSize == true ? null : (logicalW * dpr).round().clamp(1, 4096);
+    final memH =
+        autoSize == true ? null : (logicalH * dpr).round().clamp(1, 4096);
+
     Widget container = ClipRRect(
       borderRadius: imgBorderRadius ?? BorderRadius.circular(4),
       child: Strings.isNotEmpty(imgUrl)
-          ? CachedNetworkImage(
-              fit: fit,
-              imageUrl: imgUrl,
-              width: autoSize == true ? null : (width ?? 66.0),
-              height: autoSize == true ? null : (height ?? 66.0),
-              placeholder: (context, url) => Padding(
-                padding: EdgeInsets.all(3),
-                child: Image.asset(
-                  "assets/image/common/hello@3x.png",
-                  fit: BoxFit.fill,
-                ),
-              ),
-              errorWidget: (context, url, error) => Padding(
-                padding: EdgeInsets.all(3),
-                child: Image.asset(
-                  "assets/image/common/hello@3x.png",
-                  fit: BoxFit.fill,
-                ),
-              ),
-            )
+          ? (autoSize == true
+              ? _autoSizeCachedImage()
+              : _fixedSizeImage(
+                  context: context,
+                  logicalW: logicalW,
+                  logicalH: logicalH,
+                  memW: memW!,
+                  memH: memH!,
+                ))
           : SizedBox(
               width: width ?? 66.0,
               height: height ?? 66.0,
-              child: Image.asset(
-                "assets/image/common/hello@3x.png",
-                fit: BoxFit.fill,
-              ),
             ),
     );
     if (autoSize != true) {
@@ -123,13 +181,12 @@ class ImageLookWidget extends StatelessWidget {
                 opaque: false, // set to false
                 pageBuilder: (_, __, ___) => ImageScreen(
                   url: imgUrl,
-                  heroTag: (heroTag ?? ''),
+                  heroTag: _effectiveHeroTag,
                 ),
               ),
             );
           },
-          child:
-              Hero(tag: heroTag ?? UniqueKey().toString(), child: container));
+          child: Hero(tag: _effectiveHeroTag, child: container));
     }
   }
 }

@@ -123,7 +123,7 @@ class MinePage extends BasePage<MineController> {
                 onTap: controller.confirmLogout,
                 child: Center(
                   child: Text(
-                    LocaleKeys.LoginOut.tr,
+                    '退出登录',
                     style: TextStyle(
                       color: ThemeColor.whiteColor,
                       fontSize: 16,
