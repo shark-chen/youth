@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:kellychat/tripartite_library/tripartite_library.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
@@ -15,6 +17,7 @@ class ImageLookWidget extends StatelessWidget {
   const ImageLookWidget({
     Key? key,
     required this.imgUrl,
+    this.imageBytes,
     this.heroTag,
     this.width = 66.0,
     this.height = 66.0,
@@ -28,8 +31,11 @@ class ImageLookWidget extends StatelessWidget {
     this.autoSize = false,
   }) : super(key: key);
 
-  /// 图片资源url
+  /// 图片资源url（大图预览 [ImageScreen] 仍用 URL）
   final String imgUrl;
+
+  /// 已载入内存的本地图字节（优先于网络；不由 Widget 读路径）
+  final Uint8List? imageBytes;
 
   /// 用来定位缩放图片用
   final String? heroTag;
@@ -65,9 +71,17 @@ class ImageLookWidget extends StatelessWidget {
   /// 自动适应宽高
   final bool? autoSize;
 
-  /// Hero / 大图预览共用：显式 tag 优先，否则用 URL 稳住 identity（避免 UniqueKey 每次 rebuild）
+  /// Hero / 大图预览共用
   String get _effectiveHeroTag =>
-      (heroTag != null && heroTag!.isNotEmpty) ? heroTag! : imgUrl;
+      (heroTag != null && heroTag!.isNotEmpty)
+          ? heroTag!
+          : (Strings.isNotEmpty(imgUrl)
+              ? imgUrl
+              : 'memory_${imageBytes?.hashCode ?? 0}');
+
+  /// 大图预览 URL：无远程地址时不跳转大图（仅有内存图时）
+  String? get _previewUrl =>
+      Strings.isNotEmpty(imgUrl) ? imgUrl : null;
 
   static Widget _errorPlaceholder() {
     return Padding(
@@ -76,6 +90,37 @@ class ImageLookWidget extends StatelessWidget {
         'assets/image/common/hello@3x.png',
         fit: BoxFit.fill,
       ),
+    );
+  }
+
+  Widget _fixedSizeMemoryImage({
+    required Uint8List bytes,
+    required double logicalW,
+    required double logicalH,
+    required int memW,
+    required int memH,
+  }) {
+    return Image.memory(
+      bytes,
+      width: logicalW,
+      height: logicalH,
+      fit: fit ?? BoxFit.cover,
+      alignment: Alignment.center,
+      filterQuality: FilterQuality.medium,
+      gaplessPlayback: true,
+      cacheWidth: memW,
+      cacheHeight: memH,
+      errorBuilder: (_, __, ___) => _errorPlaceholder(),
+    );
+  }
+
+  Widget _autoSizeMemoryImage(Uint8List bytes) {
+    return Image.memory(
+      bytes,
+      fit: fit,
+      filterQuality: FilterQuality.medium,
+      gaplessPlayback: true,
+      errorBuilder: (_, __, ___) => _errorPlaceholder(),
     );
   }
 
@@ -130,8 +175,7 @@ class ImageLookWidget extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildImageContent(BuildContext context) {
     final logicalW = width ?? 66.0;
     final logicalH = height ?? 66.0;
     final dpr = MediaQuery.devicePixelRatioOf(context);
@@ -140,22 +184,43 @@ class ImageLookWidget extends StatelessWidget {
     final memH =
         autoSize == true ? null : (logicalH * dpr).round().clamp(1, 4096);
 
+    final bytes = imageBytes;
+    if (bytes != null && bytes.isNotEmpty) {
+      if (autoSize == true) {
+        return _autoSizeMemoryImage(bytes);
+      }
+      return _fixedSizeMemoryImage(
+        bytes: bytes,
+        logicalW: logicalW,
+        logicalH: logicalH,
+        memW: memW!,
+        memH: memH!,
+      );
+    }
+
+    if (Strings.isNotEmpty(imgUrl)) {
+      return autoSize == true
+          ? _autoSizeCachedImage()
+          : _fixedSizeImage(
+              context: context,
+              logicalW: logicalW,
+              logicalH: logicalH,
+              memW: memW!,
+              memH: memH!,
+            );
+    }
+
+    return SizedBox(
+      width: width ?? 66.0,
+      height: height ?? 66.0,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Widget container = ClipRRect(
       borderRadius: imgBorderRadius ?? BorderRadius.circular(4),
-      child: Strings.isNotEmpty(imgUrl)
-          ? (autoSize == true
-              ? _autoSizeCachedImage()
-              : _fixedSizeImage(
-                  context: context,
-                  logicalW: logicalW,
-                  logicalH: logicalH,
-                  memW: memW!,
-                  memH: memH!,
-                ))
-          : SizedBox(
-              width: width ?? 66.0,
-              height: height ?? 66.0,
-            ),
+      child: _buildImageContent(context),
     );
     if (autoSize != true) {
       container = Container(
@@ -172,21 +237,25 @@ class ImageLookWidget extends StatelessWidget {
     }
     if (enlargeLook == false) {
       return container;
-    } else {
-      return GestureDetector(
-          onTap: () {
-            onTap?.call();
-            Navigator.of(context).push<void>(
-              PageRouteBuilder(
-                opaque: false, // set to false
-                pageBuilder: (_, __, ___) => ImageScreen(
-                  url: imgUrl,
-                  heroTag: _effectiveHeroTag,
-                ),
-              ),
-            );
-          },
-          child: Hero(tag: _effectiveHeroTag, child: container));
     }
+    final previewUrl = _previewUrl;
+    return GestureDetector(
+      onTap: () {
+        onTap?.call();
+        if (previewUrl == null || previewUrl.isEmpty) {
+          return;
+        }
+        Navigator.of(context).push<void>(
+          PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (_, __, ___) => ImageScreen(
+              url: previewUrl,
+              heroTag: _effectiveHeroTag,
+            ),
+          ),
+        );
+      },
+      child: Hero(tag: _effectiveHeroTag, child: container),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'mine_controller.dart';
 
@@ -32,6 +33,8 @@ class MinePage extends BasePage<MineController> {
                         width: 56,
                         height: 56,
                         imgUrl: controller.userProfile?.avatar ?? '',
+                        imageBytes:
+                            UserInfoCenter().avatarImageBytes.value,
                         imgBorderRadius: BorderRadius.circular(28),
                       ),
                       const SizedBox(width: 12),
