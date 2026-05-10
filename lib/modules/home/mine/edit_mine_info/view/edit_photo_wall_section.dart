@@ -47,7 +47,7 @@ class EditPhotoWallSection extends BaseStatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          '前${EditProfileDraft.profileCardPhotoCount}张将展示在个人资料卡',
+          '长按拖动排序，最多9张，第1张将展示在资料卡',
           style: TextStyle(
             color: ThemeColor.secondaryTextColor,
             fontSize: 12,

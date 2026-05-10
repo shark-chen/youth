@@ -53,7 +53,6 @@ class EditProfileDraft {
   static const int maxSignatureLength = 30;
   static const int maxPhotos = 9;
   static const int profileCardTagCount = 3;
-  static const int profileCardPhotoCount = 3;
 
   factory EditProfileDraft.fromUserInfo(UserInfoEntity? u) {
     if (u == null) return EditProfileDraft();

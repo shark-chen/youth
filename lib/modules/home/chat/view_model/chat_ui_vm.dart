@@ -1,6 +1,6 @@
-import 'package:kellychat/base/base_bindings.dart';
 import 'package:kellychat/tripartite_library/chat_ui/chat_image_view.dart';
 import 'package:kellychat/tripartite_library/chat_ui/chat_normal_view.dart';
+import 'package:kellychat/utils/utils/theme_color.dart';
 import 'package:kellychat/widget/image_look/image_look.dart';
 import '../model/chat_history_entity.dart';
 import 'chat_vm.dart';
@@ -15,11 +15,12 @@ import 'package:flutter/material.dart';
 extension ChatUIVM on ChatVM {
   /// 构建聊天信息- UI
   Widget buildChatMsgUI(ChatHistoryList item) {
+    Widget bubble;
     switch (item.chatMsgType) {
       /// 文本消息
       case ChatMsgType.text:
         {
-          return ChatBaseWidget(
+          bubble = ChatBaseWidget(
             bubbleRadius: 12,
             text: item.content ?? '',
             isSender: item.isSender,
@@ -27,11 +28,12 @@ extension ChatUIVM on ChatVM {
             tail: true,
           );
         }
+        break;
 
       /// 图片
       case ChatMsgType.photo:
         {
-          return ChatImageWidget(
+          bubble = ChatImageWidget(
             bubbleRadius: 12,
             id: '${item.content}_${item.index}',
             image: ImageLookWidget(
@@ -43,11 +45,39 @@ extension ChatUIVM on ChatVM {
             ),
           );
         }
+        break;
       default:
         {
           return SizedBox();
         }
     }
+    return bubble;
+    return _chatBubbleWithOptionalTimeTag(item, bubble);
+  }
+
+  Widget _chatBubbleWithOptionalTimeTag(ChatHistoryList item, Widget bubble) {
+    final tag = item.timeTag;
+    if (tag == null || tag.isEmpty) return bubble;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              tag,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 11,
+                color: ThemeColor.secondaryTextColor,
+              ),
+            ),
+          ),
+        ),
+        bubble,
+      ],
+    );
   }
 
   /// mark - 消息滚动
