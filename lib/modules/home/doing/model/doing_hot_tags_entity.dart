@@ -11,6 +11,9 @@ class DoingHotTagsEntity {
   /// 自定义字段
   String? icon;
 
+  /// 列表展示用人数文案（由 [DoingListVM.configHotTags] 写入，非接口字段）
+  String? peopleCountDisplay;
+
   DoingHotTagsEntity();
 
   factory DoingHotTagsEntity.fromJson(dynamic json) {

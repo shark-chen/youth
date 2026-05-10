@@ -86,6 +86,8 @@ class DoingListController extends BaseController {
   @override
   Future onRefresh({bool? showLoading = false}) async {
     await requestStatusDoingByTagId(vm.value.doingHotTagsEntity?.tagId ?? 0);
+    /// request - 获取当前热门的正在做标签列表
+    requestHotTags();
     refreshController.refreshCompleted();
   }
 
