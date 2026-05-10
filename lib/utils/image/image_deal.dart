@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'dart:ui';
+import 'package:cross_file/cross_file.dart';
 import 'package:image/image.dart' as img;
+import 'package:kellychat/tripartite_library/image_compress/image_compress.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// FileName image_deal
 ///
@@ -18,6 +22,84 @@ class ImageByteData {
 }
 
 class ImageDeal {
+  /// 将本地图片压到不超过 [maxBytes]（默认 4MB），返回可供上传（如 FormData 本地文件）使用的路径。
+  ///
+  /// - 原文件不超过上限时 **直接返回** [filePath]，不写临时文件。
+  /// - 否则先走 [ImageCompress]（`flutter_image_compress`）；若仍超限，再用降采样 + JPEG 兜底。
+  /// - 返回路径可能是临时目录下的 `.jpg`，上传成功后可按需 [File.delete]。
+  /// - 文件不存在、无法解码或兜底仍无法达标时抛出异常。
+  Future<String> compressFileUnderMaxBytes(
+    String filePath, {
+    int maxBytes = 1 * 1024 * 1024,
+  }) async {
+    final file = File(filePath);
+    if (!await file.exists()) {
+      throw ArgumentError.value(filePath, 'filePath', '文件不存在');
+    }
+    final length = await file.length();
+    if (length <= maxBytes) {
+      return filePath;
+    }
+
+    final compressed =
+        await ImageCompress.compressImage(XFile(filePath), maxBytes);
+    if (compressed == null) {
+      throw StateError('图片压缩失败: $filePath');
+    }
+    final outPath = compressed.path;
+    final outLen = await File(outPath).length();
+    if (outLen <= maxBytes) {
+      return outPath;
+    }
+
+    return _fallbackShrinkFileToMaxBytes(outPath, maxBytes);
+  }
+
+  /// 原生压缩仍超限时的兜底：降分辨率 + 降 JPEG 质量，直到 ≤ [maxBytes]。
+  Future<String> _fallbackShrinkFileToMaxBytes(
+    String filePath,
+    int maxBytes,
+  ) async {
+    final raw = await File(filePath).readAsBytes();
+    final decoded = img.decodeImage(raw);
+    if (decoded == null) {
+      throw FormatException('无法解码图片: $filePath');
+    }
+    img.Image image = decoded;
+
+    var quality = 85;
+    while (true) {
+      final jpg = Uint8List.fromList(img.encodeJpg(image, quality: quality));
+      if (jpg.length <= maxBytes) {
+        return _writeTempJpgBytes(jpg);
+      }
+      if (image.width > 128 && image.height > 128) {
+        final nw = (image.width * 0.82).round().clamp(128, image.width).toInt();
+        final nh = (image.height * (nw / image.width)).round();
+        image = img.copyResize(image, width: nw, height: nh);
+        quality = 85;
+        continue;
+      }
+      if (quality > 15) {
+        quality -= 10;
+        continue;
+      }
+      final last = Uint8List.fromList(img.encodeJpg(image, quality: 10));
+      if (last.length <= maxBytes) {
+        return _writeTempJpgBytes(last);
+      }
+      throw StateError('无法在可接受范围内将图片压至 ${maxBytes ~/ 1024}KB 以下');
+    }
+  }
+
+  Future<String> _writeTempJpgBytes(Uint8List bytes) async {
+    final dir = await getTemporaryDirectory();
+    final path =
+        '${dir.path}/img_deal_${DateTime.now().millisecondsSinceEpoch}.jpg';
+    await File(path).writeAsBytes(bytes);
+    return path;
+  }
+
   /// 压缩图片
   Future<ImageByteData?> compressImage(ByteData? byteData) async {
     Uint8List? imageData = byteData?.buffer.asUint8List();

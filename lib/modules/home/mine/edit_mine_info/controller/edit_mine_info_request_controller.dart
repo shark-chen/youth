@@ -1,5 +1,6 @@
 import 'package:kellychat/network/net/entry/user/user.dart';
 import 'package:kellychat/network/net/net_result.dart';
+import 'package:kellychat/utils/image/image_deal.dart';
 import '../../user_info/model/user_info_entity.dart';
 import '../edit_mine_info_controller.dart';
 import '../model/image_links_entity.dart';
@@ -35,17 +36,21 @@ extension EditMineInfoReuestController on EditMineInfoController {
   Future<ImageLinksEntity?> requestUploadUserAvatar(String path) async {
     if (Strings.isEmpty(path)) return null;
     EasyLoading.show();
-    final response =
-        await Net.value<User>().requestUploadUserAvatar<ImageLinksEntity>(
-      path,
-      filename: path.split('/').last,
-    );
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      return response.value;
-    } else {
-      EasyLoading.showToast('上传失败');
-      return null;
+    try {
+      final uploadPath = await ImageDeal().compressFileUnderMaxBytes(path);
+      final response =
+          await Net.value<User>().requestUploadUserAvatar<ImageLinksEntity>(
+        uploadPath,
+        filename: uploadPath.split('/').last,
+      );
+      if (response.succeed) {
+        return response.value;
+      } else {
+        EasyLoading.showToast('上传失败');
+        return null;
+      }
+    } finally {
+      EasyLoading.dismiss();
     }
   }
 

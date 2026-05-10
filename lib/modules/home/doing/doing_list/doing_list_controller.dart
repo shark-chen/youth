@@ -43,6 +43,9 @@ class DoingListController extends BaseController {
 
     /// 刷新数据
     refreshData();
+
+    /// request - 获取当前热门的正在做标签列表
+    requestHotTags();
   }
 
   /// 添加监听事件
@@ -154,7 +157,20 @@ class DoingListController extends BaseController {
   ///
   /// 获取列表数据源
   /// 获取列表数据
-  List<DoingListList>? get rows {
-    return vm.value.rows;
+  List<DoingListList> get rows {
+    return vm.value.rows ?? [];
+  }
+
+  /// 热门标签数据 列表
+  List<DoingHotTagsEntity> get hotRows {
+    return vm.value.hotTags;
+  }
+
+  /// 列表数量
+  int get itemCount {
+    if (vm.value.haveDoingPerson) {
+      return rows.length;
+    }
+    return hotRows.length;
   }
 }

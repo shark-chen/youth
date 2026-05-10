@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'edit_mine_info_controller.dart';
 import 'model/edit_profile_draft.dart';
 import 'view/edit_basic_info_section.dart';
@@ -38,6 +39,8 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                     /// 基础信息
                     EditBasicInfoSection(
                       avatarUrl: d.avatarUrl,
+                      avatarImageBytes:
+                          UserInfoCenter().avatarImageBytes.value,
                       avatarLocalPath: d.pendingAvatarLocalPath,
                       nickname: d.nickname,
                       genderText: v.genderDisplay(),

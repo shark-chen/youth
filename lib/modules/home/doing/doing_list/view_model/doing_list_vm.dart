@@ -25,6 +25,9 @@ class DoingListVM extends BaseVM {
 
   DoingHotTagsEntity? doingHotTagsEntity;
 
+  /// 热门标签
+  List<DoingHotTagsEntity> hotTags = [];
+
   @override
   void onInit() {
     super.onInit();
@@ -48,8 +51,18 @@ class DoingListVM extends BaseVM {
     myDoing = value;
   }
 
+  /// 配置热门标签（含空列表，用于清空展示）
+  void configHotTags(List<DoingHotTagsEntity>? values) {
+    hotTags = List<DoingHotTagsEntity>.from(values ?? const []);
+  }
+
   /// 获取列表数据
   List<DoingListList>? get rows {
     return doingListEntity?.list;
+  }
+
+  /// 改事情是否有正在做的人
+  bool get haveDoingPerson {
+    return Lists.isNotEmpty(rows);
   }
 }

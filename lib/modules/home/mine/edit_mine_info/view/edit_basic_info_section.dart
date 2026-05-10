@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:kellychat/utils/utils/theme_color.dart';
@@ -11,6 +12,7 @@ class EditBasicInfoSection extends StatelessWidget {
   const EditBasicInfoSection({
     super.key,
     required this.avatarUrl,
+    this.avatarImageBytes,
     required this.avatarLocalPath,
     required this.nickname,
     required this.genderText,
@@ -24,6 +26,10 @@ class EditBasicInfoSection extends StatelessWidget {
   });
 
   final String avatarUrl;
+
+  /// 与「我的」同源：UserInfoCenter 读盘后的内存头像（无路径传给 Widget）
+  final Uint8List? avatarImageBytes;
+
   final String? avatarLocalPath;
   final String nickname;
   final String genderText;
@@ -94,6 +100,7 @@ class EditBasicInfoSection extends StatelessWidget {
       width: 40,
       height: 40,
       imgUrl: avatarUrl,
+      imageBytes: avatarImageBytes,
       imgBorderRadius: BorderRadius.circular(20),
     );
   }

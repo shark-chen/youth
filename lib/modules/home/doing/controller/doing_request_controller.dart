@@ -30,8 +30,7 @@ extension DoingRequestController on DoingController {
     }
   }
 
-  /// 获取当前热门的正在做标签列表
-  /// /api/status/hot-tags
+  /// request - 获取当前热门的正在做标签列表
   Future requestHotTags() async {
     EasyLoading.show();
     var response =
@@ -66,7 +65,6 @@ extension DoingRequestController on DoingController {
       return null;
     }
   }
-
 
 
   /// 获取个人信息 · GET /api/user/profile

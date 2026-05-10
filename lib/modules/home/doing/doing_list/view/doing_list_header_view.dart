@@ -43,6 +43,15 @@ class DoingListHeaderWidget extends BaseStatelessWidget {
       ),
       child: Row(
         children: [
+          GestureDetector(
+            onTap: closeTap,
+            child: Image.asset(
+              'assets/image/common/circle_close@3x.png',
+              width: 24,
+              height: 24,
+            ),
+          ),
+          const SizedBox(width: 8),
           Text(
             title ?? '',
             maxLines: 1,
@@ -53,15 +62,7 @@ class DoingListHeaderWidget extends BaseStatelessWidget {
               color: ThemeColor.blackColor,
             ),
           ),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: closeTap,
-            child: Image.asset(
-              'assets/image/common/circle_close@3x.png',
-              width: 24,
-              height: 24,
-            ),
-          ),
+
           Expanded(child: Container()),
           Material(
             color: Colors.transparent,

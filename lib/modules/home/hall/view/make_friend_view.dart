@@ -396,6 +396,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
                               child: Text(
                                 '聊一聊',
                                 style: TextStyles(
+                                  fontWeight: FontWeight.w600,
                                   color: ThemeColor.themeColor,
                                   fontSize: 16,
                                 ),

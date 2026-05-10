@@ -1,3 +1,4 @@
+import 'package:kellychat/modules/home/doing/model/doing_hot_tags_entity.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import '../../model/publish_doing_entity.dart';
 import '../doing_list_controller.dart';
@@ -14,7 +15,7 @@ import '../model/invite_friend_entity.dart';
 extension DoingListRequestController on DoingListController {
   /// mark - request
   ///
-  /// GET /api/status/my-doing
+  /// request - 我正在做的事情G
   Future<void> requestMyDoing() async {
     EasyLoading.show();
     final response =
@@ -31,7 +32,6 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
-  /// DELETE /api/status/doing/{statusId}
   /// request - 取消一个正在做的状态
   Future<bool> requestDeleteStatusDoing(int statusId) async {
     EasyLoading.show();
@@ -50,8 +50,21 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
+  /// request - 获取当前热门的正在做标签列表
+  Future requestHotTags() async {
+    EasyLoading.show();
+    var response =
+    await Net.value<Doing>().requestHotTags<DoingHotTagsEntity>(limit: 20);
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      vm.value.configHotTags(response.values);
+      vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
   /// request - 获取正在做某个标签的用户列表
-  /// GET /api/status/doing/{tagId}
   Future<void> requestStatusDoingByTagId(int tagId) async {
     EasyLoading.show();
     final response = await Net.value<Doing>()
@@ -66,8 +79,24 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
-  /// 向某个用户发送敲一下
-  /// /api/knock/send
+  /// 发布热门标签为「我正在做」（列表空态里点加号，与 Doing 页选标签一致）
+  Future<void> requestPublishDoingFromHotTag(DoingHotTagsEntity tag) async {
+    if (Strings.isEmpty(tag.tagName)) return;
+    EasyLoading.show();
+    final response =
+        await Net.value<Doing>().requestPostStatusDoing<PublishDoingEntity>(
+      tagName: tag.tagName ?? '',
+    );
+    EasyLoading.dismiss();
+    if (response.succeed && response.value != null) {
+      EventBusManager().fire(response.value!);
+      EasyLoading.showToast('发布成功');
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
+  /// request - 向某个用户发送敲一下
   Future<void> requestKnockSend({
     required int toUserId,
     int? tagId,
@@ -85,7 +114,7 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
-  /// 发送邀约-  · POST /api/invitation/send
+  /// request - 发送邀约
   Future<void> requestInvitationSend({
     required int toUserId,
     int invitationType = 1,
@@ -107,7 +136,7 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
-  /// 生成邀约码 · POST /api/invitation/generate-code
+  /// request -  生成邀约码 · POST /api/invitation/generate-code
   /// request body: inviteChannel, invitationType(必传), tagId(必传), message
   /// invitationType: 邀约类型：1-一起做某事
   Future<InviteFriendEntity?> requestInvitationGenerateCode({
@@ -151,8 +180,7 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
-  /// 加入一个等待中的一起做活动
-  /// POST /api/together/{togetherId}/join
+  /// request -  加入一个等待中的一起做活动
   Future<void> requestTogetherJoin(String togetherId) async {
     final id = togetherId.trim();
     if (id.isEmpty) {
