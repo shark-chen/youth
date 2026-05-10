@@ -4,7 +4,7 @@ import 'package:kellychat/modules/home/doing/model/doing_hot_tags_entity.dart';
 import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
 import 'doing_list_controller.dart';
-import 'view/doing_activity_stat_bar.dart';
+import 'view/doing_activity_stat_cell.dart';
 import 'view/doing_list_cell.dart';
 import 'view/doing_list_header_view.dart';
 
@@ -172,7 +172,7 @@ class DoingListPage extends BasePage<DoingListController> {
                       final hot = controller.hotRows[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: DoingActivityStatBar(
+                        child: DoingActivityStatCell(
                           activityName: hot.tagName ?? '--',
                           peopleCount: hot.userCount ?? 0,
                           onAddTap: () =>

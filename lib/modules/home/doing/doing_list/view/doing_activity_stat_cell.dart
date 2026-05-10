@@ -3,8 +3,8 @@ import 'package:kellychat/base/base_stateless_widget.dart';
 /// FileName: doing_activity_stat_bar
 ///
 /// @Description 正在做活动条：左侧 emoji +「正在 「标签」」+ 人数（万为单位绿色数字）+ 圆形加号
-class DoingActivityStatBar extends BaseStatelessWidget {
-  const DoingActivityStatBar({
+class DoingActivityStatCell extends BaseStatelessWidget {
+  const DoingActivityStatCell({
     super.key,
     this.leadingEmoji = '',
     required this.activityName,
@@ -36,9 +36,7 @@ class DoingActivityStatBar extends BaseStatelessWidget {
       return '$n';
     }
     final w = n / 10000.0;
-    final s = (w == w.roundToDouble())
-        ? '${w.toInt()}'
-        : w.toStringAsFixed(1);
+    final s = (w == w.roundToDouble()) ? '${w.toInt()}' : w.toStringAsFixed(1);
     return '${s}W';
   }
 
@@ -93,26 +91,10 @@ class DoingActivityStatBar extends BaseStatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: onAddTap,
-              customBorder: const CircleBorder(),
-              child: Container(
-                width: 32,
-                height: 32,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: _addCircleBg,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.add,
-                  size: 18,
-                  color: ThemeColor.themeGreenColor,
-                ),
-              ),
-            ),
+          Image.asset(
+            'assets/image/common/circle_add@3x.png',
+            width: 24,
+            height: 24,
           ),
         ],
       ),
