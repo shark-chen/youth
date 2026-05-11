@@ -31,8 +31,8 @@ class CitySetVM extends BaseVM {
   /// 选择的位置
   String? get selectLocation {
     return '${selectRegion?.province ?? ''}' +
-        '${selectRegion?.city ?? ''}' +
-        '${selectRegion?.district ?? ''}';
+        '-${selectRegion?.city ?? ''}' +
+        '-${selectRegion?.district ?? ''}';
   }
 
   /// 预加载省市区数据

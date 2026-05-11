@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:kellychat/modules/user/user_center/user_center.dart';
 import '../model/chat_history_entity.dart';
 import 'chat_vm.dart';
@@ -37,10 +36,16 @@ DateTime? _parseChatCreatedAt(String? s) {
   return null;
 }
 
+String _formatHHmm(DateTime d) =>
+    '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
+
 /// 微信风格时间文案（参考当前时间为「今天」）
+///
+/// 时间部分用数字拼接，避免 [DateFormat] 带 `zh_CN` 时依赖
+/// `initializeDateFormatting`（未初始化会抛 [UninitializedLocaleData]）。
 String _formatWeChatTimeTag(DateTime msgTime) {
   final now = DateTime.now();
-  final hm = DateFormat('HH:mm', 'zh_CN').format(msgTime);
+  final hm = _formatHHmm(msgTime);
 
   if (_isToday(msgTime, now)) return hm;
   if (_isYesterday(msgTime, now)) return '昨天 $hm';
