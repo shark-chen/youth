@@ -42,4 +42,9 @@ extension Login on User {
       data: <String, dynamic>{},
     );
   }
+
+  /// 刷新Token · POST /api/auth/refresh
+  Future<NetResult<T>> requestAuthRefresh<T>() async {
+    return await post<T>(AppConfig.postAuthRefreshUrl);
+  }
 }

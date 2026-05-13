@@ -45,16 +45,33 @@ class Global {
       }
       accessToken.value = token;
       await Stores().put('appLoginToken', token, userLat: false);
+      await setTokenTime(DateTime.now().millisecondsSinceEpoch);
       return token;
     } catch (_) {
       return token;
     }
   }
 
+  /// 获取token保存时间
+  static Future<int?> get getTokenTime async {
+    return await Stores().get<int>('appLoginTokenTime', userLat: false);
+  }
+
+  /// 设置token保存时间
+  static Future setTokenTime(int time) async {
+    await Stores().put('appLoginTokenTime', time, userLat: false);
+  }
+
+  /// 清除token保存时间
+  static Future clearTokenTime() async {
+    await Stores().put('appLoginTokenTime', 0, userLat: false);
+  }
+
   /// 设置登录
   static Future<bool> clearAccessToken() async {
     accessToken.value = "";
     await Stores().put('appLoginToken', '', userLat: false);
+    await clearTokenTime();
     return true;
   }
 

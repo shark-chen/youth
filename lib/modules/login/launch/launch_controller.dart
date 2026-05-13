@@ -1,5 +1,6 @@
 import '../../../base/base_controller.dart';
 import '../../user/global.dart';
+import '../../../network/net/entry/user/user.dart';
 
 /// FileName launch_controller
 ///
@@ -13,20 +14,25 @@ class LaunchController extends GetxController {
     super.onInit();
     var token = await Global.getAccessToken;
     if (Strings.isNotEmpty(token)) {
+      var tokenTime = await Global.getTokenTime;
+      var now = DateTime.now().millisecondsSinceEpoch;
+      var sixDaysMs = 6 * 24 * 60 * 60 * 1000;
+      if (tokenTime != null && (now - tokenTime > sixDaysMs)) {
+        var response = await Net.value<User>().requestAuthRefresh<String>();
+        if (response.success && Strings.isNotEmpty(response.value)) {
+          await Global.setAccessToken(response.value ?? '');
+        } else {
+          await Global.clearAccessToken();
+          Global.actualLogin.value = false;
+          await Get.offAllNamed(Routes.login);
+          return;
+        }
+      }
       await UserCenter().init();
       await Get.offAllNamed(Routes.homePage);
     } else {
-      /// 如果网络和服务器正常，请求服务器检测更新
-      // if (await NetWork.checkNetWork()) {
-      /// 检查是否需要更新
-      // bool doLogin = await UserService().doLogin();
-      // if(doLogin != true) {
       Global.actualLogin.value = false;
       await Get.offAllNamed(Routes.login);
-      return;
-      // }
-      // }
-      await Get.offAllNamed(Routes.homePage);
     }
   }
 }

@@ -153,6 +153,11 @@ class AppConfig {
     return '/api/auth/logout';
   }
 
+  /// 刷新Token
+  static String get postAuthRefreshUrl {
+    return '/api/auth/refresh';
+  }
+
   /// 发送验证码
   static String get getSmsSendUrl {
     return '/api/auth/sms/send';
