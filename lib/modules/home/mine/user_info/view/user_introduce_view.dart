@@ -10,39 +10,45 @@ class UserIntroduceWidget extends BaseStatelessWidget {
   const UserIntroduceWidget({
     Key? key,
     this.title,
-    this.content,
+    this.tags,
   }) : super(key: key);
 
   /// 标题
   final String? title;
 
-  /// 内容
-  final String? content;
+  /// 标签
+  final List<String>? tags;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title ?? '',
-            style: TextStyles(
-              color: ThemeColor.whiteColor,
-              fontWeight: FontWeight.bold,
+    if (Lists.isEmpty(tags)) {
+      return Text(
+        '暂无标签',
+        style: TextStyles(
+          fontSize: 12,
+          color: ThemeColor.whiteColor.withOpacity(0.6),
+        ),
+      );
+    }
+    return Wrap(
+      children: (tags ?? []).map(
+        (e) {
+          return Container(
+            padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: ThemeColor.inputBgColor,
             ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            content ?? '',
-            style: TextStyles(
-              fontSize: 12,
-              color: ThemeColor.whiteColor.withOpacity(0.6),
+            child: Text(
+              e,
+              style: TextStyles(
+                color: ThemeColor.whiteColor,
+                fontSize: 12,
+              ),
             ),
-          ),
-        ],
-      ),
+          );
+        },
+      ).toList(),
     );
   }
 }

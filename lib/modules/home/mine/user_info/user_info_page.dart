@@ -3,6 +3,7 @@ import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'user_info_controller.dart';
+import 'view/person_brief_view.dart';
 import 'view/picture_wall_view.dart';
 import 'view/user_header_info_view.dart';
 import 'view/user_introduce_view.dart';
@@ -59,18 +60,13 @@ class UserInfoPage extends BasePage<UserInfoController> {
                     const SizedBox(height: 24),
                     UserIntroduceWidget(
                       title: '个人标签',
-                      content: Lists.isEmpty(controller.userInfo?.tags)
-                          ? '暂无标签'
-                          : controller.userInfo?.tags?.join('、'),
+                      tags: controller.userInfo?.tags,
                     ),
                     const SizedBox(height: 28),
 
                     /// 用户标签信息- view
-                    UserIntroduceWidget(
-                      title: '个人简介',
-                      content: Strings.isEmpty(controller.userInfo?.signature)
-                          ? '暂无简介'
-                          : controller.userInfo?.signature,
+                    PersonBriefWidget(
+                      signature: controller.userInfo?.signature,
                     ),
                     const SizedBox(height: 16),
 
@@ -88,10 +84,9 @@ class UserInfoPage extends BasePage<UserInfoController> {
               visible: controller.vm.value.userId != null,
               child: BottomButton(
                 leftTitle: '一起做',
-                leftTap: () {
-
-                },
+                leftTap: () {},
                 rightTitle: '聊一聊',
+                rightTap: controller.pushChatPage,
               ),
             ),
           ],

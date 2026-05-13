@@ -15,6 +15,7 @@ class EditTagsSection extends BaseStatelessWidget {
     required this.tags,
     required this.onReorder,
     required this.onAdd,
+    required this.onRemoveTag,
     this.maxTags = 10,
     this.profileCardTagCount = 3,
   });
@@ -27,6 +28,9 @@ class EditTagsSection extends BaseStatelessWidget {
 
   /// 添加标签
   final VoidCallback onAdd;
+
+  /// 删除指定下标的标签
+  final ValueChanged<int>? onRemoveTag;
 
   /// 最大可添加标签数量
   final int maxTags;
@@ -141,6 +145,7 @@ class EditTagsSection extends BaseStatelessWidget {
                       key: ValueKey('tag-$i-${tags[i]}'),
                       label: tags[i],
                       index: i,
+                      onClose: () => onRemoveTag?.call(i),
                     ),
                 ],
               ),
@@ -157,10 +162,14 @@ class _TagRow extends StatelessWidget {
     super.key,
     required this.label,
     required this.index,
+    required this.onClose,
   });
 
   final String label;
   final int index;
+
+  /// 点击关闭图标
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
@@ -196,11 +205,18 @@ class _TagRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 6),
-                Icon(
-                  Icons.close,
-                  color: ThemeColor.whiteColor.withOpacity(0.8),
-                  size: 14,
+                const SizedBox(width: 2),
+                GestureDetector(
+                  onTap: onClose,
+                  behavior: HitTestBehavior.opaque,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Icon(
+                      Icons.close,
+                      color: ThemeColor.whiteColor.withOpacity(0.8),
+                      size: 14,
+                    ),
+                  ),
                 ),
               ],
             ),

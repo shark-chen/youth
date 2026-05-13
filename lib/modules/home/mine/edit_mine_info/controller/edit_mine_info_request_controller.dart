@@ -187,6 +187,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
       province: vm.value.draft.province,
       city: vm.value.draft.city,
       district: vm.value.draft.district,
+      signature: vm.value.signatureController.text,
       photos: remotePhotos.isEmpty ? null : remotePhotos,
     );
     if (!response.success) {

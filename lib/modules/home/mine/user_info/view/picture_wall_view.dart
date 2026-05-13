@@ -34,6 +34,16 @@ class PictureWallWidget extends BaseStatelessWidget {
             ),
           ),
           SizedBox(height: 6),
+          const SizedBox(height: 6),
+          Text(
+            '第1张将展示在个人资料卡',
+            style: TextStyle(
+              color: ThemeColor.secondaryTextColor,
+              fontSize: 12,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: 12),
           Wrap(
             runSpacing: 12,
             spacing: 12,

@@ -162,6 +162,16 @@ class EditMineInfoController extends BaseController {
     vm.refresh();
   }
 
+  /// 删除标签（关闭图标）
+  Future<void> onRemoveTag(int index) async {
+    vm.value.removeTagAt(index);
+    await requestUpdateUserTags(
+      tags: vm.value.draft.tags,
+      showLoad: false,
+    );
+    vm.refresh();
+  }
+
   /// 拖拽照片墙排序
   Future<void> onPhotoReorder(int oldIndex, int newIndex) async {
     vm.value.reorderPhotos(oldIndex, newIndex);

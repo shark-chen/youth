@@ -6,6 +6,20 @@ import 'package:kellychat/base/base_stateless_widget.dart';
 /// @Date 2026/3/29 20:33
 ///
 /// @Description 找朋友提示语-view
+
+/// 「Hi, 」与昵称之间有空格；昵称最多展示 10 字，超出加省略号。
+String _greetingHiLine(String? niceName) {
+  final raw = niceName?.trim() ?? '';
+  if (raw.isEmpty) {
+    return 'Hi,';
+  }
+  var display = raw;
+  if (display.length > 10) {
+    display = '${display.substring(0, 10)}...';
+  }
+  return 'Hi, $display';
+}
+
 class FindFriendPromptWidget extends BaseStatelessWidget {
   const FindFriendPromptWidget({
     Key? key,
@@ -29,7 +43,7 @@ class FindFriendPromptWidget extends BaseStatelessWidget {
         ),
         SizedBox(height: 25),
         Text(
-          'Hi,${niceName ?? ''}',
+          _greetingHiLine(niceName),
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w700,

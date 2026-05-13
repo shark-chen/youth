@@ -15,6 +15,15 @@ import 'user_info_request_controller.dart';
 ///
 /// @Description 编辑资料-路由-controller
 extension UserInfoRouteController on UserInfoController {
+  /// push - 实际聊天窗口-page-页面
+  Future pushChatPage() async {
+    await Get.toNamed(Routes.chatPage, parameters: {
+      'userId': (vm.value.userInfo?.id ?? '').toString(),
+      'niceName': vm.value.userInfo?.nickname ?? '',
+      'avatar': vm.value.userInfo?.avatar ?? '',
+    });
+  }
+
   /// push - 更多
   Future<void> pushMoreActionsAlert() async {
     /// 是否已拉黑 · GET /api/block/check/{blockedUserId}

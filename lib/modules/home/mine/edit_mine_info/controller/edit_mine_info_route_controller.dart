@@ -39,7 +39,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
         wholeCustomWidget: EditNickNameSheetWidget(
           title: title,
           nickname: tec.text,
-          maxLength: 100,
+          maxLength: 30,
           controller: tec,
           focusNode: focusNode,
           hintText: hintText,
