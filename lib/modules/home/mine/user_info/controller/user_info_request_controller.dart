@@ -1,3 +1,4 @@
+import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 
 import '../model/user_info_entity.dart';
@@ -99,6 +100,28 @@ extension UserInfoRequestController on UserInfoController {
     if (response.succeed) {
       vm.value.configUserInfo(response.value);
       vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
+  /// request - 发送邀约
+  Future<void> requestInvitationSend({
+    required int toUserId,
+    int invitationType = 1,
+    required int tagId,
+    String message = '',
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>().requestInvitationSend<dynamic>(
+      toUserId: toUserId,
+      invitationType: invitationType,
+      tagId: tagId,
+      message: message,
+    );
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      EasyLoading.showToast('已发送');
     } else {
       EasyLoading.showToast(response.msg ?? '');
     }

@@ -273,6 +273,11 @@ class AppConfig {
     return '/api/invitation/generate-code';
   }
 
+  /// 通过邀请码接受邀约（POST body: inviteCode）
+  static String get postInvitationAcceptByCodeUrl {
+    return '/api/invitation/accept-by-code';
+  }
+
   /// 发起一起做活动（POST body: tagName）
   static String get getTogetherCreateUrl {
     return '/api/together/create';

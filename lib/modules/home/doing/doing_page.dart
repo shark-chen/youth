@@ -16,10 +16,13 @@ class DoingPage extends BasePage<DoingController> {
   Widget build(BuildContext context) {
     /// 刷新数据
     controller.refreshData();
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final bottomSafe = MediaQuery.of(context).viewPadding.bottom;
+    final y = (bottomInset - kBottomNavigationBarHeight - bottomSafe);
     return GestureDetector(
       onTap: controller.hideKeyboard,
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         backgroundColor: ThemeColor.themeColor,
         body: Stack(
           children: [
@@ -123,7 +126,7 @@ class DoingPage extends BasePage<DoingController> {
                   /// 热门标签（数据源：DoingVM.hotTags）
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 60),
                       child: Obx(
                         () {
                           final tags = controller.vm.value.hotTags;
@@ -170,20 +173,37 @@ class DoingPage extends BasePage<DoingController> {
               ),
             ),
 
+            /// 输入框悬浮层：随键盘抬起，贴在键盘上方
             Positioned(
               left: 0,
               right: 0,
               bottom: 0,
-              child: SafeArea(
-                top: false,
-                child: InputAiWidget(
-                  hint: '输入你正在做的事…',
-                  controller: controller.editingController,
-                  focusNode: controller.focusNode,
-                  onSubmittedTap: (content) async {
-                    /// 点击发布正在做的事
-                    controller.clickPublishDoing(content);
-                  },
+              child: AnimatedPadding(
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeOut,
+                padding: EdgeInsets.only(
+                    bottom: y > 0 ? (y > 0 ? y : bottomInset) : bottomInset),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: bottomInset > 60 ? 0 : (bottomSafe + 12),
+                  ),
+                  child: Container(
+                    padding: bottomInset > 60
+                        ? EdgeInsets.only(top: 8)
+                        : EdgeInsets.zero,
+                    color: bottomInset > 60
+                        ? ThemeColor.textBlackColor.withOpacity(0.5)
+                        : Colors.transparent,
+                    child: InputAiWidget(
+                      hint: '输入你正在做的事…',
+                      controller: controller.editingController,
+                      focusNode: controller.focusNode,
+                      onSubmittedTap: (content) async {
+                        /// 点击发布正在做的事
+                        controller.clickPublishDoing(content);
+                      },
+                    ),
+                  ),
                 ),
               ),
             )

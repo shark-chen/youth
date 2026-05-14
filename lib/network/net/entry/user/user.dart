@@ -1,10 +1,7 @@
 import 'package:dio/dio.dart';
-
 import '../../../../config/environment_config/app_config.dart';
 import '../../net_mixin.dart';
 import '../../net_result.dart';
-export 'logistics.dart';
-export 'shops.dart';
 export 'login.dart';
 export 'config.dart';
 

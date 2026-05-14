@@ -2,6 +2,7 @@ import 'package:kellychat/config/environment_config/config.dart';
 import 'package:kellychat/network/net/entry/auxiliary/wechat.dart';
 import 'auxiliary/auxiliary.dart';
 import 'doing/doing.dart';
+import 'friend/friend.dart';
 import 'message/message.dart';
 import 'user/user.dart';
 
@@ -24,5 +25,6 @@ late final Map<String, dynamic> netEntryMap = {
   (User).toString(): User.init,
   (Doing).toString(): Doing.init,
   (Message).toString(): Message.init,
+  (Friend).toString(): Friend.init,
   (Auxiliary).toString(): Auxiliary.init,
 };

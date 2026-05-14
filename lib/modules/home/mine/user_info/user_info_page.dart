@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'user_info_controller.dart';
 import 'view/person_brief_view.dart';
 import 'view/picture_wall_view.dart';
@@ -80,8 +81,8 @@ class UserInfoPage extends BasePage<UserInfoController> {
             Visibility(
               visible: controller.vm.value.userId != null,
               child: BottomButton(
-                leftTitle: '一起做',
-                leftTap: () {},
+                leftTitle: MyDoing().doing == null ? '' : '一起做',
+                leftTap: controller.clickInvert,
                 rightTitle: '聊一聊',
                 rightTap: controller.pushChatPage,
               ),

@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'model/user_info_entity.dart';
 import 'view_model/user_info_vm.dart';
 export 'controller/user_info_route_controller.dart';
@@ -49,5 +50,17 @@ class UserInfoController extends BaseController {
     /// 获取个人信息 · GET /api/user/profile
     await requestUserProfile();
     await UserInfoCenter().requestUserInfo(update: true);
+  }
+
+  void clickInvert() async {
+    final result = await pushTogetherDoAlert();
+    if(result) {
+      /// 发送邀约 · POST /api/invitation/send
+      await requestInvitationSend(
+        toUserId: vm.value.userInfo?.id ?? 0,
+        invitationType: 1,
+        tagId: MyDoing().doing?.tagId ?? 0,
+      );
+    }
   }
 }
