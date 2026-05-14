@@ -62,4 +62,15 @@ class MessageController extends BaseController {
     /// request - 敲一下收件箱
     await requestKnockInbox();
   }
+
+  /// 下拉刷新
+  @override
+  Future<void> onRefresh() async {
+    await requestConversations();
+    await requestTogetherMyList();
+    await requestMyDoing();
+    await requestKnockReceived();
+    await refreshData();
+    refreshController.refreshCompleted();
+  }
 }

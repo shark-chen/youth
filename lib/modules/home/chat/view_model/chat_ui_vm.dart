@@ -42,6 +42,7 @@ extension ChatUIVM on ChatVM {
               autoSize: true,
               enlargeLook: false,
               imgBorderRadius: BorderRadius.circular(12),
+              heroTag: '${item.content ?? ''}_${item.index}_chat_bubble',
             ),
           );
         }

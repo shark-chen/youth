@@ -36,6 +36,7 @@ class MinePage extends BasePage<MineController> {
                         imageBytes:
                             UserInfoCenter().avatarImageBytes.value,
                         imgBorderRadius: BorderRadius.circular(28),
+                        heroTag: '${controller.userProfile?.avatar ?? ''}_mine_page',
                       ),
                       const SizedBox(width: 12),
                       Expanded(

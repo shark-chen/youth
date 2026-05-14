@@ -73,6 +73,7 @@ class DoingPage extends BasePage<DoingController> {
                               width: 32,
                               height: 32,
                               imgBorderRadius: BorderRadius.circular(32),
+                              heroTag: '${controller.vm.value.userInfo?.avatar ?? ''}_doing_page',
                             ),
                           ),
                         ),

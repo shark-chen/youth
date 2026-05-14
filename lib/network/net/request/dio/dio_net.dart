@@ -50,9 +50,9 @@ class DioNet implements Request {
     _dio = Dio();
     // _dio?.options.headers['systemType'] = GetPlatform.isIOS ? 2 : 1;
     _dio?.options
-      ?..connectTimeout = Duration(microseconds: 120000)
-      ..receiveTimeout = Duration(microseconds: 120000)
-      ..sendTimeout = Duration(microseconds: 120000);
+      ?..connectTimeout = Duration(milliseconds: 120000)
+      ..receiveTimeout = Duration(milliseconds: 120000)
+      ..sendTimeout = Duration(milliseconds: 120000);
     return _dio!;
   }
 

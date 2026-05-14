@@ -51,6 +51,7 @@ class InviteRecordCell extends BaseStatelessWidget {
               width: 42,
               height: 42,
               imgBorderRadius: BorderRadius.circular(24),
+              heroTag: '${headPortraitUrl ?? ''}_invite_record',
             ),
             SizedBox(width: 6),
             Column(

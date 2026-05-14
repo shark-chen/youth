@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:kellychat/base/base_page.dart';
-import 'package:kellychat/utils/extension/lists/lists.dart';
-import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'user_info_controller.dart';
 import 'view/person_brief_view.dart';
 import 'view/picture_wall_view.dart';

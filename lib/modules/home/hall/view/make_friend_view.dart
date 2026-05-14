@@ -274,6 +274,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
                   imgUrl: item.avatar ?? '',
                   autoSize: true,
                   fit: BoxFit.fill,
+                  heroTag: '${item.avatar ?? ''}_make_friend_${item.userId ?? ''}',
                 ),
               ),
               Positioned.fill(

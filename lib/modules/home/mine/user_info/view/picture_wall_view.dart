@@ -55,6 +55,8 @@ class PictureWallWidget extends BaseStatelessWidget {
                   height: (220.0 / 165.5) * ((screenWidth - 32 - 12) / 2),
                   child: ImageLookWidget(
                     imgUrl: pictures?[index] ?? '',
+                    heroTag:
+                        '${pictures?[index] ?? ''}_${index}_picture_wall_view',
                     imgBorderRadius: BorderRadius.circular(12),
                     borderColor: ThemeColor.whiteColor.withOpacity(0.1),
                   ),

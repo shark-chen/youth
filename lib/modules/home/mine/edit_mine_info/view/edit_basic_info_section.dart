@@ -102,6 +102,7 @@ class EditBasicInfoSection extends StatelessWidget {
       imgUrl: avatarUrl,
       imageBytes: avatarImageBytes,
       imgBorderRadius: BorderRadius.circular(20),
+      heroTag: '${avatarUrl}_edit_basic_info',
     );
   }
 

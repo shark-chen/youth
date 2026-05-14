@@ -41,6 +41,7 @@ class ChatImageWidget extends BubbleNormalImage {
             height: 40,
             width: 40,
             imgBorderRadius: BorderRadius.circular(20),
+            heroTag: '${avatar ?? ''}_chat_image',
           )
         : SizedBox(width: 40, height: 40);
     return Row(

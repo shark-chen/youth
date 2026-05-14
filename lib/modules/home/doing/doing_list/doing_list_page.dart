@@ -57,6 +57,7 @@ class DoingListPage extends BasePage<DoingListController> {
                     height: 23,
                     enlargeLook: false,
                     imgBorderRadius: BorderRadius.circular(32),
+                    heroTag: '${UserCenter().user?.avatar ?? ''}_doing_list',
                   ),
                 ),
               ),

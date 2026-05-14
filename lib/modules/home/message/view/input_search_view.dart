@@ -1,4 +1,6 @@
 import 'package:kellychat/base/base_stateless_widget.dart';
+import 'package:kellychat/tripartite_library/tripartite_library.dart';
+import 'package:kellychat/widget/bottom_dialog/bottom_dialog.dart';
 
 /// FileName: input_search_view
 ///
@@ -54,15 +56,21 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
         alignment: Alignment.center,
         children: [
           /// ⭐ 居中占位（未输入 & 未focus）
-          Image.asset(
-            'assets/image/common/search_icon@3x.png',
-            width: 24,
-            height: 24,
-            color: ThemeColor.redColor,
+          Visibility(
+            visible: !isFocus,
+            child: Padding(
+              padding: EdgeInsets.only(right: 60),
+              child: Image.asset(
+                'assets/image/common/search_icon@3x.png',
+                width: 20,
+                height: 20,
+              ),
+            ),
           ),
 
           /// ⭐ 真正输入框
           TextField(
+            textAlignVertical: TextAlignVertical.center,
             controller: _controller,
             focusNode: _focusNode,
             style: const TextStyle(color: Colors.white, fontSize: 14),
@@ -73,12 +81,21 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
               hintText: '搜索',
               hintStyle: TextStyle(
                 color: Colors.white.withOpacity(0.5),
+                fontSize: 15,
               ),
               prefixIcon: isFocus
                   ? Padding(
                       padding: EdgeInsets.only(left: 12, right: 2),
-                      child: Icon(Icons.search,
-                          color: Colors.white.withOpacity(0.6)))
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Image.asset(
+                          'assets/image/common/search_icon@3x.png',
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                    )
                   : null,
               prefixIconConstraints:
                   const BoxConstraints(minWidth: 20, minHeight: 20),
@@ -91,7 +108,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
               //         },
               //       )
               //     : null,
-              contentPadding: const EdgeInsets.symmetric(vertical: 10),
+              contentPadding: const EdgeInsets.only(top: 8, bottom: 12),
             ),
           ),
         ],

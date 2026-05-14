@@ -46,7 +46,7 @@ class EditGenderSheetWidget extends BaseStatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      '编辑昵称',
+                      '设置性别',
                       style: TextStyle(
                         color: ThemeColor.whiteColor,
                         fontSize: 14,

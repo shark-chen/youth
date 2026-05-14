@@ -217,7 +217,7 @@ abstract class NetMixin<T> with NetCache<T> implements Net<T> {
 
   /// 自定义请求头/其他配置设置
   Future configNetOption(NetMixin mixin) async {
-    (request ??= Request.value<DioNet>()).configNetOption(mixin);
+    await (request ??= Request.value<DioNet>()).configNetOption(mixin);
   }
 
   /// 请求参数统一处理

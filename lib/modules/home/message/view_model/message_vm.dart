@@ -44,7 +44,13 @@ class MessageVM extends BaseVM {
   }
 
   /// 配置对话列表
-  void configConversations(List<MessagePersonListEntity>? values) {
+  void configConversations(
+    List<MessagePersonListEntity>? values, {
+    bool? refresh = true,
+  }) {
+    if(true == refresh) {
+      conversations.clear();
+    }
     conversations.addAll(values ?? []);
   }
 

@@ -133,6 +133,7 @@ class _PhotoCell extends StatelessWidget {
                   imgUrl: pathOrUrl,
                   imgBorderRadius: BorderRadius.circular(12),
                   borderColor: Colors.transparent,
+                  heroTag: '${pathOrUrl}_edit_photo_wall',
                 )
               : Image.file(
                   File(pathOrUrl),

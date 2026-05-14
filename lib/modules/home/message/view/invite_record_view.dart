@@ -74,6 +74,7 @@ class InviteRecordWidget extends BaseStatelessWidget {
                               imgUrl: 'dsad',
                               height: 24,
                               width: 24,
+                              heroTag: 'invite_record_avatar_$index',
                             );
                           },
                         ),

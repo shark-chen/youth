@@ -251,7 +251,7 @@ class _ImageScreenState extends State<ImageScreen>
                 bottom: 50,
                 child: IconButton(
                   icon: Image.asset(
-                    'assets/image/icons/close@3x.png',
+                    'assets/image/common/close@3x.png',
                     height: 35,
                     width: 35,
                   ),

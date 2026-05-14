@@ -21,21 +21,20 @@ extension MessageRequestController on MessageController {
   ///
   /// GET /api/message/conversations 获取用户会话列表
   Future<void> requestConversations({
-    int page = 1,
-    int size = 20,
+    bool cache = false,
   }) async {
     EasyLoading.show();
     final response =
         await Net.value<Message>().caches<MessagePersonListEntity>((values) {
-      vm.value.configConversations(values);
+      vm.value.configConversations(values, refresh: pageNo == 1);
       vm.refresh();
-    }).requestMessageConversations<MessagePersonListEntity>(
-      page: page,
-      size: size,
+    }, cache: cache).requestMessageConversations<MessagePersonListEntity>(
+      page: pageNo,
+      size: pageSize,
     );
     EasyLoading.dismiss();
     if (response.succeed) {
-      vm.value.configConversations(response.values);
+      vm.value.configConversations(response.values, refresh: pageNo == 1);
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');

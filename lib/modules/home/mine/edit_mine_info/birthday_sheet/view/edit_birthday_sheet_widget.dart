@@ -113,7 +113,7 @@ class _EditBirthdaySheetPanel extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  '修改生日',
+                  '设置生日',
                   style: TextStyle(
                     color: ThemeColor.whiteColor,
                     fontSize: 16,

@@ -54,6 +54,7 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
             height: 64,
             width: 64,
             imgUrl: headPortraitUrl ?? '',
+            heroTag: '${headPortraitUrl ?? ''}_${userName}_user_header_info_view',
             imgBorderRadius: BorderRadius.circular(32),
           ),
           SizedBox(width: 12),

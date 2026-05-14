@@ -42,6 +42,7 @@ class ChatBaseWidget extends BubbleNormal {
             height: 40,
             width: 40,
             imgBorderRadius: BorderRadius.circular(20),
+            heroTag: '${avatar ?? ''}_chat_normal',
           )
         : SizedBox(width: 40, height: 40);
     return Padding(

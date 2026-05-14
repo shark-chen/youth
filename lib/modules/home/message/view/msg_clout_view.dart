@@ -68,6 +68,7 @@ class MsgCloutWidget extends BaseStatelessWidget {
                             height: 42,
                             width: 42,
                             imgBorderRadius: BorderRadius.circular(26),
+                            heroTag: '${headPortraitUrl ?? ''}_msg_clout',
                           ),
 
                           SizedBox(width: 12),

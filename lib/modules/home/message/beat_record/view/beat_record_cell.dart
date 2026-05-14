@@ -52,6 +52,7 @@ class BeatRecordCell extends BaseStatelessWidget {
               width: 42,
               height: 42,
               imgBorderRadius: BorderRadius.circular(24),
+              heroTag: '${headPortraitUrl ?? ''}_beat_record',
             ),
             SizedBox(width: 6),
             Column(

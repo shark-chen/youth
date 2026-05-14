@@ -189,7 +189,6 @@ class InputSure extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                     child: Image.asset(
-                        color: ThemeColor.whiteColor,
                         "assets/image/common/common_search_icon@3x.png",
                         width: 20,
                         height: 20),

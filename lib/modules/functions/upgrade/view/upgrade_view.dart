@@ -217,7 +217,7 @@ class _UpgradeDialogState extends State<UpgradeDialog>
                 Image.asset("assets/image/icons/upgrade_bg@3x.png"),
                 if (widget.info.isForce == false)
                   IconButton(
-                    icon: Image.asset("assets/image/icons/close@3x.png",
+                    icon: Image.asset("assets/image/common/close@3x.png",
                         height: 28, width: 28),
                     onPressed: () {
                       UpgradeTool.updateFewDays();
