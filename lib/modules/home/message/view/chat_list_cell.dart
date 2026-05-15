@@ -55,40 +55,49 @@ class ChatListCell extends BaseStatelessWidget {
             SizedBox(width: 12),
 
             /// 名称 + 时间 + 消息
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// 名称 + 时间
-                Row(
-                  children: [
-                    Text(
-                      name ?? '',
-                      style: TextStyles(
-                        color: ThemeColor.whiteColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// 名称 + 时间
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          name ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyles(
+                            color: ThemeColor.whiteColor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
-                    ),
-                    Text(
-                      time ?? '',
-                      style: TextStyles(
-                        color: ThemeColor.iconBlackColor,
-                        fontSize: 12,
+                      SizedBox(width: 8),
+                      Text(
+                        time ?? '',
+                        style: TextStyles(
+                          color: ThemeColor.iconBlackColor,
+                          fontSize: 12,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 2),
-                /// 消息
-                Text(
-                  msg ?? '',
-                  style: TextStyles(
-                    color: ThemeColor.iconBlackColor,
-                    fontSize: 12,
+                    ],
                   ),
-                ),
-              ],
+                  SizedBox(height: 2),
+                  /// 消息
+                  Text(
+                    msg ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyles(
+                      color: ThemeColor.iconBlackColor,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -9,6 +9,10 @@ import 'package:kellychat/modules/home/chat/model/chat_param_model.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/doing_list_entity.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/invite_friend_entity.dart';
 import 'package:kellychat/modules/home/doing/model/doing_hot_tags_entity.dart';
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_entity.dart';
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
+import 'package:kellychat/modules/home/doing/model/doing_partner_entity.dart';
 import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:kellychat/modules/home/hall/model/smart_match_people_entity.dart';
 import 'package:kellychat/modules/home/message/beat_record/model/beat_item_entity.dart';
@@ -53,6 +57,10 @@ class JsonConvert {
     (ChatHistoryList).toString(): ChatHistoryList.fromJson,
     (ChatImEntity).toString(): ChatImEntity.fromJson,
     (ChatParamModel).toString(): ChatParamModel.fromJson,
+    (DoingPartnerEntity).toString(): DoingPartnerEntity.fromJson,
+    (InvitationEntity).toString(): InvitationEntity.fromJson,
+    (InvitationItemEntity).toString(): InvitationItemEntity.fromJson,
+    (InvitationInboxEntity).toString(): InvitationInboxEntity.fromJson,
   };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -241,6 +249,22 @@ class JsonConvert {
     if (<ChatParamModel>[] is M) {
       return data.map<ChatParamModel>((Map<String, dynamic> e) =>
           ChatParamModel.fromJson(e)).toList() as M;
+    }
+    if (<DoingPartnerEntity>[] is M) {
+      return data.map<DoingPartnerEntity>((Map<String, dynamic> e) =>
+          DoingPartnerEntity.fromJson(e)).toList() as M;
+    }
+    if (<InvitationEntity>[] is M) {
+      return data.map<InvitationEntity>((Map<String, dynamic> e) =>
+          InvitationEntity.fromJson(e)).toList() as M;
+    }
+    if (<InvitationItemEntity>[] is M) {
+      return data.map<InvitationItemEntity>((Map<String, dynamic> e) =>
+          InvitationItemEntity.fromJson(e)).toList() as M;
+    }
+    if (<InvitationInboxEntity>[] is M) {
+      return data.map<InvitationInboxEntity>((Map<String, dynamic> e) =>
+          InvitationInboxEntity.fromJson(e)).toList() as M;
     }
     debugPrint("${M.toString()} not found");
     return null;

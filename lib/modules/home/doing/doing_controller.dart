@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
+import '../home/view/tabs.dart';
 import '../mine/user_info/model/user_info_entity.dart';
 import 'model/doing_nav_ids.dart';
 import 'model/doing_hot_tags_entity.dart';
@@ -36,6 +37,9 @@ class DoingController extends BaseController {
 
     /// 获取当前热门的正在做标签列表
     await requestHotTags();
+
+    /// 获取我正在做的事情
+    await requestMyDoing();
   }
 
   @override
@@ -48,6 +52,11 @@ class DoingController extends BaseController {
     EventBusManager().listen<UserInfoEntity>(this, (event) async {
       await UserCenter().init();
       vm.refresh();
+    });
+    EventBusManager().listen<HomeTabs>(this, (tab) async {
+      if (tab == HomeTabs.doing) {
+        await refreshData();
+      }
     });
   }
 

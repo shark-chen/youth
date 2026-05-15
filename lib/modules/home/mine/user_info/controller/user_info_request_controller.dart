@@ -105,6 +105,24 @@ extension UserInfoRequestController on UserInfoController {
     }
   }
 
+  /// request - 取消一个正在做的状态
+  Future<bool> requestDeleteStatusDoing(int statusId) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>()
+        .requestDeleteStatusDoing<dynamic>(statusId: statusId);
+    EasyLoading.dismiss();
+    if (response.code == 200) {
+      EasyLoading.showToast('已删除');
+      return true;
+    } else if (response.code == 50000) {
+      EasyLoading.showToast(response.msg ?? '');
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
+    }
+  }
+
   /// request - 发送邀约
   Future<void> requestInvitationSend({
     required int toUserId,

@@ -1,10 +1,12 @@
 import 'package:kellychat/modules/home/doing/model/doing_hot_tags_entity.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import '../../model/publish_doing_entity.dart';
 import '../doing_list_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
 import '../model/doing_list_entity.dart';
 import '../model/invite_friend_entity.dart';
+import '../model/invitation_inbox_entity.dart';
 
 /// FileName: doing_list_request_controller
 ///
@@ -26,6 +28,11 @@ extension DoingListRequestController on DoingListController {
     EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configMyDoing(response.value);
+      MyDoing().configDoing(response.value);
+      vm.refresh();
+    } else if (response.code == 200) {
+      vm.value.configMyDoing(null);
+      MyDoing().configDoing(null);
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');
@@ -111,6 +118,37 @@ extension DoingListRequestController on DoingListController {
       EasyLoading.showToast('已发送');
     } else {
       EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
+  /// GET /api/invitation/inbox
+  /// 邀约收件箱（双向合并列表 + 未读数）
+  Future<void> requestInvitationInbox() async {
+    final response = await Net.value<Doing>()
+        .cache<InvitationInboxEntity>((value) {
+      if (value == null) return;
+      vm.value.configInvitationInbox(value);
+      vm.refresh();
+    }).requestInvitationInbox<InvitationInboxEntity>();
+    if (response.succeed) {
+      vm.value.configInvitationInbox(response.value);
+      vm.refresh();
+    }
+  }
+
+  /// DELETE /api/invitation/{invitationId}
+  /// 取消邀约（发起方主动取消，仅限待处理状态）
+  Future<bool> requestInvitationCancel(int invitationId) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>()
+        .requestInvitationCancel<dynamic>(invitationId: invitationId);
+    EasyLoading.dismiss();
+    if (response.succeed || response.code == 200) {
+      EasyLoading.showToast('已取消');
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return false;
     }
   }
 

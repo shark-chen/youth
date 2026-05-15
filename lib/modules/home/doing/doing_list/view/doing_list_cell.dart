@@ -1,5 +1,17 @@
 import 'package:kellychat/base/base_stateless_widget.dart';
 
+/// 一起做按钮状态
+enum TogetherButtonStatus {
+  /// 可用（可发起或加入）
+  available,
+
+  /// 置灰（对方已有连接，或自己已有其他连接）
+  disabled,
+
+  /// 已连接（显示取消）
+  connected,
+}
+
 /// FileName: doing_list_cell
 ///
 /// @Author 谌文
@@ -16,6 +28,7 @@ class DoingListCell extends BaseStatelessWidget {
     this.age,
     this.signature,
     this.isOnline = false,
+    this.togetherStatus = TogetherButtonStatus.available,
     this.onKnockTap,
     this.onTogetherTap,
     this.onTap,
@@ -41,6 +54,9 @@ class DoingListCell extends BaseStatelessWidget {
 
   /// 头像右下角在线绿点
   final bool isOnline;
+
+  /// 一起做按钮状态
+  final TogetherButtonStatus togetherStatus;
 
   final VoidCallback? onKnockTap;
   final VoidCallback? onTogetherTap;
@@ -134,18 +150,40 @@ class DoingListCell extends BaseStatelessWidget {
                   onTap: onKnockTap,
                 ),
                 const SizedBox(height: 8),
-                _PillButton(
-                  label: '一起做',
-                  background: ThemeColor.doingListTogetherBgColor,
-                  foreground: Colors.white,
-                  onTap: onTogetherTap,
-                ),
+                _buildTogetherButton(),
               ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildTogetherButton() {
+    switch (togetherStatus) {
+      case TogetherButtonStatus.disabled:
+        return _PillButton(
+          label: '一起做',
+          background: const Color(0xFF3A3A3C),
+          foreground: Colors.white.withOpacity(0.4),
+          onTap: null,
+        );
+      case TogetherButtonStatus.connected:
+        return _PillButton(
+          label: '取消',
+          background: const Color(0xFFFF3B30),
+          foreground: Colors.white,
+          onTap: onTogetherTap,
+        );
+      case TogetherButtonStatus.available:
+      default:
+        return _PillButton(
+          label: '一起做',
+          background: ThemeColor.doingListTogetherBgColor,
+          foreground: Colors.white,
+          onTap: onTogetherTap,
+        );
+    }
   }
 }
 

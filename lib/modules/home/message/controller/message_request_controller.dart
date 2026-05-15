@@ -1,4 +1,5 @@
 import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/message/message.dart';
 
@@ -52,6 +53,11 @@ extension MessageRequestController on MessageController {
     EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configMyDoing(response.value);
+      MyDoing().configDoing(response.value);
+      vm.refresh();
+    } else if (response.code == 200) {
+      vm.value.configMyDoing(null);
+      MyDoing().configDoing(null);
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');

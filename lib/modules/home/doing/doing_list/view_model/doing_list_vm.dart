@@ -5,6 +5,8 @@ import 'package:kellychat/base/base_vm.dart';
 import '../../model/doing_hot_tags_entity.dart';
 import '../../model/publish_doing_entity.dart';
 import '../model/doing_list_entity.dart';
+import '../model/invitation_inbox_entity.dart';
+import '../model/invitation_item_entity.dart';
 
 /// FileName: doing_list_vm
 ///
@@ -24,6 +26,9 @@ class DoingListVM extends BaseVM {
 
   /// 我正在做的事
   PublishDoingEntity? myDoing;
+
+  /// 邀约收件箱（含发出的和收到的）
+  InvitationInboxEntity? invitationInbox;
 
   DoingHotTagsEntity? doingHotTagsEntity;
 
@@ -51,6 +56,29 @@ class DoingListVM extends BaseVM {
   /// 配置我正在做的事
   void configMyDoing(PublishDoingEntity? value) {
     myDoing = value;
+  }
+
+  /// 配置邀约收件箱
+  void configInvitationInbox(InvitationInboxEntity? value) {
+    invitationInbox = value;
+  }
+
+  /// 是否有待处理的发出邀约
+  bool get hasPendingSentInvitation {
+    final items = invitationInbox?.items ?? [];
+    return items.any((e) => e.direction == 'sent' && e.status == 0);
+  }
+
+  /// 获取待处理的发出邀约（如果有）
+  InvitationItemEntity? get pendingSentInvitation {
+    final items = invitationInbox?.items ?? [];
+    try {
+      return items.firstWhere(
+        (e) => e.direction == 'sent' && e.status == 0,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   /// 配置热门标签：从接口返回列表中 **随机** 抽取 3～5 条，并写入 [DoingHotTagsEntity.peopleCountDisplay]。

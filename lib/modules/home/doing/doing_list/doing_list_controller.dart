@@ -1,8 +1,10 @@
 import 'package:kellychat/base/base_controller.dart';
 import '../../mine/user_info/model/user_info_entity.dart';
+import '../../../user/user_center/my_doing/my_doing.dart';
 import '../model/doing_hot_tags_entity.dart';
 import '../model/publish_doing_entity.dart';
 import 'model/doing_list_entity.dart';
+import 'view/doing_list_cell.dart';
 import 'view_model/doing_list_vm.dart';
 import 'controller/doing_list_request_controller.dart';
 export 'controller/doing_list_request_controller.dart';
@@ -68,6 +70,8 @@ class DoingListController extends BaseController {
   /// 刷新数据
   Future refreshData() async {
     requestMyDoing();
+    /// 获取邀约收件箱（用于判断是否有待处理邀约）
+    requestInvitationInbox();
     final value = vm.value.doingHotTagsEntity;
     if (value == null) return;
     final name = value.tagName;
@@ -116,13 +120,65 @@ class DoingListController extends BaseController {
     vm.refresh();
   }
 
+  /// 计算一起做按钮状态
+  TogetherButtonStatus togetherButtonStatusFor(DoingListList? item) {
+    if (item == null) return TogetherButtonStatus.available;
+
+    final myPartner = MyDoing().doing?.togetherPartner;
+
+    // 已和对方建立连接
+    if (myPartner?.userId == item.userId) {
+      return TogetherButtonStatus.connected;
+    }
+
+    // 自己已和其他人建立连接
+    if (myPartner != null) {
+      return TogetherButtonStatus.disabled;
+    }
+
+    // 默认可用
+    return TogetherButtonStatus.available;
+  }
+
   /// 点击加入一起 一起做
   Future clickJoinTogether(DoingListList? item) async {
     if (item == null) return;
 
+    final myPartner = MyDoing().doing?.togetherPartner;
+
+    // 已和对方建立连接，点击取消
+    if (myPartner?.userId == item.userId) {
+      final confirm = await pushCancelDoingDialog();
+      if (!confirm) return;
+      // TODO: 后端缺少取消一起做的API，暂时先删除正在做状态
+      await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
+      vm.refresh();
+      return;
+    }
+
+    // 自己已和其他人建立连接
+    if (myPartner != null) {
+      await pushAlreadyConnectedDialog(myPartner.nickname ?? '');
+      return;
+    }
+
+    // 有待处理的发出邀约（且不是发给当前用户）
+    final pendingInvitation = vm.value.pendingSentInvitation;
+    if (pendingInvitation != null && pendingInvitation.targetUserId != item.userId) {
+      final result = await pushCancelOldInvitationAlert(pendingInvitation);
+      if (true != result) return;
+      // 取消旧邀约
+      final cancelled = await requestInvitationCancel(
+        pendingInvitation.invitationId ?? 0,
+      );
+      if (!cancelled) return;
+    }
+
     /// push - 一起做 弹框确认alert
-    final result = await pushTogetherDoAlert(item);
-    if (true != result) return;
+    final confirm = await pushTogetherDoAlert(item);
+    if (true != confirm) return;
+
+    // 正常流程
     if (item.togetherId == null) {
       /// 发送邀约 · POST /api/invitation/send
       await requestInvitationSend(

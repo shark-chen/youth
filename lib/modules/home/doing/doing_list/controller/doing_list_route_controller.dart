@@ -5,6 +5,7 @@ import '../../model/doing_nav_ids.dart';
 import '../doing_list_controller.dart';
 import '../model/doing_list_entity.dart';
 import '../model/invite_friend_entity.dart';
+import '../model/invitation_item_entity.dart';
 import '../view/doing_together_confirm_widget.dart';
 import '../view/invite_together_sheet_widget.dart';
 
@@ -65,7 +66,7 @@ extension DoingListRouteController on DoingListController {
           constraints: const BoxConstraints(maxWidth: 420),
           child: DoingTogetherConfirmWidget(
             content:
-                '你向「${item?.nickname ?? '--'}」发起的「${vm.value.doingListEntity?.tagName ?? '-'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并建立新的一起做。',
+                '确定向「${item?.nickname ?? '--'}」发起「${vm.value.doingListEntity?.tagName ?? '-'}」一起做邀约吗？',
             onCancel: Get.back,
             onContinue: () async {
               result = true;
@@ -97,6 +98,49 @@ extension DoingListRouteController on DoingListController {
           Get.back();
         },
       ),
+    );
+    return result;
+  }
+
+  /// push - 已与其他人建立一起做的提示弹窗
+  Future<void> pushAlreadyConnectedDialog(String partnerName) async {
+    final ctx = Get.context;
+    if (ctx == null) return;
+    await showDialog<void>(
+      context: ctx,
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => DialogAlertWidget(
+        content: '你正在与$partnerName一起做，请取消后再试。',
+        leftTitle: '我知道了',
+        leftTap: Get.back,
+        rightTitle: '',
+        rightTap: Get.back,
+      ),
+    );
+  }
+
+  /// push - 取消旧邀约并建立新的一起做 弹窗
+  Future<bool> pushCancelOldInvitationAlert(InvitationItemEntity? invitation) async {
+    var result = false;
+    await Get.dialog(
+      Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: DoingTogetherConfirmWidget(
+            content:
+                '你向「${invitation?.targetNickname ?? '--'}」发起的「${invitation?.tagName ?? '-'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并建立新的一起做。',
+            onCancel: Get.back,
+            onContinue: () async {
+              result = true;
+              Get.back();
+            },
+          ),
+        ),
+      ),
+      barrierDismissible: true,
     );
     return result;
   }

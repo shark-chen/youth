@@ -89,6 +89,44 @@ class Doing extends NetMixin<Doing> {
     );
   }
 
+  /// GET /api/invitation/inbox
+  /// 邀约收件箱（双向合并列表 + 未读数）
+  Future<NetResult<T>> requestInvitationInbox<T>() async {
+    return await get<T>(AppConfig.getInvitationInboxUrl);
+  }
+
+  /// GET /api/invitation/received
+  /// 获取收到的邀约
+  Future<NetResult<T>> requestInvitationReceived<T>() async {
+    return await get<T>(AppConfig.getInvitationReceivedUrl);
+  }
+
+  /// GET /api/invitation/sent
+  /// 获取发出的邀约
+  Future<NetResult<T>> requestInvitationSent<T>() async {
+    return await get<T>(AppConfig.getInvitationSentUrl);
+  }
+
+  /// DELETE /api/invitation/{invitationId}
+  /// 取消邀约（发起方主动取消，仅限待处理状态）
+  Future<NetResult<T>> requestInvitationCancel<T>({
+    required int invitationId,
+  }) async {
+    return await delete<T>(AppConfig.getInvitationCancelUrl(invitationId));
+  }
+
+  /// POST /api/invitation/{invitationId}/handle
+  /// 处理邀约：接受或拒绝
+  Future<NetResult<T>> requestInvitationHandle<T>({
+    required int invitationId,
+    required String action,
+  }) async {
+    return await post<T>(
+      AppConfig.getInvitationHandleUrl(invitationId),
+      data: <String, dynamic>{'action': action},
+    );
+  }
+
   /// POST /api/invitation/generate-code
   /// body: inviteChannel, invitationType, tagId, message
   Future<NetResult<T>> requestInvitationGenerateCode<T>({

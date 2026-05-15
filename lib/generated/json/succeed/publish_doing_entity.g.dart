@@ -1,4 +1,5 @@
 import 'package:kellychat/generated/json/convert/json_convert_content.dart';
+import 'package:kellychat/modules/home/doing/model/doing_partner_entity.dart';
 import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
 
 PublishDoingEntity $PublishDoingEntityFromJson(Map<String, dynamic> json) {
@@ -19,6 +20,10 @@ PublishDoingEntity $PublishDoingEntityFromJson(Map<String, dynamic> json) {
   if (startTime != null) {
     publishDoingEntity.startTime = startTime;
   }
+  final DoingPartnerEntity? togetherPartner = jsonConvert.convert<DoingPartnerEntity>(json['togetherPartner']);
+  if (togetherPartner != null) {
+    publishDoingEntity.togetherPartner = togetherPartner;
+  }
   return publishDoingEntity;
 }
 
@@ -28,6 +33,7 @@ Map<String, dynamic> $PublishDoingEntityToJson(PublishDoingEntity entity) {
   data['tagId'] = entity.tagId;
   data['tagName'] = entity.tagName;
   data['startTime'] = entity.startTime;
+  data['togetherPartner'] = entity.togetherPartner?.toJson();
   return data;
 }
 
@@ -37,11 +43,13 @@ extension PublishDoingEntityExtension on PublishDoingEntity {
     int? tagId,
     String? tagName,
     String? startTime,
+    DoingPartnerEntity? togetherPartner,
   }) {
     return PublishDoingEntity()
       ..statusId = statusId ?? this.statusId
       ..tagId = tagId ?? this.tagId
       ..tagName = tagName ?? this.tagName
-      ..startTime = startTime ?? this.startTime;
+      ..startTime = startTime ?? this.startTime
+      ..togetherPartner = togetherPartner ?? this.togetherPartner;
   }
 }

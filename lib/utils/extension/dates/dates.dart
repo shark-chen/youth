@@ -87,6 +87,53 @@ extension Dates on DateTime {
     }
   }
 
+  /// 微信风格相对时间（消息列表用）
+  ///
+  /// - T < 60分钟 → %s分钟前
+  /// - 60分钟 ≤ T ≤ 24小时 → %s小时前
+  /// - T > 24小时 → 按日期差值：昨天 / 前天 / %s天前 / MM月DD日 / YYYY年MM月DD日
+  static String? formatChatRelativeTime(String? timeStr) {
+    if (timeStr == null || timeStr.isEmpty) return null;
+
+    DateTime? msgTime;
+    final iso = DateTime.tryParse(timeStr);
+    if (iso != null) {
+      msgTime = iso;
+    } else {
+      final n = int.tryParse(timeStr.trim());
+      if (n != null) {
+        final ms = n < 2000000000 ? n * 1000 : n;
+        msgTime = DateTime.fromMillisecondsSinceEpoch(ms);
+      }
+    }
+    if (msgTime == null) return timeStr;
+
+    final now = DateTime.now();
+    final diff = now.difference(msgTime);
+
+    if (diff.inMinutes < 60) {
+      final minutes = diff.inMinutes < 1 ? 1 : diff.inMinutes;
+      return '${minutes}分钟前';
+    }
+
+    if (diff.inHours <= 24) {
+      return '${diff.inHours}小时前';
+    }
+
+    final dateOnlyMsg = DateTime(msgTime.year, msgTime.month, msgTime.day);
+    final dateOnlyNow = DateTime(now.year, now.month, now.day);
+    final dayDiff = dateOnlyNow.difference(dateOnlyMsg).inDays;
+
+    if (dayDiff == 1) return '昨天';
+    if (dayDiff == 2) return '前天';
+    if (dayDiff > 2 && dayDiff <= 7) return '${dayDiff}天前';
+
+    if (msgTime.year != now.year) {
+      return '${msgTime.year}年${msgTime.month}月${msgTime.day}日';
+    }
+    return '${msgTime.month}月${msgTime.day}日';
+  }
+
   // 年月日 时分
   static String timeFormatHM(DateTime date) {
     Map map = {

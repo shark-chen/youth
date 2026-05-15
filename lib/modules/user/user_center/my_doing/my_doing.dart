@@ -32,8 +32,12 @@ class MyDoing extends BaseUser {
     _doing = null;
   }
 
-  PublishDoingEntity? get doing  {
+  PublishDoingEntity? get doing {
     return _doing;
+  }
+
+  void configDoing(PublishDoingEntity? value) {
+    _doing = value;
   }
 
   Future<PublishDoingEntity?> get doInfo async {

@@ -1,7 +1,9 @@
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_page.dart';
-import 'package:kellychat/modules/home/doing/doing_list/view/doing_list_header_view.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
+import 'view/message_doing_header_view.dart';
 import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
+import 'package:kellychat/utils/extension/dates/dates.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'message_controller.dart';
 import 'view/chat_list_cell.dart';
@@ -90,12 +92,14 @@ class MessagePage extends BasePage<MessageController> {
                     itemBuilder: (BuildContext context, int index) {
                       if (index == 0) {
                         /// 消息列表-正在做的任务
-                        return GestureDetector(
-                          onTap: controller.clickDeleteStatusDoing,
-                          child: DoingListHeaderWidget(
-                            title: controller.vm.value.myDoing?.tagName ?? '--',
-                            inviteTap: controller.pushInviteAlert,
-                          ),
+                        final myDoing = MyDoing().doing;
+                        if (myDoing == null) {
+                          return const SizedBox.shrink();
+                        }
+                        return MessageDoingHeaderView(
+                          tagName: myDoing.tagName,
+                          partnerName: myDoing.togetherPartner?.nickname,
+                          onCancelTap: controller.clickDeleteStatusDoing,
                         );
                       } else if (index == 1) {
                         /// 邀约中的任务view
@@ -150,7 +154,7 @@ class MessagePage extends BasePage<MessageController> {
                         headPortraitUrl: item.avatar,
                         name: item.nickname,
                         msg: item.lastMessage,
-                        time: item.lastMessageTimeRaw,
+                        time: Dates.formatChatRelativeTime(item.lastMessageTimeRaw),
                       );
                     },
                   ),

@@ -205,6 +205,7 @@ class DoingListPage extends BasePage<DoingListController> {
                           address: item.city,
                           signature: item.signature,
                           isOnline: false,
+                          togetherStatus: controller.togetherButtonStatusFor(item),
                           onKnockTap: () async => controller.clickKnock(item),
                           onTogetherTap: () async =>
                               controller.clickJoinTogether(item),

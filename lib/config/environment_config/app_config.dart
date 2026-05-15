@@ -268,6 +268,31 @@ class AppConfig {
     return '/api/invitation/send';
   }
 
+  /// 邀约收件箱（GET）
+  static String get getInvitationInboxUrl {
+    return '/api/invitation/inbox';
+  }
+
+  /// 获取收到的邀约（GET）
+  static String get getInvitationReceivedUrl {
+    return '/api/invitation/received';
+  }
+
+  /// 获取发出的邀约（GET）
+  static String get getInvitationSentUrl {
+    return '/api/invitation/sent';
+  }
+
+  /// 取消邀约（DELETE path: invitationId）
+  static String getInvitationCancelUrl(int invitationId) {
+    return '/api/invitation/$invitationId';
+  }
+
+  /// 处理邀约：接受或拒绝（POST path: invitationId, body: action）
+  static String getInvitationHandleUrl(int invitationId) {
+    return '/api/invitation/$invitationId/handle';
+  }
+
   /// 生成邀约码（POST body: inviteChannel, invitationType, tagId, message）
   static String get postInvitationGenerateCodeUrl {
     return '/api/invitation/generate-code';

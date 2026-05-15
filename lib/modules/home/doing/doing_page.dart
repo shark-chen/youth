@@ -14,8 +14,6 @@ class DoingPage extends BasePage<DoingController> {
 
   @override
   Widget build(BuildContext context) {
-    /// 刷新数据
-    controller.refreshData();
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     final bottomSafe = MediaQuery.of(context).viewPadding.bottom;
     final y = (bottomInset - kBottomNavigationBarHeight - bottomSafe);

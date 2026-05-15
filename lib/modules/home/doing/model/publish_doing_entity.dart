@@ -2,12 +2,14 @@ import 'package:kellychat/generated/json/succeed/publish_doing_entity.g.dart';
 import 'dart:convert';
 import 'package:kellychat/utils/extension/maps/maps.dart';
 export 'package:kellychat/generated/json/succeed/publish_doing_entity.g.dart';
+import 'doing_partner_entity.dart';
 
 class PublishDoingEntity {
   int? statusId;
   int? tagId;
   String? tagName;
   String? startTime;
+  DoingPartnerEntity? togetherPartner;
 
   PublishDoingEntity();
 
