@@ -6,6 +6,7 @@ export 'package:kellychat/generated/json/succeed/doing_partner_entity.g.dart';
 class DoingPartnerEntity {
   int? userId;
   String? nickname;
+  int? togetherId;
 
   DoingPartnerEntity();
 

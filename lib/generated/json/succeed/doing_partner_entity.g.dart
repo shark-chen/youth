@@ -7,6 +7,10 @@ DoingPartnerEntity $DoingPartnerEntityFromJson(Map<String, dynamic> json) {
   if (userId != null) {
     doingPartnerEntity.userId = userId;
   }
+  final int? togetherId = jsonConvert.convert<int>(json['togetherId']);
+  if (togetherId != null) {
+    doingPartnerEntity.togetherId = togetherId;
+  }
   final String? nickname = jsonConvert.convert<String>(json['nickname']);
   if (nickname != null) {
     doingPartnerEntity.nickname = nickname;
@@ -17,6 +21,7 @@ DoingPartnerEntity $DoingPartnerEntityFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> $DoingPartnerEntityToJson(DoingPartnerEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
   data['userId'] = entity.userId;
+  data['togetherId'] = entity.togetherId;
   data['nickname'] = entity.nickname;
   return data;
 }
@@ -28,6 +33,7 @@ extension DoingPartnerEntityExtension on DoingPartnerEntity {
   }) {
     return DoingPartnerEntity()
       ..userId = userId ?? this.userId
+      ..togetherId = togetherId ?? this.togetherId
       ..nickname = nickname ?? this.nickname;
   }
 }
