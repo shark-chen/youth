@@ -1,3 +1,5 @@
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
+import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 import '../mine_controller.dart';
 import '../user_info/model/user_info_entity.dart';
@@ -38,5 +40,29 @@ extension MineRequestController on MineController {
     } else {
       EasyLoading.showToast(response.msg ?? '');
     }
+  }
+
+  /// 取消一起做
+  Future<bool> requestCancelTogether({
+    required String togetherId,
+    bool showLoad = true,
+  }) async {
+    final id = togetherId.trim();
+    if (id.isEmpty) {
+      EasyLoading.showToast('活动信息无效');
+      return false;
+    }
+    if (showLoad) EasyLoading.show();
+    final response = await Net.value<Doing>().requestCancelTogether<dynamic>(
+      togetherId: id,
+    );
+    if (showLoad) EasyLoading.dismiss();
+    if (response.code == 200) {
+      EasyLoading.showToast('已取消');
+      await MyDoing().requestMyDoing();
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
   }
 }

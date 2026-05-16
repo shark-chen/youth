@@ -29,3 +29,13 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+
+完成功能点
+47， 48， 49， 50
+
+
+
+接口 取消一起做
+/api/together/{togetherId}

@@ -155,11 +155,18 @@ class Doing extends NetMixin<Doing> {
     );
   }
 
-  /// POST /api/together/{togetherId}/join
   /// 加入一个等待中的一起做活动
-  Future<NetResult<T>> requestTogetherJoin<T>(
-      {required String togetherId}) async {
+  Future<NetResult<T>> requestTogetherJoin<T>({
+    required String togetherId,
+  }) async {
     return await post<T>(AppConfig.getTogetherJoinUrl(togetherId));
+  }
+
+  /// 取消一起做
+  Future<NetResult<T>> requestCancelTogether<T>({
+    required String togetherId,
+  }) async {
+    return await delete<T>(AppConfig.getCancelTogether(togetherId));
   }
 
   /// GET /api/together/my-list 我的邀约列表

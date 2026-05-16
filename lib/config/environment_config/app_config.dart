@@ -313,6 +313,11 @@ class AppConfig {
     return '/api/together/$togetherId/join';
   }
 
+  /// 取消一起做
+  static String getCancelTogether(String togetherId) {
+    return '/api/together/$togetherId';
+  }
+
   /// 我的「一起做」邀约列表
   static String get getTogetherMyListUrl {
     return '/api/together/my-list';

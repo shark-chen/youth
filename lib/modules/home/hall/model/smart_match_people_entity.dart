@@ -33,6 +33,7 @@ class SmartMatchPeopleList {
   int? gender;
   int? age;
   String? avatar;
+  String? signature;
   String? city;
   List<String>? tags;
   double? matchScore;

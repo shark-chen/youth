@@ -90,10 +90,10 @@ class EditMineInfoController extends BaseController {
             content: vm.value.userPrivateInfoEntity?.wishDescription,
             password: password,
           );
-        }
 
-        /// 请求个人信息数据
-        await requestData();
+          /// 请求个人信息数据
+          await requestData();
+        }
       },
     );
   }

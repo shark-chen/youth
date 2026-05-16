@@ -97,15 +97,6 @@ class _CardStackDemoState extends State<CardStackDemo> {
     return parts.join(' · ');
   }
 
-  String _descLine(SmartMatchPeopleList item) {
-    final tags = item.tags;
-    if (Lists.isEmpty(tags)) return '暂无标签';
-    return tags!
-        .map((e) => e?.toString() ?? '')
-        .where((s) => s.isNotEmpty)
-        .join(' · ');
-  }
-
   List<Widget> _tagChips(SmartMatchPeopleList item) {
     final tags = item.tags;
     if (Lists.isEmpty(tags)) {
@@ -245,6 +236,10 @@ class _CardStackDemoState extends State<CardStackDemo> {
     final seed = item.userId ?? item.nickname?.hashCode ?? 0;
     final cardWidth = screenWidth - 48;
     final cardHeight = cardWidth * (498.0 / 327.0);
+    String? avatar = item.avatar;
+    if(Lists.isNotEmpty(item.photos)) {
+      avatar = item.photos?.first;
+    }
     return Container(
       width: cardWidth,
       height: cardHeight,
@@ -271,10 +266,10 @@ class _CardStackDemoState extends State<CardStackDemo> {
                 right: 0.0,
                 bottom: 88,
                 child: ImageLookWidget(
-                  imgUrl: item.avatar ?? '',
+                  imgUrl: avatar ?? '',
                   autoSize: true,
                   fit: BoxFit.fill,
-                  heroTag: '${item.avatar ?? ''}_make_friend_${item.userId ?? ''}',
+                  heroTag: '${avatar ?? ''}_make_friend_${item.userId ?? ''}',
                 ),
               ),
               Positioned.fill(
@@ -335,7 +330,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
 
                     /// 信息
                     Text(
-                      _descLine(item),
+                      item.signature ?? '',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.white60),
