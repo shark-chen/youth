@@ -18,6 +18,8 @@ class AboutKellyChatController extends BaseController {
   static const String _androidMarketUrl =
       'https://play.google.com/store/apps/details?id=com.example.youth';
 
+  static const String _icpBeianUrl = 'https://beian.miit.gov.cn/';
+
   @override
   void onInit() {
     super.onInit();
@@ -62,5 +64,17 @@ class AboutKellyChatController extends BaseController {
   /// 反馈：进入反馈页
   Future pushFeedback() async {
     await Get.toNamed(Routes.feedbackPage);
+  }
+
+  /// ICP 备案：工信部备案查询页
+  Future<void> openIcpBeian() async {
+    await Get.toNamed(
+      Routes.webView,
+      parameters: {
+        'url': _icpBeianUrl,
+        'showTitle': 'true',
+        'title': 'ICP备案',
+      },
+    );
   }
 }

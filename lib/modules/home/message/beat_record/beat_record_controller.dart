@@ -1,9 +1,7 @@
 import 'package:kellychat/base/base_controller.dart';
-
 import '../model/knock_record_entity.dart';
 import 'controller/beat_record_request_controller.dart';
 export 'controller/beat_record_request_controller.dart';
-import 'model/beat_item_entity.dart';
 import 'view_model/beat_record_vm.dart';
 
 /// FileName: beat_record_controller
@@ -21,8 +19,7 @@ class BeatRecordController extends BaseController {
     super.onInit();
     title = '敲一下';
 
-    /// request - 敲一下收件箱
-    /// 敲一下 inbox · GET /api/knock/inbox
+    /// request - 敲一下收件箱 获取24小时内双向敲一下记录（我敲的+敲我的），每对用户只显示最近一次，同时返回未读数
     requestKnockInbox();
   }
 
@@ -36,8 +33,8 @@ class BeatRecordController extends BaseController {
   /// push - 实际聊天窗口-page-页面
   Future pushChatPage(KnockRecordItems item) async {
     await Get.toNamed(Routes.chatPage, parameters: {
-    'userId': item.targetUserId.toString(),
-    'niceName': item.targetNickname ?? '',
+      'userId': item.targetUserId.toString(),
+      'niceName': item.targetNickname ?? '',
       // 'avatar': item.avatar ?? '',
     });
   }

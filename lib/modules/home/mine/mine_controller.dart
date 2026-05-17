@@ -1,5 +1,6 @@
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/modules/user/global.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'user_info/model/user_info_entity.dart';
 import 'view_model/mine_vm.dart';
 import 'controller/mine_request_controller.dart';
@@ -56,6 +57,19 @@ class MineController extends BaseController {
       },
     );
     if (ok != true) return;
+
+    /// 若当前有正在连接中的「一起做」，则自动断开
+    final partner = MyDoing().doing?.togetherPartner;
+    if (partner != null) {
+      final tid = partner.togetherId;
+      if (tid != null) {
+        await requestCancelTogether(
+          togetherId: tid.toString(),
+          showLoad: false,
+        );
+      }
+    }
+
     final apiOk = await requestAuthLogout();
     if (!apiOk) return;
     await Global.clearAccessToken();

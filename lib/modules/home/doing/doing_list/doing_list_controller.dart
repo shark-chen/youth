@@ -81,18 +81,50 @@ class DoingListController extends BaseController {
     vm.value.samePeopleCount = value.userCount ?? 0;
     vm.refresh();
     if (value.tagId != null) {
+      pageNo = 1;
       await requestStatusDoingByTagId(value.tagId ?? 0);
     }
   }
 
   /// 下拉刷新
-  ///
   @override
   Future onRefresh({bool? showLoading = false}) async {
-    await requestStatusDoingByTagId(vm.value.doingHotTagsEntity?.tagId ?? 0);
-    /// request - 获取当前热门的正在做标签列表
+    pageNo = 1;
+    await requestStatusDoingByTagId(
+      vm.value.doingHotTagsEntity?.tagId ?? 0,
+      showLoad: false,
+      refresh: true,
+    );
     requestHotTags();
     refreshController.refreshCompleted();
+  }
+
+  /// 上拉加载更多（仅同频用户列表）
+  @override
+  void onLoading() {
+    loadMoreStatusDoing();
+  }
+
+  Future<void> loadMoreStatusDoing() async {
+    if (!vm.value.haveDoingPerson) {
+      refreshController.loadComplete();
+      return;
+    }
+    final tagId = vm.value.doingHotTagsEntity?.tagId;
+    if (tagId == null) {
+      refreshController.loadComplete();
+      return;
+    }
+    pageNo++;
+    final ok = await requestStatusDoingByTagId(
+      tagId,
+      showLoad: false,
+      refresh: false,
+    );
+    if (!ok) {
+      pageNo--;
+      refreshController.loadComplete();
+    }
   }
 
   /// 点击删除我正在做的事
@@ -146,7 +178,7 @@ class DoingListController extends BaseController {
 
     final myPartner = MyDoing().doing?.togetherPartner;
 
-    // 已和对方建立连接，点击取消
+    /// 已和对方建立连接，点击取消
     if (myPartner?.userId == item.userId) {
       final confirm = await pushCancelDoingDialog();
       if (!confirm) return;
@@ -156,7 +188,7 @@ class DoingListController extends BaseController {
       return;
     }
 
-    // 自己已和其他人建立连接
+    /// 自己已和其他人建立连接
     if (myPartner != null) {
       await pushAlreadyConnectedDialog(myPartner.nickname ?? '');
       return;

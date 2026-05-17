@@ -5,6 +5,7 @@ import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
 import 'package:kellychat/tripartite_library/tripartite_library.dart';
 import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
+import 'package:kellychat/modules/home/message/view/message_doing_header_view.dart';
 import 'doing_list_controller.dart';
 import 'view_model/doing_list_vm.dart';
 import 'view/doing_activity_stat_cell.dart';
@@ -73,14 +74,21 @@ class DoingListPage extends BasePage<DoingListController> {
               SizedBox(height: 12),
 
               /// 我的正在做的活动
-              DoingListHeaderWidget(
-                title: controller.vm.value.myDoing?.tagName ?? '--',
-                inviteTap: controller.clickInvitationFriend,
-                closeTap: controller.clickDeleteStatusDoing,
-              ),
+              if (controller.vm.value.myDoing?.togetherPartner != null)
+                MessageDoingHeaderView(
+                  tagName: controller.vm.value.myDoing?.tagName,
+                  partnerName:
+                      controller.vm.value.myDoing?.togetherPartner?.nickname,
+                  onCancelTap: controller.clickDeleteStatusDoing,
+                )
+              else
+                DoingListHeaderWidget(
+                  title: controller.vm.value.myDoing?.tagName ?? '--',
+                  inviteTap: controller.clickInvitationFriend,
+                  closeTap: controller.clickDeleteStatusDoing,
+                ),
 
               /// 有几个人正在做这个事情
-
               Visibility(
                 visible: controller.vm.value.samePeopleCount > 0,
                 child: Padding(
@@ -95,7 +103,9 @@ class DoingListPage extends BasePage<DoingListController> {
                       children: [
                         const TextSpan(text: '有 '),
                         TextSpan(
-                          text: '${controller.vm.value.samePeopleCount}',
+                          text: DoingListVM.formatHotTagPeopleCount(
+                            controller.vm.value.samePeopleCount,
+                          ),
                           style: const TextStyle(
                             color: ThemeColor.themeGreenColor,
                             fontWeight: FontWeight.w600,
@@ -181,12 +191,13 @@ class DoingListPage extends BasePage<DoingListController> {
                 flex: 5,
                 child: SmartRefresher(
                   controller: controller.refreshController,
-                  enablePullUp: true,
+                  enablePullUp: controller.vm.value.haveDoingPerson,
                   onRefresh: controller.onRefresh,
+                  onLoading: controller.onLoading,
                   header: RefresherHeader.build(),
                   footer: ClassicFooter(
                     loadingText: LocaleKeys.Loading.tr,
-                    noDataText: LocaleKeys.NoMore.tr,
+                    noDataText: '没有更多了',
                     height: 80.0,
                     loadStyle: LoadStyle.ShowWhenLoading,
                   ),
@@ -205,7 +216,8 @@ class DoingListPage extends BasePage<DoingListController> {
                           address: item.city,
                           signature: item.signature,
                           isOnline: false,
-                          togetherStatus: controller.togetherButtonStatusFor(item),
+                          togetherStatus:
+                              controller.togetherButtonStatusFor(item),
                           onKnockTap: () async => controller.clickKnock(item),
                           onTogetherTap: () async =>
                               controller.clickJoinTogether(item),

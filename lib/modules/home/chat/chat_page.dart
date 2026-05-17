@@ -18,7 +18,21 @@ class ChatPage extends BasePage<ChatController> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: ThemeColor.themeColor,
-        appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0.2),
+        appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0, actions:  [
+          GestureDetector(
+            onTap: () {
+
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 6),
+              child: Image.asset(
+                "assets/image/common/look_more@3x.png",
+                width: 32,
+                height: 32,
+              ),
+            ),
+          ),
+        ]),
         body: Builder(
           builder: (context) {
             final bottomInset = MediaQuery.paddingOf(context).bottom;

@@ -6,6 +6,7 @@ import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 import 'package:kellychat/modules/modules.dart';
+import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'package:kellychat/widget/bottom_dialog/bottom_dialog.dart';
 
 /// FileName: invite_record_view
@@ -62,58 +63,66 @@ class InviteRecordWidget extends BaseStatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       /// 列表
-                      SizedBox(
-                        width: 200,
-                        height: 24,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: headPortraits?.length ?? 10,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ImageLookWidget(
-                              imgUrl: 'dsad',
+                      Lists.isNotEmpty(headPortraits)
+                          ? SizedBox(
+                              width: 200,
                               height: 24,
-                              width: 24,
-                              heroTag: 'invite_record_avatar_$index',
-                            );
-                          },
-                        ),
-                      ),
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: headPortraits?.length ?? 10,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ImageLookWidget(
+                                    imgUrl: headPortraits?[index] ?? '',
+                                    height: 24,
+                                    width: 24,
+                                    heroTag:
+                                        '${headPortraits?[index] ?? ''}_invite_record_avatar_$index',
+                                  );
+                                },
+                              ),
+                            )
+                          : Text(
+                              '暂无消息',
+                              style: TextStyles(color: ThemeColor.white6Color),
+                            ),
 
-                      Row(
-                        children: [
-                          /// 数量
-                          Container(
-                            padding: EdgeInsets.only(
-                              left: 8,
-                              right: 8,
-                              top: 2,
-                              bottom: 2,
+                      /// 消息数量
+                      Visibility(
+                        visible: Lists.isNotEmpty(headPortraits),
+                        child: Row(
+                          children: [
+                            /// 数量
+                            Container(
+                              padding: EdgeInsets.only(
+                                left: 8,
+                                right: 8,
+                                top: 2,
+                                bottom: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    ThemeColor.themeGreenColor.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                '${headPortraits?.length ?? 0}',
+                                style: TextStyles(
+                                    color: ThemeColor.themeGreenColor,
+                                    fontSize: 12),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              color:
-                                  ThemeColor.themeGreenColor.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(20),
+                            SizedBox(width: 4),
+                            Transform.rotate(
+                              angle: 3.14159,
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                size: 16,
+                                color: ThemeColor.whiteColor,
+                              ),
                             ),
-                            child: Text(
-                              Lists.isEmpty(headPortraits)
-                                  ? '暂无消息'
-                                  : '${headPortraits?.length ?? 0}',
-                              style: TextStyles(
-                                  color: ThemeColor.themeGreenColor,
-                                  fontSize: 12),
-                            ),
-                          ),
-                          SizedBox(width: 4),
-                          Transform.rotate(
-                            angle: 3.14159,
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 16,
-                              color: ThemeColor.whiteColor,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

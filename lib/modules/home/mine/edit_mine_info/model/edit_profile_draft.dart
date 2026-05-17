@@ -50,7 +50,7 @@ class EditProfileDraft {
   bool hasPrivateContent;
 
   static const int maxTags = 10;
-  static const int maxSignatureLength = 30;
+  static const int maxSignatureLength = 500;
   static const int maxPhotos = 9;
   static const int profileCardTagCount = 3;
 

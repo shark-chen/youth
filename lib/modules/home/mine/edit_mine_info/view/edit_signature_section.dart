@@ -67,7 +67,7 @@ class EditSignatureSection extends StatelessWidget {
                   return Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 12, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                       child: Text(
                         '$currentLength/${maxLength ?? EditProfileDraft.maxSignatureLength}',
                         style: TextStyle(

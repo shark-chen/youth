@@ -25,10 +25,16 @@ class ImagesPicker {
   Future<XFile?> takePictureThenEdit(
     BuildContext context, {
     double? cropAspectRatio,
+    bool lockCropRect = false,
   }) async {
     final shot = await takePicture();
     if (shot == null) return null;
-    return cropWithEditor(context, shot, cropAspectRatio: cropAspectRatio);
+    return cropWithEditor(
+      context,
+      shot,
+      cropAspectRatio: cropAspectRatio,
+      lockCropRect: lockCropRect,
+    );
   }
 
   /// 相册选图：关闭 Loading、下一帧再调起，避免遮罩/重建与系统相册冲突；iOS 关闭全量元数据以减轻卡死
@@ -48,14 +54,22 @@ class ImagesPicker {
   /// 相册选图后进入裁剪页（需 [context]）
   ///
   /// [cropAspectRatio] 为宽高比，如 `1` 表示正方形；为 `null` 表示自由比例。
+  ///
+  /// [lockCropRect] 为 `true` 时裁剪框固定不可拖改，仅缩放/拖动图片（头像场景）。
   Future<XFile?> pickImageFromGalleryThenEdit(
     BuildContext context, {
     int imageQuality = 90,
     double? cropAspectRatio,
+    bool lockCropRect = false,
   }) async {
     final picked = await pickImageFromGallery(imageQuality: imageQuality);
     if (picked == null) return null;
-    return cropWithEditor(context, picked, cropAspectRatio: cropAspectRatio);
+    return cropWithEditor(
+      context,
+      picked,
+      cropAspectRatio: cropAspectRatio,
+      lockCropRect: lockCropRect,
+    );
   }
 
   /// 对已有本地图打开裁剪页（需 [context]）
@@ -63,11 +77,13 @@ class ImagesPicker {
     BuildContext context,
     XFile source, {
     double? cropAspectRatio,
+    bool lockCropRect = false,
   }) async {
     return openImageCropEditor(
       context,
       sourcePath: source.path,
       cropAspectRatio: cropAspectRatio,
+      lockCropRect: lockCropRect,
     );
   }
 }

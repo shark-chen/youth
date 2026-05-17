@@ -227,8 +227,11 @@ class ThemeColor {
   static const Color themeFourZeroColor = Color(0xFF292929);
   static const Color theme7FColor = Color(0xFF7F7F7F);
   static const Color violetColor = Color(0xFFBA66FF);
-  static Color white6Color = Color(0xFFFFFFFF)..withOpacity(0.6);
-  static Color black6Color = Color(0xFF000000)..withOpacity(0.6);
+  static Color white6Color = Color(0xFFFFFFFF).withOpacity(0.6);
+  static Color black6Color = Color(0xFF000000).withOpacity(0.6);
+  static Color white4Color = Color(0xFFFFFFFF).withOpacity(0.4);
+  static Color white75Color = Color(0xFFFFFFFF).withOpacity(0.75);
+  static Color white15Color = Color(0xFFFFFFFF).withOpacity(0.15);
   static Color dialogGraynessBgColor = Color(0xFF1C1C1E);
   static Color dialogRedBgColor = Color(0xFFFF1B5B);
 

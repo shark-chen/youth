@@ -40,14 +40,32 @@ class DoingListVM extends BaseVM {
     super.onInit();
   }
 
-  /// 配置正在做的事情数据
-  void configDoingListEntity(DoingListEntity? value) {
-    doingListEntity = value;
-    final tag = value?.tagName;
+  /// 配置正在做的事情数据；[refresh] 为 true 时覆盖列表，为 false 时追加（上拉加载更多）。
+  void configDoingListEntity(
+    DoingListEntity? value, {
+    bool refresh = true,
+  }) {
+    if (value == null) {
+      if (refresh) {
+        doingListEntity = null;
+      }
+      return;
+    }
+    if (refresh || doingListEntity == null) {
+      doingListEntity = value;
+    } else {
+      final current = doingListEntity!.list ??= <DoingListList>[];
+      current.addAll(value.list ?? const []);
+      doingListEntity!.total = value.total ?? doingListEntity!.total;
+      if (value.tagName != null && value.tagName!.isNotEmpty) {
+        doingListEntity!.tagName = value.tagName;
+      }
+    }
+    final tag = doingListEntity?.tagName;
     if (tag != null && tag.isNotEmpty) {
       activityTitle = tag;
     }
-    final t = value?.total;
+    final t = doingListEntity?.total;
     if (t != null) {
       samePeopleCount = t;
     }
@@ -124,7 +142,7 @@ class DoingListVM extends BaseVM {
     return doingListEntity?.list;
   }
 
-  /// 改事情是否有正在做的人
+  /// 该事情是否有正在做的人
   bool get haveDoingPerson {
     return Lists.isNotEmpty(rows);
   }

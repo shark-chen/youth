@@ -23,14 +23,27 @@ class Doing extends NetMixin<Doing> {
 
   /// GET /api/status/doing/{tagId}
   /// 获取正在做某个标签的用户列表
-  Future<NetResult<T>> requestStatusDoing<T>({required int tagId}) async {
-    return await get<T>(AppConfig.getStatusDoingUrl(tagId));
+  /// query（可选）：page 默认 1；size 不传则不携带
+  Future<NetResult<T>> requestStatusDoing<T>({
+    required int tagId,
+    int? page = 1,
+    int? size = 20,
+  }) async {
+    var params = {
+      'page': page,
+      'size': size,
+    };
+    return await get<T>(
+      AppConfig.getStatusDoingUrl(tagId),
+      params: params,
+    );
   }
 
   /// DELETE /api/status/doing/{statusId}
   /// 删除某条「正在做」状态（path 与 GET 相同，方法不同）
-  Future<NetResult<T>> requestDeleteStatusDoing<T>(
-      {required int statusId}) async {
+  Future<NetResult<T>> requestDeleteStatusDoing<T>({
+    required int statusId,
+  }) async {
     return await delete<T>(AppConfig.getStatusDoingUrl(statusId));
   }
 
@@ -65,8 +78,7 @@ class Doing extends NetMixin<Doing> {
     return await get<T>(AppConfig.getKnockReceivedUrl);
   }
 
-  /// 敲一下收件箱
-  /// GET /api/knock/inbox
+  /// 敲一下收件箱 获取24小时内双向敲一下记录（我敲的+敲我的），每对用户只显示最近一次，同时返回未读数
   Future<NetResult<T>> requestKnockInbox<T>() async {
     return await get<T>(AppConfig.getKnockInboxUrl);
   }

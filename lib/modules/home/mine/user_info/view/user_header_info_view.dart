@@ -60,43 +60,48 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
           SizedBox(width: 12),
 
           /// 用户名称，性别，年龄 地址
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    userName ?? '',
-                    style: TextStyles(
-                      color: ThemeColor.whiteColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        userName ?? '',
+                        softWrap: true,
+                        style: TextStyles(
+                          color: ThemeColor.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 4),
+                    const SizedBox(width: 4),
 
-                  /// 性别图标
-                  Icon(
-                    1 == gender ? Icons.male : Icons.female,
-                    color: 1 == gender
-                        ? ThemeColor.maleIconColor
-                        : ThemeColor.femaleIconColor,
-                  ),
-                ],
-              ),
-              Text(
-                (age ?? '') + '·' + (address ?? '') + '   IP:${province ?? ''}',
-                style: TextStyles(
-                  color: ThemeColor.whiteColor.withOpacity(0.6),
+                    /// 性别图标
+                    Icon(
+                      1 == gender ? Icons.male : Icons.female,
+                      color: 1 == gender
+                          ? ThemeColor.maleIconColor
+                          : ThemeColor.femaleIconColor,
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                Text(
+                  '${age ?? ''}·${address ?? ''}   IP:${province ?? ''}',
+                  softWrap: true,
+                  style: TextStyles(
+                    color: ThemeColor.whiteColor.withOpacity(0.6),
+                  ),
+                ),
+              ],
+            ),
           ),
-
-          Expanded(child: Container()),
 
           /// 编辑按钮
           Visibility(

@@ -29,8 +29,7 @@ extension BeatRecordRequestController on BeatRecordController {
     }
   }
 
-  /// request - 敲一下收件箱
-  /// 敲一下 inbox · GET /api/knock/inbox
+  /// request - 敲一下收件箱 获取24小时内双向敲一下记录（我敲的+敲我的），每对用户只显示最近一次，同时返回未读数
   Future<void> requestKnockInbox() async {
     EasyLoading.show();
     final response = await Net.value<Doing>().cache<KnockRecordEntity>((value) {

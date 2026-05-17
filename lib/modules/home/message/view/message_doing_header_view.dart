@@ -31,9 +31,10 @@ class MessageDoingHeaderView extends BaseStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+      margin: const EdgeInsets.only(left: 12, right: 12),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         gradient: const LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -53,7 +54,7 @@ class MessageDoingHeaderView extends BaseStatelessWidget {
 
             /// 内容区
             Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+              padding: const EdgeInsets.only(top: 16),
               child: Row(
                 children: [
                   /// 图标 + 正在做的事
@@ -65,7 +66,7 @@ class MessageDoingHeaderView extends BaseStatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 20,
                           fontWeight: FontWeight.w600,
                           color: ThemeColor.blackColor,
                         ),
@@ -78,13 +79,24 @@ class MessageDoingHeaderView extends BaseStatelessWidget {
                   /// 与[伙伴]一起
                   if (partnerName?.isNotEmpty == true)
                     Expanded(
-                      child: Text(
-                        '与[$partnerName]一起',
+                      child: RichText(
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: ThemeColor.blackColor.withOpacity(0.5),
+                        text: TextSpan(
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF656565),
+                          ),
+                          children: [
+                            const TextSpan(text: '与 '),
+                            TextSpan(
+                              text: '[${partnerName}]',
+                              style: const TextStyle(
+                                color: ThemeColor.blackColor,
+                              ),
+                            ),
+                            const TextSpan(text: ' 一起'),
+                          ],
                         ),
                       ),
                     )
@@ -98,17 +110,17 @@ class MessageDoingHeaderView extends BaseStatelessWidget {
                     onTap: onCancelTap,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
+                        horizontal: 12,
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xE6000000),
+                        color: ThemeColor.themeColor,
                         borderRadius: BorderRadius.circular(22),
                       ),
                       child: const Text(
                         '取消',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFFB4FFCD),
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                         ),

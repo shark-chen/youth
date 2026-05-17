@@ -71,19 +71,29 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
-  /// request - 获取正在做某个标签的用户列表
-  Future<void> requestStatusDoingByTagId(int tagId) async {
-    EasyLoading.show();
-    final response = await Net.value<Doing>()
-        .requestStatusDoing<DoingListEntity>(tagId: tagId);
-    EasyLoading.dismiss();
+  /// request - 获取正在做某个标签的用户列表（分页：[pageNo]、[pageSize]）
+  Future<bool> requestStatusDoingByTagId(
+    int tagId, {
+    bool showLoad = true,
+    bool refresh = true,
+  }) async {
+    if (showLoad) EasyLoading.show();
+    final response = await Net.value<Doing>().requestStatusDoing<DoingListEntity>(
+      tagId: tagId,
+      page: pageNo,
+      size: pageSize,
+    );
+    if (showLoad) EasyLoading.dismiss();
     if (response.succeed) {
-      /// 配置正在做的事情数据
-      vm.value.configDoingListEntity(response.value);
+      vm.value.configDoingListEntity(response.value, refresh: refresh);
       vm.refresh();
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
+      final total = vm.value.doingListEntity?.total ?? 0;
+      final loaded = vm.value.rows?.length ?? 0;
+      haveLoadMore(loaded < total);
+      return true;
     }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
   }
 
   /// 发布热门标签为「我正在做」（列表空态里点加号，与 Doing 页选标签一致）

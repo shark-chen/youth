@@ -73,8 +73,6 @@ class SearchBaseWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset("assets/image/common/common_search_icon@3x.png",
-                width: 20, height: 20),
             const SizedBox(width: 6),
             isIntPutEdit == true
                 ? Expanded(

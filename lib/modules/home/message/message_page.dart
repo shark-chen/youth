@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
@@ -53,7 +54,7 @@ class MessagePage extends BasePage<MessageController> {
                         width: 32,
                         height: 23,
                         enlargeLook: false,
-                        imgBorderRadius: BorderRadius.circular(32),
+                        imgBorderRadius: BorderRadius.circular(999),
                         heroTag:
                             '${UserCenter().user?.avatar ?? ''}_message_page_avatar',
                       ),
@@ -93,12 +94,12 @@ class MessagePage extends BasePage<MessageController> {
                       if (index == 0) {
                         /// 消息列表-正在做的任务
                         final myDoing = MyDoing().doing;
-                        if (myDoing == null) {
+                        if (myDoing?.togetherPartner == null) {
                           return const SizedBox.shrink();
                         }
                         return MessageDoingHeaderView(
-                          tagName: myDoing.tagName,
-                          partnerName: myDoing.togetherPartner?.nickname,
+                          tagName: myDoing?.tagName,
+                          partnerName: myDoing?.togetherPartner?.nickname,
                           onCancelTap: controller.clickDeleteStatusDoing,
                         );
                       } else if (index == 1) {
@@ -138,13 +139,32 @@ class MessagePage extends BasePage<MessageController> {
                         return Padding(
                           padding:
                               EdgeInsets.only(top: 16, bottom: 12, left: 12),
-                          child: Text(
-                            '聊天',
-                            style: TextStyles(
-                              fontSize: 18,
-                              color: ThemeColor.whiteColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '聊天',
+                                style: TextStyles(
+                                  fontSize: 18,
+                                  color: ThemeColor.whiteColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Visibility(
+                                visible: Lists.isEmpty(
+                                    controller.vm.value.conversations),
+                                child: SizedBox(height: 16),
+                              ),
+                              Visibility(
+                                visible: Lists.isEmpty(
+                                    controller.vm.value.conversations),
+                                child: Text(
+                                  '暂无消息',
+                                  style:
+                                      TextStyles(color: ThemeColor.white6Color),
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       }
@@ -154,7 +174,8 @@ class MessagePage extends BasePage<MessageController> {
                         headPortraitUrl: item.avatar,
                         name: item.nickname,
                         msg: item.lastMessage,
-                        time: Dates.formatChatRelativeTime(item.lastMessageTimeRaw),
+                        time: Dates.formatChatRelativeTime(
+                            item.lastMessageTimeRaw),
                       );
                     },
                   ),

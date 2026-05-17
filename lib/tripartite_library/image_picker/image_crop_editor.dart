@@ -14,6 +14,7 @@ Future<XFile?> openImageCropEditor(
   BuildContext context, {
   required String sourcePath,
   double? cropAspectRatio,
+  bool lockCropRect = false,
 }) async {
   if (kIsWeb) return null;
   return Navigator.of(context).push<XFile?>(
@@ -22,6 +23,7 @@ Future<XFile?> openImageCropEditor(
       builder: (ctx) => _ImageCropEditorPage(
         sourcePath: sourcePath,
         cropAspectRatio: cropAspectRatio,
+        lockCropRect: lockCropRect,
       ),
     ),
   );
@@ -60,10 +62,12 @@ class _ImageCropEditorPage extends StatefulWidget {
   const _ImageCropEditorPage({
     required this.sourcePath,
     this.cropAspectRatio,
+    this.lockCropRect = false,
   });
 
   final String sourcePath;
   final double? cropAspectRatio;
+  final bool lockCropRect;
 
   @override
   State<_ImageCropEditorPage> createState() => _ImageCropEditorPageState();
@@ -95,6 +99,33 @@ class _ImageCropEditorPageState extends State<_ImageCropEditorPage> {
     }
   }
 
+  bool get _isLockedAvatarCrop =>
+      widget.lockCropRect && widget.cropAspectRatio != null;
+
+  EditorConfig _buildEditorConfig() {
+    final ratio = widget.cropAspectRatio;
+    if (_isLockedAvatarCrop) {
+      return EditorConfig(
+        cropAspectRatio: ratio,
+        initialCropAspectRatio: ratio,
+        initCropRectType: InitCropRectType.layoutRect,
+        cropRectPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        hitTestSize: 0,
+        cornerSize: Size.zero,
+        lineColor: ThemeColor.whiteColor.withOpacity(0.85),
+        editorMaskColorHandler: (context, pointerDown) =>
+            Colors.black.withOpacity(pointerDown ? 0.8 : 0.75),
+      );
+    }
+    return EditorConfig(
+      cropAspectRatio: ratio,
+      initialCropAspectRatio: ratio,
+      cropRectPadding: const EdgeInsets.all(16),
+      cornerColor: ThemeColor.themeGreenColor,
+      lineColor: ThemeColor.whiteColor.withOpacity(0.85),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +138,7 @@ class _ImageCropEditorPageState extends State<_ImageCropEditorPage> {
           onPressed: () => Navigator.of(context).pop(null),
         ),
         title: Text(
-          '编辑图片',
+          _isLockedAvatarCrop ? '移动和缩放' : '编辑图片',
           style: TextStyle(
             color: ThemeColor.whiteColor,
             fontSize: 17,
@@ -145,13 +176,7 @@ class _ImageCropEditorPageState extends State<_ImageCropEditorPage> {
           mode: ExtendedImageMode.editor,
           extendedImageEditorKey: _editorKey,
           enableLoadState: true,
-          initEditorConfigHandler: (_) => EditorConfig(
-            cropAspectRatio: widget.cropAspectRatio,
-            initialCropAspectRatio: widget.cropAspectRatio,
-            cropRectPadding: const EdgeInsets.all(16),
-            cornerColor: ThemeColor.themeGreenColor,
-            lineColor: ThemeColor.whiteColor.withOpacity(0.85),
-          ),
+          initEditorConfigHandler: (_) => _buildEditorConfig(),
         ),
       ),
     );

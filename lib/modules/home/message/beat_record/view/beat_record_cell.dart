@@ -107,7 +107,14 @@ class BeatRecordCell extends BaseStatelessWidget {
                 ),
               ],
             ),
-            Expanded(child: Container()),
+            Expanded(
+                child: GestureDetector(
+              onTap: chatTap,
+              child: Container(
+                height: 30,
+                color: Colors.transparent,
+              ),
+            )),
             GestureDetector(
               onTap: chatTap,
               child: Image.asset(

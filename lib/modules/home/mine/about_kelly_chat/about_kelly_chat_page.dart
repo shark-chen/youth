@@ -1,4 +1,8 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'about_kelly_chat_controller.dart';
 
 /// FileName: about_kelly_chat_page
@@ -38,10 +42,23 @@ class AboutKellyChatPage extends BasePage<AboutKellyChatController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(height: 28),
-                      _buildLogoMark(),
+                      Container(
+                        width: 80,
+                        height: 80,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        child: Image.asset(
+                          'assets/image/icon_source.png',
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                       const SizedBox(height: 16),
                       Text(
-                        controller.title ?? '关于 KellyChat',
+                        'KellyChat',
                         style: ThemeColor.white18Text
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
@@ -69,7 +86,7 @@ class AboutKellyChatPage extends BasePage<AboutKellyChatController> {
                               onTap: controller.openPrivacyPolicy,
                             ),
                             _aboutDivider(),
-                               _AboutTile(
+                            _AboutTile(
                               title: '未成年人个人信息保护规则',
                               onTap: controller.pushMessageProtection,
                             ),
@@ -97,10 +114,14 @@ class AboutKellyChatPage extends BasePage<AboutKellyChatController> {
             padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
             child: Column(
               children: [
-                Text(
-                  'ICP备案信息：粤ICP备2024344797号',
-                  textAlign: TextAlign.center,
-                  style: _footerStyle,
+                GestureDetector(
+                  onTap: controller.openIcpBeian,
+                  behavior: HitTestBehavior.opaque,
+                  child: Text(
+                    'ICP备案信息：粤ICP备2024344797号-2A >',
+                    textAlign: TextAlign.center,
+                    style: _footerStyle,
+                  ),
                 ),
                 const SizedBox(height: 6),
                 Text(
@@ -121,27 +142,6 @@ class AboutKellyChatPage extends BasePage<AboutKellyChatController> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildLogoMark() {
-    return Container(
-      width: 80,
-      height: 80,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: ThemeColor.themeGreenColor,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Text(
-        'K',
-        style: TextStyle(
-          color: ThemeColor.themeColor,
-          fontSize: 40,
-          fontWeight: FontWeight.w800,
-          height: 1,
-        ),
       ),
     );
   }

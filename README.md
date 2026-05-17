@@ -33,7 +33,17 @@ samples, guidance on mobile development, and a full API reference.
 
 
 完成功能点
-47， 48， 49， 50
+
+个人中心页面
+47， 48， 49， 50 (缺验证 取消正在做的事)
+
+关于KellyChat页面
+68
+
+
+我正在页面
+17， 18， 19
+
 
 
 

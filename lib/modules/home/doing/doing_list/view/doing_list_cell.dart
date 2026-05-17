@@ -58,10 +58,14 @@ class DoingListCell extends BaseStatelessWidget {
   /// 一起做按钮状态
   final TogetherButtonStatus togetherStatus;
 
+  /// 敲一下 点击
   final VoidCallback? onKnockTap;
-  final VoidCallback? onTogetherTap;
-  final VoidCallback? onTap;
 
+  /// 一起做点击
+  final VoidCallback? onTogetherTap;
+
+  /// 点击 卡片
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +86,19 @@ class DoingListCell extends BaseStatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _Avatar(url: headerIcon ?? '', showOnlineDot: isOnline),
+            /// 头像
+            ImageLookWidget(
+              imgUrl: headerIcon ?? '',
+              width: 52,
+              height: 52,
+              heroTag: '${headerIcon ?? ''}_$ageLoc',
+              imgBorderRadius: BorderRadius.circular(999),
+              borderColor: Colors.transparent,
+            ),
             const SizedBox(width: 12),
+
+            /// 昵称 + 性别 + 地区
+            /// 在列表上展示横版的用户资料卡片，资料卡片显示的信息有：头像、昵称、性别、年龄、地区、个人签名（最多一行，超出时用…省略）；
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,31 +123,37 @@ class DoingListCell extends BaseStatelessWidget {
                           sex == true ? Icons.male : Icons.female,
                           size: 18,
                           color: sex == true
-                              ? const Color(0xFF5AC8FA)
-                              : const Color(0xFFFF2D55),
+                              ? ThemeColor.maleIconColor
+                              : ThemeColor.femaleIconColor,
                         ),
                       ],
                     ],
                   ),
+
+                  /// 年龄 + 地址
                   if (ageLoc.isNotEmpty) ...[
                     const SizedBox(height: 4),
                     Text(
                       ageLoc,
-                      style: const TextStyle(
-                        color: ThemeColor.doingListSubLabelColor,
-                        fontSize: 13,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: ThemeColor.white75Color,
+                        fontSize: 12,
                       ),
                     ),
                   ],
+
+                  /// 简介
                   if (Strings.isNotEmpty(signature)) ...[
                     const SizedBox(height: 4),
                     Text(
-                      signature!,
+                      signature ?? '',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: ThemeColor.doingListBioLabelColor,
-                        fontSize: 13,
+                      style: TextStyle(
+                        color: ThemeColor.white4Color,
+                        fontSize: 12,
                       ),
                     ),
                   ],
@@ -140,6 +161,8 @@ class DoingListCell extends BaseStatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
+
+            /// 敲一下
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -159,19 +182,20 @@ class DoingListCell extends BaseStatelessWidget {
     );
   }
 
+  /// 一起做的 || 取消 一起做
   Widget _buildTogetherButton() {
     switch (togetherStatus) {
       case TogetherButtonStatus.disabled:
         return _PillButton(
           label: '一起做',
-          background: const Color(0xFF3A3A3C),
-          foreground: Colors.white.withOpacity(0.4),
+          background: ThemeColor.white15Color,
+          foreground: Colors.white,
           onTap: null,
         );
       case TogetherButtonStatus.connected:
         return _PillButton(
           label: '取消',
-          background: const Color(0xFFFF3B30),
+          background: ThemeColor.bloodRedColor,
           foreground: Colors.white,
           onTap: onTogetherTap,
         );
@@ -179,70 +203,11 @@ class DoingListCell extends BaseStatelessWidget {
       default:
         return _PillButton(
           label: '一起做',
-          background: ThemeColor.doingListTogetherBgColor,
+          background: ThemeColor.white15Color,
           foreground: Colors.white,
           onTap: onTogetherTap,
         );
     }
-  }
-}
-
-class _Avatar extends StatelessWidget {
-  const _Avatar({required this.url, required this.showOnlineDot});
-
-  final String url;
-  final bool showOnlineDot;
-
-  @override
-  Widget build(BuildContext context) {
-    const size = 52.0;
-    return SizedBox(
-      width: size,
-      height: size,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          ClipOval(
-            child: Strings.isNotEmpty(url)
-                ? Image.network(
-                    url,
-                    width: size,
-                    height: size,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _placeholder(size),
-                  )
-                : _placeholder(size),
-          ),
-          if (showOnlineDot)
-            Positioned(
-              right: -1,
-              bottom: -1,
-              child: Container(
-                width: 13,
-                height: 13,
-                decoration: BoxDecoration(
-                  color: ThemeColor.themeGreenColor,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: ThemeColor.doingListCellBgColor,
-                    width: 2,
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _placeholder(double size) {
-    return Container(
-      width: size,
-      height: size,
-      color: const Color(0xFF48484A),
-      alignment: Alignment.center,
-      child: const Icon(Icons.person, color: Colors.white38, size: 28),
-    );
   }
 }
 
@@ -265,7 +230,7 @@ class _PillButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(999),
         child: Container(
           constraints: const BoxConstraints(minWidth: 72),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
