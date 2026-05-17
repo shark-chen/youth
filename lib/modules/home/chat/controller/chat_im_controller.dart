@@ -26,13 +26,34 @@ extension ChatIMController on ChatController {
   /// 监听 - IM -消息 - 订阅实时消息
   Future<void> listenIM() async {
     if (Strings.isEmpty(vm.value.chatParam.userId)) return;
+    final peerId = vm.value.chatParam.userId!.trim();
     vm.value.msgSub = Get.find<ImService>().messageStream.listen((m) {
       final map = m.tryAsJsonMap();
       if (map == null || map.isEmpty) return;
       final msg = ChatImEntity.fromJson(map);
 
-      /// 添加聊天信息
+      if (vm.value.applyIncomingImMessage(msg, peerUserId: peerId)) {
+        vm.refresh();
+        return;
+      }
+
       vm.value.addChatMsg(ChatHistoryList.fromChatMessage(msg));
+      vm.refresh();
+    });
+  }
+
+  /// 监听 IM 错误队列（发送失败 / 内容违规等）
+  Future<void> listenIMErrors() async {
+    vm.value.errorSub = Get.find<ImService>().errorStream.listen((m) {
+      final map = m.tryAsJsonMap();
+      if (map == null || map.isEmpty) return;
+      final clientMsgId = (map['clientMsgId'] ?? '').toString().trim();
+      if (clientMsgId.isEmpty) return;
+      final reason = (map['message'] ?? '').toString();
+      vm.value.markSendFailedByClientMsgId(clientMsgId, reason: reason);
+      if (reason.isNotEmpty) {
+        EasyLoading.showToast(reason);
+      }
       vm.refresh();
     });
   }
@@ -42,6 +63,7 @@ extension ChatIMController on ChatController {
   Future<void> sendChatMessage({
     required int contentType,
     required String content,
+    required String clientMsgId,
   }) async {
     final t = content.trim();
     if (t.isEmpty || Strings.isEmpty(vm.value.chatParam.userId)) return;
@@ -49,6 +71,7 @@ extension ChatIMController on ChatController {
       toUserId: vm.value.chatParam.userId ?? '',
       contentType: contentType,
       content: t,
+      clientMsgId: clientMsgId,
     );
   }
 }

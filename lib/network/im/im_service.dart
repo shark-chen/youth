@@ -3,11 +3,16 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:kellychat/modules/user/global.dart';
 
+import 'im_message_bus.dart';
 import 'im_models.dart';
 import 'stomp_im_client.dart';
 
 /// IM 长连接服务（全局单例，建议在 HomeBinding 注册）
 class ImService extends GetxService {
+  ImService() {
+    _im.messageStream.listen(ImMessageBus.tryFireFromIncoming);
+  }
+
   final StompImClient _im = StompImClient();
 
   Stream<ImConnectionState> get stateStream => _im.stateStream;
@@ -32,11 +37,13 @@ class ImService extends GetxService {
     required String toUserId,
     required int contentType,
     required String content,
+    required String clientMsgId,
   }) =>
       _im.sendChatMessage(
         toUserId: toUserId,
         contentType: contentType,
         content: content,
+        clientMsgId: clientMsgId,
       );
 }
 

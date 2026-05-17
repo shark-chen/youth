@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/modules/home/chat/model/chat_param_model.dart';
 import 'package:kellychat/modules/home/chat/view_model/chat_ui_vm.dart';
-import 'package:kellychat/network/im/im_service.dart';
+import 'package:kellychat/utils/utils/client_msg_id.dart';
 import 'controller/chat_request_controller.dart';
 import 'model/chat_history_entity.dart';
-import 'model/chat_im_entity.dart';
-import 'model/chat_message_entity.dart';
 import 'view_model/chat_vm.dart';
 import 'controller/chat_im_controller.dart';
 import 'controller/chat_route_controller.dart';
@@ -49,6 +47,10 @@ class ChatController extends BaseController {
       vm.value.msgSub?.cancel();
     } catch (_) {}
     vm.value.msgSub = null;
+    try {
+      vm.value.errorSub?.cancel();
+    } catch (_) {}
+    vm.value.errorSub = null;
     vm.value.listScrollController.dispose();
     super.onClose();
   }
@@ -60,6 +62,7 @@ class ChatController extends BaseController {
 
     /// 监听 - IM -消息
     listenIM();
+    listenIMErrors();
   }
 
   /// request -聊天历史 · GET /api/message/history/{userId}
@@ -76,21 +79,7 @@ class ChatController extends BaseController {
 
   /// 发送文本信息
   Future<void> sendText(String text) async {
-    /// 发送文本信息
-    await sendChatMessage(contentType: 1, content: text);
-
-    /// IM - 发送消息，构建UI模型
-    final item = vm.value.buildIMSendMsgUIModel(
-      contentType: 1,
-      content: text,
-    );
-
-    /// 添加聊天信息
-    vm.value.addChatMsg(item);
-    vm.refresh();
-
-    /// 有动画滚动到底部
-    vm.value.animateToListToBottom();
+    await _sendOptimisticMessage(contentType: 1, content: text);
   }
 
   /// 点击添加图片
@@ -98,22 +87,60 @@ class ChatController extends BaseController {
     final file = await vm.value.pickPhotoFile();
     final imageLinksEntity = await requestUploadPhoto(file?.path ?? '');
     if (imageLinksEntity == null) return;
-
-    /// 发送文本信息
-    await sendChatMessage(contentType: 2, content: imageLinksEntity.url ?? '');
-
-    /// IM - 发送消息，构建UI模型
-    final item = vm.value.buildIMSendMsgUIModel(
+    await _sendOptimisticMessage(
       contentType: 2,
       content: imageLinksEntity.url ?? '',
     );
+  }
 
-    /// 添加聊天信息
+  /// 乐观发送：先展示 sending，再 STOMP 发送；回执用 clientMsgId 合并
+  Future<void> _sendOptimisticMessage({
+    required int contentType,
+    required String content,
+  }) async {
+    final t = content.trim();
+    if (t.isEmpty || Strings.isEmpty(vm.value.chatParam.userId)) return;
+    final clientMsgId = newClientMsgId();
+    final item = vm.value.buildIMSendMsgUIModel(
+      contentType: contentType,
+      content: t,
+      clientMsgId: clientMsgId,
+    );
     vm.value.addChatMsg(item);
     vm.refresh();
-
-    /// 有动画滚动到底部
     vm.value.animateToListToBottom();
+    try {
+      await sendChatMessage(
+        contentType: contentType,
+        content: t,
+        clientMsgId: clientMsgId,
+      );
+    } catch (_) {
+      vm.value.markSendFailedByClientMsgId(clientMsgId);
+      vm.refresh();
+    }
+  }
+
+  /// 失败消息重发（新 clientMsgId）
+  Future<void> retrySendMessage(ChatHistoryList item) async {
+    final content = (item.content ?? '').trim();
+    if (content.isEmpty) return;
+    final contentType = item.contentType ?? 1;
+    final clientMsgId = newClientMsgId();
+    item.clientMsgId = clientMsgId;
+    item.sendStatus = ChatMsgSendStatus.sending;
+    item.sendFailReason = null;
+    vm.refresh();
+    try {
+      await sendChatMessage(
+        contentType: contentType,
+        content: content,
+        clientMsgId: clientMsgId,
+      );
+    } catch (_) {
+      vm.value.markSendFailedByClientMsgId(clientMsgId);
+      vm.refresh();
+    }
   }
 
   /// 消息列表
@@ -140,6 +167,18 @@ class ChatController extends BaseController {
       onAvatarTap =
           userId == null ? null : () => pushProfile(userId: userId);
     }
-    return vm.value.buildChatMsgUI(item, onAvatarTap: onAvatarTap);
+    final VoidCallback? onRetry;
+    if (item.isSender &&
+        item.sendStatus == ChatMsgSendStatus.failed &&
+        (item.clientMsgId ?? '').isNotEmpty) {
+      onRetry = () => retrySendMessage(item);
+    } else {
+      onRetry = null;
+    }
+    return vm.value.buildChatMsgUI(
+      item,
+      onAvatarTap: onAvatarTap,
+      onRetry: onRetry,
+    );
   }
 }

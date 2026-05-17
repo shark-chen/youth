@@ -37,5 +37,17 @@
       "sdasd"
     ],
     "hasPrivateContent": true
+  },
+  "chat_im": {
+    "type": "CHAT",
+    "status": "sent",
+    "messageId": 1,
+    "clientMsgId": "uuid-example",
+    "fromUserId": "118",
+    "fromNickname": "",
+    "fromAvatar": "",
+    "contentType": 1,
+    "content": "hello",
+    "createdAt": "2026-05-17T12:00:00"
   }
 }

@@ -130,6 +130,7 @@ class StompImClient {
     required String toUserId,
     required int contentType,
     required String content,
+    required String clientMsgId,
   }) async {
     final client = _client;
     if (client == null || !isConnected) {
@@ -139,6 +140,7 @@ class StompImClient {
       'toUserId': toUserId,
       'contentType': contentType,
       'content': content,
+      'clientMsgId': clientMsgId,
     });
     client.send(destination: '/app/chat.send', body: body);
   }

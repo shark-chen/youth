@@ -36,7 +36,8 @@
 {
   "toUserId": 102,
   "contentType": 1,
-  "content": "hello"
+  "content": "hello",
+  "clientMsgId": "uuid-v4-from-client"
 }
 ```
 
@@ -44,7 +45,9 @@
 
 服务端推送示例（后端构造 Map）：
 
-- `type`：固定 `"CHAT"`
+- `type`：固定 `"CHAT"`（错误/违规可能为 `ERROR` / `CONTENT_BLOCKED`）
+- `status`：`sent`（发送者回执）/ `received`（接收者）/ `failed`（失败，多在 errors 队列）
+- `clientMsgId`：发送者回执时原样回传，用于乐观 UI 合并，**不重复插入气泡**
 - `messageId`：消息 id（用于去重）
 - `fromUserId`
 - `fromNickname`

@@ -73,6 +73,7 @@ class ChatListCell extends BaseStatelessWidget {
               imgUrl: headPortraitUrl ?? '',
               imgBorderRadius: BorderRadius.circular(21),
               heroTag: '${headPortraitUrl ?? ''}_chat_list_${name}',
+              enlargeLook: false,
             ),
             SizedBox(width: 12),
 

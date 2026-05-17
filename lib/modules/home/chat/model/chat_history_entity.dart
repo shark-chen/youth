@@ -54,6 +54,15 @@ class ChatHistoryList {
   /// 时间标记
   String? timeTag;
 
+  /// 客户端消息 ID（乐观发送 / IM 回执匹配，非历史接口字段）
+  String? clientMsgId;
+
+  /// 发送状态（仅己方发送消息）
+  ChatMsgSendStatus sendStatus = ChatMsgSendStatus.none;
+
+  /// 发送失败原因（展示 / Toast）
+  String? sendFailReason;
+
   ChatHistoryList();
 
   factory ChatHistoryList.fromJson(dynamic json) {
@@ -74,8 +83,24 @@ class ChatHistoryList {
     result.isRead = true;
     result.createdAt = item.createdAt;
     result.avatar = item.fromAvatar;
-    result.isSender = false;
+    result.clientMsgId = item.clientMsgId;
+    result.sendStatus = sendStatusFromIm(item.status);
     return result;
+  }
+
+  static ChatMsgSendStatus sendStatusFromIm(String? status) {
+    switch (status?.toLowerCase()) {
+      case 'sent':
+        return ChatMsgSendStatus.sent;
+      case 'failed':
+        return ChatMsgSendStatus.failed;
+      case 'sending':
+        return ChatMsgSendStatus.sending;
+      case 'received':
+        return ChatMsgSendStatus.none;
+      default:
+        return ChatMsgSendStatus.none;
+    }
   }
 
   Map<String, dynamic> toJson() => $ChatHistoryListToJson(this);
@@ -84,6 +109,14 @@ class ChatHistoryList {
   String toString() {
     return jsonEncode(this);
   }
+}
+
+/// 己方消息发送状态
+enum ChatMsgSendStatus {
+  none,
+  sending,
+  sent,
+  failed,
 }
 
 /// 聊天信息模式

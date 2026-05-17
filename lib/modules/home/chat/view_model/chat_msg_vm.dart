@@ -1,5 +1,6 @@
 import 'package:kellychat/modules/user/user_center/user_center.dart';
 import '../model/chat_history_entity.dart';
+import '../model/chat_im_entity.dart';
 import 'chat_vm.dart';
 
 /// 与上一条间隔超过此时长才展示时间条（对齐微信）
@@ -84,6 +85,10 @@ extension ChatMsgVM on ChatVM {
       final value = values[i];
       final from = value.fromUserId ?? 0;
       value.isSender = from == myId && myId != 0;
+      if (value.isSender &&
+          value.sendStatus == ChatMsgSendStatus.none) {
+        value.sendStatus = ChatMsgSendStatus.sent;
+      }
       if (value.isSender) {
         value.avatar = UserCenter().user?.avatar;
       } else {
@@ -127,6 +132,7 @@ extension ChatMsgVM on ChatVM {
   ChatHistoryList buildIMSendMsgUIModel({
     required int contentType,
     required String content,
+    required String clientMsgId,
   }) {
     final result = ChatHistoryList();
     result.fromUserId = (UserCenter().user?.id ?? 0).toString();
@@ -135,6 +141,72 @@ extension ChatMsgVM on ChatVM {
     result.content = content;
     result.createdAt = DateTime.now().toIso8601String();
     result.isSender = true;
+    result.clientMsgId = clientMsgId;
+    result.sendStatus = ChatMsgSendStatus.sending;
     return result;
+  }
+
+  /// 处理 IM 推送：返回 true 表示已更新/忽略，false 表示应插入新消息
+  bool applyIncomingImMessage(ChatImEntity im, {required String peerUserId}) {
+    final peer = peerUserId.trim();
+    if (peer.isEmpty) return true;
+
+    final myId = (UserCenter().user?.id ?? 0).toString();
+    final from = (im.fromUserId ?? '').trim();
+    final status = (im.status ?? '').toLowerCase();
+    final clientMsgId = (im.clientMsgId ?? '').trim();
+
+    if (clientMsgId.isNotEmpty) {
+      final idx = messages.indexWhere((e) => e.clientMsgId == clientMsgId);
+      if (idx >= 0) {
+        _mergeImIntoMessage(messages[idx], im, status);
+        return true;
+      }
+      if (status == 'sent' && from == myId) {
+        final item = ChatHistoryList.fromChatMessage(im);
+        handleChatMsg([item]);
+        messages.add(item);
+        return true;
+      }
+    }
+
+    if (status == 'received') {
+      if (from != peer) return true;
+      if (im.messageId != null &&
+          messages.any((e) => e.messageId == im.messageId)) {
+        return true;
+      }
+      return false;
+    }
+
+    if (from == myId) return true;
+    if (from != peer) return true;
+    return false;
+  }
+
+  void markSendFailedByClientMsgId(String clientMsgId, {String? reason}) {
+    final id = clientMsgId.trim();
+    if (id.isEmpty) return;
+    final idx = messages.indexWhere((e) => e.clientMsgId == id);
+    if (idx < 0) return;
+    messages[idx].sendStatus = ChatMsgSendStatus.failed;
+    if (reason != null && reason.isNotEmpty) {
+      messages[idx].sendFailReason = reason;
+    }
+  }
+
+  void _mergeImIntoMessage(
+    ChatHistoryList target,
+    ChatImEntity im,
+    String status,
+  ) {
+    if (im.messageId != null) target.messageId = im.messageId;
+    if (im.createdAt != null && im.createdAt!.isNotEmpty) {
+      target.createdAt = im.createdAt;
+    }
+    target.sendStatus = ChatHistoryList.sendStatusFromIm(status);
+    if (target.sendStatus != ChatMsgSendStatus.failed) {
+      target.sendFailReason = null;
+    }
   }
 }

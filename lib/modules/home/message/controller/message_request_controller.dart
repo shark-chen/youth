@@ -23,8 +23,9 @@ extension MessageRequestController on MessageController {
   /// GET /api/message/conversations 获取用户会话列表
   Future<void> requestConversations({
     bool cache = false,
+    bool? showLoad = true,
   }) async {
-    EasyLoading.show();
+    if (true == showLoad) EasyLoading.show();
     final response =
         await Net.value<Message>().caches<MessagePersonListEntity>((values) {
       vm.value.configConversations(values, refresh: pageNo == 1);
@@ -33,12 +34,12 @@ extension MessageRequestController on MessageController {
       page: pageNo,
       size: pageSize,
     );
-    EasyLoading.dismiss();
+    if (true == showLoad) EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configConversations(response.values, refresh: pageNo == 1);
       vm.refresh();
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
     }
   }
 

@@ -17,6 +17,7 @@ extension ChatUIVM on ChatVM {
   Widget buildChatMsgUI(
     ChatHistoryList item, {
     VoidCallback? onAvatarTap,
+    VoidCallback? onRetry,
   }) {
     Widget bubble;
     switch (item.chatMsgType) {
@@ -56,10 +57,60 @@ extension ChatUIVM on ChatVM {
         break;
       default:
         {
-          return SizedBox();
+          return const SizedBox();
         }
     }
+    if (item.isSender) {
+      bubble = _wrapSenderStatus(item, bubble, onRetry);
+    }
     return _chatBubbleWithOptionalTimeTag(item, bubble);
+  }
+
+  Widget _wrapSenderStatus(
+    ChatHistoryList item,
+    Widget bubble,
+    VoidCallback? onRetry,
+  ) {
+    switch (item.sendStatus) {
+      case ChatMsgSendStatus.sending:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(right: 6, bottom: 12),
+              child: SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            ),
+            Flexible(child: bubble),
+          ],
+        );
+      case ChatMsgSendStatus.failed:
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: onRetry,
+              behavior: HitTestBehavior.opaque,
+              child: const Padding(
+                padding: EdgeInsets.only(right: 6, bottom: 12),
+                child: Icon(
+                  Icons.error_outline,
+                  color: Colors.redAccent,
+                  size: 22,
+                ),
+              ),
+            ),
+            Flexible(child: bubble),
+          ],
+        );
+      default:
+        return bubble;
+    }
   }
 
   Widget _chatBubbleWithOptionalTimeTag(ChatHistoryList item, Widget bubble) {

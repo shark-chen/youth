@@ -4,6 +4,7 @@ import 'view_model/message_vm.dart';
 export 'controller/message_route_controller.dart';
 import 'controller/message_request_controller.dart';
 export 'controller/message_request_controller.dart';
+import 'package:kellychat/network/im/im_incoming_message_event.dart';
 import 'package:kellychat/network/im/im_service.dart';
 
 /// FileName: message_controller
@@ -48,6 +49,9 @@ class MessageController extends BaseController {
     EventBusManager().listen<UserInfoEntity>(this, (event) async {
       await UserCenter().init();
       vm.refresh();
+    });
+    EventBusManager().listen<ImIncomingMessageEvent>(this, (event) async {
+      await requestConversations(showLoad: false);
     });
   }
 
