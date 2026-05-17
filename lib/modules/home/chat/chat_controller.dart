@@ -9,6 +9,8 @@ import 'model/chat_im_entity.dart';
 import 'model/chat_message_entity.dart';
 import 'view_model/chat_vm.dart';
 import 'controller/chat_im_controller.dart';
+import 'controller/chat_route_controller.dart';
+export 'controller/chat_route_controller.dart';
 
 /// FileName: chat_controller
 ///
@@ -119,8 +121,25 @@ class ChatController extends BaseController {
     return vm.value.messages;
   }
 
+  /// 对方消息头像：有效 userId 才跳转他人资料
+  String? _peerProfileUserId(ChatHistoryList item) {
+    final raw = item.fromUserId ?? vm.value.chatParam.userId;
+    if (raw == null) return null;
+    final id = raw.toString().trim();
+    if (id.isEmpty || id == '0') return null;
+    return id;
+  }
+
   /// 构建聊天信息- UI
   Widget buildChatMsgUI(ChatHistoryList item) {
-    return vm.value.buildChatMsgUI(item);
+    final VoidCallback? onAvatarTap;
+    if (item.isSender) {
+      onAvatarTap = () => pushMyProfile();
+    } else {
+      final userId = _peerProfileUserId(item);
+      onAvatarTap =
+          userId == null ? null : () => pushProfile(userId: userId);
+    }
+    return vm.value.buildChatMsgUI(item, onAvatarTap: onAvatarTap);
   }
 }

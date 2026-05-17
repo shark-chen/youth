@@ -13,6 +13,7 @@ class ChatBaseWidget extends BubbleNormal {
     required super.text,
     this.showPortrait = true,
     this.avatar,
+    this.onAvatarTap,
     super.constraints,
     super.bubbleRadius,
     super.isSender,
@@ -33,18 +34,30 @@ class ChatBaseWidget extends BubbleNormal {
   /// 头像地址
   final String? avatar;
 
+  /// 头像点击（跳转个人详情，无 userId 时不传）
+  final VoidCallback? onAvatarTap;
+
   @override
   Widget build(BuildContext context) {
     final bubble = super.build(context);
-    final headerImage = true == showPortrait
+    final canTapAvatar = onAvatarTap != null;
+    Widget headerImage = true == showPortrait
         ? ImageLookWidget(
             imgUrl: avatar ?? '',
             height: 40,
             width: 40,
             imgBorderRadius: BorderRadius.circular(20),
             heroTag: '${avatar ?? ''}_chat_normal',
+            enlargeLook: !canTapAvatar,
           )
         : SizedBox(width: 40, height: 40);
+    if (canTapAvatar) {
+      headerImage = GestureDetector(
+        onTap: onAvatarTap,
+        behavior: HitTestBehavior.opaque,
+        child: headerImage,
+      );
+    }
     return Padding(
       padding: EdgeInsets.only(
         left: isSender == true ? 0 : 12,

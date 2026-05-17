@@ -168,8 +168,14 @@ class MessagePage extends BasePage<MessageController> {
                           ),
                         );
                       }
-                      final item = controller.vm.value.conversations[index - 4];
+                      final conversations =
+                          controller.vm.value.conversations;
+                      final chatIndex = index - 4;
+                      final item = conversations[chatIndex];
                       return ChatListCell(
+                        showTopRadius: chatIndex == 0,
+                        showBottomRadius:
+                            chatIndex == conversations.length - 1,
                         onTap: () => controller.pushChatPage(item),
                         headPortraitUrl: item.avatar,
                         name: item.nickname,

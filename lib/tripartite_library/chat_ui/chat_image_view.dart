@@ -14,8 +14,9 @@ class ChatImageWidget extends BubbleNormalImage {
     Key? key,
     required super.id,
     required super.image,
-    this.showPortrait,
+    this.showPortrait = true,
     this.avatar,
+    this.onAvatarTap,
     super.bubbleRadius = BUBBLE_RADIUS_IMAGE,
     super.isSender = true,
     super.color = ThemeColor.themeColor,
@@ -32,19 +33,37 @@ class ChatImageWidget extends BubbleNormalImage {
   /// 头像地址
   final String? avatar;
 
+  /// 头像点击（跳转个人详情，无 userId 时不传）
+  final VoidCallback? onAvatarTap;
+
   @override
   Widget build(BuildContext context) {
     final bubble = super.build(context);
-    final headerImage = true == showPortrait
+    final canTapAvatar = onAvatarTap != null;
+    Widget headerImage = true == showPortrait
         ? ImageLookWidget(
             imgUrl: avatar ?? '',
             height: 40,
             width: 40,
             imgBorderRadius: BorderRadius.circular(20),
             heroTag: '${avatar ?? ''}_chat_image',
+            enlargeLook: !canTapAvatar,
           )
         : SizedBox(width: 40, height: 40);
-    return Row(
+    if (canTapAvatar) {
+      headerImage = GestureDetector(
+        onTap: onAvatarTap,
+        behavior: HitTestBehavior.opaque,
+        child: headerImage,
+      );
+    }
+    return Padding(
+      padding: EdgeInsets.only(
+        left: isSender == true ? 0 : 12,
+        right: isSender == true ? 12 : 0,
+        top: 6,
+      ),
+      child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment:
           isSender == true ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -54,6 +73,7 @@ class ChatImageWidget extends BubbleNormalImage {
               headerImage,
             ]
           : [headerImage, Expanded(child: bubble)],
+      ),
     );
   }
 }

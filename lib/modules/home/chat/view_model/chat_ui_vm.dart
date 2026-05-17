@@ -14,7 +14,10 @@ import 'package:flutter/material.dart';
 /// @Description 聊天-处理消息-vm
 extension ChatUIVM on ChatVM {
   /// 构建聊天信息- UI
-  Widget buildChatMsgUI(ChatHistoryList item) {
+  Widget buildChatMsgUI(
+    ChatHistoryList item, {
+    VoidCallback? onAvatarTap,
+  }) {
     Widget bubble;
     switch (item.chatMsgType) {
       /// 文本消息
@@ -25,6 +28,7 @@ extension ChatUIVM on ChatVM {
             text: item.content ?? '',
             isSender: item.isSender,
             avatar: item.avatar,
+            onAvatarTap: onAvatarTap,
             tail: true,
           );
         }
@@ -36,6 +40,9 @@ extension ChatUIVM on ChatVM {
           bubble = ChatImageWidget(
             bubbleRadius: 12,
             id: '${item.content}_${item.index}',
+            isSender: item.isSender,
+            avatar: item.avatar,
+            onAvatarTap: onAvatarTap,
             image: ImageLookWidget(
               imgUrl: item.content ?? '',
               fit: BoxFit.fill,
@@ -52,7 +59,6 @@ extension ChatUIVM on ChatVM {
           return SizedBox();
         }
     }
-    return bubble;
     return _chatBubbleWithOptionalTimeTag(item, bubble);
   }
 

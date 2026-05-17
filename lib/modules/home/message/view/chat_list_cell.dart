@@ -14,6 +14,8 @@ class ChatListCell extends BaseStatelessWidget {
     this.name,
     this.msg,
     this.time,
+    this.showTopRadius = false,
+    this.showBottomRadius = false,
   }) : super(key: key);
 
   /// 点击
@@ -31,6 +33,22 @@ class ChatListCell extends BaseStatelessWidget {
   /// 时间
   final String? time;
 
+  /// 是否展示上圆角（12）
+  final bool showTopRadius;
+
+  /// 是否展示下圆角（12）
+  final bool showBottomRadius;
+
+  BorderRadius _cellBorderRadius() {
+    const r = Radius.circular(12);
+    return BorderRadius.only(
+      topLeft: showTopRadius ? r : Radius.zero,
+      topRight: showTopRadius ? r : Radius.zero,
+      bottomLeft: showBottomRadius ? r : Radius.zero,
+      bottomRight: showBottomRadius ? r : Radius.zero,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -39,7 +57,11 @@ class ChatListCell extends BaseStatelessWidget {
         height: 66,
         margin: EdgeInsets.only(left: 12, right: 12),
         padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
-        color: ThemeColor.inputBgColor,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: ThemeColor.inputBgColor,
+          borderRadius: _cellBorderRadius(),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

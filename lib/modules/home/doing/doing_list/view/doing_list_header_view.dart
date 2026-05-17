@@ -6,6 +6,23 @@ import 'package:kellychat/base/base_stateless_widget.dart';
 /// @Date 2026/3/9 23:31
 ///
 /// @Description 正在做的清单-渐变头（活动 + 邀请好友）
+
+/// 标题最多展示 30 字，超出以 `...` 结尾。
+String _formatDoingListHeaderTitle(String? raw) {
+  final s = (raw ?? '').trim();
+  if (s.isEmpty) return '';
+  if (s.length <= 30) return s;
+  return '${s.substring(0, 27)}...';
+}
+
+/// 字数较多时略缩小字号，便于两行展示。
+double _doingListHeaderTitleFontSize(String display) {
+  final len = display.length;
+  if (len <= 12) return 20;
+  if (len <= 20) return 18;
+  return 15;
+}
+
 class DoingListHeaderWidget extends BaseStatelessWidget {
   const DoingListHeaderWidget({
     Key? key,
@@ -27,6 +44,13 @@ class DoingListHeaderWidget extends BaseStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final displayTitle = _formatDoingListHeaderTitle(title);
+    final titleStyle = TextStyle(
+      fontSize: _doingListHeaderTitleFontSize(displayTitle),
+      fontWeight: FontWeight.w600,
+      color: ThemeColor.blackColor,
+      height: 1.25,
+    );
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 4, 16, 0),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -52,18 +76,15 @@ class DoingListHeaderWidget extends BaseStatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Text(
-            title ?? '',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: ThemeColor.blackColor,
+          Expanded(
+            child: Text(
+              displayTitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: titleStyle,
             ),
           ),
-
-          Expanded(child: Container()),
+          const SizedBox(width: 8),
           Material(
             color: Colors.transparent,
             child: InkWell(

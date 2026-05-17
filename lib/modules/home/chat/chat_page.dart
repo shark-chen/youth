@@ -18,11 +18,12 @@ class ChatPage extends BasePage<ChatController> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: ThemeColor.themeColor,
-        appBar: AppBarKit.appBar(controller.title ?? '', elevation: 0, actions:  [
+        appBar:
+            AppBarKit.appBar(controller.title ?? '', elevation: 0, actions: [
           GestureDetector(
-            onTap: () {
-
-            },
+            onTap: () => controller.pushProfile(
+              userId: '${controller.vm.value.chatParam.userId}',
+            ),
             child: Padding(
               padding: EdgeInsets.only(right: 6),
               child: Image.asset(

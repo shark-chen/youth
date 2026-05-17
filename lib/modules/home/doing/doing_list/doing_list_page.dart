@@ -122,24 +122,27 @@ class DoingListPage extends BasePage<DoingListController> {
               Visibility(
                 visible: !controller.vm.value.haveDoingPerson,
                 child: Center(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 85),
-                      Image.asset(
-                        'assets/image/common/have_no_doing@3x.png',
-                        fit: BoxFit.fill,
-                        width: 128,
-                        height: 87,
-                      ),
-                      SizedBox(height: 18),
-                      Text(
-                        '当前暂时没有其他人在「${controller.vm.value.myDoing?.tagName ?? '--'}」～',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.45),
-                          fontSize: 15,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 85),
+                        Image.asset(
+                          'assets/image/common/have_no_doing@3x.png',
+                          fit: BoxFit.fill,
+                          width: 128,
+                          height: 87,
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 18),
+                        Text(
+                          '当前暂时没有其他人在「${controller.vm.value.myDoing?.tagName ?? '--'}」～',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.45),
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
