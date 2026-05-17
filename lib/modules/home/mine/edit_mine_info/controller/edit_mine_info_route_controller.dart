@@ -54,13 +54,19 @@ extension EditMineInfoRouteController on EditMineInfoController {
   }
 
   /// push - 更改密码（6 位数字 + 修改密码入口）
+  ///
+  /// [onConfirm] 返回 `true` 时关闭弹层；返回 `false` 保持弹层（如确认密码不一致）。
   Future<void> pushPasswordAlert({
     required String title,
     required String content,
-    required ValueChanged<String> onConfirm,
+    required Future<bool> Function(String password) onConfirm,
+    String confirmButtonText = '确定',
+    bool? showResetPassword,
+    VoidCallback? onModifyPasswordTap,
   }) async {
     final ctx = Get.context;
     if (ctx == null) return;
+    final showReset = showResetPassword ?? vm.value.draft.hasPrivateContent;
     await BottomAlert.alerts(
       ctx,
       isDismissible: true,
@@ -68,20 +74,64 @@ extension EditMineInfoRouteController on EditMineInfoController {
         child: EditChangePasswordSheetWidget(
           title: title,
           content: content,
+          confirmButtonText: confirmButtonText,
           closeTap: Get.back,
-          showResetPassword: vm.value.draft.hasPrivateContent,
-          onConfirm: (password) {
-            Get.back();
-            onConfirm.call(password);
+          showResetPassword: showReset,
+          onConfirm: (password) async {
+            final shouldClose = await onConfirm(password);
+            if (shouldClose) Get.back();
+            return shouldClose;
           },
-          onModifyPasswordTap: () {
-            Get.back();
-            Future<void>.microtask(() async {
-              await pushResetPrivatePasswordConfirmDialog();
-            });
-          },
+          onModifyPasswordTap: onModifyPasswordTap ??
+              () {
+                Get.back();
+                Future<void>.microtask(() async {
+                  await pushResetPrivatePasswordConfirmDialog();
+                });
+              },
         ),
       ),
+    );
+  }
+
+  /// 两步输入密码：先设新密码（下一步），再确认（确认密码）；一致后 [onMatched]
+  Future<void> pushPasswordWithConfirm({
+    required String titleFirst,
+    required String contentFirst,
+    required String titleConfirm,
+    required String contentConfirm,
+    required Future<void> Function(String password) onMatched,
+    bool showResetPassword = false,
+    VoidCallback? onModifyPasswordTap,
+  }) async {
+    String? firstPassword;
+    await pushPasswordAlert(
+      title: titleFirst,
+      content: contentFirst,
+      confirmButtonText: '下一步',
+      showResetPassword: showResetPassword,
+      onModifyPasswordTap: onModifyPasswordTap,
+      onConfirm: (password) async {
+        firstPassword = password;
+        return true;
+      },
+    );
+    if (firstPassword == null) return;
+
+    await pushPasswordAlert(
+      title: titleConfirm,
+      content: contentConfirm,
+      confirmButtonText: '确认密码',
+      showResetPassword: false,
+      onModifyPasswordTap: null,
+      onConfirm: (password) async {
+        if (password != firstPassword) {
+          EasyLoading.showToast('两次输入的密码不一致，请重试');
+          return false;
+        }
+        await onMatched(password);
+        return true;
+      },
     );
   }
 

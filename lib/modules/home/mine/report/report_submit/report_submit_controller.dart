@@ -91,10 +91,6 @@ class ReportSubmitController extends BaseController {
 
   Future<void> submit() async {
     final text = contentController.text.trim();
-    if (text.isEmpty && imagePaths.isEmpty) {
-      EasyLoading.showToast('请填写举报描述或上传图片证据');
-      return;
-    }
     final rid = reasonId?.trim();
     if (rid == null || rid.isEmpty) {
       EasyLoading.showToast('缺少举报类型');

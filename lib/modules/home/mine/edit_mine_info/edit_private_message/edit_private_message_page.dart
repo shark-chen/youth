@@ -11,38 +11,48 @@ class EditPrivateMessagePage extends BasePage<EditPrivateMessageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: ThemeColor.themeColor,
-      appBar: AppBarKit.appBar(controller.title ?? ''),
-      body: Obx(
-        () => Stack(
-          children: [
-            Positioned(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                child: CountInput(
-                  controller: controller.vm.value.editingController,
-                  focusNode: controller.vm.value.focusNode,
-                  height: 400,
-                  hint: '发送给AI的内容，最多1000个字。',
-                  maxLength: 1000,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) return;
+        controller.clickCancel();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: ThemeColor.themeColor,
+        appBar: AppBarKit.appBar(
+          controller.title ?? '',
+          backTap: controller.clickCancel,
+        ),
+        body: Obx(
+          () => Stack(
+            children: [
+              Positioned(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                  child: CountInput(
+                    controller: controller.vm.value.editingController,
+                    focusNode: controller.vm.value.focusNode,
+                    height: 400,
+                    hint: '发送给AI的内容，最多1000个字。',
+                    maxLength: 1000,
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  EditBottomActions(
-                    onCancel: controller.closePage,
-                    onSave: controller.clickSave,
-                    saveEnable: controller.vm.value.saveEnable,
-                  ),
-                ],
+              Positioned(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    EditBottomActions(
+                      onCancel: () => controller.clickCancel(),
+                      onSave: controller.clickSave,
+                      saveEnable: controller.vm.value.saveEnable,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

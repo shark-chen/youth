@@ -30,26 +30,53 @@ class EditPrivateMessageController extends BaseController {
     vm.value.refresh = vm.refresh;
   }
 
+  bool get _isFirstTimePrivateSetup =>
+      Strings.isEmpty(vm.value.editPrivateModel.oldPassword) &&
+      Strings.isNotEmpty(vm.value.editPrivateModel.password);
+
+  /// 点击取消 / 返回
+  Future<void> clickCancel() async {
+    if (_isFirstTimePrivateSetup) {
+      final result = await _submitPrivate(
+        wishDescription: '',
+        showLoad: false,
+      );
+      if (result) _popAfterSuccess();
+      return;
+    }
+    Get.back();
+  }
+
   /// 点击保存
   Future<void> clickSave() async {
     if (!vm.value.saveEnable) return;
 
-    /// 已经有密码的时候
-    var result = false;
+    final result = await _submitPrivate(
+      wishDescription: vm.value.editingController?.text ?? '',
+    );
+    if (result) _popAfterSuccess();
+  }
+
+  Future<bool> _submitPrivate({
+    required String wishDescription,
+    bool? showLoad = false,
+  }) async {
     if (Strings.isNotEmpty(vm.value.editPrivateModel.oldPassword)) {
-      result = await requestUpdateUserPrivate(
-        wishDescription: vm.value.editingController?.text ?? '',
+      return requestUpdateUserPrivate(
+        wishDescription: wishDescription,
         oldPassword: vm.value.editPrivateModel.oldPassword,
-      );
-    } else {
-      result = await requestUpdateUserPrivate(
-        wishDescription: vm.value.editingController?.text ?? '',
-        password: vm.value.editPrivateModel.password,
+        showLoad: showLoad,
       );
     }
-    if (result) {
-      Future.delayed(const Duration(milliseconds: 2000), Get.back);
-    }
+    return requestUpdateUserPrivate(
+      wishDescription: wishDescription,
+      password: vm.value.editPrivateModel.password,
+      showLoad: showLoad,
+    );
+  }
+
+  void _popAfterSuccess() {
+    Future.delayed(const Duration(milliseconds: 2000), Get.back);
   }
 
   /// 第一次设置私密
@@ -58,19 +85,20 @@ class EditPrivateMessageController extends BaseController {
     required String wishDescription,
     String? password,
     String? oldPassword,
+    bool? showLoad = false,
   }) async {
-    EasyLoading.show();
+    if (true == showLoad) EasyLoading.show();
     final response = await Net.value<User>().requestUpdateUserPrivate(
       wishDescription: wishDescription,
       password: password,
       oldPassword: oldPassword,
     );
-    EasyLoading.dismiss();
+    if (true == showLoad) EasyLoading.dismiss();
     if (response.success) {
-      EasyLoading.showToast('设置成功');
+      if (true == showLoad) EasyLoading.showToast('设置成功');
       return true;
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
       return false;
     }
   }

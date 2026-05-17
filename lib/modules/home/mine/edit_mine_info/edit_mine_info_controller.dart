@@ -70,11 +70,11 @@ class EditMineInfoController extends BaseController {
   /// 点击添加秘密
   Future clickAddPrivacyMessage() async {
     final hasPrivateContent = true == vm.value.draft.hasPrivateContent;
-    await pushPasswordAlert(
-      title: hasPrivateContent ? '验证密码' : '设置密码',
-      content: hasPrivateContent ? '请输入当前的6位数字密码' : '使用前，请先设置6位数字密码',
-      onConfirm: (password) async {
-        if (hasPrivateContent) {
+    if (hasPrivateContent) {
+      await pushPasswordAlert(
+        title: '验证密码',
+        content: '请输入当前的6位数字密码',
+        onConfirm: (password) async {
           /// 验证私密信息密码
           final check = await requestUserPrivateVerify(password: password);
           if (check) {
@@ -84,18 +84,24 @@ class EditMineInfoController extends BaseController {
               oldPassword: password,
             );
           }
-        } else {
-          /// push - 私密语言-页面
+          return true;
+        },
+      );
+    } else {
+      await pushPasswordWithConfirm(
+        titleFirst: '设置密码',
+        contentFirst: '使用前，请先设置6位数字密码',
+        titleConfirm: '确认密码',
+        contentConfirm: '请再次输入6位数字密码',
+        onMatched: (password) async {
           await pushPrivateMessagePage(
             content: vm.value.userPrivateInfoEntity?.wishDescription,
             password: password,
           );
-
-          /// 请求个人信息数据
           await requestData();
-        }
-      },
-    );
+        },
+      );
+    }
   }
 
   /// 点击修改密码
@@ -106,19 +112,20 @@ class EditMineInfoController extends BaseController {
       onConfirm: (oldPassword) async {
         /// 验证私密信息密码
         final check = await requestUserPrivateVerify(password: oldPassword);
-        if (check) {
-          await pushPasswordAlert(
-            title: '更新密码',
-            content: '请输入新的6位数字密码',
-            onConfirm: (newPassword) async {
-              /// 第一次设置私密
-              await requestUpdateUserPrivatePassword(
-                newPassword: newPassword,
-                oldPassword: oldPassword,
-              );
-            },
-          );
-        }
+        if (!check) return true;
+        await pushPasswordWithConfirm(
+          titleFirst: '更新密码',
+          contentFirst: '请输入新的6位数字密码',
+          titleConfirm: '确认密码',
+          contentConfirm: '请再次输入6位数字密码',
+          onMatched: (newPassword) async {
+            await requestUpdateUserPrivatePassword(
+              newPassword: newPassword,
+              oldPassword: oldPassword,
+            );
+          },
+        );
+        return true;
       },
     );
   }

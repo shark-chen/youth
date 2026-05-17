@@ -12,6 +12,7 @@ class EditChangePasswordSheetWidget extends StatefulWidget {
     this.content,
     this.closeTap,
     this.onConfirm,
+    this.confirmButtonText = '确定',
     this.showResetPassword,
     this.onModifyPasswordTap,
   });
@@ -24,8 +25,11 @@ class EditChangePasswordSheetWidget extends StatefulWidget {
 
   final VoidCallback? closeTap;
 
-  /// 输入满 6 位数字后点击确定
-  final ValueChanged<String>? onConfirm;
+  /// 输入满 6 位数字后点击底部按钮（由 [pushPasswordAlert] 根据返回值决定是否关闭弹层）
+  final Future<bool> Function(String password)? onConfirm;
+
+  /// 底部主按钮文案（如「确定」「下一步」「确认密码」）
+  final String confirmButtonText;
 
   /// 展示重置密码
   final bool? showResetPassword;
@@ -61,10 +65,10 @@ class _EditChangePasswordSheetWidgetState
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     final s = _controller.text;
     if (s.length != 6) return;
-    widget.onConfirm?.call(s);
+    await widget.onConfirm?.call(s);
   }
 
   @override
@@ -240,7 +244,7 @@ class _EditChangePasswordSheetWidgetState
                     height: 50,
                     width: double.infinity,
                     child: Text(
-                      '确定',
+                      widget.confirmButtonText,
                       style: TextStyle(
                         color: ThemeColor.themeColor,
                         fontSize: 17,
