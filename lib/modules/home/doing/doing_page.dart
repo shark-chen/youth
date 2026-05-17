@@ -195,6 +195,7 @@ class DoingPage extends BasePage<DoingController> {
                     child: InputAiWidget(
                       hint: '输入你正在做的事…',
                       controller: controller.editingController,
+                      maxLength: 30,
                       focusNode: controller.focusNode,
                       onSubmittedTap: (content) async {
                         /// 点击发布正在做的事

@@ -162,6 +162,7 @@ class HallPage extends BasePage<HallController> {
                           : Colors.transparent,
                       child: InputAiWidget(
                         hint: '描述你想找的人…',
+                        maxLength: 30,
                         controller: controller.editingController,
                         focusNode: controller.focusNode,
                         onSubmittedTap: (content) async {

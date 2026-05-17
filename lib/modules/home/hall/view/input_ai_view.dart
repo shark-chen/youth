@@ -1,8 +1,28 @@
-import 'package:kellychat/base/base_stateless_widget.dart';
 import 'package:flutter/services.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
-import 'package:kellychat/modules/login/view/verify_error_view.dart';
 import 'package:kellychat/modules/modules.dart';
+
+/// 超出 [maxLength] 时截断为前 [maxLength] 个字符（含粘贴）。
+class _TruncateToMaxLengthFormatter extends TextInputFormatter {
+  const _TruncateToMaxLengthFormatter(this.maxLength);
+
+  final int maxLength;
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final text = newValue.text;
+    if (text.length <= maxLength) return newValue;
+    final truncated = text.substring(0, maxLength);
+    return TextEditingValue(
+      text: truncated,
+      selection: TextSelection.collapsed(offset: truncated.length),
+      composing: TextRange.empty,
+    );
+  }
+}
 
 /// FileName: input_ai_view
 ///
@@ -21,7 +41,11 @@ class InputAiWidget extends BaseStatelessWidget {
     this.focusNode,
     this.inputFormatters,
     this.keyboardType,
+    this.maxLength = 30,
   }) : super(key: key);
+
+  /// 最多可输入字符数（默认 30，用于「正在做的事」等）
+  static const int defaultMaxLength = 30;
 
   /// 错误
   final String? error;
@@ -46,8 +70,15 @@ class InputAiWidget extends BaseStatelessWidget {
 
   final TextInputType? keyboardType;
 
+  /// 输入上限；满后不可继续输入，粘贴内容仅保留前 [maxLength] 字
+  final int maxLength;
+
   @override
   Widget build(BuildContext context) {
+    final formatters = <TextInputFormatter>[
+      _TruncateToMaxLengthFormatter(maxLength),
+      ...?inputFormatters,
+    ];
     return Container(
       alignment: Alignment.center,
       height: 48,
@@ -71,8 +102,9 @@ class InputAiWidget extends BaseStatelessWidget {
                   fontSize: 14),
               controller: controller,
               focusNode: focusNode,
-              keyboardType: TextInputType.visiblePassword,
-              maxLength: 300,
+              keyboardType: keyboardType ?? TextInputType.text,
+              maxLength: maxLength,
+              inputFormatters: formatters,
               onTap: inputTap,
               decoration: InputDecoration(
                 isDense: true,
