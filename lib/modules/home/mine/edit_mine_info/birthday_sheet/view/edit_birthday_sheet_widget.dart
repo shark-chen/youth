@@ -7,7 +7,7 @@ import 'package:kellychat/utils/utils/theme_color.dart';
 import '../edit_birthday_sheet_vm.dart';
 import 'edit_birthday_picker_cell.dart';
 
-/// 全屏遮罩 + 底部生日滚轮（点遮罩、X、「确定」均以当前滚轮日期 [Navigator.pop]）
+/// 全屏遮罩 + 底部生日滚轮（仅「确定」带回日期；遮罩 / X / 返回为取消）
 class EditBirthdaySheetDialog extends StatefulWidget {
   const EditBirthdaySheetDialog({
     super.key,
@@ -40,6 +40,10 @@ class _EditBirthdaySheetDialogState extends State<EditBirthdaySheetDialog> {
     Navigator.of(context).pop<DateTime>(_vm.selectedDate);
   }
 
+  void _popCancelled() {
+    Navigator.of(context).pop<DateTime?>(null);
+  }
+
   void _onWheelChanged() => setState(() {});
 
   @override
@@ -48,7 +52,7 @@ class _EditBirthdaySheetDialogState extends State<EditBirthdaySheetDialog> {
       canPop: false,
       onPopInvoked: (bool didPop) {
         if (didPop) return;
-        _popWithSelection();
+        _popCancelled();
       },
       child: Material(
         type: MaterialType.transparency,
@@ -58,7 +62,7 @@ class _EditBirthdaySheetDialogState extends State<EditBirthdaySheetDialog> {
             Positioned.fill(
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: _popWithSelection,
+                onTap: _popCancelled,
                 child: Container(color: Colors.black54),
               ),
             ),
@@ -67,7 +71,8 @@ class _EditBirthdaySheetDialogState extends State<EditBirthdaySheetDialog> {
               child: _EditBirthdaySheetPanel(
                 vm: _vm,
                 onWheelChanged: _onWheelChanged,
-                onClose: _popWithSelection,
+                onClose: _popCancelled,
+                onConfirm: _popWithSelection,
               ),
             ),
           ],
@@ -82,11 +87,13 @@ class _EditBirthdaySheetPanel extends StatelessWidget {
     required this.vm,
     required this.onWheelChanged,
     required this.onClose,
+    required this.onConfirm,
   });
 
   final EditBirthdaySheetVM vm;
   final VoidCallback onWheelChanged;
   final VoidCallback onClose;
+  final VoidCallback onConfirm;
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +241,7 @@ class _EditBirthdaySheetPanel extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           GestureDetector(
-            onTap: onClose,
+            onTap: onConfirm,
             child: Container(
               decoration: BoxDecoration(
                 color: ThemeColor.themeGreenColor,

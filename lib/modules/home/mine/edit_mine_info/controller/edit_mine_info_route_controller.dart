@@ -127,7 +127,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
     );
   }
 
-  /// 修改生日（全屏半透明遮罩 + 底部滚轮；点遮罩或 X 均采用当前滚轮日期）
+  /// 修改生日（全屏半透明遮罩 + 底部滚轮；仅点「确定」保存，遮罩 / X / 返回取消）
   Future<void> pushEditBirthdaySheet() async {
     final ctx = Get.context;
     if (ctx == null) return;
