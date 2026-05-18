@@ -2,6 +2,7 @@ import 'package:kellychat/base/base_controller.dart';
 import '../doing_controller.dart';
 import '../model/doing_nav_ids.dart';
 import '../model/doing_hot_tags_entity.dart';
+import '../model/doing_present_hot_tag_entity.dart';
 
 /// FileName: doing_route_controller
 ///
@@ -13,7 +14,7 @@ extension DoingRouteController on DoingController {
   /// mark - push
   ///
   /// push - 正在做的清单-页面
-  Future pushDoingListPage(DoingHotTagsEntity tag) async {
+  Future pushDoingListPage(DoingPresentHotTagEntity tag) async {
     if (canClosePage) {
       closePage();
     } else {

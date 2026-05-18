@@ -2,6 +2,7 @@ import 'package:kellychat/base/base_controller.dart';
 import '../../mine/user_info/model/user_info_entity.dart';
 import '../../../user/user_center/my_doing/my_doing.dart';
 import '../model/doing_hot_tags_entity.dart';
+import '../model/doing_present_hot_tag_entity.dart';
 import '../model/publish_doing_entity.dart';
 import 'model/doing_list_entity.dart';
 import 'view/doing_list_cell.dart';
@@ -19,7 +20,7 @@ import '../model/doing_nav_ids.dart';
 ///
 /// @Description 正在做的清单-controller
 class DoingListController extends BaseController {
-  DoingListController({DoingHotTagsEntity? value}) {
+  DoingListController({DoingPresentHotTagEntity? value}) {
     vm.value.doingHotTagsEntity = value;
   }
 
@@ -54,7 +55,7 @@ class DoingListController extends BaseController {
   void addEventBusManager() {
     EventBusManager().listen<PublishDoingEntity>(this, (event) async {
       /// 刷新数据
-      vm.value.doingHotTagsEntity = DoingHotTagsEntity()
+      vm.value.doingHotTagsEntity = DoingPresentHotTagEntity()
         ..tagId = event.tagId
         ..tagName = event.tagName;
       await refreshData();
@@ -78,7 +79,7 @@ class DoingListController extends BaseController {
     if (name != null && name.isNotEmpty) {
       vm.value.activityTitle = name;
     }
-    vm.value.samePeopleCount = value.userCount ?? 0;
+    // vm.value.samePeopleCount = value.userCount ?? 0;
     vm.refresh();
     if (value.tagId != null) {
       pageNo = 1;

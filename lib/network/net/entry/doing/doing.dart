@@ -21,6 +21,11 @@ class Doing extends NetMixin<Doing> {
     return await get<T>(AppConfig.getStatusHotTagsUrl, params: params);
   }
 
+  /// GET /api/status/preset-tags 获取预设正在做标签列表
+  Future<NetResult<T>> requestPresetTags<T>() async {
+    return await get<T>(AppConfig.getStatusPresetTagsUrl);
+  }
+
   /// GET /api/status/doing/{tagId}
   /// 获取正在做某个标签的用户列表
   /// query（可选）：page 默认 1；size 不传则不携带

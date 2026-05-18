@@ -61,6 +61,18 @@ class MessageController extends BaseController {
     vm.refresh();
   }
 
+  /// 侧滑删除会话
+  Future<bool> clickDeleteConversation(int? conversationId) async {
+    if (conversationId == null || conversationId <= 0) return false;
+    final ok = await requestDeleteConversation(conversationId: conversationId);
+    if (ok) {
+      vm.value.conversations
+          .removeWhere((e) => e.conversationId == conversationId);
+      vm.refresh();
+    }
+    return ok;
+  }
+
   /// 刷新数据
   Future refreshData() async {
     /// request - 敲一下收件箱

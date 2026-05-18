@@ -43,6 +43,25 @@ extension MessageRequestController on MessageController {
     }
   }
 
+  /// DELETE /api/message/conversations/{conversationId}
+  Future<bool> requestDeleteConversation({
+    required int conversationId,
+    bool showLoad = true,
+  }) async {
+    if (showLoad) EasyLoading.show();
+    final response = await Net.value<Message>()
+        .requestDeleteConversation<dynamic>(conversationId: conversationId);
+    if (showLoad) EasyLoading.dismiss();
+    if (response.succeed) {
+      EasyLoading.showToast(
+        response.msg?.isNotEmpty == true ? response.msg! : '已删除',
+      );
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
+  }
+
   /// GET /api/status/my-doing
   Future<void> requestMyDoing() async {
     EasyLoading.show();

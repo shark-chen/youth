@@ -31,6 +31,8 @@ class UserIntroduceWidget extends BaseStatelessWidget {
       );
     }
     return Wrap(
+      spacing: 8,
+      runSpacing: 8,
       children: (tags ?? []).map(
         (e) {
           return Container(

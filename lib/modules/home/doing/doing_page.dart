@@ -74,7 +74,8 @@ class DoingPage extends BasePage<DoingController> {
                               width: 32,
                               height: 32,
                               imgBorderRadius: BorderRadius.circular(32),
-                              heroTag: '${controller.vm.value.userInfo?.avatar ?? ''}_doing_page',
+                              heroTag:
+                                  '${controller.vm.value.userInfo?.avatar ?? ''}_doing_page',
                             ),
                           ),
                         ),
@@ -124,7 +125,8 @@ class DoingPage extends BasePage<DoingController> {
                   /// 热门标签（数据源：DoingVM.hotTags）
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 60),
+                      padding: const EdgeInsets.only(
+                          left: 16, right: 16, bottom: 60),
                       child: Obx(
                         () {
                           final tags = controller.vm.value.hotTags;
@@ -146,7 +148,8 @@ class DoingPage extends BasePage<DoingController> {
                             childAspectRatio: 2.5,
                             children: tags.map(
                               (e) {
-                                final tag = e.tagName ?? '';
+                                final tag =
+                                    '${e.icon ?? ''} ${e.tagName ?? ''}';
                                 final dy = (tag.hashCode.abs() % 10)
                                     .toDouble(); // 0~6，稳定不跳动
                                 return Transform.translate(

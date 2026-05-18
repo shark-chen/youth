@@ -20,9 +20,10 @@ class UserLabelInfoWidget extends BaseStatelessWidget {
     return Container(
       alignment: Alignment.centerLeft,
       child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
         children: labels.map((e) {
           return Container(
-            margin: EdgeInsets.only(right: 8, bottom: 8),
             padding: EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),

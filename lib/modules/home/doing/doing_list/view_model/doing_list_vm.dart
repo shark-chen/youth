@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:kellychat/base/base_vm.dart';
 
 import '../../model/doing_hot_tags_entity.dart';
+import '../../model/doing_present_hot_tag_entity.dart';
 import '../../model/publish_doing_entity.dart';
 import '../model/doing_list_entity.dart';
 import '../model/invitation_inbox_entity.dart';
@@ -30,7 +31,7 @@ class DoingListVM extends BaseVM {
   /// 邀约收件箱（含发出的和收到的）
   InvitationInboxEntity? invitationInbox;
 
-  DoingHotTagsEntity? doingHotTagsEntity;
+  DoingPresentHotTagEntity? doingHotTagsEntity;
 
   /// 热门标签
   List<DoingHotTagsEntity> hotTags = [];

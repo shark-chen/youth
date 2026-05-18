@@ -8,6 +8,7 @@ import 'package:kellychat/modules/routes/app_pages.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'doing_controller.dart';
 import 'model/doing_hot_tags_entity.dart';
+import 'model/doing_present_hot_tag_entity.dart';
 
 /// FileName: doing_tab_host
 ///
@@ -100,7 +101,7 @@ class _DoingTabHostState extends State<DoingTabHost>
       binding: BindingsBuilder(() {
         Get.lazyPut<DoingListController>(
           () => DoingListController(
-              value: settings.arguments as DoingHotTagsEntity),
+              value: settings.arguments as DoingPresentHotTagEntity),
         );
       }),
       transition: Transition.downToUp,

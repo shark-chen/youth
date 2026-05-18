@@ -3,6 +3,7 @@ import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import '../../../base/base_bindings.dart';
 import '../doing/doing_controller.dart';
 import '../doing/model/doing_hot_tags_entity.dart';
+import '../doing/model/doing_present_hot_tag_entity.dart';
 import '../hall/hall_controller.dart';
 import '../message/message_controller.dart';
 import 'home_controller.dart';
@@ -23,7 +24,7 @@ class HomeBinding extends BaseBindings {
     if (doing != null) {
       Get.put<DoingListController>(
         DoingListController(
-          value: DoingHotTagsEntity()
+          value: DoingPresentHotTagEntity()
             ..tagName = doing.tagName
             ..tagId = doing.tagId,
         ),

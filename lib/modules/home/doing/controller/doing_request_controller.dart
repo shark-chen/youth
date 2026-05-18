@@ -4,6 +4,7 @@ import 'package:kellychat/network/net/entry/user/user.dart';
 import '../doing_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
 import '../model/doing_hot_tags_entity.dart';
+import '../model/doing_present_hot_tag_entity.dart';
 import '../model/publish_doing_entity.dart';
 
 /// FileName: doing_request_controller
@@ -19,7 +20,7 @@ extension DoingRequestController on DoingController {
   Future<void> requestMyDoing() async {
     EasyLoading.show();
     final response =
-    await Net.value<Doing>().cache<PublishDoingEntity>((value) {
+        await Net.value<Doing>().cache<PublishDoingEntity>((value) {
       if (value == null) return;
     }).requestMyDoing<PublishDoingEntity>();
     EasyLoading.dismiss();
@@ -30,17 +31,20 @@ extension DoingRequestController on DoingController {
     }
   }
 
-  /// request - 获取当前热门的正在做标签列表
-  Future requestHotTags() async {
-    EasyLoading.show();
-    var response =
-        await Net.value<Doing>().requestHotTags<DoingHotTagsEntity>(limit: 20);
-    EasyLoading.dismiss();
+  /// request - 获取预设正在做标签列表
+  Future<void> requestPresetTags({bool showLoad = true}) async {
+    if (showLoad) EasyLoading.show();
+    final response =
+        await Net.value<Doing>().caches<DoingPresentHotTagEntity>((values) {
+      if (Lists.isEmpty(values)) return;
+      vm.value.configHotTags(values);
+    }).requestPresetTags<DoingPresentHotTagEntity>();
+    if (showLoad) EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configHotTags(response.values);
       vm.refresh();
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (showLoad) EasyLoading.showToast(response.msg ?? '');
     }
   }
 
@@ -65,7 +69,6 @@ extension DoingRequestController on DoingController {
       return null;
     }
   }
-
 
   /// 获取个人信息 · GET /api/user/profile
   Future<void> requestUserProfile() async {

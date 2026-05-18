@@ -42,4 +42,11 @@ class Message extends NetMixin<Message> {
       params: params,
     );
   }
+
+  /// DELETE /api/message/conversations/{conversationId}
+  Future<NetResult<T>> requestDeleteConversation<T>({
+    required int conversationId,
+  }) async {
+    return await delete<T>(AppConfig.getMessageConversationUrl(conversationId));
+  }
 }

@@ -43,6 +43,108 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
   /// 编辑点击
   final VoidCallback? editTap;
 
+  static const double _genderIconSize = 18;
+  static const double _genderIconGap = 4;
+
+  TextStyle get _nicknameStyle => TextStyle(
+        color: ThemeColor.whiteColor,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      );
+
+  Widget? _buildGenderIcon() {
+    if (gender == null) return null;
+    return Icon(
+      1 == gender ? Icons.male : Icons.female,
+      size: _genderIconSize,
+      color: 1 == gender
+          ? ThemeColor.maleIconColor
+          : ThemeColor.femaleIconColor,
+    );
+  }
+
+  /// 性别图标紧贴昵称；昵称换行时图标仍在第一行末尾
+  Widget _buildNicknameWithGender(BuildContext context, double maxWidth) {
+    final name = userName ?? '';
+    final genderIcon = _buildGenderIcon();
+    if (name.isEmpty) {
+      return genderIcon ?? const SizedBox.shrink();
+    }
+    if (genderIcon == null) {
+      return Text(name, style: _nicknameStyle);
+    }
+
+    final firstLineMaxWidth = maxWidth - _genderIconSize - _genderIconGap;
+    if (firstLineMaxWidth <= 0) {
+      return Text(name, style: _nicknameStyle);
+    }
+
+    final textDirection = Directionality.of(context);
+    final singleLinePainter = TextPainter(
+      text: TextSpan(text: name, style: _nicknameStyle),
+      textDirection: textDirection,
+      maxLines: 1,
+    )..layout(maxWidth: firstLineMaxWidth);
+
+    if (!singleLinePainter.didExceedMaxLines) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Flexible(
+            child: Text(
+              name,
+              style: _nicknameStyle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const SizedBox(width: _genderIconGap),
+          genderIcon,
+        ],
+      );
+    }
+
+    var splitIndex = name.length;
+    for (var i = name.length; i > 0; i--) {
+      final probe = TextPainter(
+        text: TextSpan(text: name.substring(0, i), style: _nicknameStyle),
+        textDirection: textDirection,
+        maxLines: 1,
+      )..layout(maxWidth: firstLineMaxWidth);
+      if (!probe.didExceedMaxLines) {
+        splitIndex = i;
+        break;
+      }
+    }
+
+    final firstLine = name.substring(0, splitIndex);
+    final rest = name.substring(splitIndex);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              child: Text(
+                firstLine,
+                style: _nicknameStyle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: _genderIconGap),
+            genderIcon,
+          ],
+        ),
+        if (rest.isNotEmpty) Text(rest, style: _nicknameStyle),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,31 +168,13 @@ class UserHeaderInfoWidget extends BaseStatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        userName ?? '',
-                        softWrap: true,
-                        style: TextStyles(
-                          color: ThemeColor.whiteColor,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-
-                    /// 性别图标
-                    Icon(
-                      1 == gender ? Icons.male : Icons.female,
-                      color: 1 == gender
-                          ? ThemeColor.maleIconColor
-                          : ThemeColor.femaleIconColor,
-                    ),
-                  ],
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return _buildNicknameWithGender(
+                      context,
+                      constraints.maxWidth,
+                    );
+                  },
                 ),
                 Text(
                   '${age ?? ''}·${address ?? ''}   IP:${province ?? ''}',

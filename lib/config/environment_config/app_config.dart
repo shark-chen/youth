@@ -233,6 +233,11 @@ class AppConfig {
     return '/api/status/hot-tags';
   }
 
+  /// 获取预设正在做标签列表
+  static String get getStatusPresetTagsUrl {
+    return '/api/status/preset-tags';
+  }
+
   /// 某标签下「正在做」详情 / 列表（path 参数 tagId）
   static String getStatusDoingUrl(int tagId) {
     return '/api/status/doing/$tagId';
@@ -353,10 +358,15 @@ class AppConfig {
   static String get getMessageConversationsUrl {
     return '/api/message/conversations';
   }
-
+  
   /// 某会话聊天历史（GET path: userId；query: lastMessageId, size）
   static String getMessageHistoryUrl(String userId) {
     return '/api/message/history/$userId';
+  }
+
+  /// 删除会话 DELETE path: conversationId
+  static String getMessageConversationUrl(int conversationId) {
+    return '/api/message/conversations/$conversationId';
   }
 
 

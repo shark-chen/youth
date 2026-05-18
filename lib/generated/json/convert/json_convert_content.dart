@@ -13,6 +13,7 @@ import 'package:kellychat/modules/home/doing/doing_list/model/invitation_entity.
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
 import 'package:kellychat/modules/home/doing/model/doing_partner_entity.dart';
+import 'package:kellychat/modules/home/doing/model/doing_present_hot_tag_entity.dart';
 import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:kellychat/modules/home/hall/model/smart_match_people_entity.dart';
 import 'package:kellychat/modules/home/message/beat_record/model/beat_item_entity.dart';
@@ -61,6 +62,7 @@ class JsonConvert {
     (InvitationEntity).toString(): InvitationEntity.fromJson,
     (InvitationItemEntity).toString(): InvitationItemEntity.fromJson,
     (InvitationInboxEntity).toString(): InvitationInboxEntity.fromJson,
+    (DoingPresentHotTagEntity).toString(): DoingPresentHotTagEntity.fromJson,
   };
 
   T? convert<T>(dynamic value, {EnumConvertFunction? enumConvert}) {
@@ -265,6 +267,10 @@ class JsonConvert {
     if (<InvitationInboxEntity>[] is M) {
       return data.map<InvitationInboxEntity>((Map<String, dynamic> e) =>
           InvitationInboxEntity.fromJson(e)).toList() as M;
+    }
+    if (<DoingPresentHotTagEntity>[] is M) {
+      return data.map<DoingPresentHotTagEntity>((Map<String, dynamic> e) =>
+          DoingPresentHotTagEntity.fromJson(e)).toList() as M;
     }
     debugPrint("${M.toString()} not found");
     return null;

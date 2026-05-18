@@ -173,10 +173,17 @@ class MessagePage extends BasePage<MessageController> {
                       final chatIndex = index - 4;
                       final item = conversations[chatIndex];
                       return ChatListCell(
+                        dismissKey: ValueKey(
+                          'conversation_${item.conversationId ?? chatIndex}',
+                        ),
                         showTopRadius: chatIndex == 0,
                         showBottomRadius:
                             chatIndex == conversations.length - 1,
                         onTap: () => controller.pushChatPage(item),
+                        onConfirmDelete: () =>
+                            controller.clickDeleteConversation(
+                          item.conversationId,
+                        ),
                         headPortraitUrl: item.avatar,
                         name: item.nickname,
                         msg: item.lastMessage,

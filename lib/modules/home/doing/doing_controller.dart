@@ -4,6 +4,7 @@ import '../home/view/tabs.dart';
 import '../mine/user_info/model/user_info_entity.dart';
 import 'model/doing_nav_ids.dart';
 import 'model/doing_hot_tags_entity.dart';
+import 'model/doing_present_hot_tag_entity.dart';
 import 'view_model/doing_vm.dart';
 import 'controller/doing_request_controller.dart';
 export 'controller/doing_request_controller.dart';
@@ -36,7 +37,7 @@ class DoingController extends BaseController {
     requestUserProfile();
 
     /// 获取当前热门的正在做标签列表
-    await requestHotTags();
+    await requestPresetTags();
 
     /// 获取我正在做的事情
     await requestMyDoing();
@@ -67,7 +68,7 @@ class DoingController extends BaseController {
   }
 
   /// 点击选择你想发布的事情
-  Future clickSelectPublishDoing(DoingHotTagsEntity tag) async {
+  Future clickSelectPublishDoing(DoingPresentHotTagEntity tag) async {
     if (Strings.isEmpty(tag.tagName)) return;
     final result = await requestPostStatusDoing(tagName: tag.tagName ?? '');
     if (result == null) return;
@@ -78,7 +79,7 @@ class DoingController extends BaseController {
   Future clickPublishDoing(String content) async {
     final result = await requestPostStatusDoing(tagName: content);
     if (result == null) return;
-    final tag = DoingHotTagsEntity()
+    final tag = DoingPresentHotTagEntity()
       ..tagName = result.tagName
       ..tagId = result.tagId;
     await pushDoingListPage(tag);
