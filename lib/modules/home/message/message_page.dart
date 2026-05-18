@@ -23,8 +23,6 @@ class MessagePage extends BasePage<MessageController> {
 
   @override
   Widget build(BuildContext context) {
-    /// 刷新数据
-    controller.refreshData();
     return GestureDetector(
       onTap: controller.hideKeyboard,
       child: Obx(

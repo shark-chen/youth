@@ -63,14 +63,16 @@ extension MessageRequestController on MessageController {
   }
 
   /// GET /api/status/my-doing
-  Future<void> requestMyDoing() async {
-    EasyLoading.show();
+  Future<void> requestMyDoing({
+    bool? showLoad = true,
+  }) async {
+    if (true == showLoad) EasyLoading.show();
     final response =
         await Net.value<Doing>().cache<PublishDoingEntity>((value) {
       vm.value.configMyDoing(value);
       vm.refresh();
     }).requestMyDoing<PublishDoingEntity>();
-    EasyLoading.dismiss();
+    if (true == showLoad) EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configMyDoing(response.value);
       MyDoing().configDoing(response.value);
@@ -80,72 +82,81 @@ extension MessageRequestController on MessageController {
       MyDoing().configDoing(null);
       vm.refresh();
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
     }
   }
 
   /// DELETE /api/status/doing/{statusId}
   /// request - 取消一个正在做的状态
-  Future<void> requestDeleteStatusDoing(int statusId) async {
-    EasyLoading.show();
+  Future<void> requestDeleteStatusDoing(
+    int statusId, {
+    bool? showLoad = true,
+  }) async {
+    if (true == showLoad) EasyLoading.show();
     final response = await Net.value<Doing>()
         .requestDeleteStatusDoing<dynamic>(statusId: statusId);
-    EasyLoading.dismiss();
+    if (true == showLoad) EasyLoading.dismiss();
     if (response.succeed) {
       EasyLoading.showToast('已删除');
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
     }
   }
 
   /// GET /api/together/my-list
-  Future<void> requestTogetherMyList() async {
-    EasyLoading.show();
+  Future<void> requestTogetherMyList({
+    bool? showLoad = true,
+  }) async {
+    if (true == showLoad) EasyLoading.show();
     final response =
         await Net.value<Doing>().caches<TogetherListEntity>((values) {
       vm.value.configTogetherList(values);
       vm.refresh();
     }).requestTogetherMyList<TogetherListEntity>();
-    EasyLoading.dismiss();
+    if (true == showLoad) EasyLoading.dismiss();
     if (response.success) {
       vm.value.configTogetherList(response.values);
       vm.refresh();
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
     }
   }
 
   /// 收到的敲一下列表 · GET /api/knock/received
-  Future<void> requestKnockReceived() async {
-    EasyLoading.show();
+  Future<void> requestKnockReceived({
+    bool? showLoad = true,
+  }) async {
+    if (true == showLoad) EasyLoading.show();
     final response = await Net.value<Doing>().caches<BeatItemEntity>((values) {
       vm.value.configBeatItemList(values);
       vm.refresh();
     }).requestKnockReceived<BeatItemEntity>();
-    EasyLoading.dismiss();
+    if (true == showLoad) EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configBeatItemList(response.values);
       vm.refresh();
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
     }
   }
 
   /// request - 敲一下收件箱
   /// 敲一下 inbox · GET /api/knock/inbox
-  Future<void> requestKnockInbox() async {
-    EasyLoading.show();
+  Future<void> requestKnockInbox({
+    bool? showLoad = true,
+  }) async {
+    if (true == showLoad) EasyLoading.show();
     final response = await Net.value<Doing>().cache<KnockRecordEntity>((value) {
       if (value == null) return;
       vm.value.knockRecordEntity = value;
       vm.refresh();
     }).requestKnockInbox<KnockRecordEntity>();
-    EasyLoading.dismiss();
+    if (true == showLoad) EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.knockRecordEntity = response.value;
       vm.refresh();
     } else {
-      EasyLoading.showToast(response.msg ?? '');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
     }
   }
 }

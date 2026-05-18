@@ -16,21 +16,6 @@ import '../model/publish_doing_entity.dart';
 extension DoingRequestController on DoingController {
   /// mark - request
   ///
-  /// request - 我正在做的事情GET /api/status/my-doing
-  Future<void> requestMyDoing() async {
-    EasyLoading.show();
-    final response =
-        await Net.value<Doing>().cache<PublishDoingEntity>((value) {
-      if (value == null) return;
-    }).requestMyDoing<PublishDoingEntity>();
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      vm.refresh();
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-    }
-  }
-
   /// request - 获取预设正在做标签列表
   Future<void> requestPresetTags({bool showLoad = true}) async {
     if (showLoad) EasyLoading.show();

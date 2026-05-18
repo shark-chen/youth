@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
+import '../home/view/tabs.dart';
 import '../mine/user_info/model/user_info_entity.dart';
 import 'view_model/message_vm.dart';
 export 'controller/message_route_controller.dart';
@@ -53,6 +54,12 @@ class MessageController extends BaseController {
     EventBusManager().listen<ImIncomingMessageEvent>(this, (event) async {
       await requestConversations(showLoad: false);
     });
+
+    EventBusManager().listen<HomeTabs>(this, (tab) async {
+      if (tab == HomeTabs.message) {
+        refreshData(showLoad: false);
+      }
+    });
   }
 
   /// 点击删除我正在做的事
@@ -74,9 +81,9 @@ class MessageController extends BaseController {
   }
 
   /// 刷新数据
-  Future refreshData() async {
+  Future refreshData({bool? showLoad = true}) async {
     /// request - 敲一下收件箱
-    await requestKnockInbox();
+    requestKnockInbox(showLoad: showLoad);
   }
 
   /// 下拉刷新

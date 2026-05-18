@@ -38,9 +38,6 @@ class DoingController extends BaseController {
 
     /// 获取当前热门的正在做标签列表
     await requestPresetTags();
-
-    /// 获取我正在做的事情
-    await requestMyDoing();
   }
 
   @override
@@ -63,8 +60,7 @@ class DoingController extends BaseController {
 
   /// 刷新数据
   Future refreshData() async {
-    /// request - 我正在做的事情
-    await requestMyDoing();
+
   }
 
   /// 点击选择你想发布的事情
