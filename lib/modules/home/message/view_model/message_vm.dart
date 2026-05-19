@@ -54,6 +54,13 @@ class MessageVM extends BaseVM {
     conversations.addAll(values ?? []);
   }
 
+  /// 删除成功后移除本地会话项
+  void removeConversation(int conversationId) {
+    conversations = conversations
+        .where((e) => e.conversationId != conversationId)
+        .toList();
+  }
+
   /// 添加数据
   void configBeatItemList(List<BeatItemEntity>? values) {
     beatList.addAll(values ?? []);

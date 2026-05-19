@@ -59,14 +59,13 @@ class DoingController extends BaseController {
   }
 
   /// 刷新数据
-  Future refreshData() async {
-
-  }
+  Future refreshData() async {}
 
   /// 点击选择你想发布的事情
   Future clickSelectPublishDoing(DoingPresentHotTagEntity tag) async {
     if (Strings.isEmpty(tag.tagName)) return;
-    final result = await requestPostStatusDoing(tagName: tag.tagName ?? '');
+    final result = await requestPostStatusDoing(
+        tagName: '${tag.icon ?? ''} ${tag.tagName ?? ''}');
     if (result == null) return;
     await pushDoingListPage(tag);
   }

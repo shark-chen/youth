@@ -73,8 +73,7 @@ class MessageController extends BaseController {
     if (conversationId == null || conversationId <= 0) return false;
     final ok = await requestDeleteConversation(conversationId: conversationId);
     if (ok) {
-      vm.value.conversations
-          .removeWhere((e) => e.conversationId == conversationId);
+      vm.value.removeConversation(conversationId);
       vm.refresh();
     }
     return ok;
