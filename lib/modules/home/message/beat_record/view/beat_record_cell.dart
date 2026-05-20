@@ -1,6 +1,8 @@
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 import 'package:kellychat/tripartite_library/tripartite_library.dart';
+import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
+import 'package:kellychat/widget/bottom_dialog/bottom_dialog.dart';
 
 /// FileName: beat_record_cell
 ///
@@ -42,72 +44,80 @@ class BeatRecordCell extends BaseStatelessWidget {
     return GestureDetector(
       onTap: userInfoTap,
       child: Container(
-        padding: EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
+        padding: EdgeInsets.only(left: 12, top: 12, bottom: 12),
         color: ThemeColor.inputBgColor,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ImageLookWidget(
-              imgUrl: headPortraitUrl ?? '',
-              width: 42,
-              height: 42,
-              imgBorderRadius: BorderRadius.circular(24),
-              heroTag: '${headPortraitUrl ?? ''}_beat_record',
-            ),
-            SizedBox(width: 6),
+            /// 头像 + 昵称 + 敲一下
             Flexible(
-              flex: 4,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  /// 名称+时间
-                  RichText(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: (name ?? '') + '  ',
-                          style: TextStyles(
-                            color: ThemeColor.whiteColor,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                        TextSpan(
-                          text: time,
-                          style: TextStyles(
-                            fontSize: 12,
-                            color: ThemeColor.whiteColor.withOpacity(0.6),
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ],
-                    ),
+                  /// 头像
+                  ImageLookWidget(
+                    imgUrl: headPortraitUrl ?? '',
+                    width: 42,
+                    height: 42,
+                    imgBorderRadius: BorderRadius.circular(24),
+                    heroTag: '${headPortraitUrl ?? ''}_beat_record',
                   ),
-                  SizedBox(height: 2),
-
-                  /// 我敲啦下
-                  RichText(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(
+                  SizedBox(width: 6),
+                  Flexible(
+                    flex: 4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextSpan(
-                          text: '我敲了下她',
-                          style: TextStyles(
-                            fontSize: 12,
-                            color: ThemeColor.whiteColor.withOpacity(0.6),
-                            fontWeight: FontWeight.normal,
+                        /// 名称+时间
+                        RichText(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: (name ?? '') + '  ',
+                                style: TextStyles(
+                                  color: ThemeColor.whiteColor,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              TextSpan(
+                                text: time,
+                                style: TextStyles(
+                                  fontSize: 12,
+                                  color: ThemeColor.whiteColor.withOpacity(0.6),
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        TextSpan(
-                          text: ' [${tagName ?? ''}] 状态 ',
-                          style: TextStyles(
-                            fontSize: 12,
-                            color: ThemeColor.themeGreenColor,
-                            fontWeight: FontWeight.normal,
+                        SizedBox(height: 2),
+
+                        /// 我敲啦下
+                        RichText(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '我敲了下她',
+                                style: TextStyles(
+                                  fontSize: 12,
+                                  color: ThemeColor.whiteColor.withOpacity(0.6),
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ' [${tagName ?? ''}] 状态 ',
+                                style: TextStyles(
+                                  fontSize: 12,
+                                  color: ThemeColor.themeGreenColor,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -116,23 +126,25 @@ class BeatRecordCell extends BaseStatelessWidget {
                 ],
               ),
             ),
-            Expanded(
-              child: GestureDetector(
-                onTap: chatTap,
-                child: Container(
-                  height: 30,
-                  color: Colors.transparent,
-                ),
-              ),
-            ),
+
+            /// 聊天icon
             GestureDetector(
               onTap: chatTap,
-              child: Image.asset(
-                'assets/image/common/message@3x.png',
-                fit: BoxFit.fill,
-                width: 24,
-                height: 24,
-                color: ThemeColor.themeGreenColor,
+              child: Container(
+                color: Colors.transparent,
+                padding: EdgeInsets.only(right: 12),
+                width: 100,
+                height: 42,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Image.asset(
+                    'assets/image/common/message@3x.png',
+                    fit: BoxFit.fill,
+                    width: 24,
+                    height: 24,
+                    color: ThemeColor.themeGreenColor,
+                  ),
+                ),
               ),
             ),
           ],
