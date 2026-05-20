@@ -90,8 +90,10 @@ class MessageDoingHeaderView extends BaseStatelessWidget {
                           children: [
                             const TextSpan(text: '与 '),
                             TextSpan(
-                              text: '[${partnerName}]',
+                              text: '${partnerName}',
                               style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
                                 color: ThemeColor.blackColor,
                               ),
                             ),

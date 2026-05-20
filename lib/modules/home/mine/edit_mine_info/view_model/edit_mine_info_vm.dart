@@ -207,6 +207,15 @@ class EditMineInfoVM extends BaseVM {
     refresh?.call();
   }
 
+  /// 更新指定下标标签
+  void updateTagAt(int index, String raw) {
+    if (index < 0 || index >= draft.tags.length) return;
+    final t = raw.trim();
+    if (t.isEmpty) return;
+    draft.tags[index] = t;
+    refresh?.call();
+  }
+
   /// 添加头像
   Future<XFile?> pickAvatarFile() async {
     try {

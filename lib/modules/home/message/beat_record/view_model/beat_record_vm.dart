@@ -1,7 +1,5 @@
 import 'package:kellychat/base/base_vm.dart';
-
 import '../../model/knock_record_entity.dart';
-import '../model/beat_item_entity.dart';
 
 /// FileName: beat_record_vm
 ///
@@ -11,10 +9,7 @@ import '../model/beat_item_entity.dart';
 /// @Description 敲一下记录-vm
 class BeatRecordVM extends BaseVM {
   /// 敲一下记录列表
-  List<BeatItemEntity> rows = <BeatItemEntity>[];
-
-  /// 敲一下记录
-  KnockRecordEntity? knockRecordEntity;
+  List<KnockRecordItems> rows = <KnockRecordItems>[];
 
   @override
   void onInit() {
@@ -22,7 +17,8 @@ class BeatRecordVM extends BaseVM {
   }
 
   /// 添加数据
-  void configBeatItemList(List<BeatItemEntity>? values) {
-    rows.addAll(values ?? []);
+  void configKnockRecordItems(KnockRecordEntity? value) {
+    rows.clear();
+    rows.addAll(value?.items ?? []);
   }
 }

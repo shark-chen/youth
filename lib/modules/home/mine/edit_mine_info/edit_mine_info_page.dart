@@ -61,6 +61,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                       profileCardTagCount: EditProfileDraft.profileCardTagCount,
                       onReorder: controller.onTagReorder,
                       onAdd: controller.clickAddTags,
+                      onEditTag: controller.clickEditTags,
                       onRemoveTag: controller.onRemoveTag,
                     ),
                     const SizedBox(height: 12),

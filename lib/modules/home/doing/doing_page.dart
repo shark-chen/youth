@@ -150,18 +150,14 @@ class DoingPage extends BasePage<DoingController> {
                               (e) {
                                 final tag =
                                     '${e.icon ?? ''} ${e.tagName ?? ''}';
-                                final dy = (tag.hashCode.abs() % 10)
-                                    .toDouble(); // 0~6，稳定不跳动
-                                return Transform.translate(
-                                  offset: Offset(0, dy),
-                                  child: HotTagCell(
-                                    text: tag,
-                                    onTap: () async {
-                                      /// push-正在做的清单-页面
-                                      await controller
-                                          .clickSelectPublishDoing(e);
-                                    },
-                                  ),
+                                return HotTagCell(
+                                  text: tag,
+                                  animationSeed: e.tagId ?? tag.hashCode,
+                                  onTap: () async {
+                                    /// push-正在做的清单-页面
+                                    await controller
+                                        .clickSelectPublishDoing(e);
+                                  },
                                 );
                               },
                             ).toList(),

@@ -1,3 +1,4 @@
+import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 import 'package:kellychat/tripartite_library/tripartite_library.dart';
 
@@ -55,66 +56,75 @@ class BeatRecordCell extends BaseStatelessWidget {
               heroTag: '${headPortraitUrl ?? ''}_beat_record',
             ),
             SizedBox(width: 6),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// 名称+时间
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: (name ?? '') + ' ',
-                        style: TextStyles(
-                          color: ThemeColor.whiteColor,
-                          fontWeight: FontWeight.normal,
+            Flexible(
+              flex: 4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// 名称+时间
+                  RichText(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: (name ?? '') + '  ',
+                          style: TextStyles(
+                            color: ThemeColor.whiteColor,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: time,
-                        style: TextStyles(
-                          fontSize: 12,
-                          color: ThemeColor.whiteColor.withOpacity(0.6),
-                          fontWeight: FontWeight.normal,
+                        TextSpan(
+                          text: time,
+                          style: TextStyles(
+                            fontSize: 12,
+                            color: ThemeColor.whiteColor.withOpacity(0.6),
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+                  SizedBox(height: 2),
 
-                /// 我敲啦下
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '我敲了下她',
-                        style: TextStyles(
-                          fontSize: 12,
-                          color: ThemeColor.whiteColor.withOpacity(0.6),
-                          fontWeight: FontWeight.normal,
+                  /// 我敲啦下
+                  RichText(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '我敲了下她',
+                          style: TextStyles(
+                            fontSize: 12,
+                            color: ThemeColor.whiteColor.withOpacity(0.6),
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: ' [${tagName ?? ''}] 状态',
-                        style: TextStyles(
-                          fontSize: 12,
-                          color: ThemeColor.themeGreenColor,
-                          fontWeight: FontWeight.normal,
+                        TextSpan(
+                          text: ' [${tagName ?? ''}] 状态 ',
+                          style: TextStyles(
+                            fontSize: 12,
+                            color: ThemeColor.themeGreenColor,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Expanded(
-                child: GestureDetector(
-              onTap: chatTap,
-              child: Container(
-                height: 30,
-                color: Colors.transparent,
+              child: GestureDetector(
+                onTap: chatTap,
+                child: Container(
+                  height: 30,
+                  color: Colors.transparent,
+                ),
               ),
-            )),
+            ),
             GestureDetector(
               onTap: chatTap,
               child: Image.asset(

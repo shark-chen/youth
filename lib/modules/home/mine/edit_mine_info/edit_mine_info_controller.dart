@@ -157,6 +157,32 @@ class EditMineInfoController extends BaseController {
     );
   }
 
+  /// 编辑标签
+  Future<void> clickEditTags(int index) async {
+    final tags = vm.value.draft.tags;
+    if (index < 0 || index >= tags.length) return;
+    await pushEditNiceNameAlert(
+      title: '编辑标签',
+      hintText: '请输入标签...',
+      text: tags[index],
+      sureCall: (value) async {
+        if (Strings.isEmpty(value)) {
+          EasyLoading.showToast('请输入标签');
+          return;
+        }
+        vm.value.updateTagAt(index, value);
+
+        /// 更新用户标签（最多10个）
+        await requestUpdateUserTags(
+          tags: vm.value.draft.tags,
+          showLoad: false,
+        );
+        Get.back();
+        vm.refresh();
+      },
+    );
+  }
+
   /// 拖拽标签
   Future<void> onTagReorder(int oldIndex, int newIndex) async {
     vm.value.reorderTags(oldIndex, newIndex);

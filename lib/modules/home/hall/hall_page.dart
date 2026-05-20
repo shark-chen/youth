@@ -48,9 +48,10 @@ class HallPage extends BasePage<HallController> {
                       ),
                       child: ImageLookWidget(
                         imgUrl: UserCenter().user?.avatar ?? '',
+                        height: 32,
                         width: 32,
-                        height: 23,
                         enlargeLook: false,
+                        borderColor: Colors.transparent,
                         imgBorderRadius: BorderRadius.circular(32),
                         heroTag: '${UserCenter().user?.avatar ?? ''}_hall_page',
                       ),
@@ -85,7 +86,7 @@ class HallPage extends BasePage<HallController> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  /// 输入你想找的人，AI智能匹配提示语
+                  /// 输入你想找的人，AI智能匹配提示语 - 推荐模式
                   Visibility(
                     visible: controller.findPrompt,
                     child: FindFriendPromptWidget(
@@ -104,7 +105,9 @@ class HallPage extends BasePage<HallController> {
                       child: HotTagsWidget(
                         findTap: (content) =>
                             controller.editingController?.text = content,
-                        items: controller.vm.value.aiTags,
+                        onRemainingFour: controller.onHotTagsRemainingFour,
+                        prefetchToken: controller.hotTagsPrefetchToken,
+                        items: List<String>.from(controller.vm.value.aiTags),
                         emptyHintWhenNoData: '暂无热门标签',
                         emptyHintWhenNoMore: '没有更多了',
                       ),

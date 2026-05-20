@@ -137,6 +137,7 @@ class DoingListController extends BaseController {
       togetherId:
           vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
     );
+
     /// 刷新数据
     refreshData();
     vm.refresh();
@@ -199,8 +200,9 @@ class DoingListController extends BaseController {
       if (!confirm) return;
       await requestCancelTogether(
         togetherId:
-        vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
+            vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
       );
+
       /// 刷新数据
       refreshData();
       vm.refresh();
@@ -239,9 +241,11 @@ class DoingListController extends BaseController {
       tagId: vm.value.doingHotTagsEntity?.tagId ?? vm.value.myDoing?.tagId ?? 0,
       force: true,
     );
-    if (connected) vm.refresh();
-    /// 刷新数据
-    refreshData();
+
+    if (connected) {
+      /// 刷新数据
+      refreshData();
+    }
   }
 
   /// 点击查看个人信息

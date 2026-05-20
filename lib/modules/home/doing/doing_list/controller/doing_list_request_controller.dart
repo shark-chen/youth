@@ -277,7 +277,7 @@ extension DoingListRequestController on DoingListController {
       force: force,
     );
     EasyLoading.dismiss();
-    if (response.succeed) {
+    if (response.success) {
       EasyLoading.showToast('已连接');
       return true;
     }

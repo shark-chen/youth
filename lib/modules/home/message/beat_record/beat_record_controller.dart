@@ -3,6 +3,7 @@ import '../model/knock_record_entity.dart';
 import 'controller/beat_record_request_controller.dart';
 export 'controller/beat_record_request_controller.dart';
 import 'view_model/beat_record_vm.dart';
+export 'controller/beat_record_route_controller.dart';
 
 /// FileName: beat_record_controller
 ///
@@ -19,23 +20,11 @@ class BeatRecordController extends BaseController {
     super.onInit();
     title = '敲一下';
 
-    /// request - 敲一下收件箱 获取24小时内双向敲一下记录（我敲的+敲我的），每对用户只显示最近一次，同时返回未读数
+    /// request - 敲一下收件箱 获取24小时内双向敲一下记录（我敲的+敲我的），
+    /// 每对用户只显示最近一次，同时返回未读数
     requestKnockInbox();
   }
 
-  List<KnockRecordItems> get rows => vm.value.knockRecordEntity?.items ?? [];
-
-  /// push - 跳转到用户信息页面-page
-  Future pushUserInfoPage() async {
-    await Get.toNamed(Routes.userInfoPage);
-  }
-
-  /// push - 实际聊天窗口-page-页面
-  Future pushChatPage(KnockRecordItems item) async {
-    await Get.toNamed(Routes.chatPage, parameters: {
-      'userId': item.targetUserId.toString(),
-      'niceName': item.targetNickname ?? '',
-      // 'avatar': item.avatar ?? '',
-    });
-  }
+  /// 列表数据
+  List<KnockRecordItems> get rows => vm.value.rows;
 }

@@ -151,46 +151,32 @@ class MsgCloutWidget extends BaseStatelessWidget {
               ),
             ),
 
-            /// 一起做邀约
-            Stack(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    left: 30,
-                    top: 2,
-                    bottom: 2,
-                    right: 12,
+            /// 敲一下
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/image/common/message_knock@3x.png',
+                        width: 52,
+                        height: 52,
+                      ),
+                      Text(
+                        '敲一下',
+                        style: TextStyles(
+                          fontWeight: FontWeight.w600,
+                          color: ThemeColor.whiteColor,
+                        ),
+                      ),
+                    ],
                   ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFFBA63FF),
-                        Color(0xFFD7A7FF),
-                      ],
-                    ),
-                  ),
-                  child: Text(
-                    '敲一下',
-                    style: TextStyles(
-                      fontWeight: FontWeight.w600,
-                      color: ThemeColor.themeColor,
-                    ),
-                  ),
-                ),
-                Transform.rotate(
-                  angle: -20 * pi / 180, // ⭐ 向左旋转30度（负数）
-                  child: Image.asset(
-                    'assets/image/common/look_someone@3x.png',
-                    width: 34,
-                    height: 32,
-                    color: ThemeColor.themeGreenColor,
-                  ),
-                ),
-              ],
-            )
+                ],
+              ),
+            ),
           ],
         ),
       ),

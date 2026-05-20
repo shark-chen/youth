@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// FileName: invite_record_view
@@ -24,9 +23,6 @@ class InviteRecordWidget extends BaseStatelessWidget {
   /// 点击
   final VoidCallback? tap;
 
-  static const String _inviteIconAsset =
-      'assets/image/common/message_invite@3x.png';
-
   @override
   Widget build(BuildContext context) {
     final hasAvatars = Lists.isNotEmpty(headPortraits);
@@ -38,7 +34,7 @@ class InviteRecordWidget extends BaseStatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 4, left: 8),
+              margin: const EdgeInsets.only(top: 11),
               padding: const EdgeInsets.fromLTRB(12, 36, 12, 12),
               decoration: BoxDecoration(
                 color: ThemeColor.inputBgColor,
@@ -125,42 +121,29 @@ class InviteRecordWidget extends BaseStatelessWidget {
                 ],
               ),
             ),
+
+            /// 一起做邀约
             Positioned(
               left: 0,
               top: 0,
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(
-                      left: 30,
-                      top: 2,
-                      bottom: 2,
-                      right: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: const LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Color(0xFFBA63FF),
-                          Color(0xFFD7A7FF),
-                        ],
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/image/common/message_invite@3x.png',
+                        width: 52,
+                        height: 52,
                       ),
-                    ),
-                    child: Text(
-                      '一起做邀约',
-                      style: TextStyles(
-                        fontWeight: FontWeight.w600,
-                        color: ThemeColor.themeColor,
+                      Text(
+                        '一起做邀约',
+                        style: TextStyles(
+                          fontWeight: FontWeight.w600,
+                          color: ThemeColor.whiteColor,
+                        ),
                       ),
-                    ),
-                  ),
-                  Image.asset(
-                    _inviteIconAsset,
-                    width: 34,
-                    height: 32,
+                    ],
                   ),
                 ],
               ),

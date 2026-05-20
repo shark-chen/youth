@@ -40,7 +40,21 @@ class HallVM extends BaseVM {
 
   /// 配置AI标签（含空列表，用于清空展示）
   void configAiTags(List<String>? values) {
-    aiTags = values ?? [];
+    aiTags = List<String>.from(values ?? []);
+  }
+
+  /// 追加 AI 标签（去重，新列表引用便于 Obx / didUpdateWidget 感知变化）
+  void appendAiTags(List<String>? values) {
+    if (values == null || values.isEmpty) return;
+    final next = List<String>.from(aiTags);
+    final existing = Set<String>.from(next);
+    for (final tag in values) {
+      if (tag.isEmpty || existing.contains(tag)) continue;
+      existing.add(tag);
+      next.add(tag);
+    }
+    if (next.length == aiTags.length) return;
+    aiTags = next;
   }
 
   /// 是否是找友提示语模式

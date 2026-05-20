@@ -14,6 +14,8 @@ class HotTagsWidget extends StatefulWidget {
     this.emptyHintWhenNoData,
     this.emptyHintWhenNoMore,
     this.findTap,
+    this.onRemainingFour,
+    this.prefetchToken = 0,
   });
 
   /// 卡片数据（由外部传入，如 aiTags / 匹配结果 friends 映射而来）
@@ -27,6 +29,12 @@ class HotTagsWidget extends StatefulWidget {
 
   /// 找一找点击
   final ValueChanged<String>? findTap;
+
+  /// 卡片剩余 4 张时回调（用于预拉建议）
+  final VoidCallback? onRemainingFour;
+
+  /// 预拉成功计数；变化时向当前栈补足父级列表里尚未展示的卡片
+  final int prefetchToken;
 
   @override
   _HotTagsWidgetState createState() => _HotTagsWidgetState();
@@ -44,14 +52,47 @@ class _HotTagsWidgetState extends State<HotTagsWidget> {
     _stack = widget.items ?? [];
   }
 
+  /// 将父级列表里当前栈没有的标签追加到栈尾（预拉返回与旧列表相同时靠此补足）
+  void _refillStackFromPool(List<String> pool) {
+    var added = false;
+    for (final tag in pool) {
+      if (tag.isEmpty || _stack.contains(tag)) continue;
+      _stack.add(tag);
+      added = true;
+    }
+    if (added) setState(() {});
+  }
+
   @override
   void didUpdateWidget(HotTagsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    setState(() {
-      _stack = widget.items ?? [];
-      position = Offset.zero;
-      angle = 0;
-    });
+    final incoming = List<String>.from(widget.items ?? []);
+    final previous = List<String>.from(oldWidget.items ?? []);
+
+    if (widget.prefetchToken != oldWidget.prefetchToken) {
+      _refillStackFromPool(incoming);
+      return;
+    }
+
+    if (incoming.length > previous.length) {
+      _refillStackFromPool(incoming);
+      return;
+    }
+    if (!_sameTagList(incoming, previous)) {
+      setState(() {
+        _stack = List<String>.from(incoming);
+        position = Offset.zero;
+        angle = 0;
+      });
+    }
+  }
+
+  bool _sameTagList(List<String> a, List<String> b) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
   }
 
   void onPanUpdate(DragUpdateDetails details) {
@@ -74,12 +115,16 @@ class _HotTagsWidgetState extends State<HotTagsWidget> {
         );
       });
 
-      Future.delayed(Duration(milliseconds: 300), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (!mounted) return;
         setState(() {
           _stack.removeAt(0);
           position = Offset.zero;
           angle = 0;
         });
+        if (_stack.length == 4) {
+          widget.onRemainingFour?.call();
+        }
       });
     } else {
       // 回弹

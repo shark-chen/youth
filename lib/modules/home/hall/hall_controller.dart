@@ -20,6 +20,11 @@ class HallController extends BaseController
   /// view_model
   Rx<HallVM> vm = HallVM().obs;
 
+  bool _prefetchingMatchSuggestions = false;
+
+  /// 预拉建议成功后递增，驱动 HotTagsWidget 向栈内补足卡片
+  int hotTagsPrefetchToken = 0;
+
   @override
   Future onInit() async {
     super.onInit();
@@ -84,6 +89,24 @@ class HallController extends BaseController
   /// 是否是找友提示语模式
   bool get findPrompt {
     return vm.value.findPrompt;
+  }
+
+  /// 热门标签卡片剩余 4 张时预拉建议
+  Future onHotTagsRemainingFour() async {
+    if (_prefetchingMatchSuggestions) return;
+    _prefetchingMatchSuggestions = true;
+    try {
+      final ok = await requestMatchSuggestions(
+        append: true,
+        showLoading: false,
+      );
+      if (ok) {
+        hotTagsPrefetchToken++;
+        vm.refresh();
+      }
+    } finally {
+      _prefetchingMatchSuggestions = false;
+    }
   }
 
   /// 点击查看个人信息

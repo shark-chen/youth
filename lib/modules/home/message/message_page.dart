@@ -45,13 +45,14 @@ class MessagePage extends BasePage<MessageController> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: ThemeColor.whiteColor,
-                        borderRadius: BorderRadius.circular(32),
+                        borderRadius: BorderRadius.circular(999),
                       ),
                       child: ImageLookWidget(
                         imgUrl: UserCenter().user?.avatar ?? '',
+                        height: 32,
                         width: 32,
-                        height: 23,
                         enlargeLook: false,
+                        borderColor: Colors.transparent,
                         imgBorderRadius: BorderRadius.circular(999),
                         heroTag:
                             '${UserCenter().user?.avatar ?? ''}_message_page_avatar',
@@ -166,8 +167,7 @@ class MessagePage extends BasePage<MessageController> {
                           ),
                         );
                       }
-                      final conversations =
-                          controller.vm.value.conversations;
+                      final conversations = controller.vm.value.conversations;
                       final chatIndex = index - 4;
                       final item = conversations[chatIndex];
                       return ChatListCell(
@@ -175,8 +175,7 @@ class MessagePage extends BasePage<MessageController> {
                           'conversation_${item.conversationId ?? chatIndex}',
                         ),
                         showTopRadius: chatIndex == 0,
-                        showBottomRadius:
-                            chatIndex == conversations.length - 1,
+                        showBottomRadius: chatIndex == conversations.length - 1,
                         onTap: () => controller.pushChatPage(item),
                         onConfirmDelete: () =>
                             controller.clickDeleteConversation(

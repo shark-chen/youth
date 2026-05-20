@@ -18,21 +18,27 @@ extension HallRequestController on HallController {
   /// mark - request
   ///
   /// 获取配对建议列表
-  Future requestMatchSuggestions() async {
-    EasyLoading.show();
-    var response = await Net.value<Doing>().caches<String>((values) {
-      /// 配置AI标签（含空列表，用于清空展示）
-      vm.value.configAiTags(values);
-      vm.refresh();
-    }).requestMatchSuggestions<String>();
-    EasyLoading.dismiss();
+  Future<bool> requestMatchSuggestions({
+    bool append = false,
+    bool showLoading = true,
+  }) async {
+    if (showLoading) EasyLoading.show();
+    final response = await Net.value<Doing>().requestMatchSuggestions<String>();
+    if (showLoading) EasyLoading.dismiss();
     if (response.succeed) {
-      /// 配置AI标签（含空列表，用于清空展示）
-      vm.value.configAiTags(response.values);
-      vm.refresh();
-    } else {
+      if (append) {
+        vm.value.appendAiTags(response.values);
+      } else {
+        vm.value.configAiTags(response.values);
+      }
+      vm.value = vm.value;
+      if (!append) vm.refresh();
+      return true;
+    }
+    if (showLoading) {
       EasyLoading.showToast(response.msg ?? '');
     }
+    return false;
   }
 
   /// POST /api/match/search

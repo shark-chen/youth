@@ -16,6 +16,7 @@ class EditTagsSection extends BaseStatelessWidget {
     required this.onReorder,
     required this.onAdd,
     required this.onRemoveTag,
+    this.onEditTag,
     this.maxTags = 10,
     this.profileCardTagCount = 3,
   });
@@ -31,6 +32,9 @@ class EditTagsSection extends BaseStatelessWidget {
 
   /// 删除指定下标的标签
   final ValueChanged<int>? onRemoveTag;
+
+  /// 点击标签编辑
+  final ValueChanged<int>? onEditTag;
 
   /// 最大可添加标签数量
   final int maxTags;
@@ -145,6 +149,7 @@ class EditTagsSection extends BaseStatelessWidget {
                       key: ValueKey('tag-$i-${tags[i]}'),
                       label: tags[i],
                       index: i,
+                      onTap: () => onEditTag?.call(i),
                       onClose: () => onRemoveTag?.call(i),
                     ),
                 ],
@@ -162,11 +167,15 @@ class _TagRow extends StatelessWidget {
     super.key,
     required this.label,
     required this.index,
+    this.onTap,
     required this.onClose,
   });
 
   final String label;
   final int index;
+
+  /// 点击标签行（编辑）
+  final VoidCallback? onTap;
 
   /// 点击关闭图标
   final VoidCallback onClose;
@@ -182,43 +191,47 @@ class _TagRow extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: ReorderableDelayedDragStartListener(
           index: index,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 6),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(
-                color: ThemeColor.whiteColor.withOpacity(0.05),
+          child: GestureDetector(
+            onTap: onTap,
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 6),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(
+                  color: ThemeColor.whiteColor.withOpacity(0.05),
+                ),
               ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: maxLabelWidth),
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: ThemeColor.whiteColor,
-                      fontSize: 15,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxLabelWidth),
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: ThemeColor.whiteColor,
+                        fontSize: 15,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 2),
-                GestureDetector(
-                  onTap: onClose,
-                  behavior: HitTestBehavior.opaque,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Icon(
-                      Icons.close,
-                      color: ThemeColor.whiteColor.withOpacity(0.8),
-                      size: 14,
+                  const SizedBox(width: 2),
+                  GestureDetector(
+                    onTap: onClose,
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.close,
+                        color: ThemeColor.whiteColor.withOpacity(0.8),
+                        size: 14,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
