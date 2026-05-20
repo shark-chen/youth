@@ -78,15 +78,12 @@ class UserInfoPage extends BasePage<UserInfoController> {
                 ),
               ),
             ),
-            Visibility(
-              visible: controller.vm.value.userId != null && MyDoing().doing != null,
-              child: BottomButton(
-                leftTitle: controller.togetherButtonTitle,
-                leftTap: controller.clickInvert,
-                leftEnable: controller.togetherButtonEnabled,
-                rightTitle: '聊一聊',
-                rightTap: controller.pushChatPage,
-              ),
+            BottomButton(
+              leftTitle: controller.togetherButtonTitle,
+              leftTap: controller.clickInvert,
+              leftEnable: controller.togetherButtonEnabled,
+              rightTitle: '聊一聊',
+              rightTap: controller.pushChatPage,
             ),
           ],
         ),

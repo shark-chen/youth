@@ -1,13 +1,5 @@
-import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:kellychat/base/base_controller.dart';
-import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
-import 'package:kellychat/modules/modules.dart';
-import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
-import 'package:kellychat/widget/bottom_dialog/bottom_dialog.dart';
 
 /// FileName: invite_record_view
 ///
@@ -17,11 +9,11 @@ import 'package:kellychat/widget/bottom_dialog/bottom_dialog.dart';
 /// @Description 邀约中的任务view
 class InviteRecordWidget extends BaseStatelessWidget {
   const InviteRecordWidget({
-    Key? key,
+    super.key,
     this.headPortraits,
     this.time,
     this.tap,
-  }) : super(key: key);
+  });
 
   /// 头像数组
   final List<String>? headPortraits;
@@ -32,52 +24,59 @@ class InviteRecordWidget extends BaseStatelessWidget {
   /// 点击
   final VoidCallback? tap;
 
+  static const String _inviteIconAsset =
+      'assets/image/common/message_invite@3x.png';
+
   @override
   Widget build(BuildContext context) {
+    final hasAvatars = Lists.isNotEmpty(headPortraits);
     return GestureDetector(
       onTap: tap,
       child: Container(
-        margin: EdgeInsets.only(left: 4, right: 12, top: 17),
-        // padding: EdgeInsets.only(bottom: 12),
+        margin: const EdgeInsets.only(left: 4, right: 12, top: 12),
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 4, left: 8),
-              padding:
-                  EdgeInsets.only(top: 12, bottom: 12, right: 12, left: 12),
+              margin: const EdgeInsets.only(top: 4, left: 8),
+              padding: const EdgeInsets.fromLTRB(12, 36, 12, 12),
               decoration: BoxDecoration(
                 color: ThemeColor.inputBgColor,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  /// 时间
-                  Text(
-                    time ?? '',
-                    style: TextStyles(color: ThemeColor.whiteColor),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      time ?? '',
+                      style: TextStyles(
+                        color: ThemeColor.white6Color,
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      /// 列表
-                      Lists.isNotEmpty(headPortraits)
+                      hasAvatars
                           ? SizedBox(
                               width: 200,
                               height: 24,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
-                                itemCount: headPortraits?.length ?? 10,
-                                itemBuilder: (BuildContext context, int index) {
+                                itemCount: headPortraits?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  final url = headPortraits?[index] ?? '';
                                   return ImageLookWidget(
-                                    imgUrl: headPortraits?[index] ?? '',
+                                    imgUrl: url,
                                     height: 24,
                                     width: 24,
                                     heroTag:
-                                        '${headPortraits?[index] ?? ''}_invite_record_avatar_$index',
+                                        '${url}_invite_record_avatar_$index',
                                   );
                                 },
                               ),
@@ -86,33 +85,30 @@ class InviteRecordWidget extends BaseStatelessWidget {
                               '暂无消息',
                               style: TextStyles(color: ThemeColor.white6Color),
                             ),
-
-                      /// 消息数量
                       Visibility(
-                        visible: Lists.isNotEmpty(headPortraits),
+                        visible: hasAvatars,
                         child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            /// 数量
                             Container(
-                              padding: EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                                top: 2,
-                                bottom: 2,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color:
-                                    ThemeColor.themeGreenColor.withOpacity(0.15),
+                                color: ThemeColor.themeGreenColor
+                                    .withOpacity(0.15),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
                                 '${headPortraits?.length ?? 0}',
                                 style: TextStyles(
-                                    color: ThemeColor.themeGreenColor,
-                                    fontSize: 12),
+                                  color: ThemeColor.themeGreenColor,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
-                            SizedBox(width: 4),
+                            const SizedBox(width: 4),
                             Transform.rotate(
                               angle: 3.14159,
                               child: Icon(
@@ -129,47 +125,46 @@ class InviteRecordWidget extends BaseStatelessWidget {
                 ],
               ),
             ),
-
-            /// 一起做邀约
-            Stack(
-              children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    left: 30,
-                    top: 2,
-                    bottom: 2,
-                    right: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFFBA63FF),
-                        Color(0xFFD7A7FF),
-                      ],
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                      left: 30,
+                      top: 2,
+                      bottom: 2,
+                      right: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      gradient: const LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Color(0xFFBA63FF),
+                          Color(0xFFD7A7FF),
+                        ],
+                      ),
+                    ),
+                    child: Text(
+                      '一起做邀约',
+                      style: TextStyles(
+                        fontWeight: FontWeight.w600,
+                        color: ThemeColor.themeColor,
+                      ),
                     ),
                   ),
-                  child: Text(
-                    '一起做邀约',
-                    style: TextStyles(
-                      fontWeight: FontWeight.w600,
-                      color: ThemeColor.themeColor,
-                    ),
-                  ),
-                ),
-                Transform.rotate(
-                  angle: -20 * pi / 180, // ⭐ 向左旋转30度（负数）
-                  child: Image.asset(
-                    'assets/image/common/look_someone@3x.png',
+                  Image.asset(
+                    _inviteIconAsset,
                     width: 34,
                     height: 32,
-                    color: ThemeColor.themeGreenColor,
                   ),
-                ),
-              ],
-            )
+                ],
+              ),
+            ),
           ],
         ),
       ),

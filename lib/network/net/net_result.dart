@@ -110,7 +110,7 @@ class NetResult<T> {
   List<T> get values => list ?? [];
 
   /// 成功并且data不为空
-  bool get success => code == 200 && this.response?.data != null;
+  bool get success => code == 200;
 
   /// 成功并且data不为空
   bool get succeed => code == 200 && (value != null || Lists.isNotEmpty(values));

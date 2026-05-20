@@ -39,7 +39,31 @@ extension DoingListRequestController on DoingListController {
     }
   }
 
-  /// request - 取消一个正在做的状态
+  /// 取消一起做
+  Future<bool> requestCancelTogether({
+    required String togetherId,
+    bool showLoad = true,
+  }) async {
+    final id = togetherId.trim();
+    if (id.isEmpty) {
+      EasyLoading.showToast('活动信息无效');
+      return false;
+    }
+    if (showLoad) EasyLoading.show();
+    final response = await Net.value<Doing>().requestCancelTogether<dynamic>(
+      togetherId: id,
+    );
+    if (showLoad) EasyLoading.dismiss();
+    if (response.code == 200) {
+      EasyLoading.showToast('已取消');
+      await MyDoing().requestMyDoing();
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
+  }
+
+  /// request - 取消一个发布的正在状态
   Future<bool> requestDeleteStatusDoing(int statusId) async {
     EasyLoading.show();
     final response = await Net.value<Doing>()
@@ -99,6 +123,7 @@ extension DoingListRequestController on DoingListController {
   /// 发布热门标签为「我正在做」（列表空态里点加号，与 Doing 页选标签一致）
   Future<void> requestPublishDoingFromHotTag(DoingHotTagsEntity tag) async {
     if (Strings.isEmpty(tag.tagName)) return;
+    await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
     EasyLoading.show();
     final response =
         await Net.value<Doing>().requestPostStatusDoing<PublishDoingEntity>(
@@ -133,13 +158,19 @@ extension DoingListRequestController on DoingListController {
 
   /// GET /api/invitation/inbox
   /// 邀约收件箱（双向合并列表 + 未读数）
-  Future<void> requestInvitationInbox() async {
-    final response = await Net.value<Doing>()
-        .cache<InvitationInboxEntity>((value) {
-      if (value == null) return;
-      vm.value.configInvitationInbox(value);
-      vm.refresh();
-    }).requestInvitationInbox<InvitationInboxEntity>();
+  ///
+  /// [useCache] 为 false 时跳过缓存，用于「一起做」前拉最新 pending 状态。
+  Future<void> requestInvitationInbox({bool useCache = true}) async {
+    final doing = Net.value<Doing>();
+    final response = useCache
+        ? await doing
+            .cache<InvitationInboxEntity>((value) {
+            if (value == null) return;
+            vm.value.configInvitationInbox(value);
+            vm.refresh();
+          })
+            .requestInvitationInbox<InvitationInboxEntity>()
+        : await doing.requestInvitationInbox<InvitationInboxEntity>();
     if (response.succeed) {
       vm.value.configInvitationInbox(response.value);
       vm.refresh();
@@ -155,6 +186,7 @@ extension DoingListRequestController on DoingListController {
     EasyLoading.dismiss();
     if (response.succeed || response.code == 200) {
       EasyLoading.showToast('已取消');
+      await requestInvitationInbox(useCache: false);
       return true;
     } else {
       EasyLoading.showToast(response.msg ?? '');
@@ -163,7 +195,7 @@ extension DoingListRequestController on DoingListController {
   }
 
   /// request - 发送邀约
-  Future<void> requestInvitationSend({
+  Future<bool> requestInvitationSend({
     required int toUserId,
     int invitationType = 1,
     required int tagId,
@@ -179,8 +211,11 @@ extension DoingListRequestController on DoingListController {
     EasyLoading.dismiss();
     if (response.succeed) {
       EasyLoading.showToast('已发送');
+      await requestInvitationInbox(useCache: false);
+      return true;
     } else {
       EasyLoading.showToast(response.msg ?? '');
+      return false;
     }
   }
 
@@ -226,6 +261,28 @@ extension DoingListRequestController on DoingListController {
     } else {
       EasyLoading.showToast(response.msg ?? '');
     }
+  }
+
+  /// POST /api/together/direct-connect
+  /// 直接建立一起做连接
+  Future<bool> requestTogetherDirectConnect({
+    required int toUserId,
+    required int tagId,
+    bool force = true,
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>().requestTogetherDirectConnect<dynamic>(
+      toUserId: toUserId,
+      tagId: tagId,
+      force: force,
+    );
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      EasyLoading.showToast('已连接');
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
   }
 
   /// request -  加入一个等待中的一起做活动

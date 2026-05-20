@@ -11,7 +11,7 @@ import 'controller/user_info_route_controller.dart';
 /// FileName: user_info_controller
 ///
 /// @Author 谌文
-/// @Date 2026/3/16 22:51
+/// @Date 2026/3/16 22:5
 ///
 /// @Description 用户信息模块-controller
 class UserInfoController extends BaseController {
@@ -30,6 +30,7 @@ class UserInfoController extends BaseController {
       /// request -他人信息
       title = '用户详情';
       await requestOtherUserProfile(userId);
+      requestInvitationInbox();
     } else {
       title = '个人中心';
       await requestUserProfile();
@@ -43,12 +44,15 @@ class UserInfoController extends BaseController {
     return vm.value.userInfo;
   }
 
-  /// 当前查看用户的ID
+  /// 当前查看用户的ID（路由参数）
   int? get targetUserId {
     final id = vm.value.userId;
     if (id == null) return null;
     return int.tryParse(id);
   }
+
+  /// 当前页用户 ID（优先 profile 返回，与发约 toUserId 一致）
+  int? get currentProfileUserId => userInfo?.id ?? targetUserId;
 
   /// 当前一起做按钮状态
   TogetherButtonStatus get togetherButtonStatus {
@@ -115,14 +119,48 @@ class UserInfoController extends BaseController {
       return;
     }
 
-    final result = await pushTogetherDoAlert();
-    if (result) {
-      /// 发送邀约 · POST /api/invitation/send
-      await requestInvitationSend(
-        toUserId: vm.value.userInfo?.id ?? 0,
-        invitationType: 1,
-        tagId: MyDoing().doing?.tagId ?? 0,
-      );
+    await requestInvitationInbox(useCache: false);
+
+    final pending = vm.value.pendingSentInvitation;
+    final profileUserId = currentProfileUserId;
+    if (pending != null &&
+        profileUserId != null &&
+        pending.targetUserId != profileUserId) {
+      final confirm = await pushCancelOldInvitationAlert(pending);
+      if (!confirm) return;
+      final cancelled =
+          await requestInvitationCancel(pending.invitationId ?? 0);
+      if (!cancelled) return;
     }
+
+    final myDoing = MyDoing().doing;
+    if (myDoing != null) {
+      final confirm = await pushTogetherDoAlert();
+      if (!confirm) return;
+      final tagId = myDoing.tagId;
+      if (tagId == null) return;
+      final sent = await requestInvitationSend(
+        toUserId: currentProfileUserId ?? 0,
+        invitationType: 1,
+        tagId: tagId,
+        message: myDoing.tagName ?? '',
+      );
+      if (sent) vm.refresh();
+      return;
+    }
+
+    final text = await pushInvitePartnerTogetherSheet();
+    if (text == null || text.isEmpty) return;
+
+    final doing = await requestPostStatusDoing(tagName: text);
+    if (doing == null || doing.tagId == null) return;
+
+    final sent = await requestInvitationSend(
+      toUserId: currentProfileUserId ?? 0,
+      invitationType: 1,
+      tagId: doing.tagId ?? 0,
+      message: text,
+    );
+    if (sent) vm.refresh();
   }
 }

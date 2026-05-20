@@ -1,3 +1,6 @@
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
+import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 
@@ -123,8 +126,64 @@ extension UserInfoRequestController on UserInfoController {
     }
   }
 
-  /// request - 发送邀约
-  Future<void> requestInvitationSend({
+  /// GET /api/invitation/inbox
+  Future<void> requestInvitationInbox({bool useCache = true}) async {
+    final doing = Net.value<Doing>();
+    final response = useCache
+        ? await doing
+            .cache<InvitationInboxEntity>((value) {
+            if (value == null) return;
+            vm.value.configInvitationInbox(value);
+            vm.refresh();
+          })
+            .requestInvitationInbox<InvitationInboxEntity>()
+        : await doing.requestInvitationInbox<InvitationInboxEntity>();
+    if (response.succeed) {
+      vm.value.configInvitationInbox(response.value);
+      vm.refresh();
+    }
+  }
+
+  /// DELETE /api/invitation/{invitationId}
+  Future<bool> requestInvitationCancel(int invitationId) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>()
+        .requestInvitationCancel<dynamic>(invitationId: invitationId);
+    EasyLoading.dismiss();
+    if (response.succeed || response.code == 200) {
+      EasyLoading.showToast('已取消');
+      await requestInvitationInbox(useCache: false);
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
+  }
+
+  /// POST /api/status/doing
+  Future<PublishDoingEntity?> requestPostStatusDoing({
+    required String tagName,
+  }) async {
+    final name = tagName.trim();
+    if (name.isEmpty) {
+      EasyLoading.showToast('请输入内容');
+      return null;
+    }
+    EasyLoading.show();
+    final response =
+        await Net.value<Doing>().requestPostStatusDoing<PublishDoingEntity>(
+      tagName: name,
+    );
+    EasyLoading.dismiss();
+    if (response.succeed) {
+      MyDoing().configDoing(response.value);
+      return response.value;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return null;
+  }
+
+  /// POST /api/invitation/send
+  Future<bool> requestInvitationSend({
     required int toUserId,
     int invitationType = 1,
     required int tagId,
@@ -140,8 +199,10 @@ extension UserInfoRequestController on UserInfoController {
     EasyLoading.dismiss();
     if (response.succeed) {
       EasyLoading.showToast('已发送');
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
+      await requestInvitationInbox(useCache: false);
+      return true;
     }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
   }
 }

@@ -191,6 +191,23 @@ class Doing extends NetMixin<Doing> {
     return await get<T>(AppConfig.getTogetherMyListUrl);
   }
 
+  /// POST /api/together/direct-connect
+  /// body: toUserId, tagId, force
+  Future<NetResult<T>> requestTogetherDirectConnect<T>({
+    required int toUserId,
+    required int tagId,
+    bool force = true,
+  }) async {
+    return await post<T>(
+      AppConfig.postTogetherDirectConnectUrl,
+      data: <String, dynamic>{
+        'toUserId': toUserId,
+        'tagId': tagId,
+        'force': force,
+      },
+    );
+  }
+
   /// GET /api/match/suggestions
   Future<NetResult<T>> requestMatchSuggestions<T>() async {
     return await get<T>(AppConfig.getMatchSuggestionsUrl);

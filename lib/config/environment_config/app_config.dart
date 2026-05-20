@@ -328,6 +328,11 @@ class AppConfig {
     return '/api/together/my-list';
   }
 
+  /// 直接建立一起做连接（POST body: toUserId, tagId, force）
+  static String get postTogetherDirectConnectUrl {
+    return '/api/together/direct-connect';
+  }
+
   /// 匹配推荐 / 建议列表
   static String get getMatchSuggestionsUrl {
     return '/api/match/suggestions';

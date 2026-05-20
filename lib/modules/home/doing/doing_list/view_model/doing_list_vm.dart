@@ -82,19 +82,24 @@ class DoingListVM extends BaseVM {
     invitationInbox = value;
   }
 
+  /// 后端 [InvitationItemEntity] 约定（GET /api/invitation/inbox）：
+  /// - [InvitationItemEntity.direction]：`sent` 表示当前用户发出
+  /// - [InvitationItemEntity.status]：`0` 表示待对方接受（pending）
+  /// - 展示用 [InvitationItemEntity.targetNickname]、[InvitationItemEntity.tagName]
+  static bool isPendingSentInvitation(InvitationItemEntity e) =>
+      e.direction == 'sent' && e.status == 0;
+
   /// 是否有待处理的发出邀约
   bool get hasPendingSentInvitation {
     final items = invitationInbox?.items ?? [];
-    return items.any((e) => e.direction == 'sent' && e.status == 0);
+    return items.any(isPendingSentInvitation);
   }
 
-  /// 获取待处理的发出邀约（如果有）
+  /// 获取待处理的发出邀约（若有多个，取收件箱中第一条 pending sent）
   InvitationItemEntity? get pendingSentInvitation {
     final items = invitationInbox?.items ?? [];
     try {
-      return items.firstWhere(
-        (e) => e.direction == 'sent' && e.status == 0,
-      );
+      return items.firstWhere(isPendingSentInvitation);
     } catch (_) {
       return null;
     }

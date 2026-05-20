@@ -7,6 +7,7 @@ import '../model/doing_list_entity.dart';
 import '../model/invite_friend_entity.dart';
 import '../model/invitation_item_entity.dart';
 import '../view/doing_together_confirm_widget.dart';
+import 'package:kellychat/modules/home/doing/doing_together_dialog_copy.dart';
 import '../view/invite_together_sheet_widget.dart';
 
 /// FileName: doing_list_route_controller
@@ -130,8 +131,9 @@ extension DoingListRouteController on DoingListController {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 420),
           child: DoingTogetherConfirmWidget(
-            content:
-                '你向「${invitation?.targetNickname ?? '--'}」发起的「${invitation?.tagName ?? '-'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并建立新的一起做。',
+            content: DoingTogetherDialogCopy.cancelOldInvitationMessage(
+              invitation,
+            ),
             onCancel: Get.back,
             onContinue: () async {
               result = true;

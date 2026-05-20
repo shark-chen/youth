@@ -1,10 +1,6 @@
 import 'package:kellychat/base/base_page.dart';
-import 'package:kellychat/base/base_stateless_widget.dart';
-import 'package:kellychat/modules/home/doing/model/doing_hot_tags_entity.dart';
 import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
-import 'package:kellychat/tripartite_library/tripartite_library.dart';
-import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'package:kellychat/modules/home/message/view/message_doing_header_view.dart';
 import 'doing_list_controller.dart';
 import 'view_model/doing_list_vm.dart';
@@ -79,7 +75,7 @@ class DoingListPage extends BasePage<DoingListController> {
                   tagName: controller.vm.value.myDoing?.tagName,
                   partnerName:
                       controller.vm.value.myDoing?.togetherPartner?.nickname,
-                  onCancelTap: controller.clickDeleteStatusDoing,
+                  onCancelTap: controller.clickDeleteDoing,
                 )
               else
                 DoingListHeaderWidget(

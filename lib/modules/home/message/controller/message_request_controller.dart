@@ -52,7 +52,7 @@ extension MessageRequestController on MessageController {
     final response = await Net.value<Message>()
         .requestDeleteConversation<dynamic>(conversationId: conversationId);
     if (showLoad) EasyLoading.dismiss();
-    if (response.succeed) {
+    if (response.success) {
       EasyLoading.showToast(
         response.msg?.isNotEmpty == true ? response.msg! : '已删除',
       );

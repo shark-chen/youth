@@ -71,6 +71,7 @@ class DoingListController extends BaseController {
   /// 刷新数据
   Future refreshData() async {
     requestMyDoing();
+
     /// 获取邀约收件箱（用于判断是否有待处理邀约）
     requestInvitationInbox();
     final value = vm.value.doingHotTagsEntity;
@@ -128,6 +129,19 @@ class DoingListController extends BaseController {
     }
   }
 
+  /// 点击删除一起做的事
+  Future clickDeleteDoing() async {
+    final confirm = await pushCancelDoingDialog();
+    if (!confirm) return;
+    await requestCancelTogether(
+      togetherId:
+          vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
+    );
+    /// 刷新数据
+    refreshData();
+    vm.refresh();
+  }
+
   /// 点击删除我正在做的事
   Future clickDeleteStatusDoing() async {
     final confirm = await pushCancelDoingDialog();
@@ -183,21 +197,29 @@ class DoingListController extends BaseController {
     if (myPartner?.userId == item.userId) {
       final confirm = await pushCancelDoingDialog();
       if (!confirm) return;
-      // TODO: 后端缺少取消一起做的API，暂时先删除正在做状态
-      await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
+      await requestCancelTogether(
+        togetherId:
+        vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
+      );
+      /// 刷新数据
+      refreshData();
       vm.refresh();
       return;
     }
 
-    /// 自己已和其他人建立连接
+    /// 自己已与其他人建立连接
     if (myPartner != null) {
       await pushAlreadyConnectedDialog(myPartner.nickname ?? '');
       return;
     }
 
+    /// 拉最新收件箱，避免缓存导致 pending 误判
+    await requestInvitationInbox(useCache: false);
+
     // 有待处理的发出邀约（且不是发给当前用户）
     final pendingInvitation = vm.value.pendingSentInvitation;
-    if (pendingInvitation != null && pendingInvitation.targetUserId != item.userId) {
+    if (pendingInvitation != null &&
+        pendingInvitation.targetUserId != item.userId) {
       final result = await pushCancelOldInvitationAlert(pendingInvitation);
       if (true != result) return;
       // 取消旧邀约
@@ -207,22 +229,19 @@ class DoingListController extends BaseController {
       if (!cancelled) return;
     }
 
-    /// push - 一起做 弹框确认alert
-    final confirm = await pushTogetherDoAlert(item);
-    if (true != confirm) return;
+    // /// push - 一起做 弹框确认alert
+    // final confirm = await pushTogetherDoAlert(item);
+    // if (true != confirm) return;
 
-    // 正常流程
-    if (item.togetherId == null) {
-      /// 发送邀约 · POST /api/invitation/send
-      await requestInvitationSend(
-        toUserId: item.userId ?? 0,
-        invitationType: 1,
-        tagId: vm.value.doingHotTagsEntity?.tagId ?? 0,
-      );
-      return;
-    }
-    await requestTogetherJoin(item.togetherId ?? '0');
-    vm.refresh();
+    /// 直连一起做 · POST /api/together/direct-connect
+    final connected = await requestTogetherDirectConnect(
+      toUserId: item.userId ?? 0,
+      tagId: vm.value.doingHotTagsEntity?.tagId ?? vm.value.myDoing?.tagId ?? 0,
+      force: true,
+    );
+    if (connected) vm.refresh();
+    /// 刷新数据
+    refreshData();
   }
 
   /// 点击查看个人信息

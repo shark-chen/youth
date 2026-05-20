@@ -1,10 +1,13 @@
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
 import 'package:kellychat/modules/home/doing/doing_list/view/doing_together_confirm_widget.dart';
-import 'package:kellychat/modules/home/mine/edit_mine_info/view/edit_reset_private_password_confirm_dialog.dart';
+import 'package:kellychat/modules/home/doing/doing_together_dialog_copy.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
+import 'package:kellychat/modules/home/mine/edit_mine_info/view/edit_reset_private_password_confirm_dialog.dart';
 import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'package:kellychat/base/base_controller.dart';
 import '../user_info_controller.dart';
 import '../view/block_user_confirm_dialog.dart';
+import '../view/invite_partner_together_sheet_widget.dart';
 import '../view/more_actions_sheet_widget.dart';
 import 'user_info_request_controller.dart';
 
@@ -99,7 +102,7 @@ extension UserInfoRouteController on UserInfoController {
     return false;
   }
 
-  /// push - 一起做 弹框确认alert
+  /// push - 一起做确认（已有正在做，与 DoingList 文案一致）
   Future<bool> pushTogetherDoAlert() async {
     var result = false;
     await Get.dialog(
@@ -122,6 +125,62 @@ extension UserInfoRouteController on UserInfoController {
       barrierDismissible: true,
     );
     return result;
+  }
+
+  /// 邀请对方一起做 — 底部输入弹层，返回输入文案；取消/关闭返回 null
+  Future<String?> pushInvitePartnerTogetherSheet() async {
+    final ctx = Get.context;
+    if (ctx == null) return null;
+    final tec = TextEditingController();
+    final focusNode = FocusNode();
+    String? result;
+    try {
+      await BottomAlert.alerts(
+        ctx,
+        isDismissible: true,
+        wholeCustomWidget: InvitePartnerTogetherSheetWidget(
+          controller: tec,
+          focusNode: focusNode,
+          closeTap: Get.back,
+          onConfirm: (text) {
+            result = text;
+            Get.back();
+          },
+        ),
+      );
+    } finally {
+      tec.dispose();
+      focusNode.dispose();
+    }
+    return result;
+  }
+
+  /// 当前有邀约 — 取消旧约后继续
+  Future<bool> pushCancelOldInvitationAlert(
+    InvitationItemEntity? invitation,
+  ) async {
+    var confirmed = false;
+    await Get.dialog(
+      Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: DoingTogetherConfirmWidget(
+            content: DoingTogetherDialogCopy.cancelOldInvitationMessage(
+              invitation,
+            ),
+            onCancel: Get.back,
+            onContinue: () async {
+              confirmed = true;
+              Get.back();
+            },
+          ),
+        ),
+      ),
+      barrierDismissible: true,
+    );
+    return confirmed;
   }
 
   /// push - 取消正在做的事情状态
