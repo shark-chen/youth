@@ -80,6 +80,10 @@ KnockRecordItems $KnockRecordItemsFromJson(Map<String, dynamic> json) {
   if (createdAt != null) {
     knockRecordItems.createdAt = createdAt;
   }
+  final int? gender = jsonConvert.convert<int>(json['gender']);
+  if (gender != null) {
+    knockRecordItems.gender = gender;
+  }
   return knockRecordItems;
 }
 
@@ -95,6 +99,7 @@ Map<String, dynamic> $KnockRecordItemsToJson(KnockRecordItems entity) {
   data['timeAgo'] = entity.timeAgo;
   data['isRead'] = entity.isRead;
   data['createdAt'] = entity.createdAt;
+  data['gender'] = entity.gender;
   return data;
 }
 
@@ -109,6 +114,7 @@ extension KnockRecordItemsExtension on KnockRecordItems {
     String? tagName,
     String? timeAgo,
     bool? isRead,
+    int? gender,
     String? createdAt,
   }) {
     return KnockRecordItems()
@@ -121,6 +127,7 @@ extension KnockRecordItemsExtension on KnockRecordItems {
       ..tagName = tagName ?? this.tagName
       ..timeAgo = timeAgo ?? this.timeAgo
       ..isRead = isRead ?? this.isRead
+      ..gender = gender ?? this.gender
       ..createdAt = createdAt ?? this.createdAt;
   }
 }

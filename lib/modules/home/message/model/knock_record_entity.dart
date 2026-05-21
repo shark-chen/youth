@@ -35,6 +35,8 @@ class KnockRecordItems {
 	String? timeAgo;
 	bool? isRead;
 	String? createdAt;
+	/// 0 未知 1 男 2 女
+	int? gender;
 
 	KnockRecordItems();
 
