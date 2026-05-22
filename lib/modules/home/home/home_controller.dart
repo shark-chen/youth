@@ -96,7 +96,6 @@ class HomeController extends BaseController {
       final inviteCode = _extractInviteCode(text);
       if (inviteCode == null || inviteCode.isEmpty) return;
       if (inviteCode == _lastHandledInviteCode) return;
-
       final response = await Net.value<Friend>()
           .requestAcceptInvitationByCode<dynamic>(inviteCode: inviteCode);
       if (response.succeed) {

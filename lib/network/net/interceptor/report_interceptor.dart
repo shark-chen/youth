@@ -55,7 +55,7 @@ class ReportInterceptor extends Interceptor {
         NetworkModelUtils().addNetworkData(
             path:
                 '${response.requestOptions.path} \n接口耗时: ${endTime - startTime} ms',
-            succeed: code == 0,
+            succeed: code == 200,
             requestParameters: requestParameters.toString(),
             responseParameters: response.data.toString());
       }

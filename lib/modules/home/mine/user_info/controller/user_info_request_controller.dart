@@ -1,6 +1,8 @@
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
 import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
+import 'package:kellychat/network/net/net_result.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 
@@ -114,16 +116,45 @@ extension UserInfoRequestController on UserInfoController {
     final response = await Net.value<Doing>()
         .requestDeleteStatusDoing<dynamic>(statusId: statusId);
     EasyLoading.dismiss();
-    if (response.code == 200) {
-      EasyLoading.showToast('已删除');
+    if (response.code == 200 || response.code == 50000) {
+      EasyLoading.showToast(
+        response.code == 200 ? '已删除' : (response.msg ?? ''),
+      );
+      MyDoing().configDoing(null);
+      await MyDoing().requestMyDoing();
       return true;
-    } else if (response.code == 50000) {
-      EasyLoading.showToast(response.msg ?? '');
-      return true;
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-      return false;
     }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
+  }
+
+  /// GET /api/invitation/sent
+  /// 获取发出的邀约（用于用户详情「一起做」pending 判断）
+  Future<void> requestInvitationSent({bool useCache = true}) async {
+    final doing = Net.value<Doing>();
+    final response = useCache
+        ? await doing
+            .cache<List<InvitationItemEntity>>((values) {
+            vm.value.configInvitationSent(values);
+            vm.refresh();
+          })
+            .requestInvitationSent<List<InvitationItemEntity>>()
+        : await doing.requestInvitationSent<List<InvitationItemEntity>>();
+    if (response.succeed) {
+      vm.value.configInvitationSent(_sentItemsFromResponse(response));
+      vm.refresh();
+    }
+  }
+
+  List<InvitationItemEntity> _sentItemsFromResponse(NetResult response) {
+    final value = response.value;
+    if (value is InvitationInboxEntity) {
+      return value.items ?? [];
+    }
+    if (Lists.isNotEmpty(response.values)) {
+      return List<InvitationItemEntity>.from(response.values);
+    }
+    return [];
   }
 
   /// GET /api/invitation/inbox
@@ -152,7 +183,7 @@ extension UserInfoRequestController on UserInfoController {
     EasyLoading.dismiss();
     if (response.succeed || response.code == 200) {
       EasyLoading.showToast('已取消');
-      await requestInvitationInbox(useCache: false);
+      await requestInvitationSent(useCache: false);
       return true;
     }
     EasyLoading.showToast(response.msg ?? '');
@@ -176,7 +207,12 @@ extension UserInfoRequestController on UserInfoController {
     EasyLoading.dismiss();
     if (response.succeed) {
       MyDoing().configDoing(response.value);
-      return response.value;
+      await MyDoing().requestMyDoing();
+      final latest = MyDoing().doing;
+      if (latest != null) {
+        EventBusManager().fire(latest);
+      }
+      return latest ?? response.value;
     }
     EasyLoading.showToast(response.msg ?? '');
     return null;
@@ -199,7 +235,7 @@ extension UserInfoRequestController on UserInfoController {
     EasyLoading.dismiss();
     if (response.succeed) {
       EasyLoading.showToast('已发送');
-      await requestInvitationInbox(useCache: false);
+      await requestInvitationSent(useCache: false);
       return true;
     }
     EasyLoading.showToast(response.msg ?? '');

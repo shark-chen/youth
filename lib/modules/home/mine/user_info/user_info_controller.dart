@@ -30,7 +30,7 @@ class UserInfoController extends BaseController {
       /// request -他人信息
       title = '用户详情';
       await requestOtherUserProfile(userId);
-      requestInvitationInbox();
+      requestInvitationSent();
     } else {
       title = '个人中心';
       await requestUserProfile();
@@ -102,24 +102,25 @@ class UserInfoController extends BaseController {
   void clickInvert() async {
     final status = togetherButtonStatus;
 
-    // 已和对方建立连接，点击取消
+    /// 已和对方建立连接，点击取消
     if (status == TogetherButtonStatus.connected) {
       final confirm = await pushCancelDoingDialog();
       if (!confirm) return;
       // TODO: 后端缺少取消一起做的API，暂时先删除正在做状态
-      await requestDeleteStatusDoing(MyDoing().doing?.statusId ?? 0);
-      vm.refresh();
+      final deleted =
+          await requestDeleteStatusDoing(MyDoing().doing?.statusId ?? 0);
+      if (deleted) vm.refresh();
       return;
     }
 
-    // 自己已和其他人建立连接
+    /// 自己已和其他人建立连接
     if (status == TogetherButtonStatus.disabled) {
       final partnerName = MyDoing().doing?.togetherPartner?.nickname ?? '';
       await pushAlreadyConnectedDialog(partnerName);
       return;
     }
 
-    await requestInvitationInbox(useCache: false);
+    await requestInvitationSent(useCache: false);
 
     final pending = vm.value.pendingSentInvitation;
     final profileUserId = currentProfileUserId;
@@ -149,11 +150,13 @@ class UserInfoController extends BaseController {
       return;
     }
 
+    /// 邀请对方一起做 — 底部输入弹层，返回输入文案；取消/关闭返回 null
     final text = await pushInvitePartnerTogetherSheet();
     if (text == null || text.isEmpty) return;
 
     final doing = await requestPostStatusDoing(tagName: text);
     if (doing == null || doing.tagId == null) return;
+    vm.refresh();
 
     final sent = await requestInvitationSend(
       toUserId: currentProfileUserId ?? 0,

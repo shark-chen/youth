@@ -1,5 +1,4 @@
 import 'package:kellychat/base/base_page.dart';
-import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'mine_controller.dart';
 

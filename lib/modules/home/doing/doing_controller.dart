@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
+import 'doing_list/doing_list_controller.dart';
 import '../home/view/tabs.dart';
 import '../mine/user_info/model/user_info_entity.dart';
 import 'model/doing_nav_ids.dart';
 import 'model/doing_hot_tags_entity.dart';
 import 'model/doing_present_hot_tag_entity.dart';
+import 'model/publish_doing_entity.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'view_model/doing_vm.dart';
 import 'controller/doing_request_controller.dart';
 export 'controller/doing_request_controller.dart';
@@ -51,11 +54,36 @@ class DoingController extends BaseController {
       await UserCenter().init();
       vm.refresh();
     });
+    EventBusManager().listen<PublishDoingEntity>(this, (event) async {
+      await _openDoingListIfNeeded(_tagFromPublishDoing(event));
+    });
     EventBusManager().listen<HomeTabs>(this, (tab) async {
       if (tab == HomeTabs.doing) {
         await refreshData();
+        await _openDoingListIfNeeded(_tagFromMyDoing());
       }
     });
+  }
+
+  DoingPresentHotTagEntity? _tagFromPublishDoing(PublishDoingEntity event) {
+    return DoingPresentHotTagEntity()
+      ..tagId = event.tagId
+      ..tagName = event.tagName;
+  }
+
+  DoingPresentHotTagEntity? _tagFromMyDoing() {
+    final doing = MyDoing().doing;
+    if (doing == null) return null;
+    return DoingPresentHotTagEntity()
+      ..tagId = doing.tagId
+      ..tagName = doing.tagName;
+  }
+
+  /// 已有正在做且清单 Controller 未注册时，进入 DoingListPage
+  Future<void> _openDoingListIfNeeded(DoingPresentHotTagEntity? tag) async {
+    if (tag == null || tag.tagId == null) return;
+    if (Get.isRegistered<DoingListController>()) return;
+    await pushDoingListPage(tag);
   }
 
   /// 刷新数据

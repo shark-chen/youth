@@ -47,15 +47,20 @@ extension HallRequestController on HallController {
     int page = 1,
     int size = 20,
   }) async {
+    EasyLoading.show();
     final response =
         await Net.value<Doing>().requestMatchSearch<SmartMatchPeopleEntity>(
       description: description,
       page: page,
       size: size,
     );
+    EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.friends = response.value?.list;
       vm.refresh();
+      if (Lists.isEmpty(vm.value.friends)) {
+        EasyLoading.showToast('未找到符合条件的用户');
+      }
       return Lists.isNotEmpty(vm.value.friends);
     }
     return false;

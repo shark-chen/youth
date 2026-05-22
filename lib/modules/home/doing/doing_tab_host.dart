@@ -75,6 +75,7 @@ class _DoingTabHostState extends State<DoingTabHost>
     return GetPageRoute(
       settings: settings,
       page: () => const DoingListPage(),
+      binding: _doingListBinding(settings),
       transition: Transition.noTransition,
     );
   }
@@ -98,13 +99,32 @@ class _DoingTabHostState extends State<DoingTabHost>
     return GetPageRoute(
       settings: settings,
       page: () => const DoingListPage(),
-      binding: BindingsBuilder(() {
-        Get.lazyPut<DoingListController>(
-          () => DoingListController(
-              value: settings.arguments as DoingPresentHotTagEntity),
-        );
-      }),
+      binding: _doingListBinding(settings),
       transition: Transition.downToUp,
     );
+  }
+
+  /// 清单页 Binding：arguments 或 MyDoing 构造 DoingPresentHotTagEntity
+  BindingsBuilder _doingListBinding(RouteSettings settings) {
+    return BindingsBuilder(() {
+      final tag = _presentHotTagFrom(settings);
+      if (Get.isRegistered<DoingListController>()) {
+        Get.delete<DoingListController>();
+      }
+      Get.lazyPut<DoingListController>(
+        () => DoingListController(value: tag),
+        fenix: true,
+      );
+    });
+  }
+
+  DoingPresentHotTagEntity? _presentHotTagFrom(RouteSettings settings) {
+    final args = settings.arguments;
+    if (args is DoingPresentHotTagEntity) return args;
+    final doing = MyDoing().doing;
+    if (doing == null) return null;
+    return DoingPresentHotTagEntity()
+      ..tagId = doing.tagId
+      ..tagName = doing.tagName;
   }
 }

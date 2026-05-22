@@ -12,7 +12,7 @@ enum Environment {
 }
 
 /// 环境配置
-Environment environment = Environment.dev;
+Environment environment = Environment.prod;
 
 abstract class Config {
   abstract ConfigModel? configModel;

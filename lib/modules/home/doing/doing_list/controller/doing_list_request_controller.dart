@@ -69,16 +69,19 @@ extension DoingListRequestController on DoingListController {
     final response = await Net.value<Doing>()
         .requestDeleteStatusDoing<dynamic>(statusId: statusId);
     EasyLoading.dismiss();
-    if (response.code == 200) {
-      EasyLoading.showToast('已删除');
+    if (response.code == 200 || response.code == 50000) {
+      EasyLoading.showToast(
+        response.code == 200 ? '已删除' : (response.msg ?? ''),
+      );
+      MyDoing().configDoing(null);
+      vm.value.configMyDoing(null);
+      await MyDoing().requestMyDoing();
+      vm.value.configMyDoing(MyDoing().doing);
+      vm.refresh();
       return true;
-    } else if (response.code == 50000) {
-      EasyLoading.showToast(response.msg ?? '');
-      return true;
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
-      return false;
     }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
   }
 
   /// request - 获取当前热门的正在做标签列表

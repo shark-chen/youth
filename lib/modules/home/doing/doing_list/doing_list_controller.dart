@@ -149,7 +149,6 @@ class DoingListController extends BaseController {
     if (!confirm) return;
     final result =
         await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
-    vm.refresh();
     if (!result) return;
     if (canClosePage) {
       Future.delayed(Duration(microseconds: 1500), closePage);
