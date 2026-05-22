@@ -288,6 +288,11 @@ class AppConfig {
     return '/api/invitation/sent';
   }
 
+  /// 查询当前事项邀约状态（GET）
+  static String get getInvitationCurrentDoingStateUrl {
+    return '/api/invitation/current-doing-state';
+  }
+
   /// 取消邀约（DELETE path: invitationId）
   static String getInvitationCancelUrl(int invitationId) {
     return '/api/invitation/$invitationId';

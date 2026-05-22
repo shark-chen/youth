@@ -124,6 +124,12 @@ class Doing extends NetMixin<Doing> {
     return await get<T>(AppConfig.getInvitationSentUrl);
   }
 
+  /// GET /api/invitation/current-doing-state
+  /// 查询当前事项邀约状态
+  Future<NetResult<T>> requestInvitationCurrentDoingState<T>() async {
+    return await get<T>(AppConfig.getInvitationCurrentDoingStateUrl);
+  }
+
   /// DELETE /api/invitation/{invitationId}
   /// 取消邀约（发起方主动取消，仅限待处理状态）
   Future<NetResult<T>> requestInvitationCancel<T>({

@@ -129,7 +129,7 @@ extension UserInfoRequestController on UserInfoController {
   }
 
   /// GET /api/invitation/sent
-  /// 获取发出的邀约（用于用户详情「一起做」pending 判断）
+  /// 获取发出的邀约
   Future<void> requestInvitationSent({bool useCache = true}) async {
     final doing = Net.value<Doing>();
     final response = useCache
