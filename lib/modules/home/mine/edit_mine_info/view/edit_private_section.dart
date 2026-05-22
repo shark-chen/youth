@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:kellychat/base/base_stateless_widget.dart';
 import 'package:kellychat/widget/button/icon_button/icon_button.dart';
+import 'package:kellychat/widget/line_view/dashed_line_view.dart';
 
 /// 非公开内容：AI 说明区 + 密码行
 class EditPrivateSection extends BaseStatelessWidget {
@@ -25,14 +26,9 @@ class EditPrivateSection extends BaseStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: CustomPaint(
-            painter: _DashedLinePainter(
-              color: ThemeColor.whiteColor.withOpacity(0.2),
-            ),
-            child: const SizedBox(height: 1),
-          ),
+        DashedLineWidget(
+          size: Size(screenWidth, 1),
+          color: ThemeColor.whiteColor.withOpacity(0.3),
         ),
         const SizedBox(height: 22),
         Center(
@@ -68,14 +64,8 @@ class EditPrivateSection extends BaseStatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child: ImageFiltered(
-                  imageFilter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                  child: Container(
-                    color: ThemeColor.doingListCellBgColor,
-                    child: Container(
-                      color: ThemeColor.themeColor.withOpacity(0.55),
-                    ),
-                  ),
+                child: Image.asset(
+                  'assets/image/common/privacy_bg@3x.png',
                 ),
               ),
               Material(

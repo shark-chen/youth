@@ -130,14 +130,17 @@ extension UserInfoRequestController on UserInfoController {
 
   /// GET /api/invitation/current-doing-state
   /// 查询当前事项邀约状态
-  Future<CurrentDoingStateEntity?>
-      requestInvitationCurrentDoingState<T>() async {
+  Future<CurrentDoingStateEntity?> requestInvitationCurrentDoingState() async {
     EasyLoading.show();
     final response = await Net.value<Doing>()
         .requestInvitationCurrentDoingState<CurrentDoingStateEntity>();
     EasyLoading.dismiss();
-    vm.value.configCurrentDoingStateEntity(response.value);
-    return response.value;
+    if (response.succeed) {
+      vm.value.configCurrentDoingStateEntity(response.value);
+      vm.refresh();
+      return response.value;
+    }
+    return null;
   }
 
   /// GET /api/invitation/sent
@@ -226,6 +229,35 @@ extension UserInfoRequestController on UserInfoController {
     return null;
   }
 
+  /// POST /api/invitation/profile-send
+  /// 用户详情页发起一起做邀约（toUserId 必填，tagName / message 可选）
+  /// tagName： -当前无「正在做」时必填，用于创建新事项。
+  /// 当前有「正在做」且可快捷邀约时可不传，后端自动使用当前事项。
+  /// -用户主动重新输入新事项时传入，后端会切换当前事项。
+  /// 后端规则已实现:
+  // -发起邀约会自动把事项设为当前「正在做」。
+  // -取消/切换当前「正在做」后，该用户发起的待处理邀约会失效。
+  // -对方接受邀约时，如果发起方当前事项已取消或切换，邀约会被判定失效。
+  //  当前事项已有待接受邀约或正在连接中时，不能快捷发起，需要先取消邀约或断开连接。
+  Future requestInvitationProfileSend({
+    required int toUserId,
+    String? tagName,
+    String? message,
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>().requestInvitationProfileSend(
+      toUserId: toUserId,
+      tagName: tagName,
+      message: message,
+    );
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast('已邀约');
+      return;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+  }
+
   /// POST /api/invitation/send
   Future<bool> requestInvitationSend({
     required int toUserId,
@@ -243,7 +275,32 @@ extension UserInfoRequestController on UserInfoController {
     EasyLoading.dismiss();
     if (response.succeed) {
       EasyLoading.showToast('已发送');
-      await requestInvitationSent(useCache: false);
+      await requestInvitationCurrentDoingState();
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
+  }
+
+
+  /// 取消一起做
+  Future<bool> requestCancelTogether({
+    required String togetherId,
+    bool showLoad = true,
+  }) async {
+    final id = togetherId.trim();
+    if (id.isEmpty) {
+      EasyLoading.showToast('活动信息无效');
+      return false;
+    }
+    if (showLoad) EasyLoading.show();
+    final response = await Net.value<Doing>().requestCancelTogether<dynamic>(
+      togetherId: id,
+    );
+    if (showLoad) EasyLoading.dismiss();
+    if (response.code == 200) {
+      EasyLoading.showToast('已取消');
+      await MyDoing().requestMyDoing();
       return true;
     }
     EasyLoading.showToast(response.msg ?? '');

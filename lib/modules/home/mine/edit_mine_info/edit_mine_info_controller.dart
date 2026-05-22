@@ -12,6 +12,7 @@ import 'controller/edit_mine_info_route_controller.dart';
 ///
 /// @Description 编辑资料：路由、弹窗、保存流程 数据处理在
 class EditMineInfoController extends BaseController {
+  /// vm
   Rx<EditMineInfoVM> vm = EditMineInfoVM().obs;
 
   @override

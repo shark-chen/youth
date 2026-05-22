@@ -273,6 +273,11 @@ class AppConfig {
     return '/api/invitation/send';
   }
 
+  /// 用户详情页发起一起做邀约（POST body: toUserId 必填，tagName / message 可选）
+  static String get postInvitationProfileSendUrl {
+    return '/api/invitation/profile-send';
+  }
+
   /// 邀约收件箱（GET）
   static String get getInvitationInboxUrl {
     return '/api/invitation/inbox';

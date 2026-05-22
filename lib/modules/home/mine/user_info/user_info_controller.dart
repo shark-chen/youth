@@ -101,62 +101,64 @@ class UserInfoController extends BaseController {
     await UserInfoCenter().requestUserInfo(update: true);
   }
 
+  /// 点击一起做
   void clickInvert() async {
-    final status = togetherButtonStatus;
+    /// 查询当前事项邀约状态
+    final state = await requestInvitationCurrentDoingState();
+    if (state == null) return;
 
-    /// 已和对方建立连接，点击取消
-    if (status == TogetherButtonStatus.connected) {
-      final confirm = await pushCancelDoingDialog();
-      if (!confirm) return;
-      // TODO: 后端缺少取消一起做的API，暂时先删除正在做状态
-      final deleted =
-          await requestDeleteStatusDoing(MyDoing().doing?.statusId ?? 0);
-      if (deleted) vm.refresh();
+    /// 当前存在配对好的一起做的事：提示先断开当前连接
+    if (state.hasActiveTogether == true) {
+      final togetherPartner = MyDoing().doing?.togetherPartner;
+      final result =
+          await pushAlreadyConnectedDialog(togetherPartner?.nickname ?? '--');
+      if (result) {
+        /// 取消一起做
+        await requestCancelTogether(
+          togetherId: togetherPartner?.togetherId.toString() ?? '',
+          showLoad: false,
+        );
+
+        /// 发起邀请
+        await invitationProfileSend();
+      }
       return;
     }
 
-    /// 自己已和其他人建立连接
-    if (status == TogetherButtonStatus.disabled) {
-      final partnerName = MyDoing().doing?.togetherPartner?.nickname ?? '';
-      await pushAlreadyConnectedDialog(partnerName);
+    /// 当前事项存在邀请：提示先取消当前待接受邀约（仅弹框，后续流程自行接续）
+    if (state.hasPendingInvitation == true) {
+      final result =
+          await pushPendingInvitationTipDialog(vm.value.pendingSentInvitation);
+      if (result) {
+        /// 发起邀请
+        await invitationProfileSend();
+      }
       return;
     }
 
-    await requestInvitationSent(useCache: false);
-
-    final pending = vm.value.pendingSentInvitation;
-    final profileUserId = currentProfileUserId;
-    if (pending != null &&
-        profileUserId != null &&
-        pending.targetUserId != profileUserId) {
-      final confirm = await pushCancelOldInvitationAlert(pending);
-      if (!confirm) return;
-      final cancelled =
-          await requestInvitationCancel(pending.invitationId ?? 0);
-      if (!cancelled) return;
-    }
-
-    final myDoing = MyDoing().doing;
-    if (myDoing != null) {
-      final confirm = await pushTogetherDoAlert();
-      if (!confirm) return;
-      final tagId = myDoing.tagId;
-      if (tagId == null) return;
-      final sent = await requestInvitationSend(
-        toUserId: currentProfileUserId ?? 0,
-        invitationType: 1,
-        tagId: tagId,
-        message: myDoing.tagName ?? '',
-      );
-      if (sent) vm.refresh();
+    /// 无当前事项：输入创建并发约
+    if (state.hasCurrentDoing != true) {
+      /// 发起邀请
+      await invitationProfileSend();
       return;
     }
 
-    /// 邀请对方一起做 — 底部输入弹层，返回输入文案；取消/关闭返回 null
+    /// 可直接用当前事项发起邀约
+    if (state.canQuickInvite == true) {
+      await requestInvitationProfileSend(toUserId: currentProfileUserId ?? 0);
+    }
+  }
+
+  /// 发起邀请
+  Future invitationProfileSend() async {
     final text = await pushInvitePartnerTogetherSheet();
     if (text == null || text.isEmpty) return;
 
-    final doing = await requestPostStatusDoing(tagName: text);
+    /// 用户详情页发起一起做邀约（toUserId 必填，tagName / message 可选）
+    final doing = await requestInvitationProfileSend(
+      tagName: text,
+      toUserId: currentProfileUserId ?? 0,
+    );
     if (doing == null || doing.tagId == null) return;
     vm.refresh();
 
@@ -166,6 +168,9 @@ class UserInfoController extends BaseController {
       tagId: doing.tagId ?? 0,
       message: text,
     );
-    if (sent) vm.refresh();
+    if (sent) {
+      vm.refresh();
+      await requestInvitationCurrentDoingState();
+    }
   }
 }

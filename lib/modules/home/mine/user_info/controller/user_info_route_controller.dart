@@ -103,7 +103,8 @@ extension UserInfoRouteController on UserInfoController {
   }
 
   /// push - 一起做确认（已有正在做，与 DoingList 文案一致）
-  Future<bool> pushTogetherDoAlert() async {
+  Future<bool> pushTogetherDoAlert({String? tagName}) async {
+    final doingTagName = tagName ?? MyDoing().doing?.tagName ?? '-';
     var result = false;
     await Get.dialog(
       Dialog(
@@ -113,7 +114,7 @@ extension UserInfoRouteController on UserInfoController {
           constraints: const BoxConstraints(maxWidth: 420),
           child: DoingTogetherConfirmWidget(
             content:
-                '确定向「${userInfo?.nickname ?? '--'}」发起「${MyDoing().doing?.tagName ?? '-'}」一起做邀约吗？',
+                '确定向「${userInfo?.nickname ?? '--'}」发起「$doingTagName」一起做邀约吗？',
             onCancel: Get.back,
             onContinue: () async {
               result = true;
@@ -205,10 +206,38 @@ extension UserInfoRouteController on UserInfoController {
     return result;
   }
 
-  /// push - 已与其他人建立一起做的提示弹窗
-  Future<void> pushAlreadyConnectedDialog(String partnerName) async {
+  /// 有待接受邀约 — 仅提示（历史 cancelOld 文案，单按钮我知道了）
+  Future<bool> pushPendingInvitationTipDialog(
+    InvitationItemEntity? invitation,
+  ) async {
     final ctx = Get.context;
-    if (ctx == null) return;
+    if (ctx == null) return false;
+    var result = false;
+    await showDialog<void>(
+      context: ctx,
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => DialogAlertWidget(
+        content: DoingTogetherDialogCopy.cancelOldInvitationMessage(
+          invitation,
+        ),
+        leftTitle: '取消',
+        leftTap: Get.back,
+        rightTitle: '继续',
+        rightTap: () {
+          result = true;
+          Get.back();
+        },
+      ),
+    );
+    return result;
+  }
+
+  /// push - 已与其他人建立一起做的提示弹窗
+  Future<bool> pushAlreadyConnectedDialog(String partnerName) async {
+    final ctx = Get.context;
+    if (ctx == null) return false;
+    var result = false;
     await showDialog<void>(
       context: ctx,
       barrierDismissible: true,
@@ -218,8 +247,12 @@ extension UserInfoRouteController on UserInfoController {
         leftTitle: '我知道了',
         leftTap: Get.back,
         rightTitle: '',
-        rightTap: Get.back,
+        rightTap: () {
+          result  = true;
+          Get.back();
+        },
       ),
     );
+    return result;
   }
 }

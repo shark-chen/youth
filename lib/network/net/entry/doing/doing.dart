@@ -106,6 +106,25 @@ class Doing extends NetMixin<Doing> {
     );
   }
 
+  /// POST /api/invitation/profile-send
+  /// 用户详情页发起一起做邀约（toUserId 必填，tagName / message 可选）
+  Future<NetResult<T>> requestInvitationProfileSend<T>({
+    required int toUserId,
+    String? tagName,
+    String? message,
+  }) async {
+    final data = <String, dynamic>{'toUserId': toUserId};
+    final name = tagName?.trim();
+    if (name != null && name.isNotEmpty) {
+      data['tagName'] = name;
+    }
+    final msg = message?.trim();
+    if (msg != null && msg.isNotEmpty) {
+      data['message'] = msg;
+    }
+    return await post<T>(AppConfig.postInvitationProfileSendUrl, data: data);
+  }
+
   /// GET /api/invitation/inbox
   /// 邀约收件箱（双向合并列表 + 未读数）
   Future<NetResult<T>> requestInvitationInbox<T>() async {

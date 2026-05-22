@@ -9,10 +9,13 @@ class CurrentDoingStateEntity {
   int? statusId;
   int? tagId;
   String? tagName;
+
   /// 提示先取消当前待接受邀约。
   bool? hasPendingInvitation;
+
   /// 提示先断开当前连接。
   bool? hasActiveTogether;
+
   /// 可直接用当前事项发起邀约，无需输入。
   bool? canQuickInvite;
 
