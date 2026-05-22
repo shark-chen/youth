@@ -35,6 +35,8 @@ class UserInfoController extends BaseController {
       title = '个人中心';
       await requestUserProfile();
     }
+
+    requestInvitationCurrentDoingState();
   }
 
   /// mark - method

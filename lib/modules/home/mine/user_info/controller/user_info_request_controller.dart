@@ -5,7 +5,7 @@ import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/network/net/net_result.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
-
+import '../model/current_doing_state_entity.dart';
 import '../model/user_info_entity.dart';
 import '../user_info_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
@@ -128,17 +128,27 @@ extension UserInfoRequestController on UserInfoController {
     return false;
   }
 
+  /// GET /api/invitation/current-doing-state
+  /// 查询当前事项邀约状态
+  Future<CurrentDoingStateEntity?>
+      requestInvitationCurrentDoingState<T>() async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>()
+        .requestInvitationCurrentDoingState<CurrentDoingStateEntity>();
+    EasyLoading.dismiss();
+    vm.value.configCurrentDoingStateEntity(response.value);
+    return response.value;
+  }
+
   /// GET /api/invitation/sent
   /// 获取发出的邀约
   Future<void> requestInvitationSent({bool useCache = true}) async {
     final doing = Net.value<Doing>();
     final response = useCache
-        ? await doing
-            .cache<List<InvitationItemEntity>>((values) {
+        ? await doing.cache<List<InvitationItemEntity>>((values) {
             vm.value.configInvitationSent(values);
             vm.refresh();
-          })
-            .requestInvitationSent<List<InvitationItemEntity>>()
+          }).requestInvitationSent<List<InvitationItemEntity>>()
         : await doing.requestInvitationSent<List<InvitationItemEntity>>();
     if (response.succeed) {
       vm.value.configInvitationSent(_sentItemsFromResponse(response));
@@ -161,13 +171,11 @@ extension UserInfoRequestController on UserInfoController {
   Future<void> requestInvitationInbox({bool useCache = true}) async {
     final doing = Net.value<Doing>();
     final response = useCache
-        ? await doing
-            .cache<InvitationInboxEntity>((value) {
+        ? await doing.cache<InvitationInboxEntity>((value) {
             if (value == null) return;
             vm.value.configInvitationInbox(value);
             vm.refresh();
-          })
-            .requestInvitationInbox<InvitationInboxEntity>()
+          }).requestInvitationInbox<InvitationInboxEntity>()
         : await doing.requestInvitationInbox<InvitationInboxEntity>();
     if (response.succeed) {
       vm.value.configInvitationInbox(response.value);

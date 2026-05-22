@@ -1,6 +1,7 @@
 import 'package:kellychat/base/base_vm.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
+import '../model/current_doing_state_entity.dart';
 import '../model/user_info_entity.dart';
 
 /// FileName: user_info_vm
@@ -22,6 +23,9 @@ class UserInfoVM extends BaseVM {
   /// 发出的邀约列表 · GET /api/invitation/sent
   List<InvitationItemEntity> invitationSentItems = [];
 
+  /// 当前事项的状态
+  CurrentDoingStateEntity? currentDoingState;
+
   @override
   void onInit() {
     super.onInit();
@@ -38,6 +42,10 @@ class UserInfoVM extends BaseVM {
 
   void configInvitationSent(List<InvitationItemEntity>? values) {
     invitationSentItems = List<InvitationItemEntity>.from(values ?? []);
+  }
+
+  void configCurrentDoingStateEntity(CurrentDoingStateEntity? value) {
+    currentDoingState = value;
   }
 
   InvitationItemEntity? get pendingSentInvitation {
