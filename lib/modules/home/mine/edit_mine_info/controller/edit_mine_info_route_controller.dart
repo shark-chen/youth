@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:kellychat/modules/routes/app_pages.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
+import 'package:kellychat/utils/marco/marco.dart';
 import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'package:kellychat/widget/region_picker/region_picker_sheet.dart';
 import '../edit_mine_info_controller.dart';
@@ -27,30 +28,23 @@ extension EditMineInfoRouteController on EditMineInfoController {
     String? hintText,
     ValueChanged<String>? sureCall,
   }) async {
-    final ctx = Get.context;
-    if (ctx == null) return;
     final tec = TextEditingController(text: text);
     final focusNode = FocusNode();
     focusNode.requestFocus();
-    try {
-      await BottomAlert.alerts(
-        ctx,
-        isDismissible: true,
-        wholeCustomWidget: EditNickNameSheetWidget(
-          title: title,
-          nickname: tec.text,
-          maxLength: 30,
-          controller: tec,
-          focusNode: focusNode,
-          hintText: hintText,
-          closeTap: Get.back,
-          sureTap: () => sureCall?.call(tec.text.trim()),
-        ),
-      );
-    } finally {
-      tec.dispose();
-      focusNode.dispose();
-    }
+    await BottomAlert.alerts(
+      Get.context!,
+      isDismissible: true,
+      wholeCustomWidget: EditNickNameSheetWidget(
+        title: title,
+        nickname: tec.text,
+        maxLength: 30,
+        controller: tec,
+        focusNode: focusNode,
+        hintText: hintText,
+        closeTap: Get.back,
+        sureTap: () => sureCall?.call(tec.text.trim()),
+      ),
+    );
   }
 
   /// push - 更改密码（6 位数字 + 修改密码入口）
@@ -64,11 +58,9 @@ extension EditMineInfoRouteController on EditMineInfoController {
     bool? showResetPassword,
     VoidCallback? onModifyPasswordTap,
   }) async {
-    final ctx = Get.context;
-    if (ctx == null) return;
     final showReset = showResetPassword ?? vm.value.draft.hasPrivateContent;
     await BottomAlert.alerts(
-      ctx,
+      Get.context!,
       isDismissible: true,
       wholeCustomWidget: SafeArea(
         child: EditChangePasswordSheetWidget(
@@ -94,7 +86,7 @@ extension EditMineInfoRouteController on EditMineInfoController {
     );
   }
 
-  /// 两步输入密码：先设新密码（下一步），再确认（确认密码）；一致后 [onMatched]
+  /// push - 两步输入密码：先设新密码（下一步），再确认（确认密码）；一致后 [onMatched]
   Future<void> pushPasswordWithConfirm({
     required String titleFirst,
     required String contentFirst,
@@ -117,7 +109,6 @@ extension EditMineInfoRouteController on EditMineInfoController {
       },
     );
     if (firstPassword == null) return;
-
     await pushPasswordAlert(
       title: titleConfirm,
       content: contentConfirm,
@@ -135,12 +126,10 @@ extension EditMineInfoRouteController on EditMineInfoController {
     );
   }
 
-  /// 居中弹框：确认重置私密密码（清空私密信息）
+  /// push - 弹框：确认重置私密密码（清空私密信息）
   Future<void> pushResetPrivatePasswordConfirmDialog() async {
-    final ctx = Get.context;
-    if (ctx == null) return;
     await showDialog<void>(
-      context: ctx,
+      context: Get.context!,
       barrierDismissible: true,
       barrierColor: Colors.black54,
       builder: (dialogContext) => DialogAlertWidget(
@@ -177,18 +166,15 @@ extension EditMineInfoRouteController on EditMineInfoController {
     );
   }
 
-  /// 修改生日（全屏半透明遮罩 + 底部滚轮；仅点「确定」保存，遮罩 / X / 返回取消）
+  /// push - 修改生日（全屏半透明遮罩 + 底部滚轮；仅点「确定」保存，遮罩 / X / 返回取消）
   Future<void> pushEditBirthdaySheet() async {
-    final ctx = Get.context;
-    if (ctx == null) return;
     final now = DateTime.now();
     final initial = vm.value.birthdayAsDate() ?? DateTime(now.year - 25);
     final picked = await showDialog<DateTime>(
-      context: ctx,
+      context: Get.context!,
       barrierDismissible: false,
       barrierColor: Colors.transparent,
-      builder: (dialogContext) =>
-          EditBirthdaySheetDialog(initialDate: initial),
+      builder: (dialogContext) => EditBirthdaySheetDialog(initialDate: initial),
     );
     if (picked != null) {
       vm.value.setBirthday(picked);
@@ -196,27 +182,28 @@ extension EditMineInfoRouteController on EditMineInfoController {
     }
   }
 
-  /// 底部弹出省市区选择（加载 assets/data/china_regions.json）
+  /// push - 底部弹出省市区选择（加载 assets/data/china_regions.json）
   Future<void> pushRegionPickerAlert() async {
-    final ctx = Get.context;
-    if (ctx == null) return;
     final provinces = await vm.value.loadProvinces();
     if (Lists.isEmpty(provinces)) return;
-    final h = MediaQuery.sizeOf(ctx).height;
+    final indices = vm.value.regionIndices(provinces!);
     await showModalBottomSheet<void>(
-      context: ctx,
+      context: Get.context!,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return SizedBox(
-          height: h * 0.65,
+          height: screenHeight * 0.65,
           child: RegionPickerSheet(
             title: '选择地区',
-            provinces: provinces ?? [],
+            provinces: provinces,
+            initialProvinceIndex: indices?.provinceIndex ?? 0,
+            initialCityIndex: indices?.cityIndex ?? 0,
+            initialDistrictIndex: indices?.districtIndex,
+            initialTabIndex: indices?.initialTabIndex ?? 0,
             onClose: Get.back,
             onSelectionChanged: (s) {
-              if (!Strings.isNotEmpty(s.district)) {
-                EasyLoading.showToast('请选择区县');
+              if (Strings.isEmpty(s.district)) {
                 return;
               }
               vm.value.draft.province = s.province;

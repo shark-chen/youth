@@ -41,19 +41,16 @@ class EditNickNameSheetWidget extends BaseStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const Expanded(child: SizedBox.shrink()),
-        AnimatedPadding(
-          duration: const Duration(milliseconds: 120),
-          curve: Curves.easeOutCubic,
-          padding:
-              EdgeInsets.only(bottom: bottomInset > 500 ? 500 : bottomInset),
-          child: Container(
-            alignment: Alignment.bottomCenter,
-            width: Get.width,
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.viewInsetsOf(context).bottom,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Container(
+            width: double.infinity,
             decoration: const BoxDecoration(
               color: ThemeColor.themeColor,
               borderRadius: BorderRadius.only(
@@ -153,8 +150,8 @@ class EditNickNameSheetWidget extends BaseStatelessWidget {
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -34,9 +34,6 @@ class EditMineInfoVM extends BaseVM {
 
   List<RegionProvince>? _cachedProvinces;
 
-  /// 新上传的图片资源
-  final List<ImageLinksEntity> newImageLinks = [];
-
   /// 私密信息
   UserPrivateInfoEntity? userPrivateInfoEntity;
 
@@ -45,22 +42,14 @@ class EditMineInfoVM extends BaseVM {
     super.onInit();
     signatureController = TextEditingController();
     signatureController.addListener(() => refresh?.call());
-    unawaited(_preloadRegions());
+    unawaited(loadProvinces());
   }
 
   void disposeExtra() {
     signatureController.dispose();
   }
 
-  Future<void> _preloadRegions() async {
-    try {
-      final raw = await rootBundle.loadString('assets/data/china_regions.json');
-      _cachedProvinces = parseRegionProvincesJson(raw);
-    } catch (_) {
-      _cachedProvinces = null;
-    }
-  }
-
+  /// 加载本地的省市区
   Future<List<RegionProvince>?> loadProvinces() async {
     if (Lists.isNotEmpty(_cachedProvinces)) return _cachedProvinces;
     try {
@@ -135,44 +124,35 @@ class EditMineInfoVM extends BaseVM {
   }
 
   EditRegionIndices? regionIndices(List<RegionProvince> provinces) {
-    final pv = draft.province;
-    final cv = draft.city;
-    final dv = draft.district;
+    final pv = draft.province?.trim();
+    final cv = draft.city?.trim();
+    final dv = draft.district?.trim();
     if (pv == null || pv.isEmpty) return null;
-    final pi = provinces.indexWhere((e) => e.name == pv);
+    final pi = provinces.indexWhere((e) => e.name.trim() == pv);
     if (pi < 0) return null;
     final cities = provinces[pi].cities;
     var ci = 0;
+    var cityMatched = false;
     if (cv != null && cv.isNotEmpty) {
-      final idx = cities.indexWhere((c) => c.name == cv);
-      if (idx >= 0) ci = idx;
+      final idx = cities.indexWhere((c) => c.name.trim() == cv);
+      if (idx >= 0) {
+        ci = idx;
+        cityMatched = true;
+      }
     }
     int? districtIndex;
     if (dv != null && dv.isNotEmpty && cities.isNotEmpty) {
       final ds = cities[ci].districts;
-      final didx = ds.indexWhere((d) => d == dv);
+      final didx = ds.indexWhere((d) => d.trim() == dv);
       if (didx >= 0) districtIndex = didx;
     }
+    final initialTabIndex = districtIndex != null ? 2 : (cityMatched ? 1 : 0);
     return EditRegionIndices(
       provinceIndex: pi,
       cityIndex: ci,
       districtIndex: districtIndex,
+      initialTabIndex: initialTabIndex,
     );
-  }
-
-  /// 拖拽照片墙（顺序同步服务端）
-  void reorderPhotos(int oldIndex, int newIndex) {
-    if (newIndex > oldIndex) newIndex -= 1;
-    final list = draft.photos;
-    if (oldIndex < 0 ||
-        oldIndex >= list.length ||
-        newIndex < 0 ||
-        newIndex >= list.length) {
-      return;
-    }
-    final item = list.removeAt(oldIndex);
-    list.insert(newIndex, item);
-    refresh?.call();
   }
 
   /// 拖拽标签

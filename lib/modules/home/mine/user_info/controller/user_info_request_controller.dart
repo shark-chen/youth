@@ -128,8 +128,7 @@ extension UserInfoRequestController on UserInfoController {
     return false;
   }
 
-  /// GET /api/invitation/current-doing-state
-  /// 查询当前事项邀约状态
+  /// request - 查询当前事项邀约状态
   Future<CurrentDoingStateEntity?> requestInvitationCurrentDoingState() async {
     EasyLoading.show();
     final response = await Net.value<Doing>()
@@ -143,8 +142,7 @@ extension UserInfoRequestController on UserInfoController {
     return null;
   }
 
-  /// GET /api/invitation/sent
-  /// 获取发出的邀约
+  /// request - 获取发出的邀约
   Future<void> requestInvitationSent({bool useCache = true}) async {
     final doing = Net.value<Doing>();
     final response = useCache

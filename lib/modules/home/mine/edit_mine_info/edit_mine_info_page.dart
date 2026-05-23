@@ -49,7 +49,7 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
                       onAvatar: controller.clickUpdateAvatarTap,
                       onNickname: controller.clickEditNiceName,
                       onGender: controller.pushEditGenderAlert,
-                      onBirthday: controller.onBirthdayTap,
+                      onBirthday: controller.pushEditBirthdaySheet,
                       onRegion: controller.pushRegionPickerAlert,
                     ),
                     const SizedBox(height: 12),

@@ -30,7 +30,7 @@ class EditMineInfoController extends BaseController {
     /// request - 获取用户信息
     await requestUserInfo();
 
-    /// 获取用户私密信息 · GET /api/user/private
+    /// request - 获取用户私密信息 · GET /api/user/private
     await requestUserPrivate();
   }
 
@@ -49,7 +49,6 @@ class EditMineInfoController extends BaseController {
 
     /// request - 上传头像
     final imageLinksEntity = await requestUploadUserAvatar(file.path);
-    // final imageLinksEntity = await requestUploadPhoto(file.path ?? '');
     if (imageLinksEntity == null) return;
     vm.value.draft.avatarUrl = imageLinksEntity.url ?? '';
     vm.refresh();
@@ -129,10 +128,6 @@ class EditMineInfoController extends BaseController {
         return true;
       },
     );
-  }
-
-  Future<void> onBirthdayTap() async {
-    await pushEditBirthdaySheet();
   }
 
   /// mark - 标签相关事件
@@ -223,8 +218,9 @@ class EditMineInfoController extends BaseController {
     final file = await vm.value.pickPhotoFile();
     final imageLinksEntity = await requestUploadPhoto(file?.path ?? '');
     if (imageLinksEntity == null) return;
-    vm.value.draft.photos.add(imageLinksEntity.url ?? '');
-    vm.value.addNewImageLinks(imageLinksEntity);
+
+    /// 添加图片墙
+    vm.value.addPhoto(imageLinksEntity.url ?? '');
     if (Lists.isNotEmpty(vm.value.draft.photos)) {
       /// 更新照片墙 · PUT /api/user/photos
       await requestUpdateUserPhotos(photos: vm.value.draft.photos);
@@ -245,16 +241,12 @@ class EditMineInfoController extends BaseController {
   Future<void> clickSave() async {
     if (requesting.value) return;
     requesting.value = true;
-    EasyLoading.show(status: LocaleKeys.Commiting.tr);
-    final err = await requestSavePersistProfile();
-    EasyLoading.dismiss();
+
+    /// request - 落库：先头像再 PUT 资料
+    final result = await requestSavePersistProfile();
     requesting.value = false;
-    if (err != null && err.isNotEmpty) {
-      EasyLoading.showToast(err);
-      return;
-    }
-    EasyLoading.showToast(LocaleKeys.submitSuccess.tr);
+    if (!result) return;
     EventBusManager().fire(UserInfoEntity());
-    Get.back(result: true);
+    Future.delayed(Duration(milliseconds: 1500), () => Get.back(result: true));
   }
 }

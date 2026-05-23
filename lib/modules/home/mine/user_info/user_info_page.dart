@@ -1,3 +1,4 @@
+import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'user_info_controller.dart';
@@ -78,12 +79,17 @@ class UserInfoPage extends BasePage<UserInfoController> {
                 ),
               ),
             ),
-            BottomButton(
-              leftTitle: controller.togetherButtonTitle,
-              leftTap: controller.clickInvert,
-              leftEnable: controller.togetherButtonEnabled,
-              rightTitle: '聊一聊',
-              rightTap: controller.pushChatPage,
+
+            /// 聊一聊
+            Visibility(
+              visible: controller.vm.value.userId != null,
+              child: BottomButton(
+                leftTitle: controller.togetherButtonTitle,
+                leftTap: controller.clickInvert,
+                leftEnable: controller.togetherButtonEnabled,
+                rightTitle: '聊一聊',
+                rightTap: controller.pushChatPage,
+              ),
             ),
           ],
         ),

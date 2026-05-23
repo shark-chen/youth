@@ -70,7 +70,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// 更新用户标签（最多10个）
+  /// request - 更新用户标签（最多10个）
   Future<bool> requestUpdateUserTags({
     required List<String> tags,
     bool? showLoad = true,
@@ -83,12 +83,12 @@ extension EditMineInfoReuestController on EditMineInfoController {
       vm.refresh();
       return true;
     } else {
-      if (true == showLoad) EasyLoading.showToast('添加标签成功');
+      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
       return false;
     }
   }
 
-  /// 更新照片墙 · PUT /api/user/photos
+  /// request - 更新照片墙 · PUT /api/user/photos
   Future<bool> requestUpdateUserPhotos({
     required List<String> photos,
     bool? showLoad = true,
@@ -108,7 +108,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// 获取用户私密信息 · GET /api/user/private
+  /// request - 获取用户私密信息 · GET /api/user/private
   Future<NetResult<dynamic>> requestUserPrivate() async {
     EasyLoading.show();
     final response =
@@ -121,7 +121,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     return response;
   }
 
-  /// 验证私密信息密码 · POST /api/user/private/verify
+  /// request - 验证私密信息密码 · POST /api/user/private/verify
   Future<bool> requestUserPrivateVerify({
     required String password,
   }) async {
@@ -138,7 +138,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// 修改私密信息中的密码 · PUT /api/user/private/password
+  /// request - 修改私密信息中的密码 · PUT /api/user/private/password
   Future<bool> requestUpdateUserPrivatePassword({
     required String oldPassword,
     required String newPassword,
@@ -159,7 +159,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// request-重置私密信息密码
+  /// request - 重置私密信息密码
   Future<bool> requestUserPrivateResetPassword() async {
     EasyLoading.show();
     final response = await Net.value<User>().requestUserPrivateResetPassword();
@@ -176,8 +176,9 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// 落库：先头像再 PUT 资料
-  Future<String?> requestSavePersistProfile() async {
+  /// request - 落库：先头像再 PUT 资料
+  Future<bool> requestSavePersistProfile() async {
+    EasyLoading.show(status: LocaleKeys.Commiting.tr);
     final remotePhotos = vm.value.draft.remotePhotoUrls();
     final response = await Net.value<User>().requestUpdateUserInfo<dynamic>(
       avatar: vm.value.draft.avatarUrl,
@@ -190,9 +191,13 @@ extension EditMineInfoReuestController on EditMineInfoController {
       signature: vm.value.signatureController.text,
       photos: remotePhotos.isEmpty ? null : remotePhotos,
     );
-    if (!response.success) {
-      return response.msg ?? LocaleKeys.NetworkError.tr;
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast(LocaleKeys.submitSuccess.tr);
+      return true;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
     }
-    return null;
+    return false;
   }
 }
