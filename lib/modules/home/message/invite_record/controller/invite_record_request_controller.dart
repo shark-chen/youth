@@ -1,3 +1,4 @@
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 
 import '../../model/message_person_list_entity.dart';
@@ -15,17 +16,18 @@ import '../model/together_list_entity.dart';
 extension InviteRecordRequestController on InviteRecordController {
   /// mark - request
   ///
-  /// GET /api/together/my-list
-  Future<void> requestTogetherMyList() async {
+  /// request - 邀约收件箱
+  Future<void> requestInvitationInbox() async {
     EasyLoading.show();
     final response =
-        await Net.value<Doing>().caches<TogetherListEntity>((values) {
-      vm.value.configTogetherList(values);
+        await Net.value<Doing>().cache<InvitationInboxEntity>((value) {
+      if (value == null) return;
+      vm.value.configInvitationInbox(value);
       vm.refresh();
-    }).requestTogetherMyList<TogetherListEntity>();
+    }).requestInvitationInbox<InvitationInboxEntity>();
     EasyLoading.dismiss();
-    if (response.success) {
-      vm.value.configTogetherList(response.values);
+    if (response.succeed) {
+      vm.value.configInvitationInbox(response.value);
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');

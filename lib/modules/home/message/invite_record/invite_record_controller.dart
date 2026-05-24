@@ -18,7 +18,7 @@ class InviteRecordController extends BaseController {
   void onInit() async {
     super.onInit();
     title = '邀约';
-    requestTogetherMyList();
+    requestInvitationInbox();
   }
 
   /// push - 跳转到用户信息页面-page

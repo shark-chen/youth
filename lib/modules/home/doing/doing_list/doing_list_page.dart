@@ -26,8 +26,6 @@ class DoingListPage extends BasePage<DoingListController> {
 
   @override
   Widget build(BuildContext context) {
-    /// 刷新数据
-    controller.refreshData();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: ThemeColor.themeColor,
@@ -62,149 +60,43 @@ class DoingListPage extends BasePage<DoingListController> {
           ),
         ),
       ),
-      body: Obx(
-        () => SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 12),
-
-              /// 我的正在做的活动
-              if (controller.vm.value.myDoing?.togetherPartner != null)
-                MessageDoingHeaderView(
-                  tagName: controller.vm.value.myDoing?.tagName,
-                  partnerName:
-                      controller.vm.value.myDoing?.togetherPartner?.nickname,
-                  onCancelTap: controller.clickDeleteDoing,
-                )
-              else
-                DoingListHeaderWidget(
-                  title: controller.vm.value.myDoing?.tagName ?? '--',
-                  inviteTap: controller.clickInvitationFriend,
-                  closeTap: controller.clickDeleteStatusDoing,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Obx(() {
+              final vm = controller.vm.value;
+              return _DoingListHeaderSection(
+                controller: controller,
+                vm: vm,
+              );
+            }),
+            Obx(
+              () => controller.vm.value.haveDoingPerson
+                  ? const SizedBox.shrink()
+                  : const Spacer(),
+            ),
+            Expanded(
+              flex: 5,
+              child: SmartRefresher(
+                controller: controller.refreshController,
+                enablePullUp: true,
+                onRefresh: controller.onRefresh,
+                onLoading: controller.onLoading,
+                header: RefresherHeader.build(),
+                footer: ClassicFooter(
+                  loadingText: LocaleKeys.Loading.tr,
+                  noDataText: '没有更多了',
+                  height: 80.0,
+                  loadStyle: LoadStyle.ShowWhenLoading,
                 ),
-
-              /// 有几个人正在做这个事情
-              Visibility(
-                visible: controller.vm.value.samePeopleCount > 0,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
-                  child: RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.45),
-                        fontSize: 14,
-                        height: 1.35,
-                      ),
-                      children: [
-                        const TextSpan(text: '有 '),
-                        TextSpan(
-                          text: DoingListVM.formatHotTagPeopleCount(
-                            controller.vm.value.samePeopleCount,
-                          ),
-                          style: const TextStyle(
-                            color: ThemeColor.themeGreenColor,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        TextSpan(
-                            text: ' 人也在「${controller.vm.value.activityTitle}」'),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              Visibility(
-                visible: !controller.vm.value.haveDoingPerson,
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 85),
-                        Image.asset(
-                          'assets/image/common/have_no_doing@3x.png',
-                          fit: BoxFit.fill,
-                          width: 128,
-                          height: 87,
-                        ),
-                        SizedBox(height: 18),
-                        Text(
-                          '当前暂时没有其他人在「${controller.vm.value.myDoing?.tagName ?? '--'}」～',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.45),
-                            fontSize: 15,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              Visibility(
-                visible: !controller.vm.value.haveDoingPerson,
-                child: Spacer(),
-              ),
-
-              Visibility(
-                visible: !controller.vm.value.haveDoingPerson,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12),
-                  child: Text(
-                    '部分热门的「正在做」',
-                    style: TextStyles(
-                      color: ThemeColor.whiteColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-
-              Visibility(
-                visible: !controller.vm.value.haveDoingPerson,
-                child: SizedBox(height: 4),
-              ),
-              Visibility(
-                visible: !controller.vm.value.haveDoingPerson,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12),
-                  child: Text(
-                    '点击即可设为我自己的状态',
-                    style: TextStyles(
-                      color: ThemeColor.whiteColor,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: !controller.vm.value.haveDoingPerson,
-                child: SizedBox(height: 6),
-              ),
-
-              /// 列表
-              Expanded(
-                flex: 5,
-                child: SmartRefresher(
-                  controller: controller.refreshController,
-                  enablePullUp: controller.vm.value.haveDoingPerson,
-                  onRefresh: controller.onRefresh,
-                  onLoading: controller.onLoading,
-                  header: RefresherHeader.build(),
-                  footer: ClassicFooter(
-                    loadingText: LocaleKeys.Loading.tr,
-                    noDataText: '没有更多了',
-                    height: 80.0,
-                    loadStyle: LoadStyle.ShowWhenLoading,
-                  ),
-                  child: ListView.separated(
+                child: Obx(() {
+                  final itemCount = controller.itemCount;
+                  final v = controller.vm.value;
+                  return ListView.separated(
                     padding: const EdgeInsets.only(top: 6, bottom: 24),
-                    itemCount: controller.itemCount,
+                    itemCount: itemCount,
                     itemBuilder: (BuildContext context, int index) {
-                      final v = controller.vm.value;
                       if (v.haveDoingPerson) {
                         final item = controller.rows[index];
                         return DoingListCell(
@@ -237,13 +129,121 @@ class DoingListPage extends BasePage<DoingListController> {
                       );
                     },
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
-                  ),
-                ),
+                  );
+                }),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class _DoingListHeaderSection extends StatelessWidget {
+  const _DoingListHeaderSection({
+    required this.controller,
+    required this.vm,
+  });
+
+  final DoingListController controller;
+  final DoingListVM vm;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const SizedBox(height: 12),
+        if (vm.myDoing?.togetherPartner != null)
+          MessageDoingHeaderView(
+            tagName: vm.myDoing?.tagName,
+            partnerName: vm.myDoing?.togetherPartner?.nickname,
+            onCancelTap: controller.clickDeleteDoing,
+          )
+        else
+          DoingListHeaderWidget(
+            title: vm.myDoing?.tagName ?? '--',
+            inviteTap: controller.clickInvitationFriend,
+            closeTap: controller.clickDeleteStatusDoing,
+          ),
+        Visibility(
+          visible: vm.samePeopleCount > 0,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 14, 20, 10),
+            child: RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.45),
+                  fontSize: 14,
+                  height: 1.35,
+                ),
+                children: [
+                  const TextSpan(text: '有 '),
+                  TextSpan(
+                    text: DoingListVM.formatHotTagPeopleCount(vm.samePeopleCount),
+                    style: const TextStyle(
+                      color: ThemeColor.themeGreenColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  TextSpan(text: ' 人也在「${vm.activityTitle}」'),
+                ],
+              ),
+            ),
+          ),
+        ),
+        if (!vm.haveDoingPerson) ...[
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Column(
+                children: [
+                  const SizedBox(height: 85),
+                  Image.asset(
+                    'assets/image/common/have_no_doing@3x.png',
+                    fit: BoxFit.fill,
+                    width: 128,
+                    height: 87,
+                  ),
+                  const SizedBox(height: 18),
+                  Text(
+                    '当前暂时没有其他人在「${vm.myDoing?.tagName ?? '--'}」～',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.45),
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text(
+              '部分热门的「正在做」',
+              style: TextStyles(
+                color: ThemeColor.whiteColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Padding(
+            padding: const EdgeInsets.only(left: 12),
+            child: Text(
+              '点击即可设为我自己的状态',
+              style: TextStyles(
+                color: ThemeColor.whiteColor,
+                fontSize: 12,
+              ),
+            ),
+          ),
+          const SizedBox(height: 6),
+        ],
+      ],
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:kellychat/modules/home/doing/model/doing_hot_tags_entity.dart';
 import 'package:kellychat/modules/home/mine/user_info/model/current_doing_state_entity.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
-import 'package:kellychat/network/net/net_result.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import '../../model/publish_doing_entity.dart';
 import '../doing_list_controller.dart';
@@ -147,18 +146,32 @@ extension DoingListRequestController on DoingListController {
   /// 发布热门标签为「我正在做」（列表空态里点加号，与 Doing 页选标签一致）
   Future<void> requestPublishDoingFromHotTag(DoingHotTagsEntity tag) async {
     if (Strings.isEmpty(tag.tagName)) return;
-    await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
-    EasyLoading.show();
-    final response =
-        await Net.value<Doing>().requestPostStatusDoing<PublishDoingEntity>(
-      tagName: tag.tagName ?? '',
-    );
-    EasyLoading.dismiss();
-    if (response.succeed && response.value != null) {
-      EventBusManager().fire(response.value!);
-      EasyLoading.showToast('发布成功');
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
+    if (requesting.value) return;
+    requesting.value = true;
+    try {
+      final statusId = vm.value.myDoing?.statusId;
+      if (statusId != null && statusId > 0) {
+        final deleted = await requestDeleteStatusDoing(statusId);
+        if (!deleted) return;
+      }
+      EasyLoading.show();
+      final response =
+          await Net.value<Doing>().requestPostStatusDoing<PublishDoingEntity>(
+        tagName: tag.tagName ?? '',
+      );
+      EasyLoading.dismiss();
+      if (response.succeed && response.value != null) {
+        final doing = response.value!;
+        MyDoing().configDoing(doing);
+        await MyDoing().requestMyDoing();
+        refreshController.refreshCompleted();
+        EventBusManager().fire(doing);
+        EasyLoading.showToast('发布成功');
+      } else {
+        EasyLoading.showToast(response.msg ?? '');
+      }
+    } finally {
+      requesting.value = false;
     }
   }
 

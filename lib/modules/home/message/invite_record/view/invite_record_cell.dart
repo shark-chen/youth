@@ -10,6 +10,7 @@ class InviteRecordCell extends BaseStatelessWidget {
   const InviteRecordCell({
     Key? key,
     this.headPortraitUrl,
+    this.heroTag,
     this.name,
     this.inviteMatter,
     this.inviteStatusStr,
@@ -19,6 +20,9 @@ class InviteRecordCell extends BaseStatelessWidget {
 
   /// 头像
   final String? headPortraitUrl;
+
+  /// heroTag
+  final String? heroTag;
 
   /// 用户名
   final String? name;
@@ -51,67 +55,70 @@ class InviteRecordCell extends BaseStatelessWidget {
               width: 42,
               height: 42,
               imgBorderRadius: BorderRadius.circular(24),
-              heroTag: '${headPortraitUrl ?? ''}_invite_record',
+              heroTag: heroTag ,
             ),
             SizedBox(width: 6),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// 名称+时间
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: (name ?? '') + ' ',
-                        style: TextStyles(
-                          color: ThemeColor.whiteColor,
-                          fontWeight: FontWeight.normal,
+            Expanded(
+              flex:  8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// 名称+时间
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: (name ?? '') + ' ',
+                          style: TextStyles(
+                            color: ThemeColor.whiteColor,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: time,
-                        style: TextStyles(
-                          fontSize: 12,
-                          color: ThemeColor.whiteColor.withOpacity(0.6),
-                          fontWeight: FontWeight.normal,
+                        TextSpan(
+                          text: time,
+                          style: TextStyles(
+                            fontSize: 12,
+                            color: ThemeColor.whiteColor.withOpacity(0.6),
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '她邀约我一起 [',
-                        style: TextStyles(
-                          fontSize: 12,
-                          color: ThemeColor.whiteColor.withOpacity(0.6),
-                          fontWeight: FontWeight.normal,
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '她邀约我一起 [',
+                          style: TextStyles(
+                            fontSize: 12,
+                            color: ThemeColor.whiteColor.withOpacity(0.6),
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: inviteMatter,
-                        style: TextStyles(
-                          fontSize: 12,
-                          color: ThemeColor.themeGreenColor,
-                          fontWeight: FontWeight.normal,
+                        TextSpan(
+                          text: inviteMatter,
+                          style: TextStyles(
+                            fontSize: 12,
+                            color: ThemeColor.themeGreenColor,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: ']',
-                        style: TextStyles(
-                          fontSize: 12,
-                          color: ThemeColor.whiteColor.withOpacity(0.6),
-                          fontWeight: FontWeight.normal,
+                        TextSpan(
+                          text: ']',
+                          style: TextStyles(
+                            fontSize: 12,
+                            color: ThemeColor.whiteColor.withOpacity(0.6),
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
             Expanded(child: Container()),
             Text(

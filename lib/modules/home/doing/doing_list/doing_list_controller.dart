@@ -81,7 +81,6 @@ class DoingListController extends BaseController {
     if (name != null && name.isNotEmpty) {
       vm.value.activityTitle = name;
     }
-    // vm.value.samePeopleCount = value.userCount ?? 0;
     vm.refresh();
     if (value.tagId != null) {
       pageNo = 1;
@@ -195,48 +194,48 @@ class DoingListController extends BaseController {
         targetUserId: item.userId ?? 0);
     if (result == null) return;
 
-    /// 当前用户不可接受邀约
-    if (true != result.canInviteTarget) {
-      EasyLoading.showToast(result.cannotInviteReason ?? '');
-      return;
-    }
-
     /// 当前用户可以接受邀约
-    ///
-    /// 1. 我当前是否有正在连接中的用户?
-    if (true == result.hasActiveTogether) {
-      final confirm = await pushCancelDoingDialog();
-      if (!confirm) return;
-      await requestCancelTogether(
-        togetherId:
-            vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
+    if (true == result.canInviteTarget) {
+      /// 当前用户可以接受邀约
+      ///
+      /// 1. 我当前是否有正在连接中的用户?
+      if (true == result.hasActiveTogether) {
+        final confirm = await pushCancelDoingDialog();
+        if (!confirm) return;
+        await requestCancelTogether(
+          togetherId:
+              vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
+        );
+
+        /// 刷新数据
+        refreshData();
+        vm.refresh();
+        return;
+      }
+
+      /// 2. 当前我是否有邀约在「待接受」的状态?
+      /// 弹窗提示:你向xxx(用户名)发起的「%s具体事项」一起做)等待对方接受中。继续操作将取消该邀约，
+      /// 并建立新的一起估点击弹窗上的「取消」按钮，关闭弹窗;点击「继续」按钮，取前的激约。建立新的一起做连接云能店
+      if (true == result.hasPendingInvitation) {
+        final confirm = await pushDialog(
+            '你向${result.pendingInvitationToUserNickname ?? '--'}发起的「${result.tagName ?? '--'}」一起做)等待对方接受中。继续操作将取消该邀约，并建立新的一起做。');
+        if (!confirm) return;
+      }
+
+      /// 直连一起做 · POST /api/together/direct-connect
+      final connected = await requestTogetherDirectConnect(
+        toUserId: item.userId ?? 0,
+        tagId:
+            vm.value.doingHotTagsEntity?.tagId ?? vm.value.myDoing?.tagId ?? 0,
+        force: true,
       );
 
-      /// 刷新数据
-      refreshData();
-      vm.refresh();
-      return;
-    }
-
-    /// 2. 当前我是否有邀约在「待接受」的状态?
-    /// 弹窗提示:你向xxx(用户名)发起的「%s具体事项」一起做)等待对方接受中。继续操作将取消该邀约，
-    /// 并建立新的一起估点击弹窗上的「取消」按钮，关闭弹窗;点击「继续」按钮，取前的激约。建立新的一起做连接云能店
-    if (true == result.hasPendingInvitation) {
-      final confirm = await pushDialog(
-          '你向${result.pendingInvitationToUserNickname ?? '--'}发起的「${result.tagName ?? '--'}」一起做)等待对方接受中。继续操作将取消该邀约，并建立新的一起做。');
-      if (!confirm) return;
-    }
-
-    /// 直连一起做 · POST /api/together/direct-connect
-    final connected = await requestTogetherDirectConnect(
-      toUserId: item.userId ?? 0,
-      tagId: vm.value.doingHotTagsEntity?.tagId ?? vm.value.myDoing?.tagId ?? 0,
-      force: true,
-    );
-
-    if (connected) {
-      /// 刷新数据
-      refreshData();
+      if (connected) {
+        /// 刷新数据
+        refreshData();
+      }
+    } else {
+      EasyLoading.showToast(result.cannotInviteReason ?? '当前用户不可接受邀约');
     }
   }
 

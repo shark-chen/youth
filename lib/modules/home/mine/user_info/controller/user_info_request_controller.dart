@@ -157,22 +157,6 @@ extension UserInfoRequestController on UserInfoController {
     return [];
   }
 
-  /// GET /api/invitation/inbox
-  Future<void> requestInvitationInbox({bool useCache = true}) async {
-    final doing = Net.value<Doing>();
-    final response = useCache
-        ? await doing.cache<InvitationInboxEntity>((value) {
-            if (value == null) return;
-            vm.value.configInvitationInbox(value);
-            vm.refresh();
-          }).requestInvitationInbox<InvitationInboxEntity>()
-        : await doing.requestInvitationInbox<InvitationInboxEntity>();
-    if (response.succeed) {
-      vm.value.configInvitationInbox(response.value);
-      vm.refresh();
-    }
-  }
-
   /// POST /api/status/doing
   Future<PublishDoingEntity?> requestPostStatusDoing({
     required String tagName,

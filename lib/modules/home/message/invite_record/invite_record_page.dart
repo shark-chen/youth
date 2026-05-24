@@ -34,11 +34,13 @@ class InviteRecordPage extends BasePage<InviteRecordController> {
                       final row = controller.vm.value.rows[index];
                       return InviteRecordCell(
                         userInfoTap: controller.pushUserInfoPage,
-                        headPortraitUrl: row.initiatorAvatar,
-                        name: row.initiatorNickname,
-                        inviteMatter: row.completedAt,
+                        headPortraitUrl: row.targetAvatar,
+                        heroTag:
+                            '${row.targetAvatar ?? ''}_invite_record_${index}',
+                        name: row.targetNickname,
+                        // inviteMatter: row.completedAt,
                         inviteStatusStr: row.statusText,
-                        time: row.completedAt,
+                        // time: row.completedAt,
                       );
                     },
                   )

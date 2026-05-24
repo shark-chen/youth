@@ -1,4 +1,6 @@
 import 'package:kellychat/base/base_vm.dart';
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
 import '../../model/message_person_list_entity.dart';
 import '../model/together_list_entity.dart';
 
@@ -10,15 +12,16 @@ import '../model/together_list_entity.dart';
 /// @Description 邀约记录-vm
 class InviteRecordVM extends BaseVM {
   /// 列表
-  List<TogetherListEntity> rows = [];
+  List<InvitationItemEntity> rows = [];
 
   @override
   void onInit() {
     super.onInit();
   }
 
-  /// 配置数据
-  void configTogetherList(List<TogetherListEntity>? values) {
-    rows.addAll(values ?? []);
+  /// 配置邀约收件箱
+  void configInvitationInbox(InvitationInboxEntity? value) {
+    rows.clear();
+    rows.addAll(value?.items ?? []);
   }
 }
