@@ -30,13 +30,10 @@ class UserInfoController extends BaseController {
       /// request -他人信息
       title = '用户详情';
       await requestOtherUserProfile(userId);
-      requestInvitationSent();
     } else {
       title = '个人中心';
       await requestUserProfile();
     }
-
-    requestInvitationCurrentDoingState();
   }
 
   /// mark - method
@@ -104,48 +101,63 @@ class UserInfoController extends BaseController {
   /// 点击一起做
   void clickInvert() async {
     /// 查询当前事项邀约状态
-    final state = await requestInvitationCurrentDoingState();
+    final state = await requestInvitationCurrentDoingState(
+        targetUserId: targetUserId ?? 0);
     if (state == null) return;
 
-    /// 当前存在配对好的一起做的事：提示先断开当前连接
-    if (state.hasActiveTogether == true) {
-      final togetherPartner = MyDoing().doing?.togetherPartner;
-      final result =
-          await pushAlreadyConnectedDialog(togetherPartner?.nickname ?? '--');
-      if (result) {
-        /// 取消一起做
-        await requestCancelTogether(
-          togetherId: togetherPartner?.togetherId.toString() ?? '',
-          showLoad: false,
-        );
-
-        /// 发起邀请
-        await invitationProfileSend();
-      }
-      return;
-    }
-
-    /// 当前事项存在邀请：提示先取消当前待接受邀约（仅弹框，后续流程自行接续）
-    if (state.hasPendingInvitation == true) {
-      final result =
-          await pushPendingInvitationTipDialog(vm.value.pendingSentInvitation);
-      if (result) {
-        /// 发起邀请
-        await invitationProfileSend();
-      }
-      return;
-    }
-
-    /// 无当前事项：输入创建并发约
-    if (state.hasCurrentDoing != true) {
-      /// 发起邀请
+    /// 本人无任何事项
+    if (true != state.hasCurrentDoing) {
       await invitationProfileSend();
       return;
     }
 
-    /// 可直接用当前事项发起邀约
-    if (state.canQuickInvite == true) {
-      await requestInvitationProfileSend(toUserId: currentProfileUserId ?? 0);
+    /// 当前用户可以接受邀约
+    if (state.canInviteTarget == true) {
+      ///
+      /// 1. 我当前是否有正在连接中的用户? 提示先断开当前连接
+      if (true == state.hasActiveTogether) {
+        final confirm = await pushCancelDoingDialog();
+        if (!confirm) return;
+        final togetherPartner = MyDoing().doing?.togetherPartner;
+        final result = await requestCancelTogether(
+          togetherId: togetherPartner?.togetherId.toString() ?? '',
+        );
+
+        /// 新建事项，发起邀请
+        if (result) {
+          await invitationProfileSend();
+        }
+        vm.refresh();
+        return;
+      }
+
+      /// 2. 当前我是否有邀约在「待接受」的状态?
+      /// 弹窗提示:你向xxx(用户名)发起的「%s具体事项」一起做)等待对方接受中。继续操作将取消该邀约，
+      /// 并建立新的一起估点击弹窗上的「取消」按钮，关闭弹窗;点击「继续」按钮，取前的激约。建立新的一起做连接云能店
+      if (true == state.hasPendingInvitation) {
+        final confirm = await pushDialog(
+            '你向${state.pendingInvitationToUserNickname ?? '--'}发起的「${state.tagName ?? '--'}」一起做)等待对方接受中。继续操作将取消该邀约，并建立新的一起做。');
+        if (!confirm) return;
+
+        /// 发起邀请
+        await invitationProfileSend();
+      }
+
+      /// 无当前事项：输入创建并发约
+      if (state.hasCurrentDoing != true) {
+        /// 发起邀请
+        await invitationProfileSend();
+        return;
+      }
+
+      /// 可直接用当前事项发起邀约
+      if (state.canQuickInvite == true) {
+        await requestInvitationProfileSend(toUserId: currentProfileUserId ?? 0);
+      }
+    } else {
+      /// 当前用户不可接受邀约
+      EasyLoading.showToast(state.cannotInviteReason ?? '该用户已经发送过邀约');
+      return;
     }
   }
 
@@ -155,22 +167,11 @@ class UserInfoController extends BaseController {
     if (text == null || text.isEmpty) return;
 
     /// 用户详情页发起一起做邀约（toUserId 必填，tagName / message 可选）
-    final doing = await requestInvitationProfileSend(
+    await requestInvitationProfileSend(
       tagName: text,
       toUserId: currentProfileUserId ?? 0,
     );
-    if (doing == null || doing.tagId == null) return;
-    vm.refresh();
-
-    final sent = await requestInvitationSend(
-      toUserId: currentProfileUserId ?? 0,
-      invitationType: 1,
-      tagId: doing.tagId ?? 0,
-      message: text,
-    );
-    if (sent) {
-      vm.refresh();
-      await requestInvitationCurrentDoingState();
-    }
+    await MyDoing().requestMyDoing();
+    EventBusManager().fire(MyDoing().doing);
   }
 }

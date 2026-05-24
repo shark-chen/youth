@@ -20,9 +20,6 @@ class UserInfoVM extends BaseVM {
   /// 邀约收件箱（兼容保留）
   InvitationInboxEntity? invitationInbox;
 
-  /// 发出的邀约列表 · GET /api/invitation/sent
-  List<InvitationItemEntity> invitationSentItems = [];
-
   /// 当前事项的状态
   CurrentDoingStateEntity? currentDoingState;
 
@@ -40,20 +37,9 @@ class UserInfoVM extends BaseVM {
     invitationInbox = value;
   }
 
-  void configInvitationSent(List<InvitationItemEntity>? values) {
-    invitationSentItems = List<InvitationItemEntity>.from(values ?? []);
-  }
 
   void configCurrentDoingStateEntity(CurrentDoingStateEntity? value) {
     currentDoingState = value;
-  }
-
-  InvitationItemEntity? get pendingSentInvitation {
-    try {
-      return invitationSentItems.firstWhere(_isPendingSentItem);
-    } catch (_) {
-      return null;
-    }
   }
 
   /// 发出约列表：待对方接受（status == 0）

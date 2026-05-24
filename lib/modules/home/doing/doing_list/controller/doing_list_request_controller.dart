@@ -1,5 +1,7 @@
 import 'package:kellychat/modules/home/doing/model/doing_hot_tags_entity.dart';
+import 'package:kellychat/modules/home/mine/user_info/model/current_doing_state_entity.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
+import 'package:kellychat/network/net/net_result.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import '../../model/publish_doing_entity.dart';
 import '../doing_list_controller.dart';
@@ -17,6 +19,24 @@ import '../model/invitation_inbox_entity.dart';
 extension DoingListRequestController on DoingListController {
   /// mark - request
   ///
+  /// request -查询当前事项邀约状态
+  Future<CurrentDoingStateEntity?> requestInvitationCurrentDoingState<T>({
+    required int targetUserId,
+  }) async {
+    EasyLoading.show();
+    final response = await Net.value<Doing>()
+        .requestInvitationCurrentDoingState<CurrentDoingStateEntity>(
+      targetUserId: targetUserId,
+    );
+    EasyLoading.dismiss();
+    if (response.success) {
+      return response.value;
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return null;
+    }
+  }
+
   /// request - 我正在做的事情G
   Future<void> requestMyDoing() async {
     EasyLoading.show();
@@ -88,7 +108,7 @@ extension DoingListRequestController on DoingListController {
   Future requestHotTags() async {
     EasyLoading.show();
     var response =
-    await Net.value<Doing>().requestHotTags<DoingHotTagsEntity>(limit: 20);
+        await Net.value<Doing>().requestHotTags<DoingHotTagsEntity>(limit: 20);
     EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configHotTags(response.values);
@@ -105,7 +125,8 @@ extension DoingListRequestController on DoingListController {
     bool refresh = true,
   }) async {
     if (showLoad) EasyLoading.show();
-    final response = await Net.value<Doing>().requestStatusDoing<DoingListEntity>(
+    final response =
+        await Net.value<Doing>().requestStatusDoing<DoingListEntity>(
       tagId: tagId,
       page: pageNo,
       size: pageSize,
@@ -166,13 +187,11 @@ extension DoingListRequestController on DoingListController {
   Future<void> requestInvitationInbox({bool useCache = true}) async {
     final doing = Net.value<Doing>();
     final response = useCache
-        ? await doing
-            .cache<InvitationInboxEntity>((value) {
+        ? await doing.cache<InvitationInboxEntity>((value) {
             if (value == null) return;
             vm.value.configInvitationInbox(value);
             vm.refresh();
-          })
-            .requestInvitationInbox<InvitationInboxEntity>()
+          }).requestInvitationInbox<InvitationInboxEntity>()
         : await doing.requestInvitationInbox<InvitationInboxEntity>();
     if (response.succeed) {
       vm.value.configInvitationInbox(response.value);
@@ -274,7 +293,8 @@ extension DoingListRequestController on DoingListController {
     bool force = true,
   }) async {
     EasyLoading.show();
-    final response = await Net.value<Doing>().requestTogetherDirectConnect<dynamic>(
+    final response =
+        await Net.value<Doing>().requestTogetherDirectConnect<dynamic>(
       toUserId: toUserId,
       tagId: tagId,
       force: force,

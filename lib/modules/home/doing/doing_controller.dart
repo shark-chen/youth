@@ -60,7 +60,6 @@ class DoingController extends BaseController {
     EventBusManager().listen<HomeTabs>(this, (tab) async {
       if (tab == HomeTabs.doing) {
         await refreshData();
-        await _openDoingListIfNeeded(_tagFromMyDoing());
       }
     });
   }
@@ -82,7 +81,9 @@ class DoingController extends BaseController {
   /// 已有正在做且清单 Controller 未注册时，进入 DoingListPage
   Future<void> _openDoingListIfNeeded(DoingPresentHotTagEntity? tag) async {
     if (tag == null || tag.tagId == null) return;
-    if (Get.isRegistered<DoingListController>()) return;
+    if (Get.isRegistered<DoingListController>()) {
+      Get.put<DoingListController>(DoingListController(value: tag));
+    }
     await pushDoingListPage(tag);
   }
 

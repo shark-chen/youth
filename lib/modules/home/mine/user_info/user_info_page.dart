@@ -86,7 +86,7 @@ class UserInfoPage extends BasePage<UserInfoController> {
               child: BottomButton(
                 leftTitle: controller.togetherButtonTitle,
                 leftTap: controller.clickInvert,
-                leftEnable: controller.togetherButtonEnabled,
+                // leftEnable: controller.togetherButtonEnabled,
                 rightTitle: '聊一聊',
                 rightTap: controller.pushChatPage,
               ),

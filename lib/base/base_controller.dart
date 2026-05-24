@@ -319,4 +319,25 @@ abstract class BaseController extends GetxController
       ),
     );
   }
+
+  /// push -
+  Future<bool> pushDialog(String content) async {
+    var result = false;
+    await showDialog<void>(
+      context: Get.context!,
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => DialogAlertWidget(
+        content: content,
+        leftTitle: '取消',
+        leftTap: Get.back,
+        rightTitle: '继续',
+        rightTap: () {
+          result = true;
+          Get.back();
+        },
+      ),
+    );
+    return result;
+  }
 }

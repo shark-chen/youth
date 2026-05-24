@@ -186,17 +186,15 @@ extension UserInfoRouteController on UserInfoController {
 
   /// push - 取消正在做的事情状态
   Future<bool> pushCancelDoingDialog() async {
-    final ctx = Get.context;
-    if (ctx == null) return false;
     var result = false;
     await showDialog<void>(
-      context: ctx,
+      context: Get.context!,
       barrierDismissible: true,
       barrierColor: Colors.black54,
       builder: (dialogContext) => DialogAlertWidget(
-        content: '是否移除当前状态',
+        content: '将移除当前状态，并断开与当前用户的连接。',
         leftTap: Get.back,
-        rightTitle: '确定',
+        rightTitle: '断开',
         rightTap: () async {
           result = true;
           Get.back();
@@ -248,7 +246,7 @@ extension UserInfoRouteController on UserInfoController {
         leftTap: Get.back,
         rightTitle: '',
         rightTap: () {
-          result  = true;
+          result = true;
           Get.back();
         },
       ),

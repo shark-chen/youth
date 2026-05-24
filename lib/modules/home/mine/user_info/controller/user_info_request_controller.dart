@@ -129,31 +129,20 @@ extension UserInfoRequestController on UserInfoController {
   }
 
   /// request - 查询当前事项邀约状态
-  Future<CurrentDoingStateEntity?> requestInvitationCurrentDoingState() async {
+  Future<CurrentDoingStateEntity?> requestInvitationCurrentDoingState<T>({
+    required int targetUserId,
+  }) async {
     EasyLoading.show();
     final response = await Net.value<Doing>()
-        .requestInvitationCurrentDoingState<CurrentDoingStateEntity>();
+        .requestInvitationCurrentDoingState<CurrentDoingStateEntity>(
+      targetUserId: targetUserId,
+    );
     EasyLoading.dismiss();
     if (response.succeed) {
-      vm.value.configCurrentDoingStateEntity(response.value);
-      vm.refresh();
       return response.value;
-    }
-    return null;
-  }
-
-  /// request - 获取发出的邀约
-  Future<void> requestInvitationSent({bool useCache = true}) async {
-    final doing = Net.value<Doing>();
-    final response = useCache
-        ? await doing.cache<List<InvitationItemEntity>>((values) {
-            vm.value.configInvitationSent(values);
-            vm.refresh();
-          }).requestInvitationSent<List<InvitationItemEntity>>()
-        : await doing.requestInvitationSent<List<InvitationItemEntity>>();
-    if (response.succeed) {
-      vm.value.configInvitationSent(_sentItemsFromResponse(response));
-      vm.refresh();
+    } else {
+      EasyLoading.showToast(response.msg ?? '');
+      return null;
     }
   }
 
@@ -182,21 +171,6 @@ extension UserInfoRequestController on UserInfoController {
       vm.value.configInvitationInbox(response.value);
       vm.refresh();
     }
-  }
-
-  /// DELETE /api/invitation/{invitationId}
-  Future<bool> requestInvitationCancel(int invitationId) async {
-    EasyLoading.show();
-    final response = await Net.value<Doing>()
-        .requestInvitationCancel<dynamic>(invitationId: invitationId);
-    EasyLoading.dismiss();
-    if (response.succeed || response.code == 200) {
-      EasyLoading.showToast('已取消');
-      await requestInvitationSent(useCache: false);
-      return true;
-    }
-    EasyLoading.showToast(response.msg ?? '');
-    return false;
   }
 
   /// POST /api/status/doing
@@ -233,10 +207,10 @@ extension UserInfoRequestController on UserInfoController {
   /// 当前有「正在做」且可快捷邀约时可不传，后端自动使用当前事项。
   /// -用户主动重新输入新事项时传入，后端会切换当前事项。
   /// 后端规则已实现:
-  // -发起邀约会自动把事项设为当前「正在做」。
-  // -取消/切换当前「正在做」后，该用户发起的待处理邀约会失效。
-  // -对方接受邀约时，如果发起方当前事项已取消或切换，邀约会被判定失效。
-  //  当前事项已有待接受邀约或正在连接中时，不能快捷发起，需要先取消邀约或断开连接。
+  /// -发起邀约会自动把事项设为当前「正在做」。
+  /// -取消/切换当前「正在做」后，该用户发起的待处理邀约会失效。
+  /// -对方接受邀约时，如果发起方当前事项已取消或切换，邀约会被判定失效。
+  ///  当前事项已有待接受邀约或正在连接中时，不能快捷发起，需要先取消邀约或断开连接。
   Future requestInvitationProfileSend({
     required int toUserId,
     String? tagName,
@@ -271,15 +245,13 @@ extension UserInfoRequestController on UserInfoController {
       message: message,
     );
     EasyLoading.dismiss();
-    if (response.succeed) {
+    if (response.success) {
       EasyLoading.showToast('已发送');
-      await requestInvitationCurrentDoingState();
       return true;
     }
     EasyLoading.showToast(response.msg ?? '');
     return false;
   }
-
 
   /// 取消一起做
   Future<bool> requestCancelTogether({

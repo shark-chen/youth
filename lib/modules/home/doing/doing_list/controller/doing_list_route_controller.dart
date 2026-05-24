@@ -91,9 +91,9 @@ extension DoingListRouteController on DoingListController {
       barrierDismissible: true,
       barrierColor: Colors.black54,
       builder: (dialogContext) => DialogAlertWidget(
-        content: '是否移除当前状态',
+        content: '将移除当前状态，并断开与当前用户的连接。',
         leftTap: Get.back,
-        rightTitle: '确定',
+        rightTitle: '断开',
         rightTap: () async {
           result = true;
           Get.back();
@@ -146,4 +146,8 @@ extension DoingListRouteController on DoingListController {
     );
     return result;
   }
+
+
+
+
 }

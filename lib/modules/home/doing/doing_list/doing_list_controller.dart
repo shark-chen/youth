@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/home/mine/user_info/model/current_doing_state_entity.dart';
 import '../../mine/user_info/model/user_info_entity.dart';
 import '../../../user/user_center/my_doing/my_doing.dart';
 import '../model/doing_hot_tags_entity.dart';
@@ -190,11 +191,20 @@ class DoingListController extends BaseController {
   /// 点击加入一起 一起做
   Future clickJoinTogether(DoingListList? item) async {
     if (item == null) return;
+    CurrentDoingStateEntity? result = await requestInvitationCurrentDoingState(
+        targetUserId: item.userId ?? 0);
+    if (result == null) return;
 
-    final myPartner = MyDoing().doing?.togetherPartner;
+    /// 当前用户不可接受邀约
+    if (true != result.canInviteTarget) {
+      EasyLoading.showToast(result.cannotInviteReason ?? '');
+      return;
+    }
 
-    /// 已和对方建立连接，点击取消
-    if (myPartner?.userId == item.userId) {
+    /// 当前用户可以接受邀约
+    ///
+    /// 1. 我当前是否有正在连接中的用户?
+    if (true == result.hasActiveTogether) {
       final confirm = await pushCancelDoingDialog();
       if (!confirm) return;
       await requestCancelTogether(
@@ -208,31 +218,14 @@ class DoingListController extends BaseController {
       return;
     }
 
-    /// 自己已与其他人建立连接
-    if (myPartner != null) {
-      await pushAlreadyConnectedDialog(myPartner.nickname ?? '');
-      return;
+    /// 2. 当前我是否有邀约在「待接受」的状态?
+    /// 弹窗提示:你向xxx(用户名)发起的「%s具体事项」一起做)等待对方接受中。继续操作将取消该邀约，
+    /// 并建立新的一起估点击弹窗上的「取消」按钮，关闭弹窗;点击「继续」按钮，取前的激约。建立新的一起做连接云能店
+    if (true == result.hasPendingInvitation) {
+      final confirm = await pushDialog(
+          '你向${result.pendingInvitationToUserNickname ?? '--'}发起的「${result.tagName ?? '--'}」一起做)等待对方接受中。继续操作将取消该邀约，并建立新的一起做。');
+      if (!confirm) return;
     }
-
-    /// 拉最新收件箱，避免缓存导致 pending 误判
-    await requestInvitationInbox(useCache: false);
-
-    // 有待处理的发出邀约（且不是发给当前用户）
-    final pendingInvitation = vm.value.pendingSentInvitation;
-    if (pendingInvitation != null &&
-        pendingInvitation.targetUserId != item.userId) {
-      final result = await pushCancelOldInvitationAlert(pendingInvitation);
-      if (true != result) return;
-      // 取消旧邀约
-      final cancelled = await requestInvitationCancel(
-        pendingInvitation.invitationId ?? 0,
-      );
-      if (!cancelled) return;
-    }
-
-    // /// push - 一起做 弹框确认alert
-    // final confirm = await pushTogetherDoAlert(item);
-    // if (true != confirm) return;
 
     /// 直连一起做 · POST /api/together/direct-connect
     final connected = await requestTogetherDirectConnect(

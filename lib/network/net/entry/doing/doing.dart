@@ -144,9 +144,17 @@ class Doing extends NetMixin<Doing> {
   }
 
   /// GET /api/invitation/current-doing-state
-  /// 查询当前事项邀约状态
-  Future<NetResult<T>> requestInvitationCurrentDoingState<T>() async {
-    return await get<T>(AppConfig.getInvitationCurrentDoingStateUrl);
+  /// 查询当前事项邀约状态（可选 targetUserId）
+  Future<NetResult<T>> requestInvitationCurrentDoingState<T>({
+    int? targetUserId,
+  }) async {
+    final params = targetUserId != null
+        ? <String, dynamic>{'targetUserId': targetUserId}
+        : null;
+    return await get<T>(
+      AppConfig.getInvitationCurrentDoingStateUrl,
+      params: params,
+    );
   }
 
   /// DELETE /api/invitation/{invitationId}
