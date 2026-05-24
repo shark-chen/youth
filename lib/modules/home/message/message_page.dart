@@ -103,16 +103,19 @@ class MessagePage extends BasePage<MessageController> {
                         );
                       } else if (index == 1) {
                         /// 邀约中的任务view
+                        final unreadCount =
+                            controller.vm.value.invitationInbox?.unreadCount;
                         return InviteRecordWidget(
                           tap: controller.pushInviteRecordPage,
-                          time:
-                              Lists.isNotEmpty(controller.vm.value.togetherList)
-                                  ? controller
-                                      .vm.value.togetherList.first.completedAt
-                                  : '',
-                          headPortraits: controller.vm.value.togetherList
-                              .map((e) => e.initiatorAvatar ?? '')
+                          time: Lists.isNotEmpty(controller.invitationRow)
+                              ? controller.invitationRow?.first.displayTime
+                              : '',
+                          headPortraits: controller.invitationRow
+                              ?.map((e) => e.targetAvatar ?? '')
                               .toList(),
+                          unreadCount: (unreadCount ?? 0) > 99
+                              ? '99+'
+                              : '${unreadCount ?? ''}',
                         );
                       } else if (index == 2) {
                         /// 敲一下记录列表

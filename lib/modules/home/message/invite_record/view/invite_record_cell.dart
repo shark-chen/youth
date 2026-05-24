@@ -48,7 +48,8 @@ class InviteRecordCell extends BaseStatelessWidget {
     return GestureDetector(
       onTap: userInfoTap,
       child: Container(
-        padding: const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
+        padding:
+            const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
         color: ThemeColor.inputBgColor,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,15 +91,10 @@ class InviteRecordCell extends BaseStatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    inviteMatter ?? '',
+                  RichText(
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyles(
-                      fontSize: 12,
-                      color: ThemeColor.white6Color,
-                      fontWeight: FontWeight.normal,
-                    ),
+                    text: _buildInviteMatterTextSpan(),
                   ),
                 ],
               ),
@@ -116,6 +112,65 @@ class InviteRecordCell extends BaseStatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  /// 邀约文案：`[tagName]` 整段（含方括号）使用主题绿色
+  TextSpan _buildInviteMatterTextSpan() {
+    final text = inviteMatter ?? '';
+    final baseStyle = TextStyles(
+      fontSize: 12,
+      color: ThemeColor.white6Color,
+      fontWeight: FontWeight.normal,
+    );
+    final tagStyle = TextStyles(
+      fontSize: 12,
+      color: ThemeColor.themeGreenColor,
+      fontWeight: FontWeight.normal,
+    );
+
+    if (text.isEmpty) {
+      return TextSpan(text: '', style: baseStyle);
+    }
+    final tag = tagName?.trim();
+    if (tag != null && tag.isNotEmpty) {
+      final bracketed = '「$tag」';
+      final index = text.indexOf(bracketed);
+      if (index >= 0) {
+        return TextSpan(
+          children: [
+            if (index > 0)
+              TextSpan(text: text.substring(0, index), style: baseStyle),
+            TextSpan(text: bracketed, style: tagStyle),
+            if (index + bracketed.length < text.length)
+              TextSpan(
+                text: text.substring(index + bracketed.length),
+                style: baseStyle,
+              ),
+          ],
+        );
+      }
+    }
+
+    final pattern = RegExp(r'\[[^\]]*\]');
+    final spans = <TextSpan>[];
+    var start = 0;
+    for (final match in pattern.allMatches(text)) {
+      if (match.start > start) {
+        spans.add(TextSpan(
+          text: text.substring(start, match.start),
+          style: baseStyle,
+        ));
+      }
+      spans.add(TextSpan(text: match.group(0), style: tagStyle));
+      start = match.end;
+    }
+    if (start < text.length) {
+      spans.add(TextSpan(text: text.substring(start), style: baseStyle));
+    }
+    return TextSpan(
+      children:
+          spans.isEmpty ? [TextSpan(text: text, style: baseStyle)] : spans,
     );
   }
 }

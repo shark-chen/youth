@@ -1,4 +1,6 @@
 import 'package:kellychat/base/base_vm.dart';
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
+import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
 
 import '../../doing/model/publish_doing_entity.dart';
 import '../beat_record/model/beat_item_entity.dart';
@@ -19,23 +21,15 @@ class MessageVM extends BaseVM {
   /// 消息人列表
   List<MessagePersonListEntity> conversations = [];
 
-  /// 列表
-  List<TogetherListEntity> togetherList = [];
-
-  /// 敲一下列表
-  List<BeatItemEntity> beatList = [];
-
   /// 敲一下记录
   KnockRecordEntity? knockRecordEntity;
+
+  /// 邀约记录
+  InvitationInboxEntity? invitationInbox;
 
   @override
   void onInit() {
     super.onInit();
-  }
-
-  /// 配置数据
-  void configTogetherList(List<TogetherListEntity>? values) {
-    togetherList.addAll(values ?? []);
   }
 
   /// 配置我正在做的事
@@ -48,7 +42,7 @@ class MessageVM extends BaseVM {
     List<MessagePersonListEntity>? values, {
     bool? refresh = true,
   }) {
-    if(true == refresh) {
+    if (true == refresh) {
       conversations.clear();
     }
     conversations.addAll(values ?? []);
@@ -56,13 +50,17 @@ class MessageVM extends BaseVM {
 
   /// 删除成功后移除本地会话项
   void removeConversation(int conversationId) {
-    conversations = conversations
-        .where((e) => e.conversationId != conversationId)
-        .toList();
+    conversations =
+        conversations.where((e) => e.conversationId != conversationId).toList();
   }
 
-  /// 添加数据
-  void configBeatItemList(List<BeatItemEntity>? values) {
-    beatList.addAll(values ?? []);
+  /// 配置邀约收件箱
+  void configInvitationInbox(InvitationInboxEntity? value) {
+    invitationInbox = value;
+  }
+
+  /// 邀约记录
+  List<InvitationItemEntity>? get invitationRow {
+    return invitationInbox?.items;
   }
 }

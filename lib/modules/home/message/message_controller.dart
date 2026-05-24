@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
+import '../doing/doing_list/model/invitation_item_entity.dart';
 import '../home/view/tabs.dart';
 import '../mine/user_info/model/user_info_entity.dart';
 import 'view_model/message_vm.dart';
@@ -41,8 +42,11 @@ class MessageController extends BaseController {
     /// GET /api/status/my-doing
     requestMyDoing();
 
-    /// 收到的敲一下列表 · GET /api/knock/received
-    requestKnockReceived();
+    /// 敲一下记录
+    requestKnockInbox();
+
+    /// 邀约记录
+    requestInvitationInbox();
   }
 
   /// 添加通知
@@ -89,10 +93,14 @@ class MessageController extends BaseController {
   @override
   Future<void> onRefresh() async {
     await requestConversations();
-    await requestTogetherMyList();
     await requestMyDoing();
-    await requestKnockReceived();
+    requestInvitationInbox();
     await refreshData();
     refreshController.refreshCompleted();
+  }
+
+  /// 邀约记录
+  List<InvitationItemEntity>? get invitationRow {
+    return vm.value.invitationRow;
   }
 }

@@ -11,6 +11,7 @@ class InviteRecordWidget extends BaseStatelessWidget {
     super.key,
     this.headPortraits,
     this.time,
+    this.unreadCount,
     this.tap,
   });
 
@@ -19,6 +20,9 @@ class InviteRecordWidget extends BaseStatelessWidget {
 
   /// 时间
   final String? time;
+
+  /// 未读数量
+  final String? unreadCount;
 
   /// 点击
   final VoidCallback? tap;
@@ -97,7 +101,7 @@ class InviteRecordWidget extends BaseStatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
-                                '${headPortraits?.length ?? 0}',
+                                '${unreadCount ?? ''}',
                                 style: TextStyles(
                                   color: ThemeColor.themeGreenColor,
                                   fontSize: 12,
