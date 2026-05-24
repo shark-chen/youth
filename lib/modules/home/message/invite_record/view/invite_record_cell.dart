@@ -13,6 +13,7 @@ class InviteRecordCell extends BaseStatelessWidget {
     this.heroTag,
     this.name,
     this.inviteMatter,
+    this.tagName,
     this.inviteStatusStr,
     this.time,
     this.userInfoTap,
@@ -30,6 +31,9 @@ class InviteRecordCell extends BaseStatelessWidget {
   /// 邀约事件
   final String? inviteMatter;
 
+  /// 事项
+  final String? tagName;
+
   /// 邀约状态
   final String? inviteStatusStr;
 
@@ -44,10 +48,9 @@ class InviteRecordCell extends BaseStatelessWidget {
     return GestureDetector(
       onTap: userInfoTap,
       child: Container(
-        padding: EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
+        padding: const EdgeInsets.only(left: 12, right: 12, top: 12, bottom: 12),
         color: ThemeColor.inputBgColor,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ImageLookWidget(
@@ -57,62 +60,59 @@ class InviteRecordCell extends BaseStatelessWidget {
               imgBorderRadius: BorderRadius.circular(24),
               heroTag: heroTag,
             ),
-            SizedBox(width: 6),
+            const SizedBox(width: 6),
             Expanded(
-              flex: 8,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// 名称+时间
-                  RichText(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: (name ?? '') + ' ',
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          name ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyles(
                             color: ThemeColor.whiteColor,
                             fontWeight: FontWeight.normal,
                           ),
                         ),
-                        TextSpan(
-                          text: time,
-                          style: TextStyles(
-                            fontSize: 12,
-                            color: ThemeColor.whiteColor.withOpacity(0.6),
-                            fontWeight: FontWeight.normal,
-                          ),
+                      ),
+                      Text(
+                        ' ${time ?? ''}',
+                        maxLines: 1,
+                        style: TextStyles(
+                          fontSize: 12,
+                          color: ThemeColor.whiteColor.withOpacity(0.6),
+                          fontWeight: FontWeight.normal,
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    inviteMatter ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyles(
+                      fontSize: 12,
+                      color: ThemeColor.white6Color,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
-
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: inviteMatter,
-                          style: TextStyles(
-                            fontSize: 12,
-                            color: ThemeColor.white6Color,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
                 ],
               ),
             ),
-            Expanded(child: Container()),
-            Text(
-              inviteStatusStr ?? '',
-              style: TextStyles(
-                color: ThemeColor.white4Color,
+            if (inviteStatusStr?.isNotEmpty == true)
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  inviteStatusStr!,
+                  style: TextStyles(
+                    color: ThemeColor.white4Color,
+                  ),
+                ),
               ),
-            ),
           ],
         ),
       ),

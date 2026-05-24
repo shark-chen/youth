@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 
@@ -38,7 +36,8 @@ class InviteRecordPage extends BasePage<InviteRecordController> {
                         heroTag:
                             '${row.targetAvatar ?? ''}_invite_record_${index}',
                         name: row.targetNickname,
-                        inviteMatter: row.interactionDesc,
+                        inviteMatter: row.interactionDesc ?? '--',
+                        tagName: row.tagName,
                         inviteStatusStr: row.statusText,
                         time: row.displayTime,
                       );
