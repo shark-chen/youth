@@ -35,7 +35,7 @@ class InvitationItemEntity {
   /// 状态展示文字（与发起方向相关）：\n 我已取消 / 对方已取消 / 我已拒绝 / 对方已拒绝 / 进行中 / 已结束 / 待处理 / 已过期
   String? statusText;
 
-  ///互动时间\n 今天：HH:mm（如 23:19）\n 昨天：昨天 HH:mm（如 昨天 13:15）
+  /// 互动时间\n 今天：HH:mm（如 23:19）\n 昨天：昨天 HH:mm（如 昨天 13:15）
   String? displayTime;
 
   InvitationItemEntity();

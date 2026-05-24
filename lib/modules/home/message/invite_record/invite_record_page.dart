@@ -38,9 +38,9 @@ class InviteRecordPage extends BasePage<InviteRecordController> {
                         heroTag:
                             '${row.targetAvatar ?? ''}_invite_record_${index}',
                         name: row.targetNickname,
-                        // inviteMatter: row.completedAt,
+                        inviteMatter: row.interactionDesc,
                         inviteStatusStr: row.statusText,
-                        // time: row.completedAt,
+                        time: row.displayTime,
                       );
                     },
                   )

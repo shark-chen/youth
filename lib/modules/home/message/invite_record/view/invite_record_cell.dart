@@ -55,17 +55,19 @@ class InviteRecordCell extends BaseStatelessWidget {
               width: 42,
               height: 42,
               imgBorderRadius: BorderRadius.circular(24),
-              heroTag: heroTag ,
+              heroTag: heroTag,
             ),
             SizedBox(width: 6),
             Expanded(
-              flex:  8,
+              flex: 8,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// 名称+时间
                   RichText(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     text: TextSpan(
                       children: [
                         TextSpan(
@@ -91,26 +93,10 @@ class InviteRecordCell extends BaseStatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: '她邀约我一起 [',
-                          style: TextStyles(
-                            fontSize: 12,
-                            color: ThemeColor.whiteColor.withOpacity(0.6),
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                        TextSpan(
                           text: inviteMatter,
                           style: TextStyles(
                             fontSize: 12,
-                            color: ThemeColor.themeGreenColor,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ']',
-                          style: TextStyles(
-                            fontSize: 12,
-                            color: ThemeColor.whiteColor.withOpacity(0.6),
+                            color: ThemeColor.white6Color,
                             fontWeight: FontWeight.normal,
                           ),
                         ),
@@ -124,14 +110,7 @@ class InviteRecordCell extends BaseStatelessWidget {
             Text(
               inviteStatusStr ?? '',
               style: TextStyles(
-                color: ThemeColor.whiteColor,
-              ),
-            ),
-            SizedBox(width: 5),
-            Text(
-              time ?? '',
-              style: TextStyles(
-                color: ThemeColor.whiteColor,
+                color: ThemeColor.white4Color,
               ),
             ),
           ],
