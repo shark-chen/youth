@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/modules/home/mine/edit_mine_info/view/edit_reset_private_password_confirm_dialog.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import '../../model/doing_nav_ids.dart';
 import '../doing_list_controller.dart';
 import '../model/doing_list_entity.dart';
@@ -29,6 +30,13 @@ extension DoingListRouteController on DoingListController {
   /// push-正在做的清单-页面
   Future pushDoingPage() async {
     await Get.toNamed(Routes.doingPage, id: doingNavigatorId);
+    vm.refresh();
+    final doing = MyDoing().doing;
+    if (doing != null) {
+      vm.value.doingHotTagsEntity?.tagName = doing.tagName;
+      vm.value.doingHotTagsEntity?.tagId = doing.tagId;
+    }
+    await refreshData();
   }
 
   /// push - 邀请
@@ -122,7 +130,8 @@ extension DoingListRouteController on DoingListController {
   }
 
   /// push - 取消旧邀约并建立新的一起做 弹窗
-  Future<bool> pushCancelOldInvitationAlert(InvitationItemEntity? invitation) async {
+  Future<bool> pushCancelOldInvitationAlert(
+      InvitationItemEntity? invitation) async {
     var result = false;
     await Get.dialog(
       Dialog(
@@ -146,8 +155,4 @@ extension DoingListRouteController on DoingListController {
     );
     return result;
   }
-
-
-
-
 }

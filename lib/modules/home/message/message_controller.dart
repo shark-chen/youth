@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/home/message/controller/message_route_controller.dart';
 import '../doing/doing_list/model/invitation_item_entity.dart';
 import '../home/view/tabs.dart';
 import '../mine/user_info/model/user_info_entity.dart';
@@ -66,9 +67,18 @@ class MessageController extends BaseController {
     });
   }
 
-  /// 点击删除我正在做的事
-  Future clickDeleteStatusDoing() async {
-    await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
+
+  /// 点击删除一起做的事
+  Future clickDeleteDoing() async {
+    final confirm = await pushCancelDoingDialog();
+    if (!confirm) return;
+    await requestCancelTogether(
+      togetherId:
+      vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
+    );
+
+    /// 刷新数据
+    onRefresh();
     vm.refresh();
   }
 

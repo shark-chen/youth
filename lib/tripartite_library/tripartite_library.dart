@@ -8,12 +8,8 @@ export 'package:shared_preferences/shared_preferences.dart';
 
 /// toast
 export 'easy_loading/easy_loading_view.dart';
-export 'audio_player/bs_audio_player.dart';
 export 'package:get/get.dart';
 export 'package:flutter/material.dart';
-
-/// 语音播报
-export 'audio_players/bs_audio_players.dart';
 
 /// 设备信息
 export 'device_info_plus/device_info_util.dart';

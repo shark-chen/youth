@@ -1,4 +1,5 @@
 import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 import '../doing_controller.dart';
@@ -46,8 +47,8 @@ extension DoingRequestController on DoingController {
     EasyLoading.dismiss();
     if (response.succeed) {
       vm.refresh();
-      EventBusManager().fire(response.value);
       EasyLoading.showToast('发布成功');
+      MyDoing().configDoing(response.value);
       return response.value;
     } else {
       EasyLoading.showToast(response.msg ?? '');

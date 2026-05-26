@@ -59,6 +59,8 @@ class DoingListController extends BaseController {
       vm.value.doingHotTagsEntity = DoingPresentHotTagEntity()
         ..tagId = event.tagId
         ..tagName = event.tagName;
+
+      // await _openDoingListIfNeeded(_tagFromPublishDoing(event));
       await refreshData();
     });
 
@@ -69,9 +71,19 @@ class DoingListController extends BaseController {
     });
   }
 
+  /// 已有正在做且清单 Controller 未注册时，进入 DoingListPage
+  Future<void> _openDoingListIfNeeded(DoingPresentHotTagEntity? tag) async {
+    if (tag == null || tag.tagId == null) return;
+    if (Get.isRegistered<DoingListController>()) {
+      Get.put<DoingListController>(DoingListController(value: tag));
+    }
+  }
+
   /// 刷新数据
   Future refreshData() async {
     requestMyDoing();
+
+    onRefresh();
 
     /// 获取邀约收件箱（用于判断是否有待处理邀约）
     requestInvitationInbox();
@@ -145,7 +157,7 @@ class DoingListController extends BaseController {
 
   /// 点击删除我正在做的事
   Future clickDeleteStatusDoing() async {
-    final confirm = await pushCancelDoingDialog();
+    final confirm = await pushDialog('是否移除当前状态', rightTitle: '确定');
     if (!confirm) return;
     final result =
         await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
@@ -188,7 +200,8 @@ class DoingListController extends BaseController {
   }
 
   /// 点击加入一起 一起做
-  Future clickJoinTogether(DoingListList? item) async {
+  Future clickJoinTogether(
+      DoingListList? item, TogetherButtonStatus status) async {
     if (item == null) return;
     CurrentDoingStateEntity? result = await requestInvitationCurrentDoingState(
         targetUserId: item.userId ?? 0);
@@ -235,6 +248,10 @@ class DoingListController extends BaseController {
         refreshData();
       }
     } else {
+      if (status == TogetherButtonStatus.connected) {
+        await clickDeleteDoing();
+        return;
+      }
       EasyLoading.showToast(result.cannotInviteReason ?? '当前用户不可接受邀约');
     }
   }

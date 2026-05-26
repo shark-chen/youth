@@ -99,7 +99,7 @@ class MessagePage extends BasePage<MessageController> {
                         return MessageDoingHeaderView(
                           tagName: myDoing?.tagName,
                           partnerName: myDoing?.togetherPartner?.nickname,
-                          onCancelTap: controller.clickDeleteStatusDoing,
+                          onCancelTap: controller.clickDeleteDoing,
                         );
                       } else if (index == 1) {
                         /// 邀约中的任务view

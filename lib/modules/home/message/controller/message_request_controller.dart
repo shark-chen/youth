@@ -87,21 +87,28 @@ extension MessageRequestController on MessageController {
     }
   }
 
-  /// DELETE /api/status/doing/{statusId}
-  /// request - 取消一个正在做的状态
-  Future<void> requestDeleteStatusDoing(
-    int statusId, {
-    bool? showLoad = true,
+  /// 取消一起做
+  Future<bool> requestCancelTogether({
+    required String togetherId,
+    bool showLoad = true,
   }) async {
-    if (true == showLoad) EasyLoading.show();
-    final response = await Net.value<Doing>()
-        .requestDeleteStatusDoing<dynamic>(statusId: statusId);
-    if (true == showLoad) EasyLoading.dismiss();
-    if (response.succeed) {
-      EasyLoading.showToast('已删除');
-    } else {
-      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
+    final id = togetherId.trim();
+    if (id.isEmpty) {
+      EasyLoading.showToast('活动信息无效');
+      return false;
     }
+    if (showLoad) EasyLoading.show();
+    final response = await Net.value<Doing>().requestCancelTogether<dynamic>(
+      togetherId: id,
+    );
+    if (showLoad) EasyLoading.dismiss();
+    if (response.code == 200) {
+      EasyLoading.showToast('已取消');
+      await MyDoing().requestMyDoing();
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
   }
 
   /// request - 敲一下收件箱

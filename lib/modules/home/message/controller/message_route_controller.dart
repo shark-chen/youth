@@ -1,4 +1,5 @@
 import 'package:kellychat/modules/home/doing/doing_list/view/invite_together_sheet_widget.dart';
+import 'package:kellychat/modules/home/mine/edit_mine_info/view/edit_reset_private_password_confirm_dialog.dart';
 
 import '../message_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
@@ -51,5 +52,25 @@ extension MessageRouteController on MessageController {
             'https://images.unsplash.com/photo-1538370965046-79c0d6907d47',
       ),
     );
+  }
+
+  /// push - 取消正在做的事情状态
+  Future<bool> pushCancelDoingDialog() async {
+    var result = false;
+    await showDialog<void>(
+      context: Get.context!,
+      barrierDismissible: true,
+      barrierColor: Colors.black54,
+      builder: (dialogContext) => DialogAlertWidget(
+        content: '将移除当前状态，并断开与当前用户的连接。',
+        leftTap: Get.back,
+        rightTitle: '断开',
+        rightTap: () async {
+          result = true;
+          Get.back();
+        },
+      ),
+    );
+    return result;
   }
 }

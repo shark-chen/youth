@@ -119,8 +119,6 @@ class _DoingTabHostState extends State<DoingTabHost>
   }
 
   DoingPresentHotTagEntity? _presentHotTagFrom(RouteSettings settings) {
-    final args = settings.arguments;
-    if (args is DoingPresentHotTagEntity) return args;
     final doing = MyDoing().doing;
     if (doing == null) return null;
     return DoingPresentHotTagEntity()

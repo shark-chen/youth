@@ -321,7 +321,10 @@ abstract class BaseController extends GetxController
   }
 
   /// push -
-  Future<bool> pushDialog(String content) async {
+  Future<bool> pushDialog(
+    String content, {
+    String? rightTitle,
+  }) async {
     var result = false;
     await showDialog<void>(
       context: Get.context!,
@@ -331,7 +334,7 @@ abstract class BaseController extends GetxController
         content: content,
         leftTitle: '取消',
         leftTap: Get.back,
-        rightTitle: '继续',
+        rightTitle: rightTitle ?? '继续',
         rightTap: () {
           result = true;
           Get.back();
