@@ -1,5 +1,3 @@
-import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// FileName: msg_clout_view
@@ -144,38 +142,36 @@ class MsgCloutWidget extends BaseStatelessWidget {
               ),
             ),
 
-            /// 敲一下
+            /// 敲一下行：左侧图标+文案，右侧时间（需 left/right 撑满宽度才能在 Row 里用 Spacer）
             Positioned(
               left: 0,
+              right: 0,
               top: 0,
-              child: Stack(
-                clipBehavior: Clip.none,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/image/common/message_knock@3x.png',
-                          width: 52,
-                          height: 52,
-                        ),
-                        Text(
-                          '敲一下',
-                          style: TextStyles(
-                            fontWeight: FontWeight.w600,
-                            color: ThemeColor.whiteColor,
-                          ),
-                        ),
-                        Expanded(child: Container()),
-                        Text(
-                          ' ${time ?? ''}',
-                          maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: ThemeColor.white6Color,
-                          ),
-                        ),
-                      ],
+                  Image.asset(
+                    'assets/image/common/message_knock@3x.png',
+                    width: 52,
+                    height: 52,
+                  ),
+                  Text(
+                    '敲一下',
+                    style: TextStyles(
+                      fontWeight: FontWeight.w600,
+                      color: ThemeColor.whiteColor,
+                    ),
+                  ),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12),
+                    child: Text(
+                      time ?? '',
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: ThemeColor.white6Color,
+                      ),
                     ),
                   ),
                 ],
