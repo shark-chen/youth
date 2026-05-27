@@ -29,6 +29,7 @@ class BeatRecordPage extends BasePage<BeatRecordController> {
                     headPortraitUrl: item.targetAvatar,
                     name: item.targetNickname,
                     time: item.timeAgo,
+                    beatStr: item.beatStr,
                     tagName: item.tagName,
                     userInfoTap: () => controller.pushUserInfoPage(item),
                     chatTap: () => controller.pushChatPage(item),

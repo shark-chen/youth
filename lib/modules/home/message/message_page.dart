@@ -129,7 +129,7 @@ class MessagePage extends BasePage<MessageController> {
                             onTap: controller.pushBeatRecordPage,
                             headPortraitUrl: item?.targetAvatar,
                             name: item?.targetNickname,
-                            interactionDesc: item?.interactionDesc,
+                            interactionDesc: item?.beatStr,
                             time: item?.timeAgo,
                             cloutNum: (unreadCount ?? 0) > 99
                                 ? '99+'

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// FileName: msg_clout_view
@@ -60,58 +61,50 @@ class MsgCloutWidget extends BaseStatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      /// 头像
-                      Row(
-                        children: [
-                          ImageLookWidget(
-                            imgUrl: headPortraitUrl ?? '',
-                            height: 42,
-                            width: 42,
-                            imgBorderRadius: BorderRadius.circular(26),
-                            heroTag: '${headPortraitUrl ?? ''}_msg_clout',
-                          ),
-
-                          SizedBox(width: 12),
-
-                          /// 小雨+ 时间
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: name ?? '',
-                                      style: TextStyle(
-                                        color: ThemeColor.whiteColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                      /// 头像 + 昵称/时间/描述
+                      Expanded(
+                        child: Row(
+                          children: [
+                            ImageLookWidget(
+                              imgUrl: headPortraitUrl ?? '',
+                              height: 42,
+                              width: 42,
+                              imgBorderRadius: BorderRadius.circular(26),
+                              heroTag: '${headPortraitUrl ?? ''}_msg_clout',
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    name ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: ThemeColor.whiteColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    TextSpan(
-                                      text: ' (${interactionDesc ?? ''})',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: ThemeColor.whiteColor
-                                            .withOpacity(0.6),
-                                      ),
+                                  ),
+                                  Text(
+                                    interactionDesc ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyles(
+                                      color: ThemeColor.whiteColor
+                                          .withOpacity(0.6),
+                                      fontSize: 12,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                time ?? '',
-                                style: TextStyles(
-                                  color: ThemeColor.whiteColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
-
+                      SizedBox(width: 30),
                       Row(
                         children: [
                           /// 数量
@@ -158,21 +151,32 @@ class MsgCloutWidget extends BaseStatelessWidget {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/image/common/message_knock@3x.png',
-                        width: 52,
-                        height: 52,
-                      ),
-                      Text(
-                        '敲一下',
-                        style: TextStyles(
-                          fontWeight: FontWeight.w600,
-                          color: ThemeColor.whiteColor,
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/image/common/message_knock@3x.png',
+                          width: 52,
+                          height: 52,
                         ),
-                      ),
-                    ],
+                        Text(
+                          '敲一下',
+                          style: TextStyles(
+                            fontWeight: FontWeight.w600,
+                            color: ThemeColor.whiteColor,
+                          ),
+                        ),
+                        Expanded(child: Container()),
+                        Text(
+                          ' ${time ?? ''}',
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: ThemeColor.white6Color,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -16,6 +16,7 @@ class BeatRecordCell extends BaseStatelessWidget {
     this.headPortraitUrl,
     this.name,
     this.time,
+    this.beatStr,
     this.tagName,
     this.userInfoTap,
     this.chatTap,
@@ -29,6 +30,9 @@ class BeatRecordCell extends BaseStatelessWidget {
 
   /// 时间
   final String? time;
+
+  /// 谁敲谁 文案
+  final String? beatStr;
 
   /// 任务
   final String? tagName;
@@ -69,29 +73,30 @@ class BeatRecordCell extends BaseStatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        /// 名称+时间
-                        RichText(
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: (name ?? '') + '  ',
+                        /// 名称+时间（昵称可省略，时间始终完整展示）
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                name ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyles(
                                   color: ThemeColor.whiteColor,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              TextSpan(
-                                text: time,
-                                style: TextStyles(
-                                  fontSize: 12,
-                                  color: ThemeColor.whiteColor.withOpacity(0.6),
-                                  fontWeight: FontWeight.normal,
-                                ),
+                            ),
+                            Text(
+                              ' ${time ?? ''}',
+                              maxLines: 1,
+                              style: TextStyles(
+                                fontSize: 12,
+                                color: ThemeColor.whiteColor.withOpacity(0.6),
+                                fontWeight: FontWeight.normal,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 2),
 
@@ -102,7 +107,7 @@ class BeatRecordCell extends BaseStatelessWidget {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: '我敲了下TA',
+                                text: '${beatStr ?? ''}',
                                 style: TextStyles(
                                   fontSize: 12,
                                   color: ThemeColor.whiteColor.withOpacity(0.6),
