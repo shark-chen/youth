@@ -176,21 +176,24 @@ extension DoingListRequestController on DoingListController {
   }
 
   /// request - 向某个用户发送敲一下
-  Future<void> requestKnockSend({
+  ///
+  /// [showLoading] 为 false 时不展示全屏 Loading，成功 Toast 由调用方处理。
+  Future<bool> requestKnockSend({
     required int toUserId,
     int? tagId,
+    bool showLoading = true,
   }) async {
-    EasyLoading.show();
+    if (showLoading) EasyLoading.show();
     final response = await Net.value<Doing>().requestKnockSend<dynamic>(
       toUserId: toUserId,
       tagId: tagId,
     );
-    EasyLoading.dismiss();
-    if (response.succeed) {
-      EasyLoading.showToast('已发送');
-    } else {
-      EasyLoading.showToast(response.msg ?? '');
+    if (showLoading) EasyLoading.dismiss();
+    if (response.success) {
+      return true;
     }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
   }
 
   /// GET /api/invitation/inbox

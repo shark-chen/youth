@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_stateless_widget.dart';
+import 'package:kellychat/widget/fly_toast/fly_toast_util.dart';
 
 /// 一起做按钮状态
 enum TogetherButtonStatus {
@@ -18,7 +19,7 @@ enum TogetherButtonStatus {
 /// @Date 2026/3/9 23:41
 ///
 /// @Description 正在做的清单-cell（同频用户卡片）
-class DoingListCell extends BaseStatelessWidget {
+class DoingListCell extends StatefulWidget {
   const DoingListCell({
     Key? key,
     this.headerIcon,
@@ -58,8 +59,8 @@ class DoingListCell extends BaseStatelessWidget {
   /// 一起做按钮状态
   final TogetherButtonStatus togetherStatus;
 
-  /// 敲一下 点击
-  final VoidCallback? onKnockTap;
+  /// 敲一下 点击；参数为按钮在屏幕上的中心点（可为 null）
+  final Future<void> Function(Offset? knockButtonCenter)? onKnockTap;
 
   /// 一起做点击
   final VoidCallback? onTogetherTap;
@@ -68,123 +69,193 @@ class DoingListCell extends BaseStatelessWidget {
   final VoidCallback? onTap;
 
   @override
+  State<DoingListCell> createState() => _DoingListCellState();
+}
+
+class _DoingListCellState extends State<DoingListCell>
+    with TickerProviderStateMixin {
+  static const Duration _knockScaleDuration = Duration(milliseconds: 140);
+  static const Duration _shakeDuration = Duration(milliseconds: 150);
+
+  late final AnimationController _knockScaleController;
+  late final Animation<double> _knockScale;
+  late final AnimationController _shakeController;
+  late final Animation<double> _shakeOffset;
+
+  final GlobalKey _knockButtonKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _knockScaleController = AnimationController(
+      vsync: this,
+      duration: _knockScaleDuration,
+    );
+    _knockScale = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1, end: 0.88),
+        weight: 50,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.88, end: 1),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _knockScaleController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    _shakeController = AnimationController(
+      vsync: this,
+      duration: _shakeDuration,
+    );
+    _shakeOffset = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween<double>(begin: 0, end: 6), weight: 25),
+      TweenSequenceItem(tween: Tween<double>(begin: 6, end: -4), weight: 25),
+      TweenSequenceItem(tween: Tween<double>(begin: -4, end: 2), weight: 25),
+      TweenSequenceItem(tween: Tween<double>(begin: 2, end: 0), weight: 25),
+    ]).animate(_shakeController);
+  }
+
+  @override
+  void dispose() {
+    _knockScaleController.dispose();
+    _shakeController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onKnockTap() async {
+    if (widget.onKnockTap == null) return;
+    final center = FlyToastUtil.globalCenterFromKey(_knockButtonKey);
+    _knockScaleController.forward(from: 0);
+    _shakeController.forward(from: 0);
+    await widget.onKnockTap!(center);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ageLoc = [
-      if (Strings.isNotEmpty(age)) '$age岁',
-      if (Strings.isNotEmpty(address)) address,
+      if (Strings.isNotEmpty(widget.age)) '${widget.age}岁',
+      if (Strings.isNotEmpty(widget.address)) widget.address,
     ].join('·');
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-        decoration: BoxDecoration(
-          color: ThemeColor.doingListCellBgColor,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            /// 头像
-            ImageLookWidget(
-              imgUrl: headerIcon ?? '',
-              width: 52,
-              height: 52,
-              heroTag: '${headerIcon ?? ''}_$ageLoc',
-              imgBorderRadius: BorderRadius.circular(999),
-              borderColor: Colors.transparent,
-            ),
-            const SizedBox(width: 12),
-
-            /// 昵称 + 性别 + 地区
-            /// 在列表上展示横版的用户资料卡片，资料卡片显示的信息有：头像、昵称、性别、年龄、地区、个人签名（最多一行，超出时用…省略）；
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          name ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: ThemeColor.whiteColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+    return AnimatedBuilder(
+      animation: Listenable.merge([_shakeController, _knockScaleController]),
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(_shakeOffset.value, 0),
+          child: child,
+        );
+      },
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+          decoration: BoxDecoration(
+            color: ThemeColor.doingListCellBgColor,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ImageLookWidget(
+                imgUrl: widget.headerIcon ?? '',
+                width: 52,
+                height: 52,
+                heroTag: '${widget.headerIcon ?? ''}_$ageLoc',
+                imgBorderRadius: BorderRadius.circular(999),
+                borderColor: Colors.transparent,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            widget.name ?? '',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: ThemeColor.whiteColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                      if (sex != null) ...[
-                        const SizedBox(width: 4),
-                        Icon(
-                          sex == true ? Icons.male : Icons.female,
-                          size: 18,
-                          color: sex == true
-                              ? ThemeColor.maleIconColor
-                              : ThemeColor.femaleIconColor,
-                        ),
+                        if (widget.sex != null) ...[
+                          const SizedBox(width: 4),
+                          Icon(
+                            widget.sex == true ? Icons.male : Icons.female,
+                            size: 18,
+                            color: widget.sex == true
+                                ? ThemeColor.maleIconColor
+                                : ThemeColor.femaleIconColor,
+                          ),
+                        ],
                       ],
+                    ),
+                    if (ageLoc.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        ageLoc,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: ThemeColor.white75Color,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
+                    if (Strings.isNotEmpty(widget.signature)) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        widget.signature ?? '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: ThemeColor.white4Color,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Transform.scale(
+                    scale: _knockScale.value,
+                    child: KeyedSubtree(
+                      key: _knockButtonKey,
+                      child: _PillButton(
+                        label: '敲一下',
+                        background: ThemeColor.doingListKnockBgColor,
+                        foreground: ThemeColor.themeGreenColor,
+                        onTap: _onKnockTap,
+                      ),
+                    ),
                   ),
-
-                  /// 年龄 + 地址
-                  if (ageLoc.isNotEmpty) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      ageLoc,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: ThemeColor.white75Color,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-
-                  /// 简介
-                  if (Strings.isNotEmpty(signature)) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      signature ?? '',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: ThemeColor.white4Color,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
+                  const SizedBox(height: 8),
+                  _buildTogetherButton(),
                 ],
               ),
-            ),
-            const SizedBox(width: 8),
-
-            /// 敲一下
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _PillButton(
-                  label: '敲一下',
-                  background: ThemeColor.doingListKnockBgColor,
-                  foreground: ThemeColor.themeGreenColor,
-                  onTap: onKnockTap,
-                ),
-                const SizedBox(height: 8),
-                _buildTogetherButton(),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  /// 一起做的 || 取消 一起做
   Widget _buildTogetherButton() {
-    switch (togetherStatus) {
+    switch (widget.togetherStatus) {
       case TogetherButtonStatus.disabled:
         return _PillButton(
           label: '一起做',
@@ -197,7 +268,7 @@ class DoingListCell extends BaseStatelessWidget {
           label: '取消',
           background: ThemeColor.bloodRedColor,
           foreground: Colors.white,
-          onTap: onTogetherTap,
+          onTap: widget.onTogetherTap,
         );
       case TogetherButtonStatus.available:
       default:
@@ -205,7 +276,7 @@ class DoingListCell extends BaseStatelessWidget {
           label: '一起做',
           background: ThemeColor.white15Color,
           foreground: Colors.white,
-          onTap: onTogetherTap,
+          onTap: widget.onTogetherTap,
         );
     }
   }

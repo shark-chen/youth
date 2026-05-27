@@ -6,6 +6,7 @@ import '../model/doing_hot_tags_entity.dart';
 import '../model/doing_present_hot_tag_entity.dart';
 import '../model/publish_doing_entity.dart';
 import 'model/doing_list_entity.dart';
+import 'package:kellychat/widget/fly_toast/fly_toast_util.dart';
 import 'view/doing_list_cell.dart';
 import 'view_model/doing_list_vm.dart';
 import 'controller/doing_list_request_controller.dart';
@@ -169,14 +170,47 @@ class DoingListController extends BaseController {
     }
   }
 
-  /// 点击敲一下
-  Future clickKnock(DoingListList? item) async {
-    if (item?.userId == null) return;
-    await requestKnockSend(
-      toUserId: item?.userId ?? 0,
-      tagId: vm.value.myDoing?.tagId,
+  /// 敲一下飞入 Toast 背景色 RGB(101, 178, 91)
+  static const Color knockFlyToastBgColor = Color.fromRGBO(101, 178, 91, 1);
+
+  /// 敲一下问候飞入 Toast 文案
+  static String knockGreetMessage(String? nickname) => '你敲了一下TA';
+
+  /// 展示敲一下飞入 Toast（从 [knockButtonCenter] 飞向屏幕中心）
+  void showKnockGreetFlyToast({
+    Offset? knockButtonCenter,
+    String? nickname,
+  }) {
+    final ctx = Get.context;
+    if (ctx == null || knockButtonCenter == null) return;
+    FlyToastUtil.show(
+      ctx,
+      startCenter: knockButtonCenter,
+      message: knockGreetMessage(nickname),
+      backgroundColor: knockFlyToastBgColor,
     );
-    vm.refresh();
+  }
+
+  /// 点击敲一下
+  Future<void> clickKnock(
+    DoingListList? item, {
+    Offset? knockButtonCenter,
+  }) async {
+    final target = item;
+    final userId = target?.userId;
+    if (target == null || userId == null) return;
+    showKnockGreetFlyToast(
+      knockButtonCenter: knockButtonCenter,
+      nickname: target.nickname,
+    );
+    final ok = await requestKnockSend(
+      toUserId: userId,
+      tagId: vm.value.myDoing?.tagId,
+      showLoading: false,
+    );
+    if (ok) {
+      vm.refresh();
+    }
   }
 
   /// 计算一起做按钮状态

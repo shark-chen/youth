@@ -102,7 +102,7 @@ class BeatRecordCell extends BaseStatelessWidget {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: '我敲了下她',
+                                text: '我敲了下TA',
                                 style: TextStyles(
                                   fontSize: 12,
                                   color: ThemeColor.whiteColor.withOpacity(0.6),
