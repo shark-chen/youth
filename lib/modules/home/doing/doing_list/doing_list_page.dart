@@ -47,15 +47,17 @@ class DoingListPage extends BasePage<DoingListController> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: ThemeColor.whiteColor,
-                    borderRadius: BorderRadius.circular(32),
+                    borderRadius: BorderRadius.circular(999),
                   ),
                   child: ImageLookWidget(
                     imgUrl: UserCenter().user?.avatar ?? '',
+                    height: 32,
                     width: 32,
-                    height: 23,
                     enlargeLook: false,
-                    imgBorderRadius: BorderRadius.circular(32),
-                    heroTag: '${UserCenter().user?.avatar ?? ''}_doing_list',
+                    borderColor: Colors.transparent,
+                    imgBorderRadius: BorderRadius.circular(999),
+                    heroTag:
+                    '${UserCenter().user?.avatar ?? ''}_message_page_avatar',
                   ),
                 ),
               ),

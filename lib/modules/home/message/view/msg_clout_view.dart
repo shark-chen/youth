@@ -151,7 +151,7 @@ class MsgCloutWidget extends BaseStatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/image/common/message_knock@3x.png',
+                    'assets/image/common/message_invite@3x.png',
                     width: 52,
                     height: 52,
                   ),

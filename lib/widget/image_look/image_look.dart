@@ -64,6 +64,26 @@ class ImageLookWidget extends StatelessWidget {
   /// 自动适应宽高
   final bool? autoSize;
 
+  double get _layoutWidth => width ?? 66.0;
+
+  double get _layoutHeight => height ?? 66.0;
+
+  /// 默认头像占位（加载中 / 失败 / 无 URL）
+  Widget _avatarPlaceholder() {
+    final side = _layoutWidth < _layoutHeight ? _layoutWidth : _layoutHeight;
+    return Container(
+      width: autoSize == true ? null : _layoutWidth,
+      height: autoSize == true ? null : _layoutHeight,
+      alignment: Alignment.center,
+      color: ThemeColor.white15Color,
+      child: Icon(
+        Icons.person_rounded,
+        size: side * 0.48,
+        color: ThemeColor.whiteColor.withOpacity(0.45),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget container = ClipRRect(
@@ -74,13 +94,13 @@ class ImageLookWidget extends StatelessWidget {
               imageUrl: imgUrl,
               width: autoSize == true ? null : (width ?? 66.0),
               height: autoSize == true ? null : (height ?? 66.0),
-              placeholder: (context, url) => Container(),
-              errorWidget: (context, url, error) => Container(),
+              placeholder: (context, url) => _avatarPlaceholder(),
+              errorWidget: (context, url, error) => _avatarPlaceholder(),
             )
           : SizedBox(
-              width: width ?? 66.0,
-              height: height ?? 66.0,
-              child: Container(),
+              width: _layoutWidth,
+              height: _layoutHeight,
+              child: _avatarPlaceholder(),
             ),
     );
     if (autoSize != true) {
