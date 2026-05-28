@@ -57,7 +57,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
         children: [
           /// ⭐ 居中占位（未输入 & 未focus）
           Visibility(
-            visible: !isFocus,
+            visible: (!isFocus && isEmpty),
             child: Padding(
               padding: EdgeInsets.only(right: 60),
               child: Image.asset(
@@ -83,7 +83,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                 color: Colors.white.withOpacity(0.5),
                 fontSize: 15,
               ),
-              prefixIcon: isFocus
+              prefixIcon: isFocus || !isEmpty
                   ? Padding(
                       padding: EdgeInsets.only(left: 12, right: 2),
                       child: SizedBox(
@@ -99,16 +99,7 @@ class _InputSearchWidgetState extends State<InputSearchWidget> {
                   : null,
               prefixIconConstraints:
                   const BoxConstraints(minWidth: 20, minHeight: 20),
-              // suffixIcon: (!isEmpty)
-              //     ? IconButton(
-              //         icon: Icon(Icons.close,
-              //             color: Colors.white.withOpacity(0.6)),
-              //         onPressed: () {
-              //           _controller.clear();
-              //         },
-              //       )
-              //     : null,
-              contentPadding: const EdgeInsets.only(top: 8, bottom: 12),
+              contentPadding: const EdgeInsets.only(top: 6, bottom: 12),
             ),
           ),
         ],

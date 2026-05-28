@@ -2,7 +2,7 @@ import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
 import 'package:kellychat/network/net/entry/message/message.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
-import 'package:kellychat/network/net/net_result.dart';
+import 'package:kellychat/network/net/util/upload_image_result_util.dart';
 
 import '../chat_controller.dart';
 import '../model/chat_history_entity.dart';
@@ -45,16 +45,14 @@ extension ChatRequestController on ChatController {
     if (Strings.isEmpty(path)) return null;
     EasyLoading.show();
     final response =
-    await Net.value<User>().requestUploadPhoto<ImageLinksEntity>(
+        await Net.value<User>().requestUploadPhoto<ImageLinksEntity>(
       path,
       filename: path.split('/').last,
     );
     EasyLoading.dismiss();
-    if (response.succeed) {
-      return response.value;
-    } else {
-      EasyLoading.showToast('发送失败');
-      return null;
-    }
+    final entity = UploadImageResultUtil.parse(response);
+    if (entity != null) return entity;
+    EasyLoading.showToast(UploadImageResultUtil.failureMessage(response));
+    return null;
   }
 }

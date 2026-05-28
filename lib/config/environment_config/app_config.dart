@@ -213,6 +213,12 @@ class AppConfig {
     return '/api/report/submit';
   }
 
+  /// 上传图片 multipart 前压缩上限（MB）。
+  ///
+  /// 需小于网关/Nginx `client_max_body_size`（当前环境约 1MB）；后端 Java 校验可为 5MB，
+  /// 请求体过大时会在网关层返回 HTTP 413，到不了应用。
+  static const double uploadImageMaxSizeMb = 1.0;
+
   /// 上传头像（POST multipart，字段名 `file`）
   static String get getUserAvatarUrl {
     return '/api/user/avatar';

@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
 import '../../../../config/environment_config/app_config.dart';
+import '../../../../utils/extension/multipart_files/multipart_file_compress_ext.dart';
 import '../../net_mixin.dart';
 import '../../net_result.dart';
 export 'login.dart';
@@ -136,13 +136,10 @@ class User extends NetMixin<User> {
     String filePath, {
     String? filename,
   }) async {
-    final file = await MultipartFile.fromFile(
+    final file = await MultipartFiles.fromFileWithMaxMb(
       filePath,
+      maxSizeMb: AppConfig.uploadImageMaxSizeMb,
       filename: filename,
-      contentType: DioMediaType(
-        'image',
-        filename?.split('.').last ?? 'png',
-      ),
     );
     return await post<T>(
       AppConfig.getUserAvatarUrl,
@@ -274,13 +271,10 @@ class User extends NetMixin<User> {
     String filePath, {
     String? filename,
   }) async {
-    final file = await MultipartFile.fromFile(
+    final file = await MultipartFiles.fromFileWithMaxMb(
       filePath,
+      maxSizeMb: AppConfig.uploadImageMaxSizeMb,
       filename: filename,
-      contentType: DioMediaType(
-        'image',
-        filename?.split('.').last ?? 'png',
-      ),
     );
     return await post<T>(
       AppConfig.getUploadPhotoUrl,

@@ -1,6 +1,6 @@
 import 'package:kellychat/network/net/entry/user/user.dart';
 import 'package:kellychat/network/net/net_result.dart';
-import 'package:kellychat/utils/image/image_deal.dart';
+import 'package:kellychat/network/net/util/upload_image_result_util.dart';
 import '../../user_info/model/user_info_entity.dart';
 import '../edit_mine_info_controller.dart';
 import '../model/image_links_entity.dart';
@@ -24,12 +24,10 @@ extension EditMineInfoReuestController on EditMineInfoController {
       filename: path.split('/').last,
     );
     EasyLoading.dismiss();
-    if (response.succeed) {
-      return response.value;
-    } else {
-      EasyLoading.showToast('上传失败');
-      return null;
-    }
+    final entity = UploadImageResultUtil.parse(response);
+    if (entity != null) return entity;
+    EasyLoading.showToast(UploadImageResultUtil.failureMessage(response));
+    return null;
   }
 
   /// request - 上传头像
@@ -37,18 +35,15 @@ extension EditMineInfoReuestController on EditMineInfoController {
     if (Strings.isEmpty(path)) return null;
     EasyLoading.show();
     try {
-      final uploadPath = await ImageDeal().compressFileUnderMaxBytes(path);
       final response =
           await Net.value<User>().requestUploadUserAvatar<ImageLinksEntity>(
-        uploadPath,
-        filename: uploadPath.split('/').last,
+        path,
+        filename: path.split('/').last,
       );
-      if (response.succeed) {
-        return response.value;
-      } else {
-        EasyLoading.showToast('上传失败');
-        return null;
-      }
+      final entity = UploadImageResultUtil.parse(response);
+      if (entity != null) return entity;
+      EasyLoading.showToast(UploadImageResultUtil.failureMessage(response));
+      return null;
     } finally {
       EasyLoading.dismiss();
     }
