@@ -111,13 +111,10 @@ class LoginVM extends BaseVM {
 
   /// 苹果审核校验
   Future<bool> appleCheck() async {
-    if (GetPlatform.isIOS &&
-        UserCenter().unsubscribed &&
-        "xieling@bigseller.com" == phoneController.value.text) {
+    if (UserCenter().unsubscribed) {
       /// 注销账户后，10分钟内不能登录
       final limitTime =
-          await Stores().get<int>('unsubscribed_limit_time', userLat: false) ??
-              0;
+          await Stores(userLat: false).get<int>('unsubscribed_limit_time') ?? 0;
       if ((DateTime.now().millisecondsSinceEpoch / 1000).round() - limitTime <
           600) {
         EasyLoading.showToast(LocaleKeys.AccountCanceled.tr);

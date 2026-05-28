@@ -115,14 +115,13 @@ class ReportUtil {
     if (!file.existsSync()) {
       file.createSync();
     }
-    int? time = await Stores()
-        .get<int>(UserConfigEnum.logSaveStartTime.toString(), userLat: false);
+    int? time = await Stores(userLat: false)
+        .get<int>(UserConfigEnum.logSaveStartTime.toString());
     if (time == null ||
         (timestamp - time) >= fourDayTamp ||
         (await file.length() > saveBigByte)) {
-      await Stores().put<int>(
-          UserConfigEnum.logSaveStartTime.toString(), timestamp,
-          userLat: false);
+      await Stores(userLat: false).put<int>(
+          UserConfigEnum.logSaveStartTime.toString(), timestamp);
       if (time != null) {
         String temp = file.readAsStringSync();
         String result = temp.substring(temp.length ~/ 2, temp.length);

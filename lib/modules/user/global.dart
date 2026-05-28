@@ -24,7 +24,7 @@ class Global {
         return accessToken.value;
       }
       accessToken.value =
-          await Stores().get<String>('appLoginToken', userLat: false) ?? '';
+          await Stores(userLat: false).get<String>('appLoginToken') ?? '';
       return accessToken.value;
     } catch (_) {
       return accessToken.value;
@@ -39,7 +39,7 @@ class Global {
         return token;
       }
       accessToken.value = token;
-      await Stores().put('appLoginToken', token, userLat: false);
+      await Stores(userLat: false).put('appLoginToken', token);
       await setTokenTime(DateTime.now().millisecondsSinceEpoch);
       return token;
     } catch (_) {
@@ -49,23 +49,23 @@ class Global {
 
   /// 获取token保存时间
   static Future<int?> get getTokenTime async {
-    return await Stores().get<int>('appLoginTokenTime', userLat: false);
+    return await Stores(userLat: false).get<int>('appLoginTokenTime');
   }
 
   /// 设置token保存时间
   static Future setTokenTime(int time) async {
-    await Stores().put('appLoginTokenTime', time, userLat: false);
+    await Stores(userLat: false).put('appLoginTokenTime', time);
   }
 
   /// 清除token保存时间
   static Future clearTokenTime() async {
-    await Stores().put('appLoginTokenTime', 0, userLat: false);
+    await Stores(userLat: false).put('appLoginTokenTime', 0);
   }
 
   /// 设置登录
   static Future<bool> clearAccessToken() async {
     accessToken.value = "";
-    await Stores().put('appLoginToken', '', userLat: false);
+    await Stores(userLat: false).put('appLoginToken', '');
     await clearTokenTime();
     return true;
   }

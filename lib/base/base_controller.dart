@@ -287,7 +287,8 @@ abstract class BaseController extends GetxController
   /// rightTitleColor: 右边侧按钮标题颜色
   /// rightTitleBgColor: 右边侧按钮背景颜色
   /// customContentWidget: 自定义内容widget
-  Future<T?> pushDialogAlert<T>({
+  /// rightCountdownSeconds：右侧按钮倒计时秒数；大于 0 时倒计时结束前不可点击且文案为 `rightTitle(剩余s)`
+  Future<bool> pushDialogAlert({
     String? content,
     String? leftTitle,
     Color? leftTitleColor,
@@ -298,11 +299,11 @@ abstract class BaseController extends GetxController
     Widget? customContentWidget,
     VoidCallback? leftTap,
     VoidCallback? rightTap,
+    int? rightCountdownSeconds,
   }) async {
-    final ctx = Get.context;
-    if (ctx == null) return null;
-    return await showDialog<T>(
-      context: ctx,
+    var result = false;
+    await showDialog(
+      context: Get.context!,
       barrierDismissible: true,
       barrierColor: Colors.black54,
       builder: (dialogContext) => DialogAlertWidget(
@@ -315,9 +316,15 @@ abstract class BaseController extends GetxController
         rightTitleBgColor: rightTitleBgColor,
         customContentWidget: customContentWidget,
         leftTap: leftTap ?? Get.back,
-        rightTap: rightTap ?? Get.back,
+        rightTap: rightTap ??
+            () {
+              result = true;
+              Get.back();
+            },
+        rightCountdownSeconds: rightCountdownSeconds,
       ),
     );
+    return result;
   }
 
   /// push -

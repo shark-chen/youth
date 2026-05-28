@@ -33,7 +33,8 @@ class MinePage extends BasePage<MineController> {
                         height: 56,
                         imgUrl: controller.userProfile?.avatar ?? '',
                         imgBorderRadius: BorderRadius.circular(28),
-                        heroTag: '${controller.userProfile?.avatar ?? ''}_mine_page',
+                        heroTag:
+                            '${controller.userProfile?.avatar ?? ''}_mine_page',
                       ),
                       const SizedBox(width: 12),
                       Expanded(
@@ -131,6 +132,19 @@ class MinePage extends BasePage<MineController> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                ),
+              ),
+
+              Spacer(),
+
+              /// 注销账号
+              TextButton(
+                onPressed: () async {
+                  await controller.clickCancelAccount();
+                },
+                child: Text(
+                  '注销账号',
+                  style: TextStyles(color: ThemeColor.redColor),
                 ),
               ),
             ],

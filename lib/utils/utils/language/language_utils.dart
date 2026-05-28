@@ -75,11 +75,11 @@ class LanguageUtils {
 
   /// 存储选择的语言
   static Future saveLanguage(String language) async {
-    await Stores().put<String>('equipmentLanguage', language, userLat: false);
+    await Stores(userLat: false).put<String>('equipmentLanguage', language);
   }
 
   /// 获取存储的语言
   static Future<String?> getSaveLanguage() async {
-    return await Stores().get<String>('equipmentLanguage', userLat: false);
+    return await Stores(userLat: false).get<String>('equipmentLanguage');
   }
 }

@@ -28,15 +28,15 @@ class NetworkModelUtils {
 
   /// 摇一摇是否打开（正式环境下，是大关闭的，此值不在生效）
   Future<bool> get open async {
-    isOpen ??= await Stores()
-            .get<bool>(UserConfigEnum.shakeLookNetWork, userLat: false) ??
+    isOpen ??= await Stores(userLat: false)
+            .get<bool>(UserConfigEnum.shakeLookNetWork) ??
         true;
     return isOpen ?? true;
   }
 
   void setOpen(bool open) {
     isOpen = open;
-    Stores().put<bool>(UserConfigEnum.shakeLookNetWork, open, userLat: false);
+    Stores(userLat: false).put<bool>(UserConfigEnum.shakeLookNetWork, open);
   }
 
   ///悬浮API是否开启

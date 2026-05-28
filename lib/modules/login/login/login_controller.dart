@@ -41,6 +41,11 @@ class LoginController extends BaseController {
       if (await pushPrivacyPop() == false) return;
     }
 
+    /// 登录数据校验 + 苹果审核校验
+    if ((await vm.value.appleCheck()) == false) {
+      return vm.refresh();
+    }
+
     /// 请求登录
     LoginUserInfoEntity? user = await requestLogin(
       phone: vm.value.phoneController.text,

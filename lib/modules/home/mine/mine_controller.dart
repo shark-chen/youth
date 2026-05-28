@@ -77,4 +77,22 @@ class MineController extends BaseController {
     await UserCenter().clear(loginOut: true);
     await Get.offAllNamed(Routes.login);
   }
+
+  /// 点击注销账号
+  Future<void> clickCancelAccount() async {
+   final confirm = await pushDialogAlert(
+      content: '账号注销后，你将无法使用该账号。个人资料、聊天、互动等所有数据将被永久删除。确定要注销吗',
+      rightTitle: '确定注销',
+      rightCountdownSeconds: 10,
+    );
+   if(!confirm) return;
+   UserCenter().unsubscribed = true;
+   /// 注销账户后，10分钟内不能登录
+   await Stores(userLat: false).put<int>('unsubscribed_limit_time',
+       (DateTime.now().millisecondsSinceEpoch / 1000).round());
+   await Global.clearAccessToken();
+   Global.actualLogin.value = false;
+   await UserCenter().clear(loginOut: true);
+   await Get.offAllNamed(Routes.login);
+  }
 }
