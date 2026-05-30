@@ -115,6 +115,7 @@ class ChatController extends BaseController {
         content: t,
         clientMsgId: clientMsgId,
       );
+      vm.refresh();
     } catch (_) {
       vm.value.markSendFailedByClientMsgId(clientMsgId);
       vm.refresh();

@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_page.dart';
+import 'package:kellychat/tripartite_library/tripartite_library.dart';
 import 'chat_controller.dart';
 import 'view/chat_input_bar.dart';
 
@@ -34,45 +35,25 @@ class ChatPage extends BasePage<ChatController> {
             ),
           ),
         ]),
-        body: Builder(
-          builder: (context) {
-            final bottomInset = MediaQuery.paddingOf(context).bottom;
-            const inputReserve = 72.0;
-            return Stack(
-              children: [
-                Positioned.fill(
-                  child: Obx(() {
-                    return SafeArea(
-                      child: ListView.builder(
-                        controller: controller.vm.value.listScrollController,
-                        padding: EdgeInsets.only(
-                          bottom: bottomInset + inputReserve + 8,
-                        ),
-                        itemCount: controller.messages.length,
-                        itemBuilder: (context, index) {
-                          final item = controller.messages[index]
-                            ..index = '$index';
-                          return controller.buildChatMsgUI(item);
-                        },
-                      ),
-                    );
-                  }),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  controller: controller.vm.value.listScrollController,
+                  itemCount: controller.messages.length,
+                  itemBuilder: (context, index) {
+                    final item = controller.messages[index]..index = '$index';
+                    return controller.buildChatMsgUI(item);
+                  },
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: SafeArea(
-                    top: false,
-                    child: ChatInputBar(
-                      onSend: (text) => controller.sendText(text),
-                      onAttach: controller.clickAddPhoto,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
+              ),
+              ChatInputBar(
+                onSend: (text) => controller.sendText(text),
+                onAttach: controller.clickAddPhoto,
+              ),
+            ],
+          ),
         ),
       ),
     );
