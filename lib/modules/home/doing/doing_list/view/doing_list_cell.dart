@@ -260,8 +260,8 @@ class _DoingListCellState extends State<DoingListCell>
         return _PillButton(
           label: '一起做',
           background: ThemeColor.white15Color,
-          foreground: Colors.white,
-          onTap: null,
+          foreground: ThemeColor.white6Color,
+          onTap: widget.onTogetherTap,
         );
       case TogetherButtonStatus.connected:
         return _PillButton(

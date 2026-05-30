@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 
 /// 重置私密密码确认（居中弹框）
@@ -97,8 +99,7 @@ class _DialogAlertWidgetState extends State<DialogAlertWidget> {
   }
 
   Color get _rightBgColor {
-    final base =
-        widget.rightTitleBgColor ?? ThemeColor.dialogRedConfirmBgColor;
+    final base = widget.rightTitleBgColor ?? ThemeColor.dialogRedConfirmBgColor;
     return _rightButtonEnabled ? base : base.withOpacity(0.45);
   }
 
@@ -146,17 +147,23 @@ class _DialogAlertWidgetState extends State<DialogAlertWidget> {
                 const SizedBox(height: 22),
                 Row(
                   children: [
-                    Expanded(
-                      child: _PillButton(
-                        label: widget.leftTitle ?? '取消',
-                        backgroundColor: widget.leftTitleBgColor ??
-                            ThemeColor.doingListTogetherBgColor,
-                        textColor:
-                            widget.leftTitleColor ?? ThemeColor.whiteColor,
-                        onTap: widget.leftTap,
+                    Visibility(
+                      visible: Strings.isNotEmpty(widget.leftTitle),
+                      child: Expanded(
+                        child: _PillButton(
+                          label: widget.leftTitle ?? '取消',
+                          backgroundColor: widget.leftTitleBgColor ??
+                              ThemeColor.doingListTogetherBgColor,
+                          textColor:
+                              widget.leftTitleColor ?? ThemeColor.whiteColor,
+                          onTap: widget.leftTap,
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    Visibility(
+                      visible: Strings.isNotEmpty(widget.leftTitle),
+                      child: const SizedBox(width: 12),
+                    ),
                     Expanded(
                       child: _PillButton(
                         label: _rightButtonLabel,

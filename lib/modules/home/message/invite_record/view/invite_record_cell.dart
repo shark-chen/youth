@@ -54,6 +54,7 @@ class InviteRecordCell extends BaseStatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// 头像
             ImageLookWidget(
               imgUrl: headPortraitUrl ?? '',
               width: 42,
@@ -62,10 +63,13 @@ class InviteRecordCell extends BaseStatelessWidget {
               heroTag: heroTag,
             ),
             const SizedBox(width: 6),
+
+            /// 昵称 + 时间 + 状态等信息
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  /// 昵称 + 时间
                   Row(
                     children: [
                       Flexible(
@@ -91,6 +95,8 @@ class InviteRecordCell extends BaseStatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 2),
+
+                  /// 邀请一起做的事情
                   RichText(
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -99,16 +105,18 @@ class InviteRecordCell extends BaseStatelessWidget {
                 ],
               ),
             ),
-            if (inviteStatusStr?.isNotEmpty == true)
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Text(
-                  inviteStatusStr!,
-                  style: TextStyles(
-                    color: ThemeColor.white4Color,
-                  ),
+            SizedBox(width: 20),
+
+            /// 邀约状态
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                inviteStatusStr ?? '',
+                style: TextStyles(
+                  color: ThemeColor.white4Color,
                 ),
               ),
+            ),
           ],
         ),
       ),

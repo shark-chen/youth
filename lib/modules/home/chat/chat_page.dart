@@ -28,31 +28,34 @@ class ChatPage extends BasePage<ChatController> {
             child: Padding(
               padding: EdgeInsets.only(right: 6),
               child: Image.asset(
-                "assets/image/common/look_more@3x.png",
+                'assets/image/common/look_more@3x.png',
                 width: 32,
                 height: 32,
               ),
             ),
           ),
         ]),
-        body: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  controller: controller.vm.value.listScrollController,
-                  itemCount: controller.messages.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.messages[index]..index = '$index';
-                    return controller.buildChatMsgUI(item);
-                  },
+        body: Obx(
+          () => SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    controller: controller.vm.value.listScrollController,
+                    itemCount: controller.messages.length,
+                    itemBuilder: (context, index) {
+                      final item = controller.messages[index]..index = '$index';
+                      return controller.buildChatMsgUI(item);
+                    },
+                  ),
                 ),
-              ),
-              ChatInputBar(
-                onSend: (text) => controller.sendText(text),
-                onAttach: controller.clickAddPhoto,
-              ),
-            ],
+                ChatInputBar(
+                  onSend: (text) => controller.sendText(text),
+                  onAttach: controller.clickAddPhoto,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -38,11 +38,19 @@ class InvitationItemEntity {
   /// 互动时间\n 今天：HH:mm（如 23:19）\n 昨天：昨天 HH:mm（如 昨天 13:15）
   String? displayTime;
 
+  /// 自定义字段
+  ///
+  /// 我邀约TA一起做 || TA我邀约我一起做
+  String? interactionStr;
+
   InvitationItemEntity();
 
   factory InvitationItemEntity.fromJson(dynamic json) {
     if (Maps.isNotEmpty(json)) {
-      return $InvitationItemEntityFromJson(json);
+      final result = $InvitationItemEntityFromJson(json);
+      result.interactionStr =
+          result.direction == 'sent' ? '我邀约TA一起做' : 'TA我邀约我一起做';
+      return result;
     }
     return InvitationItemEntity();
   }

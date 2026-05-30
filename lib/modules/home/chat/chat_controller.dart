@@ -108,7 +108,6 @@ class ChatController extends BaseController {
     );
     vm.value.addChatMsg(item);
     vm.refresh();
-    vm.value.animateToListToBottom();
     try {
       await sendChatMessage(
         contentType: contentType,
@@ -120,6 +119,7 @@ class ChatController extends BaseController {
       vm.value.markSendFailedByClientMsgId(clientMsgId);
       vm.refresh();
     }
+    vm.value.animateToListToBottom();
   }
 
   /// 失败消息重发（新 clientMsgId）

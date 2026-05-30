@@ -96,7 +96,8 @@ class _ChatInputBarState extends State<ChatInputBar> {
                   ),
                 ),
                 textInputAction: TextInputAction.send,
-                onSubmitted: (_) => _submit(),
+                // 用 onEditingComplete 接管提交，避免 onSubmitted 默认失焦收起键盘
+                onEditingComplete: _submit,
               ),
             ),
             const SizedBox(width: 10),

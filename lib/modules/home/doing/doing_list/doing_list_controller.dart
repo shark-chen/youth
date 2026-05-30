@@ -235,8 +235,21 @@ class DoingListController extends BaseController {
 
   /// 点击加入一起 一起做
   Future clickJoinTogether(
-      DoingListList? item, TogetherButtonStatus status) async {
+    DoingListList? item,
+    TogetherButtonStatus status,
+  ) async {
     if (item == null) return;
+
+    /// 我已经建立连接啦，点击其他用户一起做，提示报错
+    if (TogetherButtonStatus.disabled == status) {
+      await pushDialogAlert(
+        content: '你正在与${item.nickname}一起做，请取消后再试',
+        leftTitle: '',
+        rightTitle: '我知道了',
+      );
+      return;
+    }
+
     CurrentDoingStateEntity? result = await requestInvitationCurrentDoingState(
         targetUserId: item.userId ?? 0);
     if (result == null) return;
