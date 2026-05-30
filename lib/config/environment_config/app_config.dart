@@ -217,7 +217,7 @@ class AppConfig {
   ///
   /// 需小于网关/Nginx `client_max_body_size`（当前环境约 1MB）；后端 Java 校验可为 5MB，
   /// 请求体过大时会在网关层返回 HTTP 413，到不了应用。
-  static const double uploadImageMaxSizeMb = 1.0;
+  static const double uploadImageMaxSizeMb = 4.5;
 
   /// 上传头像（POST multipart，字段名 `file`）
   static String get getUserAvatarUrl {
