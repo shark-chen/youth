@@ -1,5 +1,4 @@
 import 'package:kellychat/base/base_controller.dart';
-
 import 'controller/invite_record_request_controller.dart';
 export 'controller/invite_record_request_controller.dart';
 import 'view_model/invite_record_vm.dart';

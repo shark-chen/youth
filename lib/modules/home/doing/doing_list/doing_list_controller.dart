@@ -243,7 +243,7 @@ class DoingListController extends BaseController {
     /// 我已经建立连接啦，点击其他用户一起做，提示报错
     if (TogetherButtonStatus.disabled == status) {
       await pushDialogAlert(
-        content: '你正在与${item.nickname}一起做，请取消后再试',
+        content: '你正在与${MyDoing().doing?.togetherPartner?.nickname}一起做，请取消后再试',
         leftTitle: '',
         rightTitle: '我知道了',
       );

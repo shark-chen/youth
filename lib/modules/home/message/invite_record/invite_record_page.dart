@@ -1,6 +1,5 @@
 import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
-
 import 'invite_record_controller.dart';
 import 'view/invite_record_cell.dart';
 

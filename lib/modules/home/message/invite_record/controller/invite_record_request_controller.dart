@@ -1,11 +1,7 @@
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
-
-import '../../model/message_person_list_entity.dart';
 import '../invite_record_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
-
-import '../model/together_list_entity.dart';
 
 /// FileName: invite_record_request_controller
 ///

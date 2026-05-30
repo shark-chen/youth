@@ -97,10 +97,24 @@ class InviteRecordCell extends BaseStatelessWidget {
                   const SizedBox(height: 2),
 
                   /// 邀请一起做的事情
-                  RichText(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    text: _buildInviteMatterTextSpan(),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: RichText(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          text: _buildInviteMatterTextSpan(),
+                        ),
+                      ),
+                      Text(
+                        '」',
+                        style: TextStyles(
+                          fontSize: 12,
+                          color: ThemeColor.themeGreenColor,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -125,60 +139,25 @@ class InviteRecordCell extends BaseStatelessWidget {
 
   /// 邀约文案：`[tagName]` 整段（含方括号）使用主题绿色
   TextSpan _buildInviteMatterTextSpan() {
-    final text = inviteMatter ?? '';
-    final baseStyle = TextStyles(
-      fontSize: 12,
-      color: ThemeColor.white6Color,
-      fontWeight: FontWeight.normal,
-    );
-    final tagStyle = TextStyles(
-      fontSize: 12,
-      color: ThemeColor.themeGreenColor,
-      fontWeight: FontWeight.normal,
-    );
-
-    if (text.isEmpty) {
-      return TextSpan(text: '', style: baseStyle);
-    }
-    final tag = tagName?.trim();
-    if (tag != null && tag.isNotEmpty) {
-      final bracketed = '「$tag」';
-      final index = text.indexOf(bracketed);
-      if (index >= 0) {
-        return TextSpan(
-          children: [
-            if (index > 0)
-              TextSpan(text: text.substring(0, index), style: baseStyle),
-            TextSpan(text: bracketed, style: tagStyle),
-            if (index + bracketed.length < text.length)
-              TextSpan(
-                text: text.substring(index + bracketed.length),
-                style: baseStyle,
-              ),
-          ],
-        );
-      }
-    }
-
-    final pattern = RegExp(r'\[[^\]]*\]');
-    final spans = <TextSpan>[];
-    var start = 0;
-    for (final match in pattern.allMatches(text)) {
-      if (match.start > start) {
-        spans.add(TextSpan(
-          text: text.substring(start, match.start),
-          style: baseStyle,
-        ));
-      }
-      spans.add(TextSpan(text: match.group(0), style: tagStyle));
-      start = match.end;
-    }
-    if (start < text.length) {
-      spans.add(TextSpan(text: text.substring(start), style: baseStyle));
-    }
     return TextSpan(
-      children:
-          spans.isEmpty ? [TextSpan(text: text, style: baseStyle)] : spans,
+      children: [
+        TextSpan(
+          text: inviteMatter,
+          style: TextStyles(
+            fontSize: 12,
+            color: ThemeColor.white6Color,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        TextSpan(
+          text: '「$tagName',
+          style: TextStyles(
+            fontSize: 12,
+            color: ThemeColor.themeGreenColor,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,8 +1,6 @@
 import 'package:kellychat/base/base_vm.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
-import '../../model/message_person_list_entity.dart';
-import '../model/together_list_entity.dart';
 
 /// FileName: invite_record_vm
 ///
