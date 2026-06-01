@@ -76,6 +76,10 @@ extension DoingListRequestController on DoingListController {
     if (response.code == 200) {
       EasyLoading.showToast('已取消');
       await MyDoing().requestMyDoing();
+      EventBusManager().fire(MyDoing().doing);
+      if (!MyDoing().existTagName) {
+        await pushDoingPage();
+      }
       return true;
     }
     EasyLoading.showToast(response.msg ?? '');

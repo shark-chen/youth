@@ -1,3 +1,4 @@
+import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/net.dart';
@@ -34,6 +35,11 @@ class MyDoing extends BaseUser {
 
   PublishDoingEntity? get doing {
     return _doing;
+  }
+
+  /// 存在事项
+  bool get existTagName {
+    return Strings.isNotEmpty(_doing?.tagName);
   }
 
   void configDoing(PublishDoingEntity? value) {

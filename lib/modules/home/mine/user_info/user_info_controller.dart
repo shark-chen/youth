@@ -116,9 +116,9 @@ class UserInfoController extends BaseController {
       ///
       /// 1. 我当前是否有正在连接中的用户? 提示先断开当前连接
       if (true == state.hasActiveTogether) {
-        final confirm = await pushCancelDoingDialog();
-        if (!confirm) return;
         final togetherPartner = MyDoing().doing?.togetherPartner;
+        final confirm = await pushCancelDoingDialog(togetherPartner?.nickname);
+        if (!confirm) return;
         final result = await requestCancelTogether(
           togetherId: togetherPartner?.togetherId.toString() ?? '',
         );
@@ -136,7 +136,7 @@ class UserInfoController extends BaseController {
       /// 并建立新的一起估点击弹窗上的「取消」按钮，关闭弹窗;点击「继续」按钮，取前的激约。建立新的一起做连接云能店
       if (true == state.hasPendingInvitation) {
         final confirm = await pushDialog(
-            '你向${state.pendingInvitationToUserNickname ?? '--'}发起的「${state.tagName ?? '--'}」一起做)等待对方接受中。继续操作将取消该邀约，并建立新的一起做。');
+            '你向 ${state.pendingInvitationToUserNickname ?? '--'} 发起的「${state.tagName ?? '--'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并建立新的一起做。');
         if (!confirm) return;
 
         /// 发起邀请
@@ -152,6 +152,13 @@ class UserInfoController extends BaseController {
 
       /// 可直接用当前事项发起邀约
       if (state.canQuickInvite == true) {
+        final confirm = await pushDialogAlert(
+          content:
+              '确定向「${vm.value.userInfo?.nickname ?? '--'}」发起「${state.tagName ?? '--'}」一起做邀约吗？',
+          rightTitleBgColor: ThemeColor.themeGreenColor,
+          rightTitleColor: ThemeColor.textBlackColor,
+        );
+        if (!confirm) return;
         await requestInvitationProfileSend(toUserId: currentProfileUserId ?? 0);
       }
     } else {

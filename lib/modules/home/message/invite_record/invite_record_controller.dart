@@ -21,7 +21,9 @@ class InviteRecordController extends BaseController {
   }
 
   /// push - 跳转到用户信息页面-page
-  Future pushUserInfoPage() async {
-    await Get.toNamed(Routes.userInfoPage);
+  Future pushUserInfoPage({required String userId}) async {
+    await Get.toNamed(Routes.userInfoPage, parameters: {
+      'userId': userId,
+    });
   }
 }

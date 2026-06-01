@@ -70,14 +70,6 @@ class DoingListController extends BaseController {
     });
   }
 
-  /// 已有正在做且清单 Controller 未注册时，进入 DoingListPage
-  Future<void> _openDoingListIfNeeded(DoingPresentHotTagEntity? tag) async {
-    if (tag == null || tag.tagId == null) return;
-    if (Get.isRegistered<DoingListController>()) {
-      Get.put<DoingListController>(DoingListController(value: tag));
-    }
-  }
-
   /// 刷新数据
   Future refreshData() async {
     requestMyDoing();
@@ -161,11 +153,7 @@ class DoingListController extends BaseController {
     final result =
         await requestDeleteStatusDoing(vm.value.myDoing?.statusId ?? 0);
     if (!result) return;
-    if (canClosePage) {
-      Future.delayed(Duration(microseconds: 1500), closePage);
-    } else {
-      await pushDoingPage();
-    }
+    await pushDoingPage();
   }
 
   /// 敲一下飞入 Toast 背景色 RGB(101, 178, 91)
@@ -217,7 +205,7 @@ class DoingListController extends BaseController {
 
     final myPartner = MyDoing().doing?.togetherPartner;
 
-    // 已和对方建立连接
+    /// 已和对方建立连接
     if (myPartner?.userId == item.userId) {
       return TogetherButtonStatus.connected;
     }

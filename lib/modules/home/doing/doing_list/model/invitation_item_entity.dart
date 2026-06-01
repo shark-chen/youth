@@ -12,7 +12,7 @@ class InvitationItemEntity {
   String? direction;
 
   /// 对方用户ID
-  int? targetUserId;
+  String? targetUserId;
 
   /// 对方昵称
   String? targetNickname;

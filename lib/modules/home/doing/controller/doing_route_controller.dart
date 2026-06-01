@@ -1,4 +1,6 @@
+import 'package:flutter/widgets.dart';
 import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import '../doing_controller.dart';
 import '../model/doing_nav_ids.dart';
 import '../model/doing_hot_tags_entity.dart';
@@ -11,6 +13,25 @@ import '../model/doing_present_hot_tag_entity.dart';
 ///
 /// @Description
 extension DoingRouteController on DoingController {
+  /// 正在 Tab 嵌套栈顶是否为 DoingListPage
+  bool get isDoingListPageShowing {
+    final nav = Get.nestedKey(doingNavigatorId)?.currentState;
+    if (nav == null) return false;
+
+    Route<dynamic>? topRoute;
+    nav.popUntil((route) {
+      topRoute = route;
+      return true;
+    });
+    final route = topRoute;
+    if (route == null) return false;
+
+    final name = route.settings.name;
+    if (name == Routes.doingListPage) return true;
+    // 初始路由 `/` 且已有正在做时，栈顶也是 DoingListPage
+    return (name == null || name == '/') && MyDoing().doing != null;
+  }
+
   /// mark - push
   ///
   /// push - 正在做的清单-页面

@@ -1,10 +1,10 @@
 import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
+import 'package:kellychat/network/net/entry/friend/friend.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 import '../doing_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
-import '../model/doing_hot_tags_entity.dart';
 import '../model/doing_present_hot_tag_entity.dart';
 import '../model/publish_doing_entity.dart';
 
@@ -69,6 +69,21 @@ extension DoingRequestController on DoingController {
       vm.refresh();
     } else {
       EasyLoading.showToast(response.msg ?? '');
+    }
+  }
+
+  /// request - 通过邀请码接受邀约
+  Future<void> requestAcceptInvitationByCode(String inviteCode) async {
+    EasyLoading.show();
+    final response = await Net.value<Friend>()
+        .requestAcceptInvitationByCode(inviteCode: inviteCode);
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast('接受邀约成功');
+      await MyDoing().requestMyDoing();
+      EventBusManager().fire(MyDoing().doing);
+    } else {
+      EasyLoading.showToast('口令不存在或已失效');
     }
   }
 }

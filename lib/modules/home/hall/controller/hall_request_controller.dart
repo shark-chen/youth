@@ -1,7 +1,10 @@
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/modules/user/user_center/user_info/user_info_center.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
+import 'package:kellychat/network/net/entry/friend/friend.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 import 'package:kellychat/network/net/net.dart';
+import 'package:kellychat/tripartite_library/notification/event_bus_manager.dart';
 import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../mine/user_info/model/user_info_entity.dart';
@@ -70,5 +73,20 @@ extension HallRequestController on HallController {
   Future<void> requestUserProfile() async {
     vm.value.configUserInfo(await UserInfoCenter().userInfo);
     vm.refresh();
+  }
+
+  /// request - 通过邀请码接受邀约
+  Future<void> requestAcceptInvitationByCode(String inviteCode) async {
+    EasyLoading.show();
+    final response = await Net.value<Friend>()
+        .requestAcceptInvitationByCode(inviteCode: inviteCode);
+    EasyLoading.dismiss();
+    if (response.success) {
+      EasyLoading.showToast('接受邀约成功');
+      await MyDoing().requestMyDoing();
+      EventBusManager().fire(MyDoing().doing);
+    } else {
+      EasyLoading.showToast('口令不存在或已失效');
+    }
   }
 }

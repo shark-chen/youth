@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:image_picker/image_picker.dart';
 import 'package:kellychat/base/base_controller.dart';
+import 'package:kellychat/modules/home/home/utils/invitation_code_utils.dart';
 import '../mine/user_info/model/user_info_entity.dart';
 import 'model/smart_match_people_entity.dart';
 import 'view_model/hall_vm.dart';
@@ -72,6 +73,12 @@ class HallController extends BaseController
 
   /// 点击开始找人
   Future clickStartFindFriend(String content) async {
+    /// 邀请口令：数字+字母组合，长度恰好 9 位（如 24A76861A）
+    final inviteCode = InvitationCodeUtils.normalizeInvitationCode(content);
+    if (inviteCode != null) {
+      await requestAcceptInvitationByCode(inviteCode);
+      return;
+    }
     final succeed = await requestMatchSearch(description: content);
     if (succeed) {
       vm.value.findMode = FindMode.findFriend;

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:kellychat/base/base_controller.dart';
-import 'doing_list/doing_list_controller.dart';
 import '../home/view/tabs.dart';
 import '../mine/user_info/model/user_info_entity.dart';
 import 'model/doing_nav_ids.dart';
@@ -8,6 +7,7 @@ import 'model/doing_hot_tags_entity.dart';
 import 'model/doing_present_hot_tag_entity.dart';
 import 'model/publish_doing_entity.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
+import '../home/utils/invitation_code_utils.dart';
 import 'view_model/doing_vm.dart';
 import 'controller/doing_request_controller.dart';
 export 'controller/doing_request_controller.dart';
@@ -54,7 +54,7 @@ class DoingController extends BaseController {
       await UserCenter().init();
       vm.refresh();
     });
-    EventBusManager().listen<PublishDoingEntity>(this, (event) async {
+    EventBusManager().listen<PublishDoingEntity?>(this, (event) async {
       await _openDoingListIfNeeded(_tagFromPublishDoing(event));
     });
     EventBusManager().listen<HomeTabs>(this, (tab) async {
@@ -64,7 +64,8 @@ class DoingController extends BaseController {
     });
   }
 
-  DoingPresentHotTagEntity? _tagFromPublishDoing(PublishDoingEntity event) {
+  DoingPresentHotTagEntity? _tagFromPublishDoing(PublishDoingEntity? event) {
+    if (event == null) return null;
     return DoingPresentHotTagEntity()
       ..tagId = event.tagId
       ..tagName = event.tagName;
@@ -78,12 +79,17 @@ class DoingController extends BaseController {
       ..tagName = doing.tagName;
   }
 
-  /// 已有正在做且清单 Controller 未注册时，进入 DoingListPage
+  /// 发布正在做后，若当前不在 DoingListPage 则进入清单页
   Future<void> _openDoingListIfNeeded(DoingPresentHotTagEntity? tag) async {
-    if (tag == null || tag.tagId == null) return;
-    if (Get.isRegistered<DoingListController>()) {
-      Get.put<DoingListController>(DoingListController(value: tag));
+    if (tag == null || tag.tagId == null) {
+      if (canClosePage) {
+        closePage();
+      }
+      return;
     }
+    print('isDoingListPageShowing');
+    if (isDoingListPageShowing) return;
+    print('pushDoingListPage');
     await pushDoingListPage(tag);
   }
 
@@ -101,6 +107,13 @@ class DoingController extends BaseController {
 
   /// 点击发布正在做的事 - 输入框发布
   Future clickPublishDoing(String content) async {
+    /// 邀请口令：数字+字母组合，长度恰好 9 位（如 24A76861A）
+    final inviteCode = InvitationCodeUtils.normalizeInvitationCode(content);
+    if (inviteCode != null) {
+      await requestAcceptInvitationByCode(inviteCode);
+      return;
+    }
+
     final result = await requestPostStatusDoing(tagName: content);
     if (result == null) return;
     final tag = DoingPresentHotTagEntity()

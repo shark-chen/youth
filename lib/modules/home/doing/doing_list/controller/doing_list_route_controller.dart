@@ -29,14 +29,18 @@ extension DoingListRouteController on DoingListController {
   ///
   /// push-正在做的清单-页面
   Future pushDoingPage() async {
-    await Get.toNamed(Routes.doingPage, id: doingNavigatorId);
-    vm.refresh();
-    final doing = MyDoing().doing;
-    if (doing != null) {
-      vm.value.doingHotTagsEntity?.tagName = doing.tagName;
-      vm.value.doingHotTagsEntity?.tagId = doing.tagId;
+    if (canClosePage) {
+      Future.delayed(Duration(microseconds: 1500), closePage);
+    } else {
+      await Get.toNamed(Routes.doingPage, id: doingNavigatorId);
+      vm.refresh();
+      final doing = MyDoing().doing;
+      if (doing != null) {
+        vm.value.doingHotTagsEntity?.tagName = doing.tagName;
+        vm.value.doingHotTagsEntity?.tagId = doing.tagId;
+      }
+      await refreshData();
     }
-    await refreshData();
   }
 
   /// push - 邀请
@@ -99,8 +103,9 @@ extension DoingListRouteController on DoingListController {
       barrierDismissible: true,
       barrierColor: Colors.black54,
       builder: (dialogContext) => DialogAlertWidget(
-        content: '将移除当前状态，并断开与当前用户的连接。',
+        content: '是否断开与当前用户的连接？',
         leftTap: Get.back,
+        leftTitle: '取消',
         rightTitle: '断开',
         rightTap: () async {
           result = true;

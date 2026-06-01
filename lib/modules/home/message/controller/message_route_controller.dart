@@ -62,8 +62,9 @@ extension MessageRouteController on MessageController {
       barrierDismissible: true,
       barrierColor: Colors.black54,
       builder: (dialogContext) => DialogAlertWidget(
-        content: '将移除当前状态，并断开与当前用户的连接。',
+        content: '是否断开与当前用户的连接？',
         leftTap: Get.back,
+        leftTitle: '取消',
         rightTitle: '断开',
         rightTap: () async {
           result = true;

@@ -11,7 +11,7 @@ InvitationItemEntity $InvitationItemEntityFromJson(Map<String, dynamic> json) {
   if (direction != null) {
     invitationItemEntity.direction = direction;
   }
-  final int? targetUserId = jsonConvert.convert<int>(json['targetUserId']);
+  final String? targetUserId = jsonConvert.convert<String>(json['targetUserId']);
   if (targetUserId != null) {
     invitationItemEntity.targetUserId = targetUserId;
   }
@@ -70,7 +70,7 @@ extension InvitationItemEntityExtension on InvitationItemEntity {
   InvitationItemEntity copyWith({
     int? invitationId,
     String? direction,
-    int? targetUserId,
+    String? targetUserId,
     String? targetNickname,
     String? targetAvatar,
     String? interactionDesc,

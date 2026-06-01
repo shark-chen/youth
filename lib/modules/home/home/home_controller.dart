@@ -82,7 +82,6 @@ class HomeController extends BaseController {
   @override
   void appLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _checkClipboardForInviteCode();
     }
   }
 

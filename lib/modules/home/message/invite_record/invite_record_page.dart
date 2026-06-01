@@ -30,7 +30,7 @@ class InviteRecordPage extends BasePage<InviteRecordController> {
                     itemBuilder: (BuildContext context, int index) {
                       final row = controller.vm.value.rows[index];
                       return InviteRecordCell(
-                        userInfoTap: controller.pushUserInfoPage,
+                        userInfoTap: () => controller.pushUserInfoPage(userId: row.targetUserId ?? '0'),
                         headPortraitUrl: row.targetAvatar,
                         heroTag:
                             '${row.targetAvatar ?? ''}_invite_record_${index}',
