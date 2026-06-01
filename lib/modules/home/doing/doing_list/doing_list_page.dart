@@ -64,125 +64,133 @@ class DoingListPage extends BasePage<DoingListController> {
           ),
         ),
       ),
-      body: Obx(
-        () => SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Obx(() {
-                final vm = controller.vm.value;
-                return _DoingListHeaderSection(
-                  controller: controller,
-                  vm: vm,
-                  myDoing: MyDoing().doing,
-                );
-              }),
-              Obx(
-                () => controller.vm.value.haveDoingPerson
-                    ? const SizedBox.shrink()
-                    : const Spacer(),
+      body: SafeArea(
+        child: Obx(
+          () => SmartRefresher(
+            controller: controller.refreshController,
+            enablePullDown: true,
+            enablePullUp: controller.vm.value.haveDoingPerson,
+            onRefresh: controller.onRefresh,
+            onLoading: controller.onLoading,
+            header: RefresherHeader.build(),
+            footer: ClassicFooter(
+              loadingText: '加载中',
+              noDataText: '没有更多了',
+              height: 80.0,
+              loadStyle: LoadStyle.ShowWhenLoading,
+            ),
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
               ),
-              Visibility(
-                visible: !controller.vm.value.haveDoingPerson,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: Text(
-                        '部分热门的「正在做」',
-                        style: TextStyles(
-                          color: ThemeColor.whiteColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: Text(
-                        '点击即可设为我自己的状态',
-                        style: TextStyles(
-                          color: ThemeColor.whiteColor,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 5,
-                child: SmartRefresher(
-                  controller: controller.refreshController,
-                  enablePullUp: true,
-                  onRefresh: controller.onRefresh,
-                  onLoading: controller.onLoading,
-                  header: RefresherHeader.build(),
-                  footer: ClassicFooter(
-                    loadingText: '加载中',
-                    noDataText: '没有更多了',
-                    height: 80.0,
-                    loadStyle: LoadStyle.ShowWhenLoading,
-                  ),
-                  child: Obx(
-                    () {
-                      final itemCount = controller.itemCount;
-                      final v = controller.vm.value;
-                      return ListView.separated(
-                        padding: const EdgeInsets.only(top: 6, bottom: 24),
-                        itemCount: itemCount,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (v.haveDoingPerson) {
-                            final item = controller.rows[index];
-                            return DoingListCell(
-                              headerIcon: item.avatar,
-                              name: item.nickname,
-                              sex: _sexFromGender(item.gender),
-                              age: item.age != null ? '${item.age}' : null,
-                              address: item.city,
-                              signature: item.signature,
-                              isOnline: false,
-                              togetherStatus:
-                                  controller.togetherButtonStatusFor(item),
-                              onKnockTap: (center) async =>
-                                  controller.clickKnock(
-                                item,
-                                knockButtonCenter: center,
-                              ),
-                              onTogetherTap: () async =>
-                                  controller.clickJoinTogether(item,
-                                      controller.togetherButtonStatusFor(item)),
-                              onTap: () async =>
-                                  controller.clickLookUserInfo(item),
-                            );
-                          }
-                          final hot = controller.hotRows[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: DoingActivityStatCell(
-                              activityName: hot.tagName ?? '--',
-                              peopleCountLabel: hot.peopleCountDisplay ??
-                                  DoingListVM.formatHotTagPeopleCount(
-                                      hot.userCount ?? 0),
-                              onAddTap: () =>
-                                  controller.requestPublishDoingFromHotTag(hot),
-                            ),
-                          );
-                        },
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
+              slivers: _buildSlivers(),
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  List<Widget> _buildSlivers() {
+    final v = controller.vm.value;
+    final myDoing = MyDoing().doing;
+
+    return [
+      SliverToBoxAdapter(
+        child: _DoingListHeaderSection(
+          controller: controller,
+          vm: v,
+          myDoing: myDoing,
+        ),
+      ),
+      if (!v.haveDoingPerson)
+        const SliverToBoxAdapter(
+          child: _HotTagsSectionTitle(),
+        ),
+      SliverPadding(
+        padding: const EdgeInsets.only(top: 6, bottom: 24),
+        sliver: v.haveDoingPerson
+            ? SliverList.separated(
+                itemCount: controller.rows.length,
+                itemBuilder: (context, index) {
+                  final item = controller.rows[index];
+                  return DoingListCell(
+                    headerIcon: item.avatar,
+                    name: item.nickname,
+                    sex: _sexFromGender(item.gender),
+                    age: item.age != null ? '${item.age}' : null,
+                    address: item.city,
+                    signature: item.signature,
+                    isOnline: false,
+                    togetherStatus: controller.togetherButtonStatusFor(item),
+                    onKnockTap: (center) async => controller.clickKnock(
+                      item,
+                      knockButtonCenter: center,
+                    ),
+                    onTogetherTap: () async => controller.clickJoinTogether(
+                      item,
+                      controller.togetherButtonStatusFor(item),
+                    ),
+                    onTap: () async => controller.clickLookUserInfo(item),
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
+              )
+            : SliverList.separated(
+                itemCount: controller.hotRows.length,
+                itemBuilder: (context, index) {
+                  final hot = controller.hotRows[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: DoingActivityStatCell(
+                      activityName: hot.tagName ?? '--',
+                      peopleCountLabel: hot.peopleCountDisplay ??
+                          DoingListVM.formatHotTagPeopleCount(
+                              hot.userCount ?? 0),
+                      onAddTap: () =>
+                          controller.requestPublishDoingFromHotTag(hot),
+                    ),
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
+              ),
+      ),
+    ];
+  }
+}
+
+class _HotTagsSectionTitle extends StatelessWidget {
+  const _HotTagsSectionTitle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Text(
+            '部分热门的「正在做」',
+            style: TextStyles(
+              color: ThemeColor.whiteColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Text(
+            '点击即可设为我自己的状态',
+            style: TextStyles(
+              color: ThemeColor.whiteColor,
+              fontSize: 12,
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+      ],
     );
   }
 }

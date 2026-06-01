@@ -108,11 +108,11 @@ extension DoingListRequestController on DoingListController {
   }
 
   /// request - 获取当前热门的正在做标签列表
-  Future requestHotTags() async {
-    EasyLoading.show();
+  Future requestHotTags({bool showLoad = true}) async {
+    if (showLoad) EasyLoading.show();
     var response =
         await Net.value<Doing>().requestHotTags<DoingHotTagsEntity>(limit: 20);
-    EasyLoading.dismiss();
+    if (showLoad) EasyLoading.dismiss();
     if (response.succeed) {
       vm.value.configHotTags(response.values);
       vm.refresh();

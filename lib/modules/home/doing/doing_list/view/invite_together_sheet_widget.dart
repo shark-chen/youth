@@ -95,7 +95,7 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '好友通过口令或链接可与你建立一起做的状态。',
+                '打开 KellyChat ，在【正在】页面填入口令，跟我一起做～',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: ThemeColor.whiteColor.withOpacity(0.6),

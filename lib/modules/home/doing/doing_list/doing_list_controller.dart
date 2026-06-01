@@ -49,8 +49,7 @@ class DoingListController extends BaseController {
     /// 刷新数据
     refreshData();
 
-    /// request - 获取当前热门的正在做标签列表
-    requestHotTags();
+    /// requestHotTags 已在 refreshData 内按需拉取
   }
 
   /// 添加监听事件
@@ -73,34 +72,38 @@ class DoingListController extends BaseController {
   /// 刷新数据
   Future refreshData() async {
     requestMyDoing();
-
-    onRefresh();
-
-    /// 获取邀约收件箱（用于判断是否有待处理邀约）
     requestInvitationInbox();
+
     final value = vm.value.doingHotTagsEntity;
-    if (value == null) return;
+    if (value == null) {
+      await requestHotTags(showLoad: false);
+      return;
+    }
     final name = value.tagName;
     if (name != null && name.isNotEmpty) {
       vm.value.activityTitle = name;
     }
     vm.refresh();
+    pageNo = 1;
     if (value.tagId != null) {
-      pageNo = 1;
       await requestStatusDoingByTagId(value.tagId ?? 0);
     }
+    await requestHotTags(showLoad: false);
   }
 
   /// 下拉刷新
-  @override
   Future onRefresh({bool? showLoading = false}) async {
     pageNo = 1;
-    await requestStatusDoingByTagId(
-      vm.value.doingHotTagsEntity?.tagId ?? 0,
-      showLoad: false,
-      refresh: true,
-    );
-    requestHotTags();
+    final tagId =
+        vm.value.doingHotTagsEntity?.tagId ?? vm.value.myDoing?.tagId;
+    if (tagId != null && tagId > 0) {
+      await requestStatusDoingByTagId(
+        tagId,
+        showLoad: false,
+        refresh: true,
+      );
+    }
+    await requestHotTags(showLoad: false);
     refreshController.refreshCompleted();
   }
 
