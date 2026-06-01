@@ -1,11 +1,8 @@
 import 'dart:async';
 import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:flutter/material.dart';
-import '../generated/locales.g.dart';
-import 'package:get/get.dart';
 export 'package:get/get.dart';
 export '../../../../utils/utils.dart';
-export '../../../../../../generated/locales.g.dart';
 export 'package:kellychat/widget/bubble/model/bubble_model.dart';
 export 'package:kellychat/modules/user/user_center/user_center.dart';
 export 'package:kellychat/tripartite_library/tripartite_library.dart';
@@ -31,7 +28,7 @@ abstract class BaseVM {
   Timer? timer;
 
   /// 空白提示语
-  String spaceHint = LocaleKeys.InReqData.tr;
+  String spaceHint = '请求数据中';
 
   /// 翻页使用
   var pageNo = 1;

@@ -188,7 +188,7 @@ class BaseListItem extends StatelessWidget {
   Widget _buildCopyWidget(String? content) {
     return GestureDetector(
       onTap: () {
-        EasyLoading.showToast(LocaleKeys.copySuccessfully.tr);
+        EasyLoading.showToast('复制成功');
         Clipboard.setData(ClipboardData(text: content ?? ''));
       },
       child: Row(

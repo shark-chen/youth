@@ -59,12 +59,12 @@ class UserInfoController extends BaseController {
     final tId = targetUserId;
     if (tId == null) return TogetherButtonStatus.available;
 
-    // 已和对方建立连接
+    /// 已和对方建立连接
     if (myPartner?.userId == tId) {
       return TogetherButtonStatus.connected;
     }
 
-    // 自己已和其他人建立连接
+    /// 自己已和其他人建立连接
     if (myPartner != null) {
       return TogetherButtonStatus.disabled;
     }

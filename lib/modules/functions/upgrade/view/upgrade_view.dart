@@ -1,6 +1,5 @@
 import 'dart:io';
 import '../../../../base/base_controller.dart';
-import '../../../../base/base_page.dart';
 import '../../../../network/downloader/stream_speed_assist.dart';
 import '../../../../utils/router_observer/router_observer.dart';
 import '../model/upgrade_config.dart';
@@ -91,9 +90,7 @@ class _UpgradeDialogState extends State<UpgradeDialog>
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: showContinue
-                        ? LocaleKeys.Failed.tr
-                        : LocaleKeys.Downloading.tr,
+                    text: showContinue ? '失败' : '下载中',
                     style: const TextStyle(
                         color: ThemeColor.thickBlackColor,
                         fontSize: 17,
@@ -187,7 +184,7 @@ class _UpgradeDialogState extends State<UpgradeDialog>
                           await _onAndroidDownload();
                         },
                         child: Text(
-                          LocaleKeys.TryAgain.tr,
+                          '重试',
                           style: const TextStyle(
                             color: ThemeColor.blueColor,
                             fontWeight: FontWeight.w500,
@@ -238,7 +235,7 @@ class _UpgradeDialogState extends State<UpgradeDialog>
               padding: const EdgeInsets.symmetric(horizontal: 12),
               alignment: Alignment.center,
               child: Text(
-                LocaleKeys.DiscoverNewVersion.tr,
+                '发现新版本!',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     color: ThemeColor.thickBlackColor,
@@ -292,11 +289,14 @@ class _UpgradeDialogState extends State<UpgradeDialog>
                     overlayColor: MaterialStateProperty.resolveWith((states) {
                   return Colors.transparent;
                 })),
-                child: Text(LocaleKeys.UpdateNow.tr,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)),
+                child: Text(
+                  '立即更新',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 onPressed: () async {
                   if (Platform.isIOS || isGoogle) {
                     /// 跳转到苹果商城

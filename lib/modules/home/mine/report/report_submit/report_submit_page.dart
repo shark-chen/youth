@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:kellychat/base/base_page.dart';
-
 import 'report_submit_controller.dart';
 
 /// FileName: report_submit_page
@@ -76,9 +74,8 @@ class ReportSubmitPage extends BasePage<ReportSubmitController> {
                   height: 48,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: controller.requesting.value
-                        ? null
-                        : controller.submit,
+                    onPressed:
+                        controller.requesting.value ? null : controller.submit,
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       backgroundColor: ThemeColor.themeGreenColor,
@@ -88,7 +85,7 @@ class ReportSubmitPage extends BasePage<ReportSubmitController> {
                       shape: const StadiumBorder(),
                     ),
                     child: Text(
-                      LocaleKeys.submit.tr,
+                      '提交',
                       style: TextStyle(
                         color: ThemeColor.themeColor,
                         fontSize: 16,
@@ -127,8 +124,7 @@ class ReportSubmitPage extends BasePage<ReportSubmitController> {
         cursorColor: ThemeColor.themeGreenColor,
         decoration: InputDecoration(
           isDense: true,
-          hintText:
-              '请详细描述用户涉及违规的场景或内容，以提升举报成功率',
+          hintText: '请详细描述用户涉及违规的场景或内容，以提升举报成功率',
           hintStyle: ThemeColor.white14Text.copyWith(
             color: ThemeColor.secondaryTextColor,
           ),

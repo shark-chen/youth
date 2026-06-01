@@ -103,8 +103,7 @@ class HallPage extends BasePage<HallController> {
                     visible: controller.findPrompt,
                     child: Center(
                       child: HotTagsWidget(
-                        findTap: (content) =>
-                            controller.editingController?.text = content,
+                        findTap: controller.clickFindPerson,
                         onRemainingFour: controller.onHotTagsRemainingFour,
                         prefetchToken: controller.hotTagsPrefetchToken,
                         items: List<String>.from(controller.vm.value.aiTags),

@@ -70,7 +70,7 @@ class DownloadApk {
       );
       if (result.type != ResultType.done) {
         await _showPermissionToast(
-          LocaleKeys.FailedPleaseOfficialDownload.tr,
+          '安装失败，请前往官网下载更新',
           () async {
             await launchUrlString(
               config.downloadUrl!,
@@ -89,12 +89,12 @@ class DownloadApk {
     List<DialogAction> list = [];
     if (UpgradeTool.versionInfo?.upgradeType != 2) {
       list.add(
-        DialogAction(text: LocaleKeys.Cancel.tr, color: "#000000"),
+        DialogAction(text: '取消', color: "#000000"),
       );
     }
     list.add(
       DialogAction(
-        text: LocaleKeys.Confirm.tr,
+        text: '确定',
         color: "#ff0000",
         onPressed: () {
           UpgradeTool.checkUpgrade();

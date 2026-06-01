@@ -3,7 +3,6 @@ export 'package:get/get.dart';
 import 'package:flutter/material.dart';
 export 'package:flutter/material.dart';
 export '../utils/utils/theme_color.dart';
-export '../../../../../generated/locales.g.dart';
 export '../../../../widget/appbar/appbar_kit.dart';
 export '../utils/marco/marco.dart';
 export '../../../../../tripartite_library/tripartite_library.dart';

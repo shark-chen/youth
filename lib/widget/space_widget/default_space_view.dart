@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../../generated/locales.g.dart';
 import '../../utils/extension/strings/strings.dart';
 import '../../utils/utils/theme_color.dart';
 
@@ -95,8 +93,8 @@ class DefaultSpaceWidget extends StatelessWidget {
               child: Text(
                   prompt ??
                       ((spaceType == DefaultSpaceType.noData)
-                          ? LocaleKeys.NoData.tr
-                          : LocaleKeys.NetworkError.tr),
+                          ? '暂无数据'
+                          : '网络错误'),
                   style: titleStyle ??
                       const TextStyle(
                           color: ThemeColor.secondaryTextColor,
@@ -118,7 +116,7 @@ class DefaultSpaceWidget extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(refreshTitle ?? LocaleKeys.TryAgain.tr,
+                    child: Text(refreshTitle ?? '重试',
                         textAlign: TextAlign.center, // 居中对齐
                         style: const TextStyle(
                             color: ThemeColor.blueBtnColor,

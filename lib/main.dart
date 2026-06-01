@@ -23,9 +23,7 @@ Future<void> main() async {
       /// 存储语种
       /// 存储类
       try {
-        /// 获取APP的语言
-        Locale? locale = await LanguageUtils.appLocale;
-        var app = App(locale: locale);
+        var app = App();
         runApp(app);
         WidgetsBinding.instance.addObserver(app);
       } catch (e) {

@@ -60,8 +60,6 @@ class DoingListController extends BaseController {
       vm.value.doingHotTagsEntity = DoingPresentHotTagEntity()
         ..tagId = event.tagId
         ..tagName = event.tagName;
-
-      // await _openDoingListIfNeeded(_tagFromPublishDoing(event));
       await refreshData();
     });
 

@@ -11,7 +11,6 @@ export 'package:flutter_easyloading/flutter_easyloading.dart';
 export 'package:flutter/material.dart';
 export '../widget/alert/custom_alert.dart';
 export '../utils/utils/model_utils.dart';
-export '../../../generated/locales.g.dart';
 export '../../../base/base_controller.dart';
 export 'package:kellychat/modules/routes/app_pages.dart';
 export '../utils/marco/marco.dart';
@@ -87,7 +86,7 @@ abstract class BaseController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    spaceHint.value = LocaleKeys.InReqData.tr;
+    spaceHint.value = '请求数据中';
     refreshController.footerMode = RefreshNotifier(LoadStatus.noMore);
 
     /// 添加监听器
@@ -308,10 +307,10 @@ abstract class BaseController extends GetxController
       barrierColor: Colors.black54,
       builder: (dialogContext) => DialogAlertWidget(
         content: content,
-        leftTitle: leftTitle,
+        leftTitle: leftTitle ?? '取消',
         leftTitleColor: leftTitleColor,
         leftTitleBgColor: leftTitleBgColor,
-        rightTitle: rightTitle,
+        rightTitle: rightTitle ?? '确认',
         rightTitleColor: rightTitleColor,
         rightTitleBgColor: rightTitleBgColor,
         customContentWidget: customContentWidget,

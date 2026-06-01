@@ -61,7 +61,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
       vm.value.applyUserInfo(response.value);
       vm.refresh();
     } else {
-      EasyLoading.showToast(response.msg ?? LocaleKeys.NetworkError.tr);
+      EasyLoading.showToast(response.msg ?? '网络错误');
     }
   }
 
@@ -173,7 +173,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
 
   /// request - 落库：先头像再 PUT 资料
   Future<bool> requestSavePersistProfile() async {
-    EasyLoading.show(status: LocaleKeys.Commiting.tr);
+    EasyLoading.show(status: '提交中...');
     final remotePhotos = vm.value.draft.remotePhotoUrls();
     final response = await Net.value<User>().requestUpdateUserInfo<dynamic>(
       avatar: vm.value.draft.avatarUrl,
@@ -188,7 +188,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     );
     EasyLoading.dismiss();
     if (response.success) {
-      EasyLoading.showToast(LocaleKeys.submitSuccess.tr);
+      EasyLoading.showToast('提交成功');
       return true;
     } else {
       EasyLoading.showToast(response.msg ?? '');

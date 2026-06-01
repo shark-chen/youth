@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import '../../../generated/locales.g.dart';
 import '../../../utils/marco/marco.dart';
 import '../../../utils/utils/theme_color.dart';
 import '../text_input.dart';
@@ -149,7 +147,7 @@ class SureInput extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
               child: Text(
-                sureText ?? LocaleKeys.Confirm.tr,
+                sureText ?? '确认',
                 style: sureStyle ??
                     const TextStyle(
                         color: Colors.white,

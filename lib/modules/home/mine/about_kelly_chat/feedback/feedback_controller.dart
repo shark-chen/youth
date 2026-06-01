@@ -63,19 +63,19 @@ class FeedbackController extends BaseController {
 
   Future<void> copyServicePhone() async {
     await Clipboard.setData(const ClipboardData(text: servicePhoneRaw));
-    EasyLoading.showToast(LocaleKeys.copySuccessfully.tr);
+    EasyLoading.showToast('复制成功');
   }
 
   Future<void> submit() async {
     final text = contentController.text.trim();
     if (text.isEmpty) {
-      EasyLoading.showToast(LocaleKeys.pleaseEnter.tr);
+      EasyLoading.showToast('请输入');
       return;
     }
     if (requesting.value) return;
     requesting.value = true;
     try {
-      EasyLoading.show(status: LocaleKeys.Commiting.tr);
+      EasyLoading.show(status: '提交中...');
       final response = await Net.value<Auxiliary>().requestFeedbackSubmit(
         content: text,
         images: imagePaths.isEmpty ? '' : imagePaths.join(','),
@@ -83,14 +83,14 @@ class FeedbackController extends BaseController {
       );
       EasyLoading.dismiss();
       if (response.success) {
-        EasyLoading.showToast(response.msg ?? LocaleKeys.submitSuccess.tr);
+        EasyLoading.showToast(response.msg ?? '提交成功');
         Future.delayed(Duration(seconds: 2), Get.back);
       } else {
-        EasyLoading.showToast(response.msg ?? LocaleKeys.SubmitFailed.tr);
+        EasyLoading.showToast(response.msg ?? '提交失败:');
       }
     } catch (_) {
       EasyLoading.dismiss();
-      EasyLoading.showToast(LocaleKeys.SubmitFailed.tr);
+      EasyLoading.showToast('提交失败:');
     } finally {
       requesting.value = false;
     }

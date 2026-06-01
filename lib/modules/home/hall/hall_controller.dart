@@ -114,4 +114,10 @@ class HallController extends BaseController
     if (item?.userId == null) return;
     await pushProfile(userId: '${item?.userId}');
   }
+
+  /// 点击找一找
+  Future clickFindPerson(String content) async {
+    editingController?.text = content;
+    await clickStartFindFriend(content);
+  }
 }

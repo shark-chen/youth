@@ -9,7 +9,6 @@ import 'modules/home/home/view/tabs.dart';
 import 'tripartite_library/get/app_route_observer.dart';
 import 'tripartite_library/notification/event_bus_manager.dart';
 import 'utils/extension/system_chromes/system_chromes.dart';
-import 'utils/lang/translation_service.dart';
 
 /// 主界面
 class App extends StatelessWidget with WidgetsBindingObserver {
@@ -25,9 +24,6 @@ class App extends StatelessWidget with WidgetsBindingObserver {
       debugShowCheckedModeBanner: getEnableLog,
       enableLog: getEnableLog,
       defaultTransition: Transition.fade,
-      locale: locale ?? TranslationService.locale,
-      fallbackLocale: TranslationService.fallbackLocale,
-      translations: TranslationService(),
       smartManagement: SmartManagement.full,
       navigatorObservers: [AppRouteObserver().routeObserver],
       initialRoute: Routes.splash,

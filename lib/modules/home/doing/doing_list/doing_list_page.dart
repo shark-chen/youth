@@ -4,7 +4,6 @@ import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/modules/user/user_center/user_center.dart';
 import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
 import 'package:kellychat/modules/home/message/view/message_doing_header_view.dart';
-import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'doing_list_controller.dart';
 import 'view_model/doing_list_vm.dart';
 import 'view/doing_activity_stat_cell.dart';
@@ -57,7 +56,7 @@ class DoingListPage extends BasePage<DoingListController> {
                     borderColor: Colors.transparent,
                     imgBorderRadius: BorderRadius.circular(999),
                     heroTag:
-                    '${UserCenter().user?.avatar ?? ''}_message_page_avatar',
+                        '${UserCenter().user?.avatar ?? ''}_message_page_avatar',
                   ),
                 ),
               ),
@@ -124,58 +123,60 @@ class DoingListPage extends BasePage<DoingListController> {
                   onLoading: controller.onLoading,
                   header: RefresherHeader.build(),
                   footer: ClassicFooter(
-                    loadingText: LocaleKeys.Loading.tr,
+                    loadingText: '加载中',
                     noDataText: '没有更多了',
                     height: 80.0,
                     loadStyle: LoadStyle.ShowWhenLoading,
                   ),
-                  child: Obx(() {
-                    final itemCount = controller.itemCount;
-                    final v = controller.vm.value;
-                    return ListView.separated(
-                      padding: const EdgeInsets.only(top: 6, bottom: 24),
-                      itemCount: itemCount,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (v.haveDoingPerson) {
-                          final item = controller.rows[index];
-                          return DoingListCell(
-                            headerIcon: item.avatar,
-                            name: item.nickname,
-                            sex: _sexFromGender(item.gender),
-                            age: item.age != null ? '${item.age}' : null,
-                            address: item.city,
-                            signature: item.signature,
-                            isOnline: false,
-                            togetherStatus:
-                                controller.togetherButtonStatusFor(item),
-                            onKnockTap: (center) async =>
-                                controller.clickKnock(
-                                  item,
-                                  knockButtonCenter: center,
-                                ),
-                            onTogetherTap: () async =>
-                                controller.clickJoinTogether(item,
-                                    controller.togetherButtonStatusFor(item)),
-                            onTap: () async =>
-                                controller.clickLookUserInfo(item),
+                  child: Obx(
+                    () {
+                      final itemCount = controller.itemCount;
+                      final v = controller.vm.value;
+                      return ListView.separated(
+                        padding: const EdgeInsets.only(top: 6, bottom: 24),
+                        itemCount: itemCount,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (v.haveDoingPerson) {
+                            final item = controller.rows[index];
+                            return DoingListCell(
+                              headerIcon: item.avatar,
+                              name: item.nickname,
+                              sex: _sexFromGender(item.gender),
+                              age: item.age != null ? '${item.age}' : null,
+                              address: item.city,
+                              signature: item.signature,
+                              isOnline: false,
+                              togetherStatus:
+                                  controller.togetherButtonStatusFor(item),
+                              onKnockTap: (center) async =>
+                                  controller.clickKnock(
+                                item,
+                                knockButtonCenter: center,
+                              ),
+                              onTogetherTap: () async =>
+                                  controller.clickJoinTogether(item,
+                                      controller.togetherButtonStatusFor(item)),
+                              onTap: () async =>
+                                  controller.clickLookUserInfo(item),
+                            );
+                          }
+                          final hot = controller.hotRows[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: DoingActivityStatCell(
+                              activityName: hot.tagName ?? '--',
+                              peopleCountLabel: hot.peopleCountDisplay ??
+                                  DoingListVM.formatHotTagPeopleCount(
+                                      hot.userCount ?? 0),
+                              onAddTap: () =>
+                                  controller.requestPublishDoingFromHotTag(hot),
+                            ),
                           );
-                        }
-                        final hot = controller.hotRows[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: DoingActivityStatCell(
-                            activityName: hot.tagName ?? '--',
-                            peopleCountLabel: hot.peopleCountDisplay ??
-                                DoingListVM.formatHotTagPeopleCount(
-                                    hot.userCount ?? 0),
-                            onAddTap: () =>
-                                controller.requestPublishDoingFromHotTag(hot),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
-                    );
-                  }),
+                        },
+                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

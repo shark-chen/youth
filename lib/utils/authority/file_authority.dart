@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:get/get.dart';
 import 'package:kellychat/widget/alert/alert.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../generated/locales.g.dart';
 
 /// FileName file_authority
 ///
@@ -22,8 +20,8 @@ class FileAuthority {
     }
     await Alert.show(
         title: '需求打开文件访问权限，获取日志',
-        leftTitle: LocaleKeys.Cancel.tr,
-        rightTitle: LocaleKeys.Confirm.tr,
+        leftTitle: '取消',
+        rightTitle: '确定',
         sureTap: openAppSettings);
     return false;
   }

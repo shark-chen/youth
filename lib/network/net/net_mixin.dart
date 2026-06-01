@@ -2,14 +2,11 @@ import 'request.dart';
 import 'request/dio/dio_net.dart';
 import 'package:dio/dio.dart';
 import '../../config/environment_config/app_config.dart';
-import '../../generated/locales.g.dart';
 import 'net_cache.dart';
 import 'net_mixin.dart';
 export 'entry/user/user.dart';
-
 export 'entry/auxiliary/auxiliary.dart';
 export 'entry/auxiliary/wechat.dart';
-import 'package:get/get.dart';
 import 'net_result.dart';
 import 'package:dio/dio.dart' as Dio;
 
@@ -126,7 +123,7 @@ abstract class NetMixin<T> with NetCache<T> implements Net<T> {
       return await (request ??= Request.value<DioNet>())
           .get(path, params: composeParams(params));
     } catch (e) {
-      return NetResult.error(msg: LocaleKeys.NetworkError.tr, message: "e:$e");
+      return NetResult.error(msg: '网络错误', message: "e:$e");
     }
   }
 
@@ -152,7 +149,7 @@ abstract class NetMixin<T> with NetCache<T> implements Net<T> {
         options: options,
       );
     } catch (e) {
-      return NetResult.error(msg: LocaleKeys.NetworkError.tr, message: "e:$e");
+      return NetResult.error(msg: '网络错误', message: "e:$e");
     }
   }
 
@@ -175,7 +172,7 @@ abstract class NetMixin<T> with NetCache<T> implements Net<T> {
         options: options,
       );
     } catch (e) {
-      return NetResult.error(msg: LocaleKeys.NetworkError.tr, message: "e:$e");
+      return NetResult.error(msg: '网络错误', message: "e:$e");
     }
   }
 
@@ -200,7 +197,7 @@ abstract class NetMixin<T> with NetCache<T> implements Net<T> {
         options: options,
       );
     } catch (e) {
-      return NetResult.error(msg: LocaleKeys.NetworkError.tr, message: "e:$e");
+      return NetResult.error(msg: '网络错误', message: "e:$e");
     }
   }
 

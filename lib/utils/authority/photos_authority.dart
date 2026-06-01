@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:app_settings/app_settings.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../widget/alert/alert.dart';
-import '../../generated/locales.g.dart';
 
 /// FileName photos_authority
 ///
@@ -32,8 +30,7 @@ class PhotosAuthority {
       /// permanentlyDenied 已经手动拒绝; 弹框提示用户去设置页面设置权限
       if (status == PermissionStatus.permanentlyDenied ||
           status == PermissionStatus.restricted) {
-        await PhotosAuthority.showCameraRejectDeniedDialog(
-            LocaleKeys.accessAlbumStoragePermissionsOpenStoragePermissions.tr);
+        await PhotosAuthority.showCameraRejectDeniedDialog('需要访问您的相册存储权限，请前往打开存储权限');
         permission = false;
       } else if (status == PermissionStatus.denied) {
         /// denied从未授权过，需要申请授权
@@ -42,8 +39,7 @@ class PhotosAuthority {
           status = await Permission.storage.request();
         }
         if (status.isDenied || status.isPermanentlyDenied) {
-          await PhotosAuthority.showCameraRejectDeniedDialog(LocaleKeys
-              .accessAlbumStoragePermissionsOpenStoragePermissions.tr);
+          await PhotosAuthority.showCameraRejectDeniedDialog('需要访问您的相册存储权限，请前往打开存储权限');
           permission = false;
         } else {
           permission = true;
@@ -60,7 +56,7 @@ class PhotosAuthority {
   static Future showCameraRejectDeniedDialog(String content) async {
     return await Alert.show(
       title: content,
-      rightTitle: LocaleKeys.GoSetting.tr,
+      rightTitle: '前往设置',
       sureTap: () async {
         try {
           await AppSettings.openAppSettings();

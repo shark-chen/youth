@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.onemayy.kelly.chat",
+      "sha256_cert_fingerprints": [
+        "1C:2B:E9:1B:0E:8E:B0:BF:34:84:9E:9F:BB:D1:D0:7F:78:A0:42:AE:67:E9:FF:AA:C9:E9:55:B3:6C:AB:6C:CA",
+        "9A:A4:12:4F:85:0A:D3:98:7F:B6:55:DA:F7:BA:57:D8:5A:E7:53:AE:DC:5D:98:4A:4A:32:A8:8E:53:D9:B2:EE"
+      ]
+    }
+  }
+]

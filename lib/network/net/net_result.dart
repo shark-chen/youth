@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
-import '../../generated/locales.g.dart';
 import '../../utils/extension/lists/lists.dart';
 import '../../utils/extension/maps/maps.dart';
 import '../../utils/utils/model_utils.dart';
-import 'package:get/get.dart' as getX;
 
 /// FileName net_result
 ///
@@ -39,7 +37,7 @@ class NetResult<T> {
       code = ModelUtils.convert<int>(json['code']) ?? -1;
       errorType = ModelUtils.convert<int>(json['errorType']) ?? -1;
       msg = ModelUtils.convert<String>(json['message']) ??
-          (code != 0 ? LocaleKeys.NetworkError.tr : '');
+          (code != 0 ? '网络错误' : '');
       message = ModelUtils.convert<String>(json['message']);
       String type = T.toString().toLowerCase();
       if (type.contains('dynamic') || type.contains('object')) {
@@ -66,7 +64,7 @@ class NetResult<T> {
         code = ModelUtils.convert<int>(json['code']) ?? -1;
         errorType = ModelUtils.convert<int>(json['errorType']) ?? -1;
         msg = ModelUtils.convert<String>(json['message']) ??
-            (code != 0 ? LocaleKeys.NetworkError.tr : '');
+            (code != 0 ? '网络错误' : '');
         message = ModelUtils.convert<String>(json['message']);
         String type = T.toString().toLowerCase();
         if (type.contains('dynamic') || type.contains('object')) {
@@ -113,7 +111,8 @@ class NetResult<T> {
   bool get success => code == 200;
 
   /// 成功并且data不为空
-  bool get succeed => code == 200 && (value != null || Lists.isNotEmpty(values));
+  bool get succeed =>
+      code == 200 && (value != null || Lists.isNotEmpty(values));
 
   @override
   String toString() =>

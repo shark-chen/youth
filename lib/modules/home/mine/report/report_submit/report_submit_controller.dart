@@ -1,6 +1,5 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:kellychat/base/base_controller.dart';
-import 'package:kellychat/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
 import 'package:kellychat/network/net/entry/user/user.dart';
 import 'package:kellychat/utils/authority/photos_authority.dart';
 
@@ -105,7 +104,7 @@ class ReportSubmitController extends BaseController {
     if (requesting.value) return;
     requesting.value = true;
     try {
-      EasyLoading.show(status: LocaleKeys.Commiting.tr);
+      EasyLoading.show(status: '提交中...');
       final urls = <String>[];
       for (final path in imagePaths) {
         final url = await _requestUploadPhoto(path);
@@ -132,15 +131,15 @@ class ReportSubmitController extends BaseController {
       if (ok) {
         final tip = response.msg;
         EasyLoading.showToast(
-          (tip != null && tip.isNotEmpty) ? tip : LocaleKeys.submitSuccess.tr,
+          (tip != null && tip.isNotEmpty) ? tip : '提交成功',
         );
         Future.delayed(Duration(seconds: 2), Get.back);
       } else {
-        EasyLoading.showToast(response.msg ?? LocaleKeys.SubmitFailed.tr);
+        EasyLoading.showToast(response.msg ?? '提交失败:');
       }
     } catch (_) {
       EasyLoading.dismiss();
-      EasyLoading.showToast(LocaleKeys.SubmitFailed.tr);
+      EasyLoading.showToast('提交失败:');
     } finally {
       requesting.value = false;
     }

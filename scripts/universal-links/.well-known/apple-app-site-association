@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "WBVUAXSHB4.com.onemayy.kelly.chat",
+        "paths": ["/app", "/app/*"]
+      }
+    ]
+  }
+}

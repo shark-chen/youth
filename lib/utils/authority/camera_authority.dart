@@ -1,7 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../generated/locales.g.dart';
 import 'dart:io';
 import '../../widget/alert/alert.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -29,7 +28,7 @@ class CameraAuthority {
       if (Platform.isIOS) {
         status = await Permission.camera.request();
       } else {
-        EasyLoading.showToast(tip ?? LocaleKeys.requireCameraPermissionsPleaseAuthorizeUseCamera.tr,
+        EasyLoading.showToast(tip ?? '发货留证、扫描查单、扫描发货等功能需要相机权限才能完整使用！为了你更好的体验完整功能。请授权使用相机。',
             toastPosition: EasyLoadingToastPosition.top,
             duration: const Duration(milliseconds: 10000));
         status = await Permission.camera.request();
@@ -50,8 +49,8 @@ class CameraAuthority {
 
   static Future showCameraRejectDeniedDialog({String? tip}) async {
     return await Alert.show(
-      title: tip ?? LocaleKeys.requireCameraPermissionsPleaseAuthorizeUseCamera.tr,
-      rightTitle: LocaleKeys.GoSetting.tr,
+      title: tip ?? '发货留证、扫描查单、扫描发货等功能需要相机权限才能完整使用！为了你更好的体验完整功能。请授权使用相机。',
+      rightTitle: '前往设置',
       cancelTap: () {
         Get.back();
         EasyLoading.dismiss();

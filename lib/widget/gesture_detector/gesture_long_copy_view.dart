@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-
-import '../../generated/locales.g.dart';
 
 /// FileName gesture_long_copy_view
 ///
@@ -34,7 +31,7 @@ class GestureLongCopyWidget extends StatelessWidget {
           if (available == false) return;
           Clipboard.setData(ClipboardData(text: text ?? ''));
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('${text ?? ''}：' + LocaleKeys.copied.tr)),
+            SnackBar(content: Text('${text ?? ''}：' + '已复制')),
           );
         },
         child: child);

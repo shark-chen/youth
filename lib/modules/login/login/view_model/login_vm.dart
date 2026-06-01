@@ -2,13 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kellychat/utils/stores/stores.dart';
-
 import '../../../../base/base_vm.dart';
 import '../../../../utils/utils/aes_cbc_util.dart';
 import '../model/login_model.dart';
-import 'login_param_vm.dart';
 export 'login_param_vm.dart';
-import 'login_ui_vm.dart';
 export 'login_ui_vm.dart';
 
 /// FileName login_vm
@@ -63,9 +60,8 @@ class LoginVM extends BaseVM {
     verifyCodeController.addListener(() {
       loginModel.verifyCode = verifyCodeController.text;
       if (Strings.isEmpty(loginModel.verifyCodeError)) return;
-      loginModel.verifyCodeError = Strings.isEmpty(loginModel.verifyCode)
-          ? LocaleKeys.graphicVerificationCodeCannotEmpty.tr
-          : '';
+      loginModel.verifyCodeError =
+          Strings.isEmpty(loginModel.verifyCode) ? '图形验证码不能为空' : '';
       refresh?.call();
     });
   }
@@ -81,10 +77,8 @@ class LoginVM extends BaseVM {
           checkPhoneCall?.call();
         } else {
           loginModel.accountError = Strings.isEmpty(loginModel.account)
-              ? LocaleKeys.mailPhoneCannotEmpty.tr
-              : (!loginModel.account.contains("@")
-                  ? LocaleKeys.EmailValid.tr
-                  : '');
+              ? '手机号不能为空'
+              : '';
         }
       }
       refresh?.call();
@@ -117,7 +111,7 @@ class LoginVM extends BaseVM {
           await Stores(userLat: false).get<int>('unsubscribed_limit_time') ?? 0;
       if ((DateTime.now().millisecondsSinceEpoch / 1000).round() - limitTime <
           600) {
-        EasyLoading.showToast(LocaleKeys.AccountCanceled.tr);
+        EasyLoading.showToast('该用户已被注销');
         return false;
       }
     }

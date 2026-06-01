@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../generated/locales.g.dart';
 import '../../utils/utils/theme_color.dart';
 
 /// FileName search_input_appbar_view
@@ -74,7 +73,7 @@ class SearchAppBarWidget extends StatelessWidget {
                         color: ThemeColor.mainTextColor, fontSize: 13.0),
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: hintText ?? LocaleKeys.PleaseEnterSKUTitle.tr,
+                        hintText: hintText ?? '',
                         hintStyle: const TextStyle(
                             color: ThemeColor.lightGrayColor, fontSize: 13.0)),
                   ),
@@ -89,7 +88,7 @@ class SearchAppBarWidget extends StatelessWidget {
                       color: ThemeColor.blueBtnColor,
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    child: Text(LocaleKeys.Search.tr,
+                    child: Text('搜索',
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 13,

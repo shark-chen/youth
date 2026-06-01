@@ -79,9 +79,9 @@ class CenterAlertWidget extends BaseStatelessWidget {
                 /// 取消+授权按钮
                 BottomButton(
                   showLine: false,
-                  leftTitle: leftTitle ?? LocaleKeys.Cancel.tr,
+                  leftTitle: leftTitle ?? '取消',
                   leftTap: leftTap,
-                  rightTitle: rightTitle ?? LocaleKeys.Confirm.tr,
+                  rightTitle: rightTitle ?? '确认',
                   rightTap: rightTap,
                   height: 72,
                 ),

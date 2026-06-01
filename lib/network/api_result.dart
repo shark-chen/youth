@@ -1,12 +1,10 @@
 import 'package:get/get.dart';
-import '../generated/locales.g.dart';
 import '../utils/utils/model_utils.dart';
 import 'package:dio/dio.dart' as Api;
 
 /// code : 0
 /// msg : "Successful"
 /// data : true
-
 class ApiResult<T> {
   int? code;
   int? errorType;
@@ -39,19 +37,19 @@ class ApiResult<T> {
         errorType = jsonErrorType;
       }
       msg =
-          ModelUtils.convert<String>(json['msg']) ?? LocaleKeys.NetworkError.tr;
+          ModelUtils.convert<String>(json['msg']) ?? '网络错误';
       data = json['data'];
     } catch (e) {
       code = -1;
       msg =
-          ModelUtils.convert<String>(json['msg']) ?? LocaleKeys.NetworkError.tr;
+          ModelUtils.convert<String>(json['msg']) ?? '网络错误';
       data = json['data'];
     }
   }
 
   ApiResult.fail() {
     code = -1;
-    msg = LocaleKeys.NetworkError.tr;
+    msg = '网络错误'.tr;
     data = null;
   }
 

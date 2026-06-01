@@ -1,6 +1,4 @@
 import 'custom_alert.dart';
-import '../../generated/locales.g.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 /// FileName alert
@@ -35,11 +33,11 @@ class Alert {
           actions: actions ??
               [
                 DialogAction(
-                    text: leftTitle ?? LocaleKeys.Cancel.tr,
+                    text: leftTitle ?? '取消',
                     color: "#000000",
                     onPressed: cancelTap),
                 DialogAction(
-                  text: rightTitle ?? LocaleKeys.Confirm.tr,
+                  text: rightTitle ?? '确认',
                   actionType: ActionType.done,
                   color: "#ff0000",
                   onPressed: sureTap,
@@ -56,11 +54,11 @@ class Alert {
           actions: actions ??
               [
                 DialogAction(
-                    text: leftTitle ?? LocaleKeys.Cancel.tr,
+                    text: leftTitle ?? '取消',
                     color: "#000000",
                     onPressed: cancelTap),
                 DialogAction(
-                  text: rightTitle ?? LocaleKeys.Confirm.tr,
+                  text: rightTitle ?? '确认',
                   actionType: ActionType.done,
                   color: "#ff0000",
                   onPressed: sureTap,

@@ -7,7 +7,6 @@
 export 'package:shared_preferences/shared_preferences.dart';
 
 /// toast
-export 'easy_loading/easy_loading_view.dart';
 export 'package:get/get.dart';
 export 'package:flutter/material.dart';
 

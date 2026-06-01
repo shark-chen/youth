@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kellychat/utils/authority/photos_authority.dart';
-
 import 'image_crop_editor.dart';
 
 /// FileName images_picker

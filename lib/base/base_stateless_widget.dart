@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 export 'package:flutter/material.dart';
 export 'package:get/get.dart';
-export '../generated/locales.g.dart';
 export '../../utils/utils.dart';
 export '../../../../../widget/image_look/image_look.dart';
 export '../../../../../utils/extension/text_styles.dart';

@@ -1,6 +1,4 @@
 import 'dart:ui';
-import 'package:get/get.dart';
-import 'package:kellychat/generated/locales.g.dart';
 import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
 
 /// FileName: refresher_footer
@@ -12,8 +10,8 @@ import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.da
 class RefresherFooter {
   static ClassicFooter build({Color? iconColor}) {
     return ClassicFooter(
-      loadingText: LocaleKeys.Loading.tr,
-      noDataText: LocaleKeys.NoMore.tr,
+      loadingText:'下载中',
+      noDataText: '暂无更多',
       idleText: '下拉刷新',
       failedText: '刷新失败',
       canLoadingText: ' ',

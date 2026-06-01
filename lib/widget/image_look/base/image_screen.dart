@@ -1,18 +1,12 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:app_settings/app_settings.dart';
 import 'package:kellychat/utils/extension/system_chromes/system_chromes.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:flutter/services.dart';
-import '../../../generated/locales.g.dart';
-import '../../../tripartite_library/gallery_savers/gallery_savers.dart';
 import '../../../utils/extension/text_styles.dart';
 import '../../../utils/marco/marco.dart';
-import '../../alert/alert.dart';
 import '../../bottom_alert/bottom_alert.dart';
 import 'image_hero.dart';
 import 'package:get/get.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 /// FileName ImageScreen
 ///
@@ -306,7 +300,7 @@ class _ImageScreenState extends State<ImageScreen>
                     color: Colors.white,
                     alignment: Alignment.center,
                     height: 50,
-                    child: Text(LocaleKeys.Cancel.tr,
+                    child: Text('取消',
                         style: TextStyles(fontSize: 15)),
                   ),
                 ),

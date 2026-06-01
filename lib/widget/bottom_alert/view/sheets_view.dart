@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../../../generated/locales.g.dart';
 import '../../../utils/extension/lists/lists.dart';
 import '../../../utils/extension/strings/strings.dart';
 import '../../../utils/marco/marco.dart';
@@ -147,7 +146,7 @@ class SheetViews extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(left: 12, right: 12),
               child: SearchBaseWidget(
-                hint: hint ?? LocaleKeys.pleaseEnterStoreName.tr,
+                hint: hint ?? '',
                 controller: editingController,
                 onSubmitted: (_) => FocusScope.of(context).unfocus,
               ),
@@ -174,7 +173,7 @@ class SheetViews extends StatelessWidget {
             visible: showBottomBtn ?? false,
             child: BottomButton(
               showLine: false,
-              leftTitle: LocaleKeys.reset.tr,
+              leftTitle: '重置',
               leftTap: () {
                 if (resetCustomCall != null) {
                   resetCustomCall?.call(list);
@@ -185,21 +184,21 @@ class SheetViews extends StatelessWidget {
                   if (Strings.isNotEmpty(editingController?.text) &&
                       list.where((p0) => p0.selected == true).toList().length ==
                           0) {
-                    EasyLoading.showToast(LocaleKeys.NoSearch.tr);
+                    EasyLoading.showToast('你搜索的内容无结果请重新准确输入');
                     return;
                   }
                   list.first.selected = true;
                 }
                 list.refresh();
               },
-              rightTitle: LocaleKeys.Confirm.tr,
+              rightTitle: '确认',
               rightTap: () {
                 list.forEach(
                     (element) => element.originalSelected = element.selected);
                 var rows = list.where((p0) => p0.selected == true).toList();
                 if (Strings.isNotEmpty(editingController?.text) &&
                     rows.length == 0) {
-                  EasyLoading.showToast(LocaleKeys.NoSearch.tr);
+                  EasyLoading.showToast('你搜索的内容无结果请重新准确输入');
                   return;
                 }
                 if (rows.length == 0) {
@@ -215,17 +214,17 @@ class SheetViews extends StatelessWidget {
             visible: showBottomCancelBtn ?? false,
             child: BottomButton(
               showLine: false,
-              leftTitle: LocaleKeys.Cancel.tr,
+              leftTitle: '取消',
               leftTap: () {
                 closeFiltrate();
                 cancelTap?.call();
               },
-              rightTitle: LocaleKeys.Confirm.tr,
+              rightTitle: '确认',
               rightTap: () {
                 var rows = list.where((p0) => p0.selected == true).toList();
                 if (Strings.isNotEmpty(editingController?.text) &&
                     rows.length == 0) {
-                  EasyLoading.showToast(LocaleKeys.NoSearch.tr);
+                  EasyLoading.showToast('你搜索的内容无结果请重新准确输入');
                   return;
                 }
                 confirmTap?.call();
@@ -336,7 +335,8 @@ class SheetViews extends StatelessWidget {
               (element.labelId == 'all') ? element.selected = true : null;
             }
           });
-        } else if (haveAll == true && rows?.length == ((originalList?.length ?? 0) - 1)) {
+        } else if (haveAll == true &&
+            rows?.length == ((originalList?.length ?? 0) - 1)) {
           /// 全部子选项都选上了，则全部也选上
           originalList?.forEach((element) {
             if (element.enabled == true) {

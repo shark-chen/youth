@@ -77,7 +77,7 @@ class LoginPage extends BasePage<LoginController> {
 
                             /// 输入+验证码
                             InputVerifyCodeWidget(
-                              hint: LocaleKeys.VerifyCodeTip.tr,
+                              hint: '请输入验证码',
                               controller:
                                   controller.vm.value.verifyCodeController,
                               focusNode:

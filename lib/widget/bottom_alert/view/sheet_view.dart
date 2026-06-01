@@ -1,5 +1,5 @@
-import 'package:kellychat/generated/locales.g.dart';
 import 'package:kellychat/utils/marco/marco.dart';
+import 'package:kellychat/widget/base_list_item/base_list_item.dart';
 import 'package:kellychat/widget/button/bottom_button/bottom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import '../../../utils/extension/lists/lists.dart';
 import '../../../utils/extension/strings/strings.dart';
 import '../../../utils/utils/theme_color.dart';
-import '../../base_list_item/base_list_item.dart';
 import '../../bubble/model/bubble_model.dart';
 
 /// FileName sheet_view
@@ -158,9 +157,9 @@ class SheetView extends StatelessWidget {
             visible: showBottomBtn ?? false,
             child: BottomButton(
               showLine: false,
-              leftTitle: leftTitle ?? LocaleKeys.Cancel.tr,
+              leftTitle: leftTitle ?? '取消',
               leftTap: cancelTap,
-              rightTitle: rightTitle ?? LocaleKeys.Confirm.tr,
+              rightTitle: rightTitle ?? '确认',
               rightTap: confirmTap,
             ),
           )

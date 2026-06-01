@@ -6,7 +6,6 @@ import 'view/alert_double_title_view.dart';
 import 'view/alert_view.dart';
 import 'view/sheet_view.dart';
 import 'view/sheets_view.dart';
-export 'view/result_view.dart';
 
 /// todo 啊啊
 
@@ -168,31 +167,6 @@ class BottomAlert {
           );
         },
         context: context);
-  }
-
-  /// 失败 弹框
-  /// title： 标题
-  /// content： 失败成功原因
-  /// failReasons：失败原因列表
-  static Future failAlert<T extends BubbleModel>(
-    BuildContext context, {
-    String? title,
-    String? content,
-    List<String>? failReasons,
-    VoidCallback? confirmTap,
-  }) async {
-    await showDialog(
-      useSafeArea: false,
-      builder: (BuildContext context) {
-        return ResultWidget(
-          title: title,
-          content: content,
-          failReasons: failReasons,
-          confirmTap: confirmTap,
-        );
-      },
-      context: Get.context!,
-    );
   }
 
   /// 底部弹框

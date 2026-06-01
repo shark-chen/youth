@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:kellychat/base/base_page.dart';
-
 import 'feedback_controller.dart';
 
 /// FileName: feedback_page
@@ -74,7 +72,7 @@ class FeedbackPage extends BasePage<FeedbackController> {
                       shape: const StadiumBorder(),
                     ),
                     child: Text(
-                      LocaleKeys.submit.tr,
+                      '提交',
                       style: TextStyle(
                         color: ThemeColor.themeColor,
                         fontSize: 16,
@@ -137,7 +135,7 @@ class FeedbackPage extends BasePage<FeedbackController> {
         cursorColor: ThemeColor.themeGreenColor,
         decoration: InputDecoration(
           isDense: true,
-          hintText: '${LocaleKeys.pleaseEnter.tr}...',
+          hintText: '请输入...',
           hintStyle: ThemeColor.white14Text.copyWith(
             color: ThemeColor.secondaryTextColor,
           ),

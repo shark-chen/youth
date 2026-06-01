@@ -134,9 +134,9 @@ class DialogWidget extends BaseStatelessWidget {
                 visible: showBottomButton ?? true,
                 child: BottomButton(
                   showLine: false,
-                  leftTitle: LocaleKeys.Cancel.tr,
+                  leftTitle: '取消',
                   leftTap: cancelTap,
-                  rightTitle: LocaleKeys.Confirm.tr,
+                  rightTitle: '确认',
                   rightTap: confirmTap,
                 ),
               ),

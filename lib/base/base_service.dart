@@ -3,7 +3,6 @@ import '../utils/extension/strings/strings.dart';
 export 'package:flutter/cupertino.dart';
 export 'package:flutter_easyloading/flutter_easyloading.dart';
 export 'package:get/get.dart';
-export '../../../../../../generated/locales.g.dart';
 
 /// FileName base_service
 ///

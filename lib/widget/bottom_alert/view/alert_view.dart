@@ -140,10 +140,10 @@ class AlertWidget extends BaseStatelessWidget {
                 child: BottomButton(
                   showLine: false,
                   leftTitle: leftTitle ??
-                      (leftTap != null ? LocaleKeys.Cancel.tr : ''),
+                      (leftTap != null ? '取消' : ''),
                   leftTap: leftTap,
                   rightTitle: rightTitle ??
-                      (rightTap != null ? LocaleKeys.Confirm.tr : ''),
+                      (rightTap != null ? '确认' : ''),
                   rightTap: rightTap,
                 ),
               )

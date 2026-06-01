@@ -162,7 +162,7 @@ class SuperAlertWidget extends StatelessWidget {
                           onPressed: leftTap ?? Get.back,
                           child: AutoSizeText(
                             maxLines: 1,
-                            leftTitle ?? LocaleKeys.Cancel.tr,
+                            leftTitle ?? '取消',
                             style: const TextStyle(
                                 color: ThemeColor.mainTextColor,
                                 fontSize: 16,
@@ -204,7 +204,7 @@ class SuperAlertWidget extends StatelessWidget {
                           },
                           child: AutoSizeText(
                             maxLines: 1,
-                            rightTitle ?? LocaleKeys.Confirm.tr,
+                            rightTitle ?? '确认',
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

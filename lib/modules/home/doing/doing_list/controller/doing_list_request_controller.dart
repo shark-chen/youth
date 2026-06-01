@@ -167,6 +167,7 @@ extension DoingListRequestController on DoingListController {
         refreshController.refreshCompleted();
         EventBusManager().fire(doing);
         EasyLoading.showToast('发布成功');
+        vm.refresh();
       } else {
         EasyLoading.showToast(response.msg ?? '');
       }
@@ -201,14 +202,12 @@ extension DoingListRequestController on DoingListController {
   ///
   /// [useCache] 为 false 时跳过缓存，用于「一起做」前拉最新 pending 状态。
   Future<void> requestInvitationInbox({bool useCache = true}) async {
-    final doing = Net.value<Doing>();
-    final response = useCache
-        ? await doing.cache<InvitationInboxEntity>((value) {
-            if (value == null) return;
-            vm.value.configInvitationInbox(value);
-            vm.refresh();
-          }).requestInvitationInbox<InvitationInboxEntity>()
-        : await doing.requestInvitationInbox<InvitationInboxEntity>();
+    final response =
+        await Net.value<Doing>().cache<InvitationInboxEntity>((value) {
+      if (value == null) return;
+      vm.value.configInvitationInbox(value);
+      vm.refresh();
+    }, cache: useCache).requestInvitationInbox<InvitationInboxEntity>();
     if (response.succeed) {
       vm.value.configInvitationInbox(response.value);
       vm.refresh();

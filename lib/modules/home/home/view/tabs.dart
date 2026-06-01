@@ -1,5 +1,3 @@
-import 'package:get/get.dart';
-import '../../../../generated/locales.g.dart';
 import '../../doing/doing_tab_host.dart';
 import '../../hall/hall_page.dart';
 import '../../message/message_page.dart';
@@ -53,28 +51,24 @@ Map TabsKey = {
 List<HomePageModel> HomePages = buildHomePages();
 
 List<HomePageModel> buildHomePages() {
-  return  [
+  return [
     HomePageModel(
       page: HallPage(),
       activeLogo: "assets/image/common/look_someone@3x.png",
       logo: "assets/image/common/look_someone@3x.png",
-      name: '找人'.tr,
-      introduceTitle: LocaleKeys.businessProcessing.tr,
-      introduceContent: LocaleKeys.easilyHandleBusiness.tr,
+      name: '找人',
     ),
     HomePageModel(
       page: DoingTabHost(),
       activeLogo: "assets/image/common/being@3x.png",
       logo: "assets/image/common/being@3x.png",
-      name: '正在'.tr,
-      introduceTitle: LocaleKeys.quicklyInformation.tr,
-      introduceContent: LocaleKeys.masterCommerceIndustry.tr,
+      name: '正在',
     ),
     HomePageModel(
       page: MessagePage(),
       activeLogo: "assets/image/common/message@3x.png",
       logo: "assets/image/common/message@3x.png",
-      name: '消息'.tr,
+      name: '消息',
     ),
   ];
 }

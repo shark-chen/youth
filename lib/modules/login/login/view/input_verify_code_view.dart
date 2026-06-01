@@ -1,14 +1,9 @@
-import 'dart:typed_data';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'package:kellychat/utils/extension/text_styles.dart';
-import '../../../../generated/locales.g.dart';
 import '../../../../utils/utils/theme_color.dart';
-import '../../../../widget/button/icon_button/icon_button.dart';
 import '../../view/verify_error_view.dart';
-import 'package:get/get.dart';
 
 /// FileName input_verify_code_view
 ///

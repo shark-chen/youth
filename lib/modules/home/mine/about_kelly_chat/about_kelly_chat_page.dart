@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_page.dart';
-import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'about_kelly_chat_controller.dart';
 
 /// FileName: about_kelly_chat_page
@@ -64,7 +60,7 @@ class AboutKellyChatPage extends BasePage<AboutKellyChatController> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        LocaleKeys.CurrentVersion.trParams({
+                        '当前版本'.trParams({
                           'version': controller.appVersion.value,
                         }),
                         style: ThemeColor.white14Text.copyWith(
