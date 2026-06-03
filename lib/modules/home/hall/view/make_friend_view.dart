@@ -268,7 +268,7 @@ class _CardStackDemoState extends State<CardStackDemo> {
                 child: ImageLookWidget(
                   imgUrl: avatar ?? '',
                   autoSize: true,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                   heroTag: '${avatar ?? ''}_make_friend_${item.userId ?? ''}',
                 ),
               ),
@@ -322,7 +322,9 @@ class _CardStackDemoState extends State<CardStackDemo> {
                         /// 性别图标
                         Icon(
                           1 == item.gender ? Icons.male : Icons.female,
-                          color: Colors.blue,
+                          color: 1 == item.gender
+                              ? ThemeColor.maleIconColor
+                              : ThemeColor.femaleIconColor,
                         ),
                       ],
                     ),

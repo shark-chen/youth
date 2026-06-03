@@ -136,7 +136,7 @@ class UserInfoController extends BaseController {
       /// 并建立新的一起估点击弹窗上的「取消」按钮，关闭弹窗;点击「继续」按钮，取前的激约。建立新的一起做连接云能店
       if (true == state.hasPendingInvitation) {
         final confirm = await pushDialog(
-            '你向 ${state.pendingInvitationToUserNickname ?? '--'} 发起的「${state.tagName ?? '--'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并建立新的一起做。');
+            '你向 ${state.pendingInvitationToUserNickname ?? '--'} 发起的「${state.tagName ?? '--'}」一起做邀约，等待对方接受中。继续操作将取消该邀约，并发起新的邀约。');
         if (!confirm) return;
 
         /// 发起邀请

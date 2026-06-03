@@ -35,8 +35,9 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
   static const Color _weChatGreen = Color(0xFF07C160);
 
   Future<void> _defaultCopyCode() async {
-    await Clipboard.setData(
-        ClipboardData(text: inviteCode?.replaceAll(' ', '') ?? ''));
+    await Clipboard.setData(ClipboardData(
+        text: '打开 KellyChat ，在【正在】页面填入口令，跟我一起做～\n口令：' +
+            (inviteCode?.replaceAll(' ', '') ?? '')));
     EasyLoading.showToast('复制成功');
   }
 
@@ -95,7 +96,7 @@ class InviteTogetherSheetWidget extends BaseStatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '打开 KellyChat ，在【正在】页面填入口令，跟我一起做～',
+                '好友通过口令或链接可与你建立一起做的状态。',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: ThemeColor.whiteColor.withOpacity(0.6),

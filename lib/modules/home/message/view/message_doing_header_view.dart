@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
+import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 /// FileName: message_doing_header_view
 ///
@@ -57,55 +60,71 @@ class MessageDoingHeaderView extends BaseStatelessWidget {
               padding: const EdgeInsets.only(top: 16),
               child: Row(
                 children: [
-                  /// 图标 + 正在做的事
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        tagName ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: ThemeColor.blackColor,
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// 图标 + 正在做的事
+                        TextScroll(
+                          tagName ?? '',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: ThemeColor.blackColor,
+                          ),
+                          delayBefore: const Duration(milliseconds: 1000),
+                          intervalSpaces: 80,
+                          velocity: const Velocity(
+                            pixelsPerSecond: Offset(40, 0),
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 2),
+
+                        /// 与[伙伴]一起
+                        if (partnerName?.isNotEmpty == true)
+                          Row(
+                            children: [
+                              Flexible(
+                                child: RichText(
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF656565),
+                                    ),
+                                    children: [
+                                      const TextSpan(text: '与 '),
+                                      TextSpan(
+                                        text:
+                                            '${partnerName} ',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15,
+                                          color: ThemeColor.blackColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                '一起',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF656565),
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                          const Spacer(),
+                      ],
+                    ),
                   ),
 
-                  const SizedBox(width: 8),
-
-                  /// 与[伙伴]一起
-                  if (partnerName?.isNotEmpty == true)
-                    Expanded(
-                      child: RichText(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        text: TextSpan(
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF656565),
-                          ),
-                          children: [
-                            const TextSpan(text: '与 '),
-                            TextSpan(
-                              text: '${partnerName}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: ThemeColor.blackColor,
-                              ),
-                            ),
-                            const TextSpan(text: ' 一起'),
-                          ],
-                        ),
-                      ),
-                    )
-                  else
-                    const Spacer(),
-
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 45),
 
                   /// 取消按钮
                   GestureDetector(
