@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:kellychat/utils/image/image_deal.dart';
-import 'package:kellychat/utils/marco/debug_print.dart';
+import 'package:kellychat/config/debug_print.dart';
 
 /// [MultipartFile] 图片上传扩展：支持按 MB 上限压缩后构造 multipart
 extension MultipartFiles on MultipartFile {

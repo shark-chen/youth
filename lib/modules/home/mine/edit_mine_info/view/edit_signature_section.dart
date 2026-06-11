@@ -8,11 +8,11 @@ import 'edit_mine_card.dart';
 class EditSignatureSection extends StatelessWidget {
   const EditSignatureSection({
     super.key,
-    required this.controller,
+    this.controller,
     required this.maxLength,
   });
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final int maxLength;
 
   @override

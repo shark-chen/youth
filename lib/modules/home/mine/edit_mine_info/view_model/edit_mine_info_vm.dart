@@ -30,7 +30,7 @@ class EditMineInfoVM extends BaseVM {
   /// 草稿
   EditProfileDraft draft = EditProfileDraft();
 
-  late final TextEditingController signatureController;
+  TextEditingController signatureController = TextEditingController();
 
   List<RegionProvince>? _cachedProvinces;
 
@@ -40,7 +40,6 @@ class EditMineInfoVM extends BaseVM {
   @override
   void onInit() {
     super.onInit();
-    signatureController = TextEditingController();
     signatureController.addListener(() => refresh?.call());
     unawaited(loadProvinces());
   }

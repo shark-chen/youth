@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kellychat/modules/routes/app_pages.dart';
-import 'package:kellychat/utils/marco/debug_print.dart';
+import 'package:kellychat/config/debug_print.dart';
 import 'package:kellychat/utils/marco/marco.dart';
 import 'modules/auxiliary/network_look/view/draggable_net_view.dart';
 import 'modules/home/home/utils/tab_switch_utils.dart';

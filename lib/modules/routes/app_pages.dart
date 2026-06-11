@@ -117,6 +117,14 @@ class AppPages {
       transition: Transition.rightToLeft,
     ),
 
+    /// 登录后完善资料（三页 PageView）
+    GetPage(
+      name: Routes.profileSetupPage,
+      page: () => const ProfileSetupPage(),
+      binding: ProfileSetupBinding(),
+      transition: Transition.rightToLeft,
+    ),
+
     /// 性别选择-页面-page
     GetPage(
       name: Routes.sexSelectPage,

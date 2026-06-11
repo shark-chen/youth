@@ -1,5 +1,5 @@
 import 'package:kellychat/network/net/util/response_util.dart';
-import 'package:kellychat/utils/marco/debug_print.dart';
+import 'package:kellychat/config/debug_print.dart';
 import 'package:dio/dio.dart';
 import '../../../config/environment_config/config.dart';
 import '../../../modules/auxiliary/network_look/model/network_model_utils.dart';

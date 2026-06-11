@@ -5,7 +5,7 @@ import 'package:kellychat/network/net/net_config/net_config.dart';
 import 'package:kellychat/network/reporter/report_util.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../base/base_controller.dart';
-import '../../../utils/marco/debug_print.dart';
+import '../../../config/debug_print.dart';
 import '../../../utils/utils/json_utils.dart';
 import '../message/token_message.dart';
 import '../webWiew_script_config.dart';

@@ -1,4 +1,5 @@
 import 'package:kellychat/base/base_stateless_widget.dart';
+import 'package:kellychat/tripartite_library/tripartite_library.dart';
 
 /// FileName: bottom_double_btn_view
 ///
@@ -12,6 +13,7 @@ class BottomDoubleBtnWidget extends BaseStatelessWidget {
     this.leftTitle,
     this.leftTap,
     this.rightTitle,
+    this.rightEnable = true,
     this.rightTap,
   }) : super(key: key);
 
@@ -24,6 +26,9 @@ class BottomDoubleBtnWidget extends BaseStatelessWidget {
   /// 右侧标题
   final String? rightTitle;
 
+  /// 右边按钮是否可用
+  final bool? rightEnable;
+
   /// 右侧标题点击
   final VoidCallback? rightTap;
 
@@ -31,25 +36,28 @@ class BottomDoubleBtnWidget extends BaseStatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          flex: 2,
-          child: SizedBox(
-            height: 48,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.12),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+        Visibility(
+          visible: Strings.isNotEmpty(leftTitle),
+          child: Expanded(
+            flex: 2,
+            child: SizedBox(
+              height: 48,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white.withOpacity(0.12),
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
+                  ),
                 ),
-              ),
-              onPressed: leftTap,
-              child: Text(
-                leftTitle ?? '',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                onPressed: leftTap,
+                child: Text(
+                  leftTitle ?? '',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -62,7 +70,9 @@ class BottomDoubleBtnWidget extends BaseStatelessWidget {
             height: 48,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: ThemeColor.themeGreenColor,
+                backgroundColor: true == rightEnable
+                    ? ThemeColor.themeGreenColor
+                    : ThemeColor.themeGreenColor.withOpacity(0.35),
                 foregroundColor: Colors.black,
                 elevation: 0,
                 shape: RoundedRectangleBorder(

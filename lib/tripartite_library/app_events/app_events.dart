@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import '../../utils/marco/debug_print.dart';
+import '../../config/debug_print.dart';
 
 /// FileName app_events
 ///

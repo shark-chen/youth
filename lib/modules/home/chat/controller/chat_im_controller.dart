@@ -1,5 +1,5 @@
 import 'package:kellychat/network/im/im_service.dart';
-import 'package:kellychat/utils/marco/debug_print.dart';
+import 'package:kellychat/config/debug_print.dart';
 import '../chat_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
 import '../model/chat_history_entity.dart';

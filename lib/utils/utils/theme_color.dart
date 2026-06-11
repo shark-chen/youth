@@ -243,5 +243,6 @@ class ThemeColor {
   static const Color femaleIconColor = Color(0xFFFF91B1);
   static const Color three97Color = Color(0xFF979797);
   static const Color three2EColor = Color(0xFF2E2E2E);
+  static const Color three2BColor = Color(0xFFB2B2B);
 
 }

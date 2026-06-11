@@ -33,7 +33,12 @@ extension LoginRouteController on LoginController {
     return result;
   }
 
-  /// push-性别选择-页面-page
+  /// push-完善资料（三页 PageView）
+  Future pushProfileSetupPage() async {
+    await Get.toNamed(Routes.profileSetupPage);
+  }
+
+  /// push-性别选择-页面-page（旧流程，保留兼容）
   Future pushSexSelectPage() async {
     await Get.toNamed(Routes.sexSelectPage);
   }

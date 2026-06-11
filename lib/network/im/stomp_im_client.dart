@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 import 'package:kellychat/config/environment_config/app_config.dart';
-import 'package:kellychat/utils/marco/debug_print.dart';
+import 'package:kellychat/config/debug_print.dart';
 
 import 'im_models.dart';
 

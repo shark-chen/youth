@@ -239,6 +239,11 @@ class AppConfig {
     return '/api/status/hot-tags';
   }
 
+  /// 获取 获取用户注册时候，可选的标签
+  static String get getRegisterTagsUrl {
+    return '/api/user/tags/preset';
+  }
+
   /// 获取预设正在做标签列表
   static String get getStatusPresetTagsUrl {
     return '/api/status/preset-tags';

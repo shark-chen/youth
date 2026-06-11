@@ -28,6 +28,7 @@ abstract class Routes {
   static const userInfoPage = '/userInfoPage';
   static const beatRecordPage = '/beatRecordPage';
   static const chatPage = '/chatPage';
+  static const profileSetupPage = '/profileSetupPage';
   static const sexSelectPage = '/sexSelectPage';
   static const birthdaySelectPage = '/birthdaySelectPage';
   static const citySelectPage = '/citySelectPage';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../../widget/alert/custom_alert.dart';
-import '../../../utils/marco/debug_print.dart';
+import '../../../config/debug_print.dart';
 import '../webView_script_channel.dart';
 
 /// FileName dialog_script_channel

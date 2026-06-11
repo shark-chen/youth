@@ -21,6 +21,11 @@ class Doing extends NetMixin<Doing> {
     return await get<T>(AppConfig.getStatusHotTagsUrl, params: params);
   }
 
+  /// 获取 获取用户注册时候，可选的标签
+  Future<NetResult<T>> requestRegisterTags<T>() async {
+    return await get<T>(AppConfig.getRegisterTagsUrl);
+  }
+
   /// GET /api/status/preset-tags 获取预设正在做标签列表
   Future<NetResult<T>> requestPresetTags<T>() async {
     return await get<T>(AppConfig.getStatusPresetTagsUrl);

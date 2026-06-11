@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kellychat/base/base_stateless_widget.dart';
 import 'package:reorderables/reorderables.dart';
 import '../model/edit_profile_draft.dart';
@@ -7,6 +9,8 @@ import '../model/edit_profile_draft.dart';
 class EditPhotoWallSection extends BaseStatelessWidget {
   const EditPhotoWallSection({
     super.key,
+    this.title = '照片墙',
+    this.content = '长按拖动排序，最多9张，第1张将展示在资料卡',
     required this.photos,
     required this.crossAxisCount,
     required this.spacing,
@@ -14,6 +18,12 @@ class EditPhotoWallSection extends BaseStatelessWidget {
     required this.onRemove,
     required this.onReorder,
   });
+
+  /// 标题
+  final String? title;
+
+  /// 内容
+  final String? content;
 
   /// 图片资源
   final List<String> photos;
@@ -25,10 +35,10 @@ class EditPhotoWallSection extends BaseStatelessWidget {
   final double spacing;
 
   /// 点击图片点击
-  final VoidCallback onAdd;
+  final VoidCallback? onAdd;
 
   /// 移除图片点击
-  final ValueChanged<int> onRemove;
+  final ValueChanged<int>? onRemove;
 
   /// 长按拖动排序（仅照片；添加按钮放在 header，不参与重排）
   final void Function(int oldIndex, int newIndex) onReorder;
@@ -42,24 +52,36 @@ class EditPhotoWallSection extends BaseStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '照片墙',
-          style: TextStyle(
-            color: ThemeColor.whiteColor,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+        Visibility(
+          visible: Strings.isNotEmpty(title),
+          child: Text(
+            title ?? '',
+            style: TextStyle(
+              color: ThemeColor.whiteColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
-        const SizedBox(height: 6),
-        Text(
-          '长按拖动排序，最多9张，第1张将展示在资料卡',
-          style: TextStyle(
-            color: ThemeColor.secondaryTextColor,
-            fontSize: 12,
-            height: 1.35,
+        Visibility(
+          visible: Strings.isNotEmpty(title),
+          child: const SizedBox(height: 6),
+        ),
+        Visibility(
+          visible: Strings.isNotEmpty(content),
+          child: Text(
+            content ?? '',
+            style: TextStyle(
+              color: ThemeColor.secondaryTextColor,
+              fontSize: 12,
+              height: 1.35,
+            ),
           ),
         ),
-        const SizedBox(height: 12),
+        Visibility(
+          visible: Strings.isNotEmpty(content),
+          child: const SizedBox(height: 12),
+        ),
 
         /// 图片墙：`header` 为添加格；`children` 长按拖拽排序（与标签一致）
         ReorderableWrap(
@@ -86,7 +108,7 @@ class EditPhotoWallSection extends BaseStatelessWidget {
                 pathOrUrl: photos[i],
                 width: slot,
                 height: slot * 1.33,
-                onRemove: () => onRemove(i),
+                onRemove: () => onRemove?.call(i),
               ),
           ],
         ),
@@ -164,19 +186,19 @@ class _PhotoCell extends StatelessWidget {
 
 class _AddCell extends StatelessWidget {
   const _AddCell({
+    this.onTap,
     required this.width,
     required this.height,
-    required this.onTap,
   });
+
+  /// 点击添加
+  final VoidCallback? onTap;
 
   /// 图片宽度
   final double width;
 
   /// 图片高度
   final double height;
-
-  /// 点击添加
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {

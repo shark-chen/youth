@@ -1,6 +1,6 @@
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/modules/home/mine/user_info/model/user_info_entity.dart';
-import 'package:kellychat/utils/marco/debug_print.dart';
+import 'package:kellychat/config/debug_print.dart';
 import '../../../network/net/request/dio/dio_net.dart';
 import '../../../network/reporter/report_util.dart';
 export 'user_info/user_info_center.dart';

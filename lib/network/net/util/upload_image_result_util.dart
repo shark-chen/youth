@@ -1,6 +1,6 @@
 import 'package:kellychat/modules/home/mine/edit_mine_info/model/image_links_entity.dart';
 import 'package:kellychat/network/net/net_result.dart';
-import 'package:kellychat/utils/marco/debug_print.dart';
+import 'package:kellychat/config/debug_print.dart';
 
 /// 解析上传图片接口返回（兼容 code 0/200、data 为对象或 URL 字符串）
 class UploadImageResultUtil {

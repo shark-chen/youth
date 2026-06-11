@@ -56,12 +56,13 @@ class LoginController extends BaseController {
       EasyLoading.showToast('登录失败');
       return;
     }
+    user.isNewUser = true;
 
     /// 设置保存token
     Global.setAccessToken(user.token ?? '');
     if (true == user.isNewUser) {
-      /// push-个人信息补充模块页面
-      await pushSexSelectPage();
+      /// push-完善资料（三页）
+      await pushProfileSetupPage();
     } else {
       await UserCenter().init();
       await Get.offAllNamed(Routes.homePage);
