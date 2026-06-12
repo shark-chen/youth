@@ -84,7 +84,8 @@ class ProfileSetupPage extends BasePage<ProfileSetupController> {
                       leftTitle:
                           controller.vm.value.currentStep != 0 ? '上一步' : '',
                       leftTap: controller.clickPrevious,
-                      rightTitle: '下一个',
+                      rightTitle:
+                          controller.vm.value.currentStep == 2 ? '完成' : '下一个',
                       rightEnable: controller.vm.value.nextEnable,
                       rightTap: controller.clickNext,
                     ),

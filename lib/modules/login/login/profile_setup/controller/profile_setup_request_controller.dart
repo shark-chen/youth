@@ -61,7 +61,7 @@ extension ProfileSetupRequestController on ProfileSetupController {
   /// request - 落库：先头像再 PUT 资料
   Future<bool> requestSavePersistProfile() async {
     EasyLoading.show(status: '提交中...');
-    final response = await Net.value<User>().requestUpdateUserInfo<dynamic>(
+    final response = await Net.value<User>().requestRegisterUpdateUserInfo<dynamic>(
       avatar: vm.value.stepOne.avatarUrl,
       nickname: vm.value.stepOne.nicknameController?.text,
       gender: vm.value.stepOne.gender == Gender.boy ? 1 : 2,
@@ -69,6 +69,7 @@ extension ProfileSetupRequestController on ProfileSetupController {
       province: vm.value.stepTwo.region?.province,
       city: vm.value.stepTwo.region?.city,
       district: vm.value.stepTwo.region?.district,
+      tags: vm.value.selectTags,
       photos: vm.value.stepThree.photos,
       signature: vm.value.stepThree.briefController?.text,
     );

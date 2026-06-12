@@ -118,7 +118,11 @@ class ProfileSetupController extends BaseController {
       /// 第三步校验提示toast
       if (!vm.value.stepThreeCheckToast()) return;
     }
-    if (vm.value.currentStep >= 2) return;
+    if (vm.value.currentStep >= 2) {
+      /// 点击完成
+      await clickComplete();
+      return;
+    }
     vm.value.currentStep = vm.value.currentStep + 1;
     vm.refresh();
     await pageController.nextPage(

@@ -165,6 +165,36 @@ class User extends NetMixin<User> {
     String? city,
     String? district,
     String? signature,
+  }) async {
+    final Map<String, dynamic> params = <String, dynamic>{};
+    if (avatar != null) params['avatar'] = avatar;
+    if (gender != null) params['gender'] = gender;
+    if (birthday != null) params['birthday'] = birthday;
+    if (province != null) params['province'] = province;
+    if (city != null) params['city'] = city;
+    if (district != null) params['district'] = district;
+    if (nickname != null) params['nickname'] = nickname;
+    if (signature != null) params['signature'] = signature;
+    return await put<T>(AppConfig.getUserInfoUrl, data: params);
+  }
+
+  /// 注册-更新当前登录用户的信息
+  /// avatar: 头像
+  /// nickname：昵称
+  /// gender: 性别：0-未知，1-男，2-女
+  /// birthday: 生日: 1995-06-15
+  /// province: 省份: 广东省
+  /// city: 城市
+  /// district: 区，县
+  Future<NetResult<T>> requestRegisterUpdateUserInfo<T>({
+    String? avatar,
+    String? nickname,
+    int? gender,
+    String? birthday,
+    String? province,
+    String? city,
+    String? district,
+    String? signature,
     List<String>? tags,
     List<String>? photos,
   }) async {
@@ -179,7 +209,7 @@ class User extends NetMixin<User> {
     if (signature != null) params['signature'] = signature;
     if (tags != null) params['tags'] = tags;
     if (photos != null) params['photos'] = photos;
-    return await put<T>(AppConfig.getUserInfoUrl, data: params);
+    return await put<T>(AppConfig.getRegisterUpdateUserInfoUrl, data: params);
   }
 
   /// 更新用户标签（最多10个）

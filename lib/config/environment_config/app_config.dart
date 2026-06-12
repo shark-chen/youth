@@ -168,6 +168,11 @@ class AppConfig {
     return '/api/user/profile';
   }
 
+  ///  注册-更新当前登录用户的信息
+  static String get getRegisterUpdateUserInfoUrl {
+    return '/api/user/register/profile';
+  }
+
   /// 获取当前登录用户的私密信息
   static String get getUserPrivateUrl {
     return '/api/user/private';

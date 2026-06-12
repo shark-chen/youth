@@ -56,7 +56,6 @@ class LoginController extends BaseController {
       EasyLoading.showToast('登录失败');
       return;
     }
-    user.isNewUser = true;
 
     /// 设置保存token
     Global.setAccessToken(user.token ?? '');

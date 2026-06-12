@@ -174,7 +174,6 @@ extension EditMineInfoReuestController on EditMineInfoController {
   /// request - 落库：先头像再 PUT 资料
   Future<bool> requestSavePersistProfile() async {
     EasyLoading.show(status: '提交中...');
-    final remotePhotos = vm.value.draft.remotePhotoUrls();
     final response = await Net.value<User>().requestUpdateUserInfo<dynamic>(
       avatar: vm.value.draft.avatarUrl,
       nickname: vm.value.draft.nickname,
@@ -184,7 +183,6 @@ extension EditMineInfoReuestController on EditMineInfoController {
       city: vm.value.draft.city,
       district: vm.value.draft.district,
       signature: vm.value.signatureController.text,
-      photos: remotePhotos.isEmpty ? null : remotePhotos,
     );
     EasyLoading.dismiss();
     if (response.success) {
