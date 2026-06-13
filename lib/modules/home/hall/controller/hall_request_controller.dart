@@ -63,6 +63,8 @@ extension HallRequestController on HallController {
       vm.refresh();
       if (Lists.isEmpty(vm.value.friends)) {
         EasyLoading.showToast('未找到符合条件的用户');
+      } else {
+        EasyLoading.showToast('发送成功');
       }
       return Lists.isNotEmpty(vm.value.friends);
     }

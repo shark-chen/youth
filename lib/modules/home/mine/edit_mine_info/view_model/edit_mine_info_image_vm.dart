@@ -1,8 +1,6 @@
-import 'package:kellychat/tripartite_library/tripartite_library.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
-
-import '../model/image_links_entity.dart';
 import 'edit_mine_info_vm.dart';
+import 'package:kellychat/base/base_vm.dart';
 
 /// FileName: edit_mine_info_image_vm
 ///
@@ -11,7 +9,6 @@ import 'edit_mine_info_vm.dart';
 ///
 /// @Description 编辑用户信息-图片墙+头像-vm
 extension EditMineInfoImageVM on EditMineInfoVM {
-
   /// 拖拽照片墙（顺序同步服务端）
   void reorderPhotos(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) newIndex -= 1;
@@ -29,7 +26,7 @@ extension EditMineInfoImageVM on EditMineInfoVM {
 
   /// 添加图片墙
   void addPhoto(String? url) {
-    if(Strings.isEmpty(url)) return;
+    if (Strings.isEmpty(url)) return;
     draft.photos.add(url ?? '');
   }
 }

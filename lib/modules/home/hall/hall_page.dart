@@ -1,6 +1,5 @@
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_page.dart';
-import 'package:kellychat/base/base_service.dart';
 import 'hall_controller.dart';
 import 'view/hot_tags_view.dart';
 import 'view/find_friend_prompt_view.dart';

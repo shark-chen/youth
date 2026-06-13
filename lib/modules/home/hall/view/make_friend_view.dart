@@ -92,7 +92,9 @@ class _CardStackDemoState extends State<CardStackDemo> {
     final age = item.age;
     if (age != null) parts.add('$age岁');
     final city = item.city?.trim();
-    if (city != null && city.isNotEmpty) parts.add(city);
+    if (city != null && city.isNotEmpty) {
+      parts.add(city);
+    }
     if (parts.isEmpty) return '—';
     return parts.join(' · ');
   }

@@ -74,16 +74,15 @@ extension EditMineInfoReuestController on EditMineInfoController {
     final response = await Net.value<User>().requestUpdateUserTags(tags: tags);
     EasyLoading.dismiss();
     if (response.success) {
-      if (true == showLoad) EasyLoading.showToast('添加标签成功');
       vm.refresh();
       return true;
     } else {
-      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
+      EasyLoading.showToast(response.msg ?? '');
       return false;
     }
   }
 
-  /// request - 更新照片墙 · PUT /api/user/photos
+  /// request - 更新照片墙
   Future<bool> requestUpdateUserPhotos({
     required List<String> photos,
     bool? showLoad = true,
@@ -94,7 +93,6 @@ extension EditMineInfoReuestController on EditMineInfoController {
     );
     if (true == showLoad) EasyLoading.dismiss();
     if (response.success) {
-      if (true == showLoad) EasyLoading.showToast('保存成功');
       vm.refresh();
       return true;
     } else {
@@ -103,7 +101,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// request - 获取用户私密信息 · GET /api/user/private
+  /// request - 获取用户私密信息
   Future<NetResult<dynamic>> requestUserPrivate() async {
     EasyLoading.show();
     final response =
@@ -116,7 +114,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     return response;
   }
 
-  /// request - 验证私密信息密码 · POST /api/user/private/verify
+  /// request - 验证私密信息密码
   Future<bool> requestUserPrivateVerify({
     required String password,
   }) async {
@@ -133,7 +131,7 @@ extension EditMineInfoReuestController on EditMineInfoController {
     }
   }
 
-  /// request - 修改私密信息中的密码 · PUT /api/user/private/password
+  /// request - 修改私密信息中的密码
   Future<bool> requestUpdateUserPrivatePassword({
     required String oldPassword,
     required String newPassword,

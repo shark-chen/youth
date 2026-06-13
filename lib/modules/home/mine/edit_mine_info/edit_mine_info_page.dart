@@ -24,86 +24,90 @@ class EditMineInfoPage extends BasePage<EditMineInfoController> {
       resizeToAvoidBottomInset: true,
       backgroundColor: ThemeColor.themeColor,
       appBar: AppBarKit.appBar(controller.title ?? ''),
-      body: Column(
-        children: [
-          Expanded(
-            child: Obx(() {
-              final v = controller.vm.value;
-              final d = v.draft;
-              return SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    /// 基础信息
-                    EditBasicInfoSection(
-                      avatarUrl: d.avatarUrl,
-                      avatarImageBytes:
-                          UserInfoCenter().avatarImageBytes.value,
-                      avatarLocalPath: d.pendingAvatarLocalPath,
-                      nickname: d.nickname,
-                      genderText: v.genderDisplay(),
-                      birthdayText: d.birthday ?? '',
-                      regionText: v.regionDisplay(),
-                      onAvatar: controller.clickUpdateAvatarTap,
-                      onNickname: controller.clickEditNiceName,
-                      onGender: controller.pushEditGenderAlert,
-                      onBirthday: controller.pushEditBirthdaySheet,
-                      onRegion: controller.pushRegionPickerAlert,
-                    ),
-                    const SizedBox(height: 12),
+      body: Obx(
+        () {
+          final v = controller.vm.value;
+          final d = v.draft;
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      /// 基础信息
+                      EditBasicInfoSection(
+                        avatarUrl: d.avatarUrl,
+                        avatarImageBytes:
+                            UserInfoCenter().avatarImageBytes.value,
+                        avatarLocalPath: d.pendingAvatarLocalPath,
+                        nickname: d.nickname,
+                        genderText: v.genderDisplay(),
+                        birthdayText: d.birthday ?? '',
+                        regionText: v.regionDisplay(),
+                        onAvatar: controller.clickUpdateAvatarTap,
+                        onNickname: controller.clickEditNiceName,
+                        onGender: controller.pushEditGenderAlert,
+                        onBirthday: controller.pushEditBirthdaySheet,
+                        onRegion: controller.pushRegionPickerAlert,
+                      ),
+                      const SizedBox(height: 12),
 
-                    /// 标签view
-                    EditTagsSection(
-                      tags: List<String>.from(d.tags),
-                      maxTags: EditProfileDraft.maxTags,
-                      profileCardTagCount: EditProfileDraft.profileCardTagCount,
-                      onReorder: controller.onTagReorder,
-                      onAdd: controller.clickAddTags,
-                      onEditTag: controller.clickEditTags,
-                      onRemoveTag: controller.onRemoveTag,
-                    ),
-                    const SizedBox(height: 12),
+                      /// 标签view
+                      EditTagsSection(
+                        tags: List<String>.from(d.tags),
+                        maxTags: EditProfileDraft.maxTags,
+                        profileCardTagCount:
+                            EditProfileDraft.profileCardTagCount,
+                        onReorder: controller.onTagReorder,
+                        onAdd: controller.clickAddTags,
+                        onEditTag: controller.clickEditTags,
+                        onRemoveTag: controller.onRemoveTag,
+                      ),
+                      const SizedBox(height: 12),
 
-                    /// 个人简介
-                    EditSignatureSection(
-                      controller: v.signatureController,
-                      maxLength: EditProfileDraft.maxSignatureLength,
-                    ),
-                    const SizedBox(height: 16),
+                      /// 个人简介
+                      EditSignatureSection(
+                        controller: v.signatureController,
+                        maxLength: EditProfileDraft.maxSignatureLength,
+                      ),
+                      const SizedBox(height: 16),
 
-                    /// 图片墙
-                    EditPhotoWallSection(
-                      photos: List<String>.from(d.photos),
-                      crossAxisCount: 2,
-                      spacing: 10,
-                      onAdd: controller.clickAddPhoto,
-                      onRemove: controller.onRemovePhoto,
-                      onReorder: controller.onPhotoReorder,
-                    ),
-                    const SizedBox(height: 20),
+                      /// 图片墙
+                      EditPhotoWallSection(
+                        photos: List<String>.from(d.photos),
+                        crossAxisCount: 2,
+                        spacing: 10,
+                        onAdd: controller.clickAddPhoto,
+                        onRemove: controller.onRemovePhoto,
+                        onReorder: controller.onPhotoReorder,
+                      ),
+                      const SizedBox(height: 20),
 
-                    /// 密码设置
-                    EditPrivateSection(
-                      hasPassword: controller.vm.value.draft.hasPrivateContent,
-                      onAiTap: controller.clickAddPrivacyMessage,
-                      onChangePasswordTap: controller.clickModifyPassword,
-                    ),
-                    const SizedBox(height: 80),
-                  ],
+                      /// 密码设置
+                      EditPrivateSection(
+                        hasPassword:
+                            controller.vm.value.draft.hasPrivateContent,
+                        onAiTap: controller.clickAddPrivacyMessage,
+                        onChangePasswordTap: controller.clickModifyPassword,
+                      ),
+                      const SizedBox(height: 80),
+                    ],
+                  ),
                 ),
-              );
-            }),
-          ),
+              ),
 
-          /// 底部保存按钮
-          EditBottomActions(
-            saveEnable: true,
-            onCancel: controller.closePage,
-            onSave: controller.clickSave,
-          ),
-        ],
+              /// 底部保存按钮
+              EditBottomActions(
+                saveEnable: controller.vm.value.saveEnable(),
+                onCancel: controller.closePage,
+                onSave: controller.clickSave,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

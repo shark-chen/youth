@@ -1,6 +1,7 @@
 import 'package:kellychat/base/base_controller.dart';
 import '../user_info/model/user_info_entity.dart';
 import 'view_model/edit_mine_info_vm.dart';
+export 'view_model/edit_mine_info_vm.dart';
 export 'controller/edit_mine_info_route_controller.dart';
 import 'controller/edit_mine_info_request_controller.dart';
 import 'controller/edit_mine_info_route_controller.dart';
@@ -30,7 +31,7 @@ class EditMineInfoController extends BaseController {
     /// request - 获取用户信息
     await requestUserInfo();
 
-    /// request - 获取用户私密信息 · GET /api/user/private
+    /// request - 获取用户私密信息
     await requestUserPrivate();
   }
 
@@ -60,6 +61,10 @@ class EditMineInfoController extends BaseController {
       title: '编辑昵称',
       text: vm.value.draft.nickname,
       sureCall: (value) {
+        if (Strings.isEmpty(value)) {
+          EasyLoading.showToast('请先完善信息');
+          return;
+        }
         vm.value.applyNickname(value);
         Get.back();
         vm.refresh();
@@ -146,7 +151,7 @@ class EditMineInfoController extends BaseController {
         vm.value.addTag(value);
 
         /// 更新用户标签（最多10个）
-        await requestUpdateUserTags(tags: vm.value.draft.tags);
+        await requestUpdateUserTags(tags: vm.value.draft.tags, showLoad: false);
         Get.back();
         vm.refresh();
       },
@@ -241,6 +246,12 @@ class EditMineInfoController extends BaseController {
   Future<void> clickSave() async {
     if (requesting.value) return;
     requesting.value = true;
+
+    /// 是否可保存
+    if (!vm.value.saveEnable(toast: true)) {
+      requesting.value = false;
+      return;
+    }
 
     /// request - 落库：先头像再 PUT 资料
     final result = await requestSavePersistProfile();

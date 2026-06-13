@@ -1,10 +1,3 @@
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
-import 'package:kellychat/modules/routes/app_pages.dart';
-import 'package:kellychat/utils/extension/lists/lists.dart';
-import 'package:kellychat/utils/extension/strings/strings.dart';
-import 'package:kellychat/utils/marco/marco.dart';
-import 'package:kellychat/widget/bottom_alert/bottom_alert.dart';
 import 'package:kellychat/widget/region_picker/region_picker_sheet.dart';
 import '../edit_mine_info_controller.dart';
 import 'edit_mine_info_request_controller.dart';
@@ -13,6 +6,7 @@ import '../view/edit_gender_sheet_widget.dart';
 import '../view/edit_reset_private_password_confirm_dialog.dart';
 import '../view/edit_nickname_sheet_widget.dart';
 import '../birthday_sheet/view/edit_birthday_sheet_widget.dart';
+import 'package:kellychat/base/base_controller.dart';
 
 /// FileName: edit_mine_info_route_controller
 ///
