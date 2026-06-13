@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/base/base_page.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'view/message_doing_header_view.dart';
 import 'package:kellychat/tripartite_library/pull_to_refresh/refresher_header.dart';
 import 'package:kellychat/utils/extension/dates/dates.dart';
-import 'package:kellychat/utils/extension/lists/lists.dart';
 import 'message_controller.dart';
 import 'view/chat_list_cell.dart';
 import 'view/input_search_view.dart';
@@ -99,7 +97,7 @@ class MessagePage extends BasePage<MessageController> {
                         return MessageDoingHeaderView(
                           tagName: myDoing?.tagName,
                           partnerName: myDoing?.togetherPartner?.nickname,
-                          onCancelTap: controller.clickDeleteDoing,
+                          onCancelTap: controller.clickCancelTogetherDoing,
                         );
                       } else if (index == 1) {
                         /// 邀约中的任务view

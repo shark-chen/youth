@@ -1,9 +1,8 @@
 import 'package:kellychat/modules/home/doing/doing_list/view/invite_together_sheet_widget.dart';
 import 'package:kellychat/modules/home/mine/edit_mine_info/view/edit_reset_private_password_confirm_dialog.dart';
-
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import '../message_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
-
 import '../model/message_person_list_entity.dart';
 
 /// FileName: message_route_controller
@@ -47,7 +46,7 @@ extension MessageRouteController on MessageController {
       ctx,
       isDismissible: true,
       wholeCustomWidget: InviteTogetherSheetWidget(
-        inviteCode: '${vm.value.myDoing?.tagId ?? '--'}',
+        inviteCode: '${MyDoing().doing?.tagId ?? '--'}',
         shareLink:
             'https://images.unsplash.com/photo-1538370965046-79c0d6907d47',
       ),

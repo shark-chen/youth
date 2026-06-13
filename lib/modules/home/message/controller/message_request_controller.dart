@@ -1,14 +1,9 @@
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
-import 'package:kellychat/modules/home/doing/model/publish_doing_entity.dart';
 import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import 'package:kellychat/network/net/entry/doing/doing.dart';
 import 'package:kellychat/network/net/entry/message/message.dart';
-
-import '../beat_record/model/beat_item_entity.dart';
-import '../invite_record/model/together_list_entity.dart';
 import '../message_controller.dart';
 import 'package:kellychat/base/base_controller.dart';
-
 import '../model/knock_record_entity.dart';
 import '../model/message_person_list_entity.dart';
 
@@ -63,30 +58,6 @@ extension MessageRequestController on MessageController {
     return false;
   }
 
-  /// GET /api/status/my-doing
-  Future<void> requestMyDoing({
-    bool? showLoad = true,
-  }) async {
-    if (true == showLoad) EasyLoading.show();
-    final response =
-        await Net.value<Doing>().cache<PublishDoingEntity>((value) {
-      vm.value.configMyDoing(value);
-      vm.refresh();
-    }).requestMyDoing<PublishDoingEntity>();
-    if (true == showLoad) EasyLoading.dismiss();
-    if (response.succeed) {
-      vm.value.configMyDoing(response.value);
-      MyDoing().configDoing(response.value);
-      vm.refresh();
-    } else if (response.code == 200) {
-      vm.value.configMyDoing(null);
-      MyDoing().configDoing(null);
-      vm.refresh();
-    } else {
-      if (true == showLoad) EasyLoading.showToast(response.msg ?? '');
-    }
-  }
-
   /// 取消一起做
   Future<bool> requestCancelTogether({
     required String togetherId,
@@ -105,6 +76,7 @@ extension MessageRequestController on MessageController {
     if (response.code == 200) {
       EasyLoading.showToast('已取消');
       await MyDoing().requestMyDoing();
+      EventBusManager().fire(MyDoing().doing);
       return true;
     }
     EasyLoading.showToast(response.msg ?? '');

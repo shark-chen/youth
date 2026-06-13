@@ -219,7 +219,7 @@ class _DoingListHeaderSection extends StatelessWidget {
           MessageDoingHeaderView(
             tagName: myDoing?.tagName,
             partnerName: myDoing?.togetherPartner?.nickname,
-            onCancelTap: controller.clickDeleteDoing,
+            onCancelTap: controller.clickCancelTogetherDoing,
           )
         else
           DoingListHeaderWidget(

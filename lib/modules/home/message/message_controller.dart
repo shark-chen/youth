@@ -1,5 +1,6 @@
 import 'package:kellychat/base/base_controller.dart';
 import 'package:kellychat/modules/home/message/controller/message_route_controller.dart';
+import 'package:kellychat/modules/user/user_center/my_doing/my_doing.dart';
 import '../doing/doing_list/model/invitation_item_entity.dart';
 import '../home/view/tabs.dart';
 import '../mine/user_info/model/user_info_entity.dart';
@@ -41,7 +42,7 @@ class MessageController extends BaseController {
     requestConversations();
 
     /// GET /api/status/my-doing
-    requestMyDoing();
+    MyDoing().requestMyDoing();
 
     /// 敲一下记录
     requestKnockInbox();
@@ -67,15 +68,15 @@ class MessageController extends BaseController {
     });
   }
 
-
-  /// 点击删除一起做的事
-  Future clickDeleteDoing() async {
+  /// 点击取消一起做的事
+  Future clickCancelTogetherDoing() async {
     final confirm = await pushCancelDoingDialog();
     if (!confirm) return;
-    await requestCancelTogether(
+    final result =  await requestCancelTogether(
       togetherId:
-      vm.value.myDoing?.togetherPartner?.togetherId.toString() ?? '',
+      MyDoing().doing?.togetherPartner?.togetherId.toString() ?? '',
     );
+    if(!result) return;
 
     /// 刷新数据
     onRefresh();
@@ -103,7 +104,7 @@ class MessageController extends BaseController {
   @override
   Future<void> onRefresh() async {
     await requestConversations();
-    await requestMyDoing();
+    await MyDoing().requestMyDoing();
     requestInvitationInbox();
     await refreshData();
     refreshController.refreshCompleted();

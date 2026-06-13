@@ -135,8 +135,8 @@ class DoingListController extends BaseController {
     }
   }
 
-  /// 点击删除一起做的事
-  Future clickDeleteDoing() async {
+  /// 点击取消一起做的事
+  Future clickCancelTogetherDoing() async {
     final confirm = await pushCancelDoingDialog();
     if (!confirm) return;
     await requestCancelTogether(
@@ -285,7 +285,7 @@ class DoingListController extends BaseController {
       }
     } else {
       if (status == TogetherButtonStatus.connected) {
-        await clickDeleteDoing();
+        await clickCancelTogetherDoing();
         return;
       }
       EasyLoading.showToast(result.cannotInviteReason ?? '当前用户不可接受邀约');

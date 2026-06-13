@@ -1,10 +1,6 @@
 import 'package:kellychat/base/base_vm.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_inbox_entity.dart';
 import 'package:kellychat/modules/home/doing/doing_list/model/invitation_item_entity.dart';
-
-import '../../doing/model/publish_doing_entity.dart';
-import '../beat_record/model/beat_item_entity.dart';
-import '../invite_record/model/together_list_entity.dart';
 import '../model/knock_record_entity.dart';
 import '../model/message_person_list_entity.dart';
 
@@ -15,9 +11,6 @@ import '../model/message_person_list_entity.dart';
 ///
 /// @Description 消息-vm
 class MessageVM extends BaseVM {
-  /// 我正在做的事
-  PublishDoingEntity? myDoing;
-
   /// 消息人列表
   List<MessagePersonListEntity> conversations = [];
 
@@ -30,11 +23,6 @@ class MessageVM extends BaseVM {
   @override
   void onInit() {
     super.onInit();
-  }
-
-  /// 配置我正在做的事
-  void configMyDoing(PublishDoingEntity? value) {
-    myDoing = value;
   }
 
   /// 配置对话列表
