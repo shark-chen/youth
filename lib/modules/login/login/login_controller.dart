@@ -41,11 +41,6 @@ class LoginController extends BaseController {
       if (await pushPrivacyPop() == false) return;
     }
 
-    /// 登录数据校验 + 苹果审核校验
-    if ((await vm.value.appleCheck()) == false) {
-      return vm.refresh();
-    }
-
     /// 请求登录
     LoginUserInfoEntity? user = await requestLogin(
       phone: vm.value.phoneController.text,
@@ -75,7 +70,10 @@ class LoginController extends BaseController {
 
     /// 是否是手机号
     if (!vm.value.checkPhone) return;
+    if (requesting.value) return;
+    requesting.value = true;
     final send = await requestSmsSend(phone: vm.value.phoneController.text);
+    requesting.value = false;
     if (send == true) {
       /// 发送成功，开始倒计时
       vm.value.startSmsCountDown();
@@ -97,11 +95,13 @@ class LoginController extends BaseController {
     required String phone,
     required String code,
   }) async {
+    EasyLoading.show();
     var response =
         await Net.value<User>().requestAuthLogin<LoginUserInfoEntity>(
       phone: phone,
       code: code,
     );
+    EasyLoading.dismiss();
     if (response.succeed) {
       return response.value;
     } else {
@@ -114,9 +114,11 @@ class LoginController extends BaseController {
   Future<bool?> requestSmsSend({
     required String phone,
   }) async {
+    EasyLoading.show();
     var response = await Net.value<User>().requestSmsSend(
       phone: phone,
     );
+    EasyLoading.dismiss();
     if (response.success) {
       return true;
     } else {

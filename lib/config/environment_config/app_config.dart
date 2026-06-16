@@ -168,6 +168,11 @@ class AppConfig {
     return '/api/user/profile';
   }
 
+  /// 注销账号 · DELETE /api/user/me
+  static String get deleteUserMeUrl {
+    return '/api/user/me';
+  }
+
   ///  注册-更新当前登录用户的信息
   static String get getRegisterUpdateUserInfoUrl {
     return '/api/user/register/profile';

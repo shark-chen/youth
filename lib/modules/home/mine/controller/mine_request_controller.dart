@@ -12,6 +12,18 @@ import 'package:kellychat/base/base_controller.dart';
 ///
 /// @Description 我的-tab 控制器
 extension MineRequestController on MineController {
+  /// request - 注销账号
+  Future<bool> requestUnsubscribeUser() async {
+    EasyLoading.show();
+    final response = await Net.value<User>().requestUnsubscribeUser<dynamic>();
+    EasyLoading.dismiss();
+    if (response.success) {
+      return true;
+    }
+    EasyLoading.showToast(response.msg ?? '');
+    return false;
+  }
+
   /// 退出登录 · POST /api/auth/logout
   Future<bool> requestAuthLogout() async {
     EasyLoading.show();

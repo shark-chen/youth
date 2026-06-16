@@ -14,7 +14,7 @@ class AboutKellyChatController extends BaseController {
   final RxString appVersion = '1.0.0'.obs;
 
   /// App Store / 应用市场（按需替换为实际上架地址）
-  static const String _iosStoreUrl = 'https://apps.apple.com/app/id0000000000';
+  static const String _iosStoreUrl = 'https://apps.apple.com/cn/app/kellychat/id6765888226';
   static const String _androidMarketUrl =
       'https://play.google.com/store/apps/details?id=com.example.youth';
 

@@ -22,9 +22,6 @@ class UserCenter extends BaseUser {
 
   UserCenter._();
 
-  /// 苹果审核用
-  late bool unsubscribed = false;
-
   /// 是否成功
   bool? get succeed {
     return UserInfoCenter().succeed == true;

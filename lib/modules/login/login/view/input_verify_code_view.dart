@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kellychat/utils/extension/strings/strings.dart';
 import 'package:kellychat/utils/extension/text_styles.dart';
+import 'package:kellychat/utils/utils/click_utils.dart';
 import '../../../../utils/utils/theme_color.dart';
 import '../../view/verify_error_view.dart';
 
@@ -95,7 +96,7 @@ class InputVerifyCodeWidget extends StatelessWidget {
               alignment: Alignment.centerRight,
               widthFactor: 1,
               child: GestureDetector(
-                onTap: sendSmsTap,
+                onTap: ClickUtils.debounce(sendSmsTap),
                 child: Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: Text(

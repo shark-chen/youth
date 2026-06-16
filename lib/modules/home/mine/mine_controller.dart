@@ -86,7 +86,9 @@ class MineController extends BaseController {
       rightCountdownSeconds: 10,
     );
    if(!confirm) return;
-   UserCenter().unsubscribed = true;
+   /// request - 注销账号
+   final result = await requestUnsubscribeUser();
+   if(!result) return;
    /// 注销账户后，10分钟内不能登录
    await Stores(userLat: false).put<int>('unsubscribed_limit_time',
        (DateTime.now().millisecondsSinceEpoch / 1000).round());

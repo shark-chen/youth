@@ -103,18 +103,4 @@ class LoginVM extends BaseVM {
     }
   }
 
-  /// 苹果审核校验
-  Future<bool> appleCheck() async {
-    if (UserCenter().unsubscribed) {
-      /// 注销账户后，10分钟内不能登录
-      final limitTime =
-          await Stores(userLat: false).get<int>('unsubscribed_limit_time') ?? 0;
-      if ((DateTime.now().millisecondsSinceEpoch / 1000).round() - limitTime <
-          600) {
-        EasyLoading.showToast('该用户已被注销');
-        return false;
-      }
-    }
-    return true;
-  }
 }

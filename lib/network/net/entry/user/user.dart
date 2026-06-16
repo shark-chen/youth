@@ -21,6 +21,11 @@ class User extends NetMixin<User> {
     return await get<T>(AppConfig.getUserInfoUrl);
   }
 
+  /// 注销账号 · DELETE /api/user/me（无参数）
+  Future<NetResult<T>> requestUnsubscribeUser<T>() async {
+    return await delete<T>(AppConfig.deleteUserMeUrl);
+  }
+
   /// 获取当前登录用户的私密信息
   /// GET /api/user/private
   Future<NetResult<T>> requestUserPrivate<T>() async {
